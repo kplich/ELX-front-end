@@ -1,0 +1,35 @@
+@import '~@angular/material/theming';
+
+// TODO: set some minimal height!
+$toolbar-height: 7.5vh;
+$side-margin: 2vw;
+
+.toolbar {
+  position: fixed;
+  height: $toolbar-height;
+
+  @include mat-elevation(5);
+  z-index: 5;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.toolbar-logo {
+  height: 100%;
+}
+
+.toolbar-menu > a {
+  margin: 0 15px;
+}
+
+.app-content {
+  position: fixed;
+  top: $toolbar-height;
+  height: 100vh - $toolbar-height;
+  width: 100vw - (2 * $side-margin);
+
+  margin: 0 $side-margin;
+  z-index: 1;
+}
