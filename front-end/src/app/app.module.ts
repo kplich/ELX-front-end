@@ -6,11 +6,13 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule, MatToolbarModule} from '@angular/material';
 import {BrowseItemsComponent} from './browse-items/browse-items.component';
 import {RoutingModule} from './routing.module';
+import {SearchContainerComponent} from './browse-items/search-box/search-container.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BrowseItemsComponent
+    BrowseItemsComponent,
+    SearchContainerComponent
   ],
   imports: [
     BrowserModule,
