@@ -1,22 +1,16 @@
 
-// Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
 @import 'src/app/browse-items/search-box/search-container.component.theme';
-// Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
+// Define the palettes for your theme using the Material Design palettes.
 $primary: mat-palette($mat-blue-gray);
 $accent: mat-palette($mat-orange, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
 $warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
@@ -26,11 +20,8 @@ $theme: mat-light-theme($primary, $accent, $warn);
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($theme);
-
-/* You can add global styles to this file, and also import other style files */
 @include search-container-theme($theme);
 @include search-container-typography(mat-typography-config());
-
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
