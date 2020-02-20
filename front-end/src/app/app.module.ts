@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
-  MatButtonModule, MatCardModule,
+  MatButtonModule, MatCardModule, MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -20,6 +20,7 @@ import { SoldByMeComponent } from './sold-by-me/sold-by-me.component';
 import { SoldByMeDescriptionComponent } from './sold-by-me/sold-by-me-description/sold-by-me-description.component';
 import { SoldByMeOfferComponent } from './sold-by-me/sold-by-me-offer/sold-by-me-offer.component';
 import { PurchaseOfferComponent } from './purchase-offer/purchase-offer.component';
+import { OfferConversationComponent } from './purchase-offer/offer-conversation/offer-conversation.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { PurchaseOfferComponent } from './purchase-offer/purchase-offer.componen
     SoldByMeComponent,
     SoldByMeDescriptionComponent,
     SoldByMeOfferComponent,
-    PurchaseOfferComponent
+    PurchaseOfferComponent,
+    OfferConversationComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,8 @@ import { PurchaseOfferComponent } from './purchase-offer/purchase-offer.componen
     MatInputModule,
     MatSelectModule,
     MatTabsModule,
-    MatCardModule
+    MatCardModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
