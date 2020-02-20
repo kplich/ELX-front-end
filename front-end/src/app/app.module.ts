@@ -18,6 +18,7 @@ import {SearchContainerComponent} from './browse-items/search-box/search-contain
 import { MyAccountComponent } from './my-account/my-account.component';
 import { SoldByMeComponent } from './sold-by-me/sold-by-me.component';
 import { SoldByMeDescriptionComponent } from './sold-by-me/sold-by-me-description/sold-by-me-description.component';
+import { SoldByMeOfferComponent } from './sold-by-me/sold-by-me-offer/sold-by-me-offer.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SoldByMeDescriptionComponent } from './sold-by-me/sold-by-me-descriptio
     SearchContainerComponent,
     MyAccountComponent,
     SoldByMeComponent,
-    SoldByMeDescriptionComponent
+    SoldByMeDescriptionComponent,
+    SoldByMeOfferComponent
   ],
   imports: [
     BrowserModule,
