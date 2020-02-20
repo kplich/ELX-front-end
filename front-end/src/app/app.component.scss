@@ -2,7 +2,7 @@
 
 // TODO: set some minimal height!
 $toolbar-height: 7.5vh;
-$side-margin: 2vw;
+$side-padding: 5vw;
 
 .toolbar {
   position: fixed;
@@ -28,8 +28,10 @@ $side-margin: 2vw;
   position: fixed;
   top: $toolbar-height;
   height: 100vh - $toolbar-height;
-  width: 100vw - (2 * $side-margin);
+  width: 100vw - 2 * $side-padding;
 
-  margin: 0 $side-margin;
+  padding: 0 $side-padding;
   z-index: 1;
+
+  overflow-y: scroll;
 }
