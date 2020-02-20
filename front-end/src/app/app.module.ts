@@ -19,6 +19,7 @@ import { MyAccountComponent } from './my-account/my-account.component';
 import { SoldByMeComponent } from './sold-by-me/sold-by-me.component';
 import { SoldByMeDescriptionComponent } from './sold-by-me/sold-by-me-description/sold-by-me-description.component';
 import { SoldByMeOfferComponent } from './sold-by-me/sold-by-me-offer/sold-by-me-offer.component';
+import { PurchaseOfferComponent } from './purchase-offer/purchase-offer.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { SoldByMeOfferComponent } from './sold-by-me/sold-by-me-offer/sold-by-me
     MyAccountComponent,
     SoldByMeComponent,
     SoldByMeDescriptionComponent,
-    SoldByMeOfferComponent
+    SoldByMeOfferComponent,
+    PurchaseOfferComponent
   ],
   imports: [
     BrowserModule,

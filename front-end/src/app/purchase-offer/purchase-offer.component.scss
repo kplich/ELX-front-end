@@ -1,0 +1,18 @@
+.item-description {
+  flex-grow: 1;
+  max-width: 25%;
+  padding: 15px;
+}
+
+.item-image {
+  width: 100%;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.offer-conversation {
+  flex-grow: 3;
+}

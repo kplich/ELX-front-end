@@ -3,6 +3,7 @@
 @import '~@angular/material/theming';
 @import 'src/app/browse-items/search-box/search-container.component.theme';
 @import 'src/app/sold-by-me/sold-by-me-description/sold-by-me-description.component.theme';
+@import 'src/app/purchase-offer/purchase-offer.component.theme';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -26,6 +27,9 @@ $theme: mat-light-theme($primary, $accent, $warn);
 @include search-container-typography(mat-typography-config());
 
 @include sold-by-me-description-typography(mat-typography-config());
+
+@include purchase-offer-main;
+@include purchase-offer-theme($theme);
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
