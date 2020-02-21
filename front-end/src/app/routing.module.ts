@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
-import {BrowseItemsComponent} from './browse-items/browse-items.component';
+import {ItemBrowsingComponent} from './item-browsing/item-browsing.component';
 import {MyAccountComponent} from './my-account/my-account.component';
-import {PurchaseOfferComponent} from './purchase-offer/purchase-offer.component';
+import {OfferComponent} from './offer/offer.component';
 
 const routes: Routes = [
-  {path: 'browse-items', component: BrowseItemsComponent},
+  {path: 'browse-items', component: ItemBrowsingComponent},
   {path: 'my-account', component: MyAccountComponent},
-  {path: 'offer', component: PurchaseOfferComponent}
+  {path: 'offer', component: OfferComponent}
 ];
 
 @NgModule({

@@ -1,7 +1,7 @@
-@import '~@angular/material/theming';
+@import 'node_modules/@angular/material/theming';
 
 @mixin purchase-offer-main {
-  app-purchase-offer {
+  offer {
     display: flex;
     flex-flow: row nowrap;
     align-items: stretch;
