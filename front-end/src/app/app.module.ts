@@ -21,6 +21,7 @@ import { SoldByMeDescriptionComponent } from './sold-by-me/sold-by-me-descriptio
 import { SoldByMeOfferComponent } from './sold-by-me/sold-by-me-offer/sold-by-me-offer.component';
 import { PurchaseOfferComponent } from './purchase-offer/purchase-offer.component';
 import { OfferConversationComponent } from './purchase-offer/offer-conversation/offer-conversation.component';
+import { OfferMessageComponent } from './purchase-offer/offer-conversation/offer-message/offer-message.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { OfferConversationComponent } from './purchase-offer/offer-conversation/
     SoldByMeDescriptionComponent,
     SoldByMeOfferComponent,
     PurchaseOfferComponent,
-    OfferConversationComponent
+    OfferConversationComponent,
+    OfferMessageComponent
   ],
   imports: [
     BrowserModule,

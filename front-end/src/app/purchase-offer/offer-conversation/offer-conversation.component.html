@@ -14,9 +14,7 @@
   <div class="conversation-response">
     Yet another, also quite a long response to an already long message written earlier.
   </div>
-  <div class="conversation-message">
-    an offer component goes here
-  </div>
+  <app-offer-message></app-offer-message>
 </div>
 <form class="conversation-input">
   <!--TODO: Angular Material inputs are hell to style properly.-->
@@ -24,9 +22,15 @@
     <mat-label></mat-label>
     <input matInput placeholder="Enter your message">
   </mat-form-field>
-  <button mat-icon-button><mat-icon>attach_file</mat-icon></button>
-  <button mat-icon-button><mat-icon>euro_symbol</mat-icon></button>
-  <button mat-icon-button><mat-icon>send</mat-icon></button>
+  <button mat-icon-button>
+    <mat-icon>attach_file</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon>euro_symbol</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon>send</mat-icon>
+  </button>
 </form>
 
 
