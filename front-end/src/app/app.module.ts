@@ -3,27 +3,24 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule, MatToolbarModule} from '@angular/material';
-import {BrowseItemsComponent} from './browse-items/browse-items.component';
 import {RoutingModule} from './routing.module';
-import {SearchContainerComponent} from './browse-items/search-box/search-container.component';
+import {MaterialModule} from './material/material.module';
+import {ItemBrowsingModule} from './item-browsing/item-browsing.module';
+import {MyAccountModule} from './my-account/my-account.module';
+import {OfferModule} from './offer/offer.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BrowseItemsComponent,
-    SearchContainerComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     RoutingModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule
+    MaterialModule,
+    ItemBrowsingModule,
+    MyAccountModule,
+    OfferModule
   ],
   providers: [],
   bootstrap: [AppComponent]

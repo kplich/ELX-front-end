@@ -1,7 +1,9 @@
 
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
-@import 'src/app/browse-items/search-box/search-container.component.theme';
+@import 'src/app/offer/offer.component.theme';
+@import 'src/app/my-account/item-sold/item-sold-description/item-sold-description.component.theme';
+@import 'src/app/item-browsing/item-browsing-criteria/item-browsing-criteria.component.theme';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -20,8 +22,14 @@ $theme: mat-light-theme($primary, $accent, $warn);
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($theme);
+
 @include search-container-theme($theme);
 @include search-container-typography(mat-typography-config());
+
+@include sold-by-me-description-typography(mat-typography-config());
+
+@include purchase-offer-main;
+@include purchase-offer-theme($theme);
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

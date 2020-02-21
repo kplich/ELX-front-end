@@ -1,0 +1,52 @@
+.conversation-messages {
+  height: 90%;
+
+  overflow-y: auto;
+
+  div {
+    max-width: 60%;
+
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+
+    clear: both;
+  }
+
+  div:first-child {
+    margin-top: 0;
+  }
+}
+
+//TODO: extract the colors to a component theme stylesheet
+
+.conversation-message {
+  background-color: darkblue;
+  color: white;
+  float: left;
+}
+
+offer-conversation-message {
+  clear: both;
+  float: left;
+  width: 50%;
+}
+
+.conversation-response {
+  background-color: darkgoldenrod;
+  float: right;
+}
+
+.conversation-input {
+  height: 10%;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+
+  mat-form-field {
+    flex-grow: 3;
+    text-align: right;
+  }
+}
