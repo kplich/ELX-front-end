@@ -1,0 +1,36 @@
+<div class="conversation-messages">
+  <div class="conversation-message">
+    This is an example message.
+  </div>
+  <div class="conversation-response">
+    This is an example response.
+  </div>
+  <div class="conversation-message">
+    This is an another example message.
+  </div>
+  <div class="conversation-message">
+    This is an even longer example message with ridiculously long text to test the max-width of the container.
+  </div>
+  <div class="conversation-response">
+    Yet another, also quite a long response to an already long message written earlier.
+  </div>
+  <offer-conversation-message></offer-conversation-message>
+</div>
+<form class="conversation-input">
+  <!--TODO: Angular Material inputs are hell to style properly.-->
+  <mat-form-field appearance="outline">
+    <mat-label></mat-label>
+    <input matInput placeholder="Enter your message">
+  </mat-form-field>
+  <button mat-icon-button>
+    <mat-icon>attach_file</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon>euro_symbol</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon>send</mat-icon>
+  </button>
+</form>
+
+

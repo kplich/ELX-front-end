@@ -1,0 +1,24 @@
+@import 'node_modules/@angular/material/theming';
+
+@mixin purchase-offer-main {
+  offer {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+
+    height: 100%;
+  }
+}
+
+@mixin purchase-offer-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  .item-description {
+    background-color: mat-color($accent, 400);
+  }
+
+  .offer-conversation {
+    background-color: mat-color($primary, 100);
+  }
+}

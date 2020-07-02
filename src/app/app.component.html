@@ -1,0 +1,13 @@
+<mat-toolbar color="primary" class="toolbar">
+  <img class="toolbar-logo" src="assets/ETX-dummy-logo.png" alt="ETX application logo">
+  <div class="toolbar-menu">
+    <a mat-button routerLink="/my-account">My account</a>
+    <a mat-button routerLink="/browse-items">Browse items</a>
+    <a mat-button>Log out</a>
+  </div>
+  <button mat-icon-button><mat-icon>person</mat-icon></button>
+</mat-toolbar>
+<div class="app-content">
+  <router-outlet></router-outlet>
+</div>
+
