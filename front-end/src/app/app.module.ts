@@ -8,6 +8,7 @@ import {MaterialModule} from './material/material.module';
 import {ItemBrowsingModule} from './item-browsing/item-browsing.module';
 import {MyAccountModule} from './my-account/my-account.module';
 import {OfferModule} from './offer/offer.module';
+import {IdentityManagementModule} from './identity-management/identity-management.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {OfferModule} from './offer/offer.module';
     BrowserAnimationsModule,
     RoutingModule,
     MaterialModule,
+    IdentityManagementModule,
     ItemBrowsingModule,
     MyAccountModule,
     OfferModule

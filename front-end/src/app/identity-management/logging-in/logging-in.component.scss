@@ -1,0 +1,34 @@
+form {
+  display: flex;
+  flex-flow: column nowrap;
+
+  padding: 50px 30%;
+
+  .logging-in-actions {
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+  .mat-raised-button {
+    // make this padding smaller to better accommodate longer text
+    // and simultaneously allow for natural flex-grow
+    padding: 0 4px;
+  }
+
+  button {
+    flex-basis: 25%;
+  }
+}
+
+.forgot-password-btn {
+  transform: scale(0.9);
+}
+
+.log-in-btn {
+  flex-grow: 2;
+  margin: 0 5px;
+}
+
+.register-btn {
+  transform: scale(0.9);
+}
