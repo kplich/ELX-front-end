@@ -15,6 +15,7 @@ exports.config = {
   capabilities: {
     browserName: 'chrome'
   },
+  logLevel: 'DEBUG',
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
   framework: 'jasmine',
