@@ -4,8 +4,6 @@ import { LoggingInComponent } from './logging-in/logging-in.component';
 import {MaterialModule} from '../material/material.module';
 import {ReactiveFormsModule} from '@angular/forms';
 
-
-
 @NgModule({
   declarations: [LoggingInComponent],
   imports: [
