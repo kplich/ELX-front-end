@@ -6,8 +6,8 @@
     "start": "node server.js",
     "local": "ng serve",
     "build": "ng build --prod",
-    "test": "ng test --watch=false --browsers=ChromeHeadlessCustom; ng e2e",
-    "test:watch": "ng test; ng e2e",
+    "test": "ng test --watch=false --browsers=ChromeHeadlessCustom",
+    "test:watch": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
