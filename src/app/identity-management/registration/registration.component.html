@@ -11,6 +11,9 @@
     <mat-error *ngIf="this.username.hasError('minlength')">
       The username needs to be at least {{this.minimumUsernameLength}} characters long.
     </mat-error>
+    <mat-error *ngIf="this.username.hasError('pattern') && !this.username.hasError('minlength')">
+      Username can only contain letters, digits and underscores (_).
+    </mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Password</mat-label>
@@ -22,11 +25,9 @@
     <mat-error *ngIf="this.password.hasError('minlength')">
       The password needs to be at least {{this.minimumPasswordLength}} characters long.
     </mat-error>
-    <mat-error *ngIf="this.password.hasError('pattern')">
+    <mat-error *ngIf="this.password.hasError('pattern') && !this.password.hasError('minlength')">
       The password needs to have a lowercase and an uppercase letter, a digit and a special character.
     </mat-error>
   </mat-form-field>
-  <div class="logging-in-actions">
-    <button mat-raised-button class="register-btn" type="submit" color="accent" (click)="register()">Register</button>
-  </div>
+  <button [disabled]="registrationForm.invalid" mat-raised-button class="register-btn" type="submit" color="accent" (click)="register()">Register</button>
 </form>
