@@ -17,6 +17,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
+
+  minimumUsernameLength = 3;
+  // language=JSRegexp
+  containsOnlyLettersDigitsAndUnderscoresPattern = '\\w*';
+
   // language=JSRegexp
   containsUppercaseLetterPattern = '.*[A-Z]+.*';
   // language=JSRegexp
@@ -25,21 +30,25 @@ export class RegistrationComponent implements OnInit {
   containsDigitPattern = '.*\\d+.*';
   // language=JSRegexp
   containsSpecialCharacterPattern = '.*[\\W_]+.*';
-  minimumLength = 8;
+  minimumPasswordLength = 8;
 
   registrationForm: FormGroup;
   errorStateMatcher: ErrorStateMatcher = new MyErrorStateMatcher();
 
   constructor() {
     this.registrationForm = new FormGroup({
-      username: new FormControl('', [Validators.required]),
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(this.minimumUsernameLength),
+        Validators.pattern(this.containsOnlyLettersDigitsAndUnderscoresPattern)
+      ]),
       password: new FormControl('', [
         Validators.required,
         Validators.pattern(this.containsLowercaseLetterPattern),
         Validators.pattern(this.containsUppercaseLetterPattern),
         Validators.pattern(this.containsDigitPattern),
         Validators.pattern(this.containsSpecialCharacterPattern),
-        Validators.minLength(this.minimumLength)
+        Validators.minLength(this.minimumPasswordLength)
       ])
     });
   }
