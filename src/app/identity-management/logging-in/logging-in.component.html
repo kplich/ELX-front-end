@@ -1,6 +1,6 @@
-<form [formGroup]="loggingInForm">
+<form [formGroup]="loggingInForm" (submit)="login()">
   <mat-form-field appearance="outline">
-    <mat-label>Username or e-mail</mat-label>
+    <mat-label>Username</mat-label>
     <input matInput formControlName="username">
   </mat-form-field>
   <mat-form-field appearance="outline">
@@ -9,8 +9,8 @@
   </mat-form-field>
   <div class="logging-in-actions">
     <button mat-raised-button class="forgot-password-btn">Forgot password</button>
-    <button mat-raised-button class="log-in-btn" type="submit" color="accent" (click)="login()">Log in</button>
-    <button mat-raised-button class="register-btn" color="primary" >Register</button>
+    <button mat-raised-button class="log-in-btn" type="submit" color="accent">Log in</button>
+    <button mat-raised-button class="register-btn" color="primary" (click)="routeToRegistration()">Register</button>
   </div>
 
 </form>
