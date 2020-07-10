@@ -1,0 +1,33 @@
+<form id="registration-form" [formGroup]="registrationForm">
+  <mat-form-field appearance="outline">
+    <mat-label>Username</mat-label>
+    <input matInput [formControl]="username" [errorStateMatcher]="errorStateMatcher">
+    <mat-hint *ngIf="!username.touched">
+      Username has to be at least 3 characters long and can only contain letters, digits and underscores (_).
+    </mat-hint>
+    <mat-error *ngIf="this.username.hasError('required')">
+      A username is required!
+    </mat-error>
+    <mat-error *ngIf="this.username.hasError('minlength')">
+      The username needs to be at least {{this.minimumUsernameLength}} characters long.
+    </mat-error>
+    <mat-error *ngIf="this.username.hasError('pattern') && !this.username.hasError('minlength')">
+      Username can only contain letters, digits and underscores (_).
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input matInput type="password" [formControl]="password" [errorStateMatcher]="errorStateMatcher">
+    <mat-hint *ngIf="!password.touched">Password has to be at least 8 characters long, including a lowercase letter, an uppercase letter, a digit and a special character.</mat-hint>
+    <mat-error *ngIf="this.password.hasError('required')">
+      A password is required!
+    </mat-error>
+    <mat-error *ngIf="this.password.hasError('minlength')">
+      The password needs to be at least {{this.minimumPasswordLength}} characters long.
+    </mat-error>
+    <mat-error *ngIf="this.password.hasError('pattern') && !this.password.hasError('minlength')">
+      The password needs to have a lowercase and an uppercase letter, a digit and a special character.
+    </mat-error>
+  </mat-form-field>
+  <button [disabled]="registrationForm.invalid" mat-raised-button class="register-btn" type="submit" color="accent" (click)="register()">Register</button>
+</form>

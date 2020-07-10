@@ -33,3 +33,10 @@ $theme: mat-light-theme($primary, $accent, $warn);
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// allows hints in inputs to be shown in full and not be hidden by other elements
+mat-form-field {
+  .mat-form-field-subscript-wrapper {
+    position: revert;
+  }
+}
