@@ -18,13 +18,13 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class RegistrationComponent implements OnInit {
   // language=JSRegexp
-  containsUppercaseLetterPattern = '[A-Z]';
+  containsUppercaseLetterPattern = '.*[A-Z]+.*';
   // language=JSRegexp
-  containsLowercaseLetterPattern = '[a-z]';
+  containsLowercaseLetterPattern = '.*[a-z]+.*';
   // language=JSRegexp
-  containsDigitPattern = '\d';
+  containsDigitPattern = '.*\\d+.*';
   // language=JSRegexp
-  containsSpecialCharacterPattern = '[\\W_]';
+  containsSpecialCharacterPattern = '.*[\\W_]+.*';
   minimumLength = 8;
 
   registrationForm: FormGroup;
