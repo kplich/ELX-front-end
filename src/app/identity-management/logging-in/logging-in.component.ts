@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-logging-in',
@@ -10,7 +11,7 @@ export class LoggingInComponent implements OnInit {
 
   loggingInForm: FormGroup;
 
-  constructor() {
+  constructor(private router: Router) {
     this.loggingInForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
@@ -22,5 +23,9 @@ export class LoggingInComponent implements OnInit {
 
   login() {
 
+  }
+
+  routeToRegistration() {
+    this.router.navigateByUrl('/register').then(_ => {});
   }
 }
