@@ -9,6 +9,7 @@ import {ItemBrowsingModule} from './item-browsing/item-browsing.module';
 import {MyAccountModule} from './my-account/my-account.module';
 import {OfferModule} from './offer/offer.module';
 import {IdentityManagementModule} from './identity-management/identity-management.module';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {IdentityManagementModule} from './identity-management/identity-managemen
     IdentityManagementModule,
     ItemBrowsingModule,
     MyAccountModule,
-    OfferModule
+    OfferModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
