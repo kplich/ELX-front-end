@@ -19,6 +19,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class RegistrationComponent implements OnInit {
 
   minimumUsernameLength = 3;
+  maximumUsernameLength = 20;
   // language=JSRegexp
   containsOnlyLettersDigitsAndUnderscoresPattern = '\\w*';
 
@@ -31,6 +32,7 @@ export class RegistrationComponent implements OnInit {
   // language=JSRegexp
   containsSpecialCharacterPattern = '.*[\\W_]+.*';
   minimumPasswordLength = 8;
+  maximumPasswordLength = 40;
 
   registrationForm: FormGroup;
   errorStateMatcher: ErrorStateMatcher = new MyErrorStateMatcher();
@@ -40,6 +42,7 @@ export class RegistrationComponent implements OnInit {
       username: new FormControl('', [
         Validators.required,
         Validators.minLength(this.minimumUsernameLength),
+        Validators.maxLength(this.maximumUsernameLength),
         Validators.pattern(this.containsOnlyLettersDigitsAndUnderscoresPattern)
       ]),
       password: new FormControl('', [
@@ -48,7 +51,8 @@ export class RegistrationComponent implements OnInit {
         Validators.pattern(this.containsUppercaseLetterPattern),
         Validators.pattern(this.containsDigitPattern),
         Validators.pattern(this.containsSpecialCharacterPattern),
-        Validators.minLength(this.minimumPasswordLength)
+        Validators.minLength(this.minimumPasswordLength),
+        Validators.maxLength(this.maximumPasswordLength)
       ])
     });
   }
