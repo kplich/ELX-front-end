@@ -4,7 +4,7 @@ import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
 import {JwtResponse} from './JwtResponse';
 import {shareReplay, tap} from 'rxjs/operators';
-import {JwtStorageService} from '../../shared/jwt-service/jwt-storage.service';
+import {JwtStorageService} from '../../shared/jwt-storage-service/jwt-storage.service';
 import {Credentials} from './Credentials';
 
 const API_URL = environment.apiUrl + '/auth';
@@ -33,7 +33,7 @@ export class AuthenticationService {
     this.jwtStorageService.removeJwt();
   }
 
-  get authenticatedUser(): string {
+  get authenticatedUser(): string | null {
     return this.jwtStorageService.getAuthenticatedUser();
   }
 }
