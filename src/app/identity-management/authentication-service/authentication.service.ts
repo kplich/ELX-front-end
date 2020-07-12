@@ -25,7 +25,6 @@ export class AuthenticationService {
 
   signUp(credentials: Credentials): Observable<HttpResponse<JwtResponse>> {
     return this.httpClient.post<JwtResponse>(`${API_URL}/sign-up`, credentials, {observe: 'response'}).pipe(
-      tap(response => this.jwtStorageService.putJwt(response.body.jwtToken)),
       shareReplay()
     );
   }
