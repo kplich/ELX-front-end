@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as jwt from 'jwt-decode';
+import * as jwt_decode from 'jwt-decode';
 
 export const JWT_TAG = 'jwt';
 
@@ -22,14 +22,14 @@ export class JwtStorageService {
     sessionStorage.removeItem(JWT_TAG);
   }
 
-  getAuthenticatedUser() {
+  getAuthenticatedUser(): string | null {
     const token = sessionStorage.getItem(JWT_TAG);
 
     if (token === null) {
-      return '';
+      return null;
     }
     else {
-      const payload = jwt.decode(token);
+      const payload = jwt_decode(token);
       return payload.sub;
     }
 

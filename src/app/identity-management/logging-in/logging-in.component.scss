@@ -7,28 +7,23 @@ form {
   .logging-in-actions {
     display: flex;
     flex-flow: row nowrap;
+    margin-bottom: 2em;
   }
 
-  .mat-raised-button {
+  button.mat-raised-button {
     // make this padding smaller to better accommodate longer text
     // and simultaneously allow for natural flex-grow
     padding: 0 4px;
-  }
-
-  button {
     flex-basis: 25%;
   }
 }
 
-.forgot-password-btn {
+.minor-button {
   transform: scale(0.9);
 }
 
-.log-in-btn {
+.major-button {
   flex-grow: 2;
   margin: 0 5px;
 }
 
-.register-btn {
-  transform: scale(0.9);
-}

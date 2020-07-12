@@ -2,15 +2,16 @@
   <mat-form-field appearance="outline">
     <mat-label>Username</mat-label>
     <input matInput formControlName="username">
+    <mat-error *ngIf="username.hasError('required')">A username is required!</mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Password</mat-label>
     <input matInput type="password" formControlName="password">
+    <mat-error *ngIf="password.hasError('required')">Password is required!</mat-error>
   </mat-form-field>
   <div class="logging-in-actions">
-    <button mat-raised-button class="forgot-password-btn">Forgot password</button>
-    <button mat-raised-button class="log-in-btn" type="submit" color="accent">Log in</button>
-    <button mat-raised-button class="register-btn" color="primary" (click)="routeToRegistration()">Register</button>
+    <button mat-raised-button class="minor-button">Forgot password</button>
+    <button mat-raised-button class="major-button" type="submit" [disabled]="loggingInForm.invalid" color="accent">Log in</button>
+    <button mat-raised-button class="minor-button" color="primary" (click)="routeToRegistration()">Register</button>
   </div>
-
 </form>
