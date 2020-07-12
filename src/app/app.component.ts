@@ -18,5 +18,6 @@ export class AppComponent {
 
   logOut() {
     this.authenticationService.logOut();
+    window.location.reload();
   }
 }
