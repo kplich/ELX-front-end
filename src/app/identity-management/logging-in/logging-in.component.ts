@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../authentication-service/authentication.service';
@@ -13,7 +13,6 @@ import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service'
 export class LoggingInComponent implements OnInit {
 
   loggingInForm: FormGroup;
-  private errorResponse: HttpErrorResponse = undefined;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -31,6 +30,7 @@ export class LoggingInComponent implements OnInit {
   login() {
     this.authenticationService.logIn({username: this.username.value, password: this.password.value}).subscribe({
       next: _ => {
+        // tslint:disable-next-line:no-shadowed-variable
         this.router.navigateByUrl('/browse-items').then(_ => {
           this.snackBarService.openSnackBar(`Welcome, ${this.username.value}`);
         });
@@ -49,14 +49,6 @@ export class LoggingInComponent implements OnInit {
 
   get password(): FormControl {
     return this.loggingInForm.get('password') as FormControl;
-  }
-
-  get unauthorizedLogin(): boolean {
-    return this.errorResponse !== undefined && (this.errorResponse.status === 401 || this.errorResponse.status === 400);
-  }
-
-  get serverError(): boolean {
-    return this.errorResponse !== undefined && !this.unauthorizedLogin;
   }
 
   private openErrorSnackBar(errorResponse: HttpErrorResponse) {
