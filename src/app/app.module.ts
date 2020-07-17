@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {RoutingModule} from './routing.module';
+import {AppRoutingModule} from './routing/app-routing.module';
 import {MaterialModule} from './material/material.module';
 import {ItemBrowsingModule} from './item-browsing/item-browsing.module';
 import {MyAccountModule} from './my-account/my-account.module';
@@ -18,7 +18,7 @@ import {HttpClientModule} from '@angular/common/http';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    RoutingModule,
+    AppRoutingModule,
     MaterialModule,
     IdentityManagementModule,
     ItemBrowsingModule,
