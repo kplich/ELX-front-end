@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
@@ -23,7 +23,7 @@ export class AuthenticationService {
     );
   }
 
-  signUp(credentials: Credentials): Observable<HttpResponse<JwtResponse>> {
+  signUp(credentials: Credentials): Observable<HttpResponse<any>> {
     return this.httpClient.post<JwtResponse>(`${API_URL}/sign-up`, credentials, {observe: 'response'}).pipe(
       shareReplay()
     );
