@@ -13,7 +13,6 @@ import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service'
 export class LoggingInComponent implements OnInit {
 
   loggingInForm: FormGroup;
-  private errorResponse: HttpErrorResponse = undefined;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -50,10 +49,6 @@ export class LoggingInComponent implements OnInit {
 
   get password(): FormControl {
     return this.loggingInForm.get('password') as FormControl;
-  }
-
-  get unauthorizedLogin(): boolean {
-    return this.errorResponse !== undefined && (this.errorResponse.status === 401 || this.errorResponse.status === 400);
   }
 
   private openErrorSnackBar(errorResponse: HttpErrorResponse) {
