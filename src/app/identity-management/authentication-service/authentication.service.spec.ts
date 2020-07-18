@@ -82,6 +82,7 @@ describe('AuthenticationService logging in', () => {
   const LOGIN_API_URL = `${API_URL}/log-in`;
 
   const EXAMPLE_USERNAME = 'username2';
+  // noinspection SpellCheckingInspection
   const EXAMPLE_JWT = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTIifQ.SCOWl0eWOb14t3BicSyNRlOlSVV8gQFkpeJGswPHbUo!';
 
   const USER_CREDENTIALS = {username: EXAMPLE_USERNAME, password: 'password'};
