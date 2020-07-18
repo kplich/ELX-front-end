@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {AuthenticationService} from '../authentication-service/authentication.service';
@@ -70,6 +70,7 @@ export class RegistrationComponent implements OnInit {
 
   register() {
     this.authenticationService.signUp(this.credentials).subscribe({
+      // tslint:disable-next-line:no-shadowed-variable
       next: _ => this.router.navigateByUrl('/log-in').then(_ => {
         this.snackBarService.openSnackBar('Signed up successfully!');
       }),

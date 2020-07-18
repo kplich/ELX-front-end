@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
@@ -14,6 +14,6 @@ export class ItemSoldOfferComponent implements OnInit {
   }
 
   navigateToOffer() {
-    this.router.navigateByUrl('/offer');
+    this.router.navigateByUrl('/offer').then(_ => {});
   }
 }

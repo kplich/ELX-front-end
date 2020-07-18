@@ -2,13 +2,14 @@ import {async, TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {AuthenticationService} from './identity-management/authentication-service/authentication.service';
 import {MaterialModule} from './material/material.module';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('AppComponent', () => {
   const authenticationServiceSpy = jasmine.createSpyObj('AuthenticationService', ['authenticatedUser']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule],
+      imports: [MaterialModule, RouterTestingModule],
       declarations: [
         AppComponent
       ],

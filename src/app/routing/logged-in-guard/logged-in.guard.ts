@@ -10,6 +10,7 @@ export class LoggedInGuard implements CanActivate {
   constructor(private authenticationService: AuthenticationService, private router: Router) {
   }
 
+  // noinspection JSUnusedLocalSymbols
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
