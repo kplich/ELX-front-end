@@ -40,7 +40,7 @@ describe('JwtStorageService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-    sessionStorage.clear();
+    service.removeJwt();
   });
 
   it('should not contain any token at the beginning', () => {
