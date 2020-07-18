@@ -7,7 +7,7 @@ import {shareReplay, tap} from 'rxjs/operators';
 import {JwtStorageService} from '../../shared/jwt-storage-service/jwt-storage.service';
 import {Credentials} from './Credentials';
 
-const API_URL = environment.apiUrl + '/auth';
+export const API_URL = environment.apiUrl + '/auth';
 
 @Injectable({
   providedIn: 'root'

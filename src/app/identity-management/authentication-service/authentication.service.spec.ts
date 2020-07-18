@@ -1,16 +1,18 @@
 import {fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {AuthenticationService} from './authentication.service';
+import {API_URL, AuthenticationService} from './authentication.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {HttpClient} from '@angular/common/http';
 
 // adapted from
 // https://skryvets.com/blog/2018/02/18/unit-testing-angular-service-with-httpclient/#third-step-add-login-to-service
 
 describe('AuthenticationService', () => {
-  const newUserCredentials = {username: 'newUsername', password: 'newP@ssw0rd'};
+  const signUpURL = `${API_URL}/sign-up`;
+  const logInURL = `${API_URL}/log-in`;
+
+  const correctNewUserCredentials = {username: 'username', password: 'P@ssw0rd'};
+  const invalidNewUserCredentials = {username: 'username', password: 'password'};
 
   let authenticationService: AuthenticationService;
-  let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
@@ -20,39 +22,58 @@ describe('AuthenticationService', () => {
     });
 
     authenticationService = TestBed.inject(AuthenticationService);
-    httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should be created', () => {
     expect(authenticationService).toBeTruthy();
   });
 
-  it('should sign up correctly', () => {
+  it('should sign up correctly with correct credentials', fakeAsync(() => {
+    const expectedResponseBody = {};
+    let response = null;
 
-    fakeAsync(() => {
-        const url = 'https://example.com/login';
-        const expectedResponseBody = {};
-        const credentials = newUserCredentials;
-        let response = null;
+    authenticationService.signUp(correctNewUserCredentials).subscribe(resp => {
+      response = resp;
+    });
 
-        authenticationService.logIn(credentials).subscribe({
-          next: resp => {
-            response = resp;
-          },
-          error: _ => {
-          }
-        });
+    const testRequest = httpTestingController.expectOne({url: signUpURL});
+    testRequest.flush(expectedResponseBody);
 
-        const requestWrapper = httpTestingController.expectOne({url});
-        requestWrapper.flush(expectedResponseBody);
+    tick();
 
-        tick();
+    expect(testRequest.request.method).toEqual('POST');
+    expect(response.body).toEqual(expectedResponseBody);
+    expect(response.status).toBe(200);
+  }));
 
-        expect(requestWrapper.request.method).toEqual('POST');
-        expect(response.body).toEqual(expectedResponseBody);
-        expect(response.status).toBe(200);
+  it('should return an error response for invalid data', fakeAsync(() => {
+    const expectedResponseBody = {};
+    const expectedStatus = 400;
+    let response = null;
+
+    authenticationService.signUp(invalidNewUserCredentials).subscribe({
+      next: _ => {
+      },
+      error: err => {
+        response = err;
       }
-    );
-  });
+    });
+
+    const testRequest = httpTestingController.expectOne({url: signUpURL});
+    testRequest.error(new ErrorEvent('Bad Request'), {status: expectedStatus});
+
+    tick();
+
+    console.log(`response status ${response.status}`);
+
+    expect(testRequest.request.method).toEqual('POST');
+    expect(response.body).toEqual(expectedResponseBody);
+    expect(response.status).toEqual(expectedStatus);
+  }));
 });

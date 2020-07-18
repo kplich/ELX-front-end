@@ -34,6 +34,10 @@ describe('JwtStorageService', () => {
     spyOn(sessionStorage, 'clear').and.callFake(mockLocalStorage.clear);
   });
 
+  afterAll(() => {
+    sessionStorage.clear();
+  });
+
   it('should be created', () => {
     expect(service).toBeTruthy();
     sessionStorage.clear();
