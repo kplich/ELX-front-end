@@ -57,6 +57,34 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.stage.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
             }
           }
         },
@@ -68,6 +96,9 @@
           "configurations": {
             "production": {
               "browserTarget": "elx-front-end:build:production"
+            },
+            "staging": {
+              "browserTarget": "elx-front-end:build:staging"
             }
           }
         },
@@ -117,6 +148,9 @@
           "configurations": {
             "production": {
               "devServerTarget": "elx-front-end:serve:production"
+            },
+            "staging": {
+              "devServerTarget": "elx-front-end:serve:staging"
             }
           }
         }
