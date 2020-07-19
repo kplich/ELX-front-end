@@ -6,7 +6,8 @@
     "start": "node server.js",
     "local": "ng serve",
     "build": "ng build --prod",
-    "test": "ng test --watch=false --browsers=ChromeHeadlessCustom",
+    "heroku-postbuild": "ng build --prod --configuration=\"$NG_CONFIG\"",
+    "test": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI",
     "test:watch": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
