@@ -5,6 +5,9 @@ import {AuthenticationService} from '../../identity-management/authentication-se
 import {Router} from '@angular/router';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
+// as per
+// https://keepgrowing.in/angular/how-to-test-angular-authguard-examples-for-the-canactivate-interface/
+
 describe('LoggedInGuard', () => {
   let guard: LoggedInGuard;
   let authenticationService: AuthenticationService;
