@@ -30,6 +30,7 @@ describe('LoggingInComponent', () => {
   }));
 
   it('should create the component', () => {
+
     expect(component).toBeTruthy();
     expect(component.username).toBeTruthy();
     expect(component.password).toBeTruthy();

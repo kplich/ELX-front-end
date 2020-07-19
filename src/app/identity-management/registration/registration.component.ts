@@ -16,6 +16,29 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
+export const USERNAME_LABEL = 'Username';
+export const USERNAME_REQUIRED_MESSAGE = 'A username is required!';
+export const MINIMUM_USERNAME_LENGTH = 3;
+export const MINIMUM_USERNAME_LENGTH_MESSAGE = `The username needs to be at least ${MINIMUM_USERNAME_LENGTH} characters long.`;
+export const MAXIMUM_USERNAME_LENGTH = 20;
+export const MAXIMUM_USERNAME_LENGTH_MESSAGE = `The username needs to be at most ${MAXIMUM_USERNAME_LENGTH} characters long.`;
+export const USERNAME_PATTERN_MESSAGE = 'Username can only contain letters, digits and underscores (_).';
+export const USERNAME_HINT = `Username has to be ${MINIMUM_USERNAME_LENGTH}-${MAXIMUM_USERNAME_LENGTH} characters long and can only contain letters, digits and underscores (_).`;
+
+export const PASSWORD_LABEL = 'Password';
+export const PASSWORD_REQUIRED_MESSAGE = 'A password is required!';
+export const MINIMUM_PASSWORD_LENGTH = 8;
+export const MINIMUM_PASSWORD_LENGTH_MESSAGE = `The password needs to be at least ${MINIMUM_PASSWORD_LENGTH} characters long.`;
+export const MAXIMUM_PASSWORD_LENGTH = 40;
+export const MAXIMUM_PASSWORD_LENGTH_MESSAGE = `The password needs to be at most ${MAXIMUM_PASSWORD_LENGTH} characters long.`;
+export const PASSWORD_PATTERN_MESSAGE = 'The password needs to have a lowercase and an uppercase letter, a digit and a special character.';
+export const PASSWORD_HINT = `Password has to be ${MINIMUM_PASSWORD_LENGTH}-${MAXIMUM_PASSWORD_LENGTH} characters long, including a lowercase letter, an uppercase letter, a digit and a special character.`;
+
+export const INVALID_DATA_MESSAGE = 'Invalid request data!';
+export const USER_ALREADY_EXISTS_MESSAGE = 'User with such username already exists!';
+export const SERVER_ERROR_MESSAGE = 'Server error, try again!';
+export const SIGNED_UP_SUCCESSFULLY_MESSAGE = 'Signed up successfully!';
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -23,11 +46,22 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class RegistrationComponent implements OnInit {
 
-  minimumUsernameLength = 3;
-  maximumUsernameLength = 20;
-  // language=JSRegexp
-  containsOnlyLettersDigitsAndUnderscoresPattern = '\\w*';
+  usernameLabel = USERNAME_LABEL;
+  usernameHint = USERNAME_HINT;
+  usernameRequiredMessage = USERNAME_REQUIRED_MESSAGE;
+  minimumUsernameLengthMessage = MINIMUM_USERNAME_LENGTH_MESSAGE;
+  maximumUsernameLengthMessage = MAXIMUM_USERNAME_LENGTH_MESSAGE;
+  usernamePatternMessage = USERNAME_PATTERN_MESSAGE;
 
+  passwordLabel = PASSWORD_LABEL;
+  passwordHint = PASSWORD_HINT;
+  passwordRequiredMessage = PASSWORD_REQUIRED_MESSAGE;
+  minimumPasswordLengthMessage = MINIMUM_PASSWORD_LENGTH_MESSAGE;
+  maximumPasswordLengthMessage = MAXIMUM_PASSWORD_LENGTH_MESSAGE;
+  passwordPatternMessage = PASSWORD_PATTERN_MESSAGE;
+
+  // language=JSRegexp
+  lettersDigitsUnderscoresPattern = '\\w*';
   // language=JSRegexp
   containsUppercaseLetterPattern = '.*[A-Z]+.*';
   // language=JSRegexp
@@ -36,15 +70,13 @@ export class RegistrationComponent implements OnInit {
   containsDigitPattern = '.*\\d+.*';
   // language=JSRegexp
   containsSpecialCharacterPattern = '.*[\\W_]+.*';
-  minimumPasswordLength = 8;
-  maximumPasswordLength = 40;
 
   registrationForm: FormGroup = new FormGroup({
     username: new FormControl('', [
       Validators.required,
-      Validators.minLength(this.minimumUsernameLength),
-      Validators.maxLength(this.maximumUsernameLength),
-      Validators.pattern(this.containsOnlyLettersDigitsAndUnderscoresPattern)
+      Validators.minLength(MINIMUM_USERNAME_LENGTH),
+      Validators.maxLength(MAXIMUM_USERNAME_LENGTH),
+      Validators.pattern(this.lettersDigitsUnderscoresPattern)
     ]),
     password: new FormControl('', [
       Validators.required,
@@ -52,8 +84,8 @@ export class RegistrationComponent implements OnInit {
       Validators.pattern(this.containsUppercaseLetterPattern),
       Validators.pattern(this.containsDigitPattern),
       Validators.pattern(this.containsSpecialCharacterPattern),
-      Validators.minLength(this.minimumPasswordLength),
-      Validators.maxLength(this.maximumPasswordLength)
+      Validators.minLength(MINIMUM_PASSWORD_LENGTH),
+      Validators.maxLength(MAXIMUM_PASSWORD_LENGTH)
     ])
   });
   errorStateMatcher: ErrorStateMatcher = new MyErrorStateMatcher();
@@ -62,17 +94,15 @@ export class RegistrationComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private router: Router,
     private snackBarService: SnackBarService
-  ) {
-  }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   register() {
     this.authenticationService.signUp(this.credentials).subscribe({
       // tslint:disable-next-line:no-shadowed-variable
       next: _ => this.router.navigateByUrl('/log-in').then(_ => {
-        this.snackBarService.openSnackBar('Signed up successfully!');
+        this.snackBarService.openSnackBar(SIGNED_UP_SUCCESSFULLY_MESSAGE);
       }),
       error: error => this.openSnackBarOnError(error)
     });
@@ -93,15 +123,15 @@ export class RegistrationComponent implements OnInit {
   private openSnackBarOnError(errorResponse: HttpErrorResponse) {
     switch (errorResponse.status) {
       case 400: {
-        this.snackBarService.openSnackBar('Invalid request data!');
+        this.snackBarService.openSnackBar(INVALID_DATA_MESSAGE);
         break;
       }
       case 409: {
-        this.snackBarService.openSnackBar('User with such username already exists!');
+        this.snackBarService.openSnackBar(USER_ALREADY_EXISTS_MESSAGE);
         break;
       }
       case 500: {
-        this.snackBarService.openSnackBar('Server error, try again!');
+        this.snackBarService.openSnackBar(SERVER_ERROR_MESSAGE);
         break;
       }
     }
