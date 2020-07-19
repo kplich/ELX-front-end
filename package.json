@@ -6,6 +6,7 @@
     "start": "node server.js",
     "local": "ng serve",
     "build": "ng build --prod",
+    "heroku-postbuild": "ng build --prod --configuration=$ENVIRONMENT",
     "test": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI",
     "test:watch": "ng test",
     "lint": "ng lint",

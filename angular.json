@@ -96,6 +96,9 @@
           "configurations": {
             "production": {
               "browserTarget": "elx-front-end:build:production"
+            },
+            "staging": {
+              "browserTarget": "elx-front-end:build:staging"
             }
           }
         },
@@ -145,6 +148,9 @@
           "configurations": {
             "production": {
               "devServerTarget": "elx-front-end:serve:production"
+            },
+            "staging": {
+              "devServerTarget": "elx-front-end:serve:staging"
             }
           }
         }
