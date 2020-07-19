@@ -1,5 +1,12 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {BUTTON_LOG_IN_TEXT, LoggingInComponent, PASSWORD_LABEL, USERNAME_LABEL} from './logging-in.component';
+import {
+  BUTTON_LOG_IN_TEXT,
+  LoggingInComponent,
+  PASSWORD_LABEL,
+  PASSWORD_REQUIRED_MESSAGE,
+  USERNAME_LABEL,
+  USERNAME_REQUIRED_MESSAGE
+} from './logging-in.component';
 import {AuthenticationService} from '../authentication-service/authentication.service';
 import {Router} from '@angular/router';
 import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
@@ -11,7 +18,6 @@ import {MatButtonHarness} from '@angular/material/button/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
-import {PASSWORD_REQUIRED_MESSAGE, USERNAME_REQUIRED_MESSAGE} from '../registration/registration.component';
 
 describe('LoggingInComponent', () => {
   const authenticationServiceSpy = jasmine.createSpyObj('AuthenticationService', ['logIn']);
