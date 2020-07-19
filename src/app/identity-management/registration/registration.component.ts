@@ -34,6 +34,8 @@ export const MAXIMUM_PASSWORD_LENGTH_MESSAGE = `The password needs to be at most
 export const PASSWORD_PATTERN_MESSAGE = 'The password needs to have a lowercase and an uppercase letter, a digit and a special character.';
 export const PASSWORD_HINT = `Password has to be ${MINIMUM_PASSWORD_LENGTH}-${MAXIMUM_PASSWORD_LENGTH} characters long, including a lowercase letter, an uppercase letter, a digit and a special character.`;
 
+export const BUTTON_REGISTER_TEXT = 'Register';
+
 export const INVALID_DATA_MESSAGE = 'Invalid request data!';
 export const USER_ALREADY_EXISTS_MESSAGE = 'User with such username already exists!';
 export const SERVER_ERROR_MESSAGE = 'Server error, try again!';
@@ -59,6 +61,8 @@ export class RegistrationComponent implements OnInit {
   minimumPasswordLengthMessage = MINIMUM_PASSWORD_LENGTH_MESSAGE;
   maximumPasswordLengthMessage = MAXIMUM_PASSWORD_LENGTH_MESSAGE;
   passwordPatternMessage = PASSWORD_PATTERN_MESSAGE;
+
+  buttonRegisterText = BUTTON_REGISTER_TEXT;
 
   // language=JSRegexp
   lettersDigitsUnderscoresPattern = '\\w*';

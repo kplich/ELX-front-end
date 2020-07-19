@@ -37,5 +37,5 @@
       {{passwordPatternMessage}}
     </mat-error>
   </mat-form-field>
-  <button [disabled]="registrationForm.invalid" mat-raised-button class="register-btn" type="submit" color="accent" (click)="register()">Register</button>
+  <button [disabled]="registrationForm.invalid" mat-raised-button class="register-btn" type="submit" color="accent" (click)="register()">{{buttonRegisterText}}</button>
 </form>

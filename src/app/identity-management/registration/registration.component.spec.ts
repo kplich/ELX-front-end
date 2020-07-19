@@ -1,6 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {
+  BUTTON_REGISTER_TEXT,
   MINIMUM_PASSWORD_LENGTH_MESSAGE,
   PASSWORD_HINT,
   PASSWORD_LABEL,
@@ -24,7 +25,7 @@ import {MatFormFieldHarness} from '@angular/material/form-field/testing';
 import {MatInputHarness} from '@angular/material/input/testing';
 
 describe('RegistrationComponent', () => {
-  const authenticationService = jasmine.createSpyObj('AuthenticationService', ['signUp']);
+  const authenticationServiceSpy = jasmine.createSpyObj('AuthenticationService', ['signUp']);
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
   const snackBarServiceSpy = jasmine.createSpyObj('SnackBarService', ['openSnackBar']);
 
@@ -42,7 +43,7 @@ describe('RegistrationComponent', () => {
       imports: [MaterialModule, BrowserAnimationsModule, ReactiveFormsModule],
       declarations: [ RegistrationComponent ],
       providers: [
-        {provide: AuthenticationService, useValue: authenticationService},
+        {provide: AuthenticationService, useValue: authenticationServiceSpy},
         {provide: Router, useValue: routerSpy},
         {provide: SnackBarService, useValue: snackBarServiceSpy}
       ]
@@ -68,7 +69,7 @@ describe('RegistrationComponent', () => {
     });
   }));
 
-  it('should create', async(async () => {
+  it('should be created and displayed correctly', async(async () => {
     expect(fixture.componentInstance).toBeTruthy();
 
     // should display a label and a hint
@@ -82,6 +83,7 @@ describe('RegistrationComponent', () => {
     expect(fixture.componentInstance.registrationForm.valid).toBeFalsy();
 
     // the registration button should be disabled
+    expect(await registrationButton.getText()).toEqual(BUTTON_REGISTER_TEXT);
     expect(await registrationButton.isDisabled()).toBeTruthy();
   }));
 
@@ -92,7 +94,7 @@ describe('RegistrationComponent', () => {
 
     // click the button and check that the service hasn't been called
     await registrationButton.click();
-    expect(authenticationService.signUp).not.toHaveBeenCalled();
+    expect(authenticationServiceSpy.signUp).not.toHaveBeenCalled();
   });
 
   it('should display errors after touching the fields', async () => {
@@ -145,6 +147,6 @@ describe('RegistrationComponent', () => {
     expect(await registrationButton.isDisabled()).toBeFalsy();
 
     await registrationButton.click();
-    expect(authenticationService.signUp).toHaveBeenCalled();
+    expect(authenticationServiceSpy.signUp).toHaveBeenCalled();
   });
 });
