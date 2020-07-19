@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthenticationService} from './identity-management/authentication-service/authentication.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +8,9 @@ import {AuthenticationService} from './identity-management/authentication-servic
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'front-end';
-
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router) {
   }
 
   get loggedUser(): string | null {
@@ -19,5 +20,17 @@ export class AppComponent {
   logOut() {
     this.authenticationService.logOut();
     window.location.reload();
+  }
+
+  navigateToLogIn() {
+    this.router.navigateByUrl('/log-in').then(_ => {});
+  }
+
+  navigateToMyAccount() {
+    this.router.navigateByUrl('/my-account').then(_ => {});
+  }
+
+  navigateToItems() {
+    this.router.navigateByUrl('/browse-items').then(_ => {});
   }
 }
