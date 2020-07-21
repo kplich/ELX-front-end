@@ -32,7 +32,7 @@ export const MINIMUM_PASSWORD_LENGTH_MESSAGE = `The password needs to be at leas
 export const MAXIMUM_PASSWORD_LENGTH = 40;
 export const MAXIMUM_PASSWORD_LENGTH_MESSAGE = `The password needs to be at most ${MAXIMUM_PASSWORD_LENGTH} characters long.`;
 export const PASSWORD_PATTERN_MESSAGE = 'The password needs to have a lowercase and an uppercase letter, a digit and a special character.';
-export const PASSWORD_HINT = `Password has to be ${MINIMUM_PASSWORD_LENGTH}-${MAXIMUM_PASSWORD_LENGTH} characters long, including a lowercase letter, an uppercase letter, a digit and a special character.`;
+export const PASSWORD_HINT = `Password has to be ${MINIMUM_PASSWORD_LENGTH}-${MAXIMUM_PASSWORD_LENGTH} characters long (including a lowercase letter, an uppercase letter, a digit and a special character.)`;
 
 export const BUTTON_REGISTER_TEXT = 'Register';
 
@@ -118,6 +118,40 @@ export class RegistrationComponent implements OnInit {
 
   get password(): FormControl {
     return this.registrationForm.get('password') as FormControl;
+  }
+
+  get usernameNotProvided(): boolean {
+    return this.username.hasError('required');
+  }
+
+  get usernameTooShort(): boolean {
+    return this.username.hasError('minlength');
+  }
+
+  get usernameTooLong(): boolean {
+    return this.username.hasError('maxlength');
+  }
+
+  get usernameDoesntMatchPattern(): boolean {
+    return !this.usernameTooShort && !this.usernameTooLong
+        && this.username.hasError('pattern');
+  }
+
+  get passwordNotProvided(): boolean {
+    return this.password.hasError('required');
+  }
+
+  get passwordTooShort(): boolean {
+    return this.password.hasError('minlength');
+  }
+
+  get passwordTooLong(): boolean {
+    return this.password.hasError('maxlength');
+  }
+
+  get passwordDoesntMatchPattern(): boolean {
+    return !this.passwordTooShort && !this.passwordTooLong
+        && this.password.hasError('pattern');
   }
 
   private get credentials(): Credentials {

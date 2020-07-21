@@ -6,6 +6,7 @@ import {ItemSoldComponent} from './item-sold/item-sold.component';
 import {ItemSoldDescriptionComponent} from './item-sold/item-sold-description/item-sold-description.component';
 import {ItemSoldOfferComponent} from './item-sold/item-sold-offer/item-sold-offer.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SettingsComponent } from './settings/settings.component';
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule
   ],
   exports: [
     MyAccountComponent,
