@@ -27,7 +27,7 @@ export class AuthenticationService {
   changePassword(passwordChangeRequest: PasswordChangeRequest): Observable<HttpResponse<any>> {
     return this.httpClient.post(`${API_URL}/change-password`, passwordChangeRequest, {observe: 'response'}).pipe(
       shareReplay()
-    )
+    );
   }
 
   signUp(credentials: Credentials): Observable<HttpResponse<any>> {

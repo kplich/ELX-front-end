@@ -1,44 +1,44 @@
-import { Component, OnInit } from "@angular/core";
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   FormGroupDirective,
   NgForm,
-  Validators,
-} from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material/core";
-import { AuthenticationService } from "../../identity-management/authentication-service/authentication.service";
-import { PasswordChangeRequest } from "../../identity-management/authentication-service/PasswordChangeRequest";
-import { SnackBarService } from "../../shared/snack-bar-service/snack-bar.service";
-import { HttpErrorResponse } from "@angular/common/http";
-import { Router } from "@angular/router";
+  Validators
+} from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../../identity-management/authentication-service/authentication.service';
+import { PasswordChangeRequest } from '../../identity-management/authentication-service/PasswordChangeRequest';
+import { SnackBarService } from '../../shared/snack-bar-service/snack-bar.service';
 
-export const ACCOUNT_SETTINGS_TITLE = "Account settings";
+export const ACCOUNT_SETTINGS_TITLE = 'Account settings';
 export const ACCOUNT_SETTINGS_DESCRIPTION =
-  "Change password, link your Ethereum wallet, etc.";
+  'Change password, link your Ethereum wallet, etc.';
 
-export const CHANGE_PASSWORD_TITLE = "Change password";
+export const CHANGE_PASSWORD_TITLE = 'Change password';
 
-export const OLD_PASSWORD_LABEL = "Old password";
-export const NEW_PASSWORD_LABEL = "New password";
+export const OLD_PASSWORD_LABEL = 'Old password';
+export const NEW_PASSWORD_LABEL = 'New password';
 export const MINIMUM_PASSWORD_LENGTH = 8;
 export const MAXIMUM_PASSWORD_LENGTH = 40;
 export const NEW_PASSWORD_HINT = `Password has to be ${MINIMUM_PASSWORD_LENGTH}-${MAXIMUM_PASSWORD_LENGTH} characters long (including a lowercase letter, an uppercase letter, a digit and a special character) and different from the old password.`;
-export const OLD_PASSWORD_REQUIRED_MESSAGE = "Old password is required!";
-export const NEW_PASSWORD_REQUIRED_MESSAGE = "New password is required!";
+export const OLD_PASSWORD_REQUIRED_MESSAGE = 'Old password is required!';
+export const NEW_PASSWORD_REQUIRED_MESSAGE = 'New password is required!';
 export const MINIMUM_PASSWORD_LENGTH_MESSAGE = `The password needs to be at least ${MINIMUM_PASSWORD_LENGTH} characters long.`;
 export const MAXIMUM_PASSWORD_LENGTH_MESSAGE = `The password needs to be at most ${MAXIMUM_PASSWORD_LENGTH} characters long.`;
 export const PASSWORD_PATTERN_MESSAGE =
-  "The password needs to have a lowercase and an uppercase letter, a digit and a special character.";
-export const PASSWORDS_EQUAL_MESSAGE = "Passwords can't be equal.";
-export const BUTTON_CHANGE_PASSWORD_TEXT = "Change password";
+  'The password needs to have a lowercase and an uppercase letter, a digit and a special character.';
+export const PASSWORDS_EQUAL_MESSAGE = 'Passwords can\'t be equal.';
+export const BUTTON_CHANGE_PASSWORD_TEXT = 'Change password';
 
-export const PASSWORDS_MATCH_TAG = "passwordsmatch";
+export const PASSWORDS_MATCH_TAG = 'passwordsmatch';
 
-export const INVALID_DATA_MESSAGE = "Invalid request data!";
-export const SERVER_ERROR_MESSAGE = "Server error, try again!";
+export const INVALID_DATA_MESSAGE = 'Invalid request data!';
+export const SERVER_ERROR_MESSAGE = 'Server error, try again!';
 export const PASSWORD_CHANGED_SUCCESSFULLY_MESSAGE =
-  "Changed password successfully!";
+  'Changed password successfully!';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -55,18 +55,18 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 export function passwordsNotEqualValidator(formGroup: FormGroup) {
-  const oldPasswordInput = formGroup.get("oldPasswordInput");
-  const newPasswordInput = formGroup.get("newPasswordInput");
+  const oldPasswordInput = formGroup.get('oldPasswordInput');
+  const newPasswordInput = formGroup.get('newPasswordInput');
 
-  return oldPasswordInput.value != newPasswordInput.value
+  return oldPasswordInput.value !== newPasswordInput.value
     ? null
     : { passwordsmatch: true };
 }
 
 @Component({
-  selector: "app-settings",
-  templateUrl: "./settings.component.html",
-  styleUrls: ["./settings.component.scss"],
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
   passwordChangeMessages = {
@@ -85,18 +85,18 @@ export class SettingsComponent implements OnInit {
     changePasswordButtonText: BUTTON_CHANGE_PASSWORD_TEXT};
 
   // language=JSRegexp
-  containsUppercaseLetterPattern = ".*[A-Z]+.*";
+  containsUppercaseLetterPattern = '.*[A-Z]+.*';
   // language=JSRegexp
-  containsLowercaseLetterPattern = ".*[a-z]+.*";
+  containsLowercaseLetterPattern = '.*[a-z]+.*';
   // language=JSRegexp
-  containsDigitPattern = ".*\\d+.*";
+  containsDigitPattern = '.*\\d+.*';
   // language=JSRegexp
-  containsSpecialCharacterPattern = ".*[\\W_]+.*";
+  containsSpecialCharacterPattern = '.*[\\W_]+.*';
 
   passwordChangeForm: FormGroup = new FormGroup(
     {
-      oldPasswordInput: new FormControl("", [Validators.required]),
-      newPasswordInput: new FormControl("", [
+      oldPasswordInput: new FormControl('', [Validators.required]),
+      newPasswordInput: new FormControl('', [
         Validators.required,
         Validators.pattern(this.containsLowercaseLetterPattern),
         Validators.pattern(this.containsUppercaseLetterPattern),
@@ -124,9 +124,9 @@ export class SettingsComponent implements OnInit {
     this.authenticationService
       .changePassword(this.passwordChangeRequest)
       .subscribe({
-        next: (_) => {
-          this.authenticationService.logOut().then((_) => {
-            this.router.navigateByUrl("/browse-items").then((_) => {
+        next: (resp) => {
+          this.authenticationService.logOut().then((v) => {
+            this.router.navigateByUrl('/browse-items').then((v2) => {
               this.snackBarService.openSnackBar(
                 PASSWORD_CHANGED_SUCCESSFULLY_MESSAGE
               );
@@ -138,11 +138,11 @@ export class SettingsComponent implements OnInit {
   }
 
   get oldPasswordInput(): FormControl {
-    return this.passwordChangeForm.get("oldPasswordInput") as FormControl;
+    return this.passwordChangeForm.get('oldPasswordInput') as FormControl;
   }
 
   get newPasswordInput(): FormControl {
-    return this.passwordChangeForm.get("newPasswordInput") as FormControl;
+    return this.passwordChangeForm.get('newPasswordInput') as FormControl;
   }
 
   get passwordChangeRequest(): PasswordChangeRequest {
@@ -153,26 +153,26 @@ export class SettingsComponent implements OnInit {
   }
 
   get oldPasswordNotProvided(): boolean {
-    return this.oldPasswordInput.hasError("required");
+    return this.oldPasswordInput.hasError('required');
   }
 
   get newPasswordNotProvided(): boolean {
-    return this.newPasswordInput.hasError("required");
+    return this.newPasswordInput.hasError('required');
   }
 
   get newPasswordTooShort(): boolean {
-    return this.newPasswordInput.hasError("minlength");
+    return this.newPasswordInput.hasError('minlength');
   }
 
   get newPasswordTooLong(): boolean {
-    return this.newPasswordInput.hasError("maxlength");
+    return this.newPasswordInput.hasError('maxlength');
   }
 
   get newPasswordDoesntMatchPattern(): boolean {
     return (
       !this.newPasswordTooShort &&
       !this.newPasswordTooLong &&
-      this.newPasswordInput.hasError("pattern")
+      this.newPasswordInput.hasError('pattern')
     );
   }
 
@@ -184,8 +184,8 @@ export class SettingsComponent implements OnInit {
       this.oldPasswordInput.dirty &&
       !this.newPasswordTooShort &&
       !this.newPasswordTooLong &&
-      !this.newPasswordInput.hasError("pattern") &&
-      this.passwordChangeForm.hasError("passwordsmatch")
+      !this.newPasswordInput.hasError('pattern') &&
+      this.passwordChangeForm.hasError('passwordsmatch')
     );
   }
 
