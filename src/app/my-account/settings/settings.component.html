@@ -40,11 +40,13 @@
               {{ passwordPatternMessage }}
             </mat-error>
           </mat-form-field>
-          <button mat-raised-button color="primary" type="submit" [disabled]="passwordChangeForm.invalid">
-            {{ changePasswordButtonText }}
-          </button>
-          <div *ngIf="passwordsAreEqual">
-            {{ passwordsEqualMessage }}
+          <div class=mat-form-button>
+            <button mat-raised-button color="accent" type="submit" [disabled]="passwordChangeForm.invalid">
+              {{ changePasswordButtonText }}
+            </button>
+            <div *ngIf="passwordsAreEqual" class="mat-form-button-error">
+              {{ passwordsEqualMessage }}
+            </div>
           </div>
         </form>
       </div>

@@ -154,7 +154,12 @@ export class SettingsComponent implements OnInit {
   }
 
   get passwordsAreEqual(): boolean {
-    return this.passwordChangeForm.hasError('passwordsmatch');
+    return this.passwordChangeForm.touched
+      && this.passwordChangeForm.dirty
+      && !this.newPasswordTooShort
+      && !this.newPasswordTooLong
+      && !this.newPasswordInput.hasError('patter')
+      && this.passwordChangeForm.hasError('passwordsmatch');
   }
 
   private openSnackBarOnError(errorResponse: HttpErrorResponse) {
