@@ -3,7 +3,7 @@
     <ng-template matTabLabel>
       Sold by me
     </ng-template>
-    <div>
+    <div class="tab-content">
       <item-sold></item-sold>
       <item-sold></item-sold>
       <item-sold></item-sold>
@@ -15,7 +15,7 @@
     <ng-template matTabLabel>
       I want to buy
     </ng-template>
-    <div>
+    <div class="tab-content">
       I want to buy content goes here
     </div>
   </mat-tab>
@@ -23,8 +23,6 @@
     <ng-template matTabLabel>
       Settings
     </ng-template>
-    <div>
-      Settings content goes here
-    </div>
+    <app-settings class="tab-content"></app-settings>
   </mat-tab>
 </mat-tab-group>

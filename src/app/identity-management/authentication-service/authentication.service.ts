@@ -6,6 +6,7 @@ import {JwtResponse} from './JwtResponse';
 import {shareReplay, tap} from 'rxjs/operators';
 import {JwtStorageService} from '../../shared/jwt-storage-service/jwt-storage.service';
 import {Credentials} from './Credentials';
+import { PasswordChangeRequest } from './PasswordChangeRequest';
 
 export const API_URL = `${environment.apiUrl}/auth`;
 
@@ -23,14 +24,20 @@ export class AuthenticationService {
     );
   }
 
+  changePassword(passwordChangeRequest: PasswordChangeRequest): Observable<HttpResponse<any>> {
+    return this.httpClient.post(`${API_URL}/change-password`, passwordChangeRequest, {observe: 'response'}).pipe(
+      shareReplay()
+    );
+  }
+
   signUp(credentials: Credentials): Observable<HttpResponse<any>> {
     return this.httpClient.post(`${API_URL}/sign-up`, credentials, {observe: 'response'}).pipe(
       shareReplay()
     );
   }
 
-  logOut() {
-    this.jwtStorageService.removeJwt();
+  logOut(): Promise<void> {
+    return new Promise(_ => this.jwtStorageService.removeJwt());
   }
 
   get authenticatedUser(): string | null {

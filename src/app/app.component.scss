@@ -1,11 +1,18 @@
 @import '~@angular/material/theming';
+@import 'src/dimens.scss';
+
+:host {
+  height: 100%;
+  display: block;
+}
 
 // TODO: set some minimal height!
-$toolbar-height: 7.5vh;
-$side-padding: 5vw;
+$toolbar-height: $dimen-m;
+$side-padding: 10vw;
 
 .toolbar {
   position: fixed;
+  top: 0;
   height: $toolbar-height;
 
   @include mat-elevation(5);
@@ -14,23 +21,14 @@ $side-padding: 5vw;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-}
 
-.toolbar-logo {
-  height: 100%;
-}
-
-.toolbar-menu > a {
-  margin: 0 15px;
+  .toolbar-logo {
+    height: 100%;
+  }
 }
 
 .app-content {
-  position: fixed;
-  top: $toolbar-height;
-  height: 100vh - $toolbar-height;
-  width: 100vw - 2 * $side-padding;
-
-  padding: 0 $side-padding;
+  padding: $toolbar-height $side-padding 0 $side-padding;
   z-index: 1;
 
   overflow-y: auto;
