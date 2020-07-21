@@ -2,50 +2,50 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{ accountSettingsTitle }}
+        {{ passwordChangeMessages.accountSettingsTitle }}
       </mat-panel-title>
       <mat-panel-description>
-        {{ accountSettingsDescription }}
+        {{ passwordChangeMessages.accountSettingsDescription }}
       </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="settings-section">
-      <div class="settings-section-header">{{ changePasswordTitle }}</div>
+      <div class="settings-section-header">{{ passwordChangeMessages.changePasswordTitle }}</div>
       <div class="settings-section-content password-change-form">
         <form [formGroup]="passwordChangeForm" (submit)="sendPasswordChangeRequest()">
           <mat-form-field id="old-password-form-field" appearance="outline">
             <mat-label>
-              {{ oldPasswordLabel }}
+              {{ passwordChangeMessages.oldPasswordLabel }}
             </mat-label>
             <input matInput type="password" [formControl]="oldPasswordInput" [errorStateMatcher]="errorStateMatcher" />
             <mat-error *ngIf="oldPasswordNotProvided">
-              {{ oldPasswordRequiredMessage }}
+              {{ passwordChangeMessages.oldPasswordRequiredMessage }}
             </mat-error>
           </mat-form-field>
           <mat-form-field id="new-password-form-field" appearance="outline">
-            <mat-label>{{ newPasswordLabel }}</mat-label>
+            <mat-label>{{ passwordChangeMessages.newPasswordLabel }}</mat-label>
             <input matInput type="password"[formControl]="newPasswordInput" />
             <mat-hint *ngIf="!newPasswordInput.touched">
-              {{ newPasswordHint }}
+              {{ passwordChangeMessages.newPasswordHint }}
             </mat-hint>
             <mat-error *ngIf="newPasswordNotProvided">
-              {{ newPasswordRequiredMessage }}
+              {{ passwordChangeMessages.newPasswordRequiredMessage }}
             </mat-error>
             <mat-error *ngIf="newPasswordTooShort">
-              {{ minimumPasswordLengthMessage }}
+              {{ passwordChangeMessages.minimumPasswordLengthMessage }}
             </mat-error>
             <mat-error *ngIf="newPasswordTooLong">
-              {{ maximumPasswordLengthMessage }}
+              {{ passwordChangeMessages.maximumPasswordLengthMessage }}
             </mat-error>
             <mat-error *ngIf="newPasswordDoesntMatchPattern">
-              {{ passwordPatternMessage }}
+              {{ passwordChangeMessages.passwordPatternMessage }}
             </mat-error>
           </mat-form-field>
           <div class=mat-form-button>
-            <button mat-raised-button color="accent" type="submit" [disabled]="passwordChangeForm.invalid">
-              {{ changePasswordButtonText }}
+            <button id="change-password-button" mat-raised-button color="accent" type="submit" [disabled]="passwordChangeForm.invalid">
+              {{ passwordChangeMessages.changePasswordButtonText }}
             </button>
-            <div *ngIf="passwordsAreEqual" class="mat-form-button-error">
-              {{ passwordsEqualMessage }}
+            <div id="change-password-button-error" *ngIf="passwordsAreEqual" class="mat-form-button-error">
+              {{ passwordChangeMessages.passwordsEqualMessage }}
             </div>
           </div>
         </form>
