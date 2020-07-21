@@ -1,0 +1,40 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{accountSettingsTitle}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{accountSettingsDescription}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div>
+      <div class="settings-section">
+        <div class="settings-section-header">{{changePasswordTitle}}</div>
+        <div class="settings-section-content password-change-form">
+          <form>
+            <mat-form-field appearance="outline">
+              <mat-label>
+                {{oldPasswordLabel}}
+              </mat-label>
+              <input matInput [type]="'password'">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>
+                {{newPasswordLabel}}
+              </mat-label>
+              <input matInput [type]="'password'">
+            </mat-form-field>
+            <button mat-raised-button color="primary">{{changePasswordButtonText}}</button>
+          </form>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="settings-section">
+        <div class="settings-section-header">Dummy section</div>
+        <div>no content here</div>>
+      </div>
+    </div>
+
+  </mat-expansion-panel>
+</mat-accordion>

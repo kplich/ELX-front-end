@@ -1,0 +1,40 @@
+.settings-section {
+  .settings-section-header {
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .settings-section-content {
+    margin-left: 10px;
+
+    .notifications-notice {
+      font-size: 0.9em;
+      font-style: italic;
+    }
+  }
+}
+
+mat-divider {
+  margin: 10px 0;
+}
+
+.password-change-form {
+  form {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    mat-form-field {
+      min-width: 300px;
+    }
+  }
+}
+
+.account-settings-form {
+  width: 100%;
+}
+
+.mat-expansion-panel-header-description {
+  justify-content: flex-end;
+}
