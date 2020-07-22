@@ -76,7 +76,7 @@ export class LoggingInComponent implements OnInit {
   }
 
   private openErrorSnackBar(errorResponse: HttpErrorResponse) {
-    if (errorResponse.status === 401 || errorResponse.status === 400) {
+    if (errorResponse.status === 403) {
       this.snackBarService.openSnackBar(INCORRECT_USERNAME_OR_PASSWORD_MESSAGE);
     }
     else {
