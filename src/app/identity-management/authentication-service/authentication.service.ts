@@ -5,12 +5,10 @@ import {Observable} from 'rxjs';
 import {shareReplay, tap} from 'rxjs/operators';
 import {JwtStorageService} from '../../shared/jwt-storage-service/jwt-storage.service';
 import {Credentials} from './Credentials';
-import { PasswordChangeRequest } from './PasswordChangeRequest';
+import {PasswordChangeRequest} from './PasswordChangeRequest';
+import {AUTHORIZATION, BEARER} from '../../routing/jwt-interceptor/jwt.interceptor';
 
 export const API_URL = `${environment.apiUrl}/auth`;
-
-export const AUTHORIZATION = 'AUTHORIZATION';
-export const BEARER_WHITESPACE = 'Bearer ';
 
 @Injectable({
   providedIn: 'root'
@@ -24,13 +22,10 @@ export class AuthenticationService {
   }
 
   private static getTokenFromResponse(response: HttpResponse<any>): string {
-    console.log(response);
-
     const header = response.headers.get(AUTHORIZATION);
-    console.log(header);
 
-    if (header.startsWith(BEARER_WHITESPACE)) {
-      return header.replace(BEARER_WHITESPACE, '');
+    if (header.startsWith(BEARER)) {
+      return header.replace(BEARER, '').trim();
     } else {
       throw new Error('Bearer JSON Web Token required!');
     }
