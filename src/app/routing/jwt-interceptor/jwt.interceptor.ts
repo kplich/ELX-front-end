@@ -3,6 +3,9 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 import {Observable} from 'rxjs';
 import {JwtStorageService} from '../../shared/jwt-storage-service/jwt-storage.service';
 
+export const AUTHORIZATION = 'Authorization';
+export const BEARER = 'Bearer';
+
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
@@ -12,7 +15,7 @@ export class JwtInterceptor implements HttpInterceptor {
     if (this.jwtService.getJwt() != null) {
       const jwt = this.jwtService.getJwt();
       return next.handle(request.clone({
-        headers: request.headers.set('Authorization', `Bearer ${jwt}`)
+        headers: request.headers.set(AUTHORIZATION, `${BEARER} ${jwt}`)
       }));
     }
 
