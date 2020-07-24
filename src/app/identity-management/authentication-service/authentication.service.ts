@@ -24,6 +24,10 @@ export class AuthenticationService {
   private static getTokenFromResponse(response: HttpResponse<any>): string {
     const header = response.headers.get(AUTHORIZATION);
 
+    if (header === null) {
+      throw new Error('Authorization token not found!');
+    }
+
     if (header.startsWith(BEARER)) {
       return header.replace(BEARER, '').trim();
     } else {
