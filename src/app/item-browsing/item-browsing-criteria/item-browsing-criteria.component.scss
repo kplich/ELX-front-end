@@ -1,16 +1,5 @@
 @import 'node_modules/@angular/material/theming';
 
-.search-container {
-  @include mat-elevation(3);
-  z-index: 3;
-
-  margin: 0 20vw;
-  padding: 10px;
-
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
 .search-container-row {
   display: flex;
   flex-flow: row nowrap;

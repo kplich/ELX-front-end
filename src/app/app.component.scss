@@ -6,9 +6,8 @@
   display: block;
 }
 
-// TODO: set some minimal height!
 $toolbar-height: $dimen-m;
-$side-padding: 10vw;
+$side-padding: 15vw;
 
 .toolbar {
   position: fixed;
@@ -28,8 +27,7 @@ $side-padding: 10vw;
 }
 
 .app-content {
-  padding: $toolbar-height $side-padding 0 $side-padding;
-  z-index: 1;
-
+  padding: $toolbar-height $side-padding $dimen-xs $side-padding;
   overflow-y: auto;
+  height: 100%;
 }

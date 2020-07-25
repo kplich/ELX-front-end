@@ -5,7 +5,7 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './routing/app-routing.module';
 import {MaterialModule} from './material/material.module';
-import {ItemBrowsingModule} from './item-browsing/item-browsing.module';
+import {ItemsModule} from './item-browsing/items.module';
 import {MyAccountModule} from './my-account/my-account.module';
 import {OfferModule} from './offer/offer.module';
 import {IdentityManagementModule} from './identity-management/identity-management.module';
@@ -21,7 +21,7 @@ import {HttpClientModule} from '@angular/common/http';
     AppRoutingModule,
     MaterialModule,
     IdentityManagementModule,
-    ItemBrowsingModule,
+    ItemsModule,
     MyAccountModule,
     OfferModule,
     HttpClientModule

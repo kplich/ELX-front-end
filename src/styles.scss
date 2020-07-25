@@ -41,7 +41,10 @@ html {
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 // allows hints in inputs to be shown in full and not be hidden by other elements
 mat-form-field {
@@ -52,4 +55,12 @@ mat-form-field {
 
 .mat-tab-body-content {
   padding: $dimen-s;
+}
+
+// TODO: extract this to a proper theme mixin?
+.simple-card {
+  @include mat-elevation(3);
+  z-index: 3;
+  border-radius: 0 0 $dimen-xxs $dimen-xxs;
+  padding: $dimen-xs;
 }

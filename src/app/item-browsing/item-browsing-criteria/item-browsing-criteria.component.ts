@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'item-browsing-criteria',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./item-browsing-criteria.component.scss']
 })
 export class ItemBrowsingCriteriaComponent implements OnInit {
+
+  criteriaForm: FormGroup = new FormGroup({});
 
   constructor() { }
 

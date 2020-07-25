@@ -14,10 +14,6 @@
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
 
-  .item-description {
-    background-color: mat-color($accent, 400);
-  }
-
   .offer-conversation {
     background-color: mat-color($primary, 100);
   }

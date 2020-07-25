@@ -1,0 +1,59 @@
+<div class="item-header simple-card">
+  <div class="item-header-row">
+    <span class="item-title">{{item?.title}}</span>
+    <span class="item-price">{{item?.price}} ETH</span>
+  </div>
+  <div class="item-header-row">
+    <div class="item-details">
+      <span *ngIf="item.usedStatus !== 'NOT_APPLICABLE'" class="item-detail">{{item?.usedStatus}}</span>
+      <span class="item-detail">Category: {{item?.category}}</span>
+    </div>
+    <div class="item-actions">
+      <button mat-raised-button color="primary">Send message</button>
+      <button mat-raised-button color="accent">Send offer</button>
+    </div>
+
+  </div>
+</div>
+<div class="item-content">
+  <div class="item-photos">
+    <mat-carousel
+      timings="250ms ease-in"
+      [autoplay]="false"
+      color="primary"
+      [loop]="true"
+      [hideArrows]="false"
+      [hideIndicators]="false"
+      [maxWidth]="'100%'"
+      [useKeyboard]="false"
+      [useMouseWheel]="false"
+      [maintainAspectRatio]="false"
+      orientation="ltr">
+      <mat-carousel-slide
+        *ngFor="let url of safePhotoUrls; let i = index"
+        overlayColor="#00000000"
+        [hideOverlay]="false">
+        <div class="item-photo">
+          <img [src]="url">
+        </div>
+      </mat-carousel-slide>
+    </mat-carousel>
+  </div>
+  <div class="item-description-and-seller">
+    <div class="item-seller">
+      <div>
+        Sold by <a>{{item?.addedBy}}</a>
+      </div>
+      <div>
+        Added {{item?.added | date}}
+      </div>
+    </div>
+    <div>
+      {{item?.description}}
+    </div>
+
+  </div>
+</div>
+
+
+
