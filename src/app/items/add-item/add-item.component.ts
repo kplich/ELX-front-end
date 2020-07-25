@@ -21,6 +21,14 @@ export const ITEM_DESCRIPTION_TOO_SHORT_MESSAGE = `Item description must be long
 export const ITEM_DESCRIPTION_TOO_LONG_MESSAGE = `Item description must not be longer than ${ITEM_DESCRIPTION_MAXIMUM_LENGTH} characters.`;
 export const ITEM_DESCRIPTION_HINT = 'Describe in detail the item being sold. Usually, the longer the better, although bear in mind that not everyone might want to read an essay here ;).';
 
+export const ITEM_PRICE_LABEL = 'Item price';
+export const ITEM_PRICE_REQUIRED_MESSAGE = 'Item price is required!';
+export const ITEM_PRICE_MINIMUM = 0;
+export const ITEM_PRICE_MAXIMUM = 100_000_000;
+export const ITEM_PRICE_NEGATIVE_MESSAGE = 'Item price cannot be negative!';
+export const ITEM_PRICE_TOO_HIGH_MESSAGE = `Item price cannot be greater than ${ITEM_PRICE_MAXIMUM} Ξ`;
+export const ITEM_PRICE_HINT = 'Desired price of item in Ξ with accuracy of 0.0001 Ξ (around 0.02 €).';
+
 
 @Component({
   selector: 'app-add-item',
@@ -34,7 +42,7 @@ export class AddItemComponent implements OnInit {
 
   strings = {
     formHeader: ADD_ITEM_FORM_HEADER,
-    itemTitle: {
+    title: {
       label: ITEM_TITLE_LABEL,
       required: ITEM_TITLE_REQUIRED_MESSAGE,
       tooShort: ITEM_TITLE_TOO_SHORT_MESSAGE,
@@ -42,7 +50,14 @@ export class AddItemComponent implements OnInit {
       illegalSymbols: ITEM_TITLE_ILLEGAL_SYMBOLS_MESSAGE,
       hint: ITEM_TITLE_HINT
     },
-    itemDescription: {
+    price: {
+      label: ITEM_PRICE_LABEL,
+      required: ITEM_PRICE_REQUIRED_MESSAGE,
+      negative: ITEM_PRICE_NEGATIVE_MESSAGE,
+      tooHigh: ITEM_PRICE_TOO_HIGH_MESSAGE,
+      hint: ITEM_PRICE_HINT
+    },
+    description: {
       label: ITEM_DESCRIPTION_LABEL,
       required: ITEM_DESCRIPTION_REQUIRED_MESSAGE,
       tooShort: ITEM_DESCRIPTION_TOO_SHORT_MESSAGE,
@@ -52,13 +67,18 @@ export class AddItemComponent implements OnInit {
   };
 
   newItemFormGroup: FormGroup = new FormGroup({
-    itemTitle: new FormControl('', [
+    title: new FormControl('', [
       Validators.required,
       Validators.minLength(ITEM_TITLE_MINIMUM_LENGTH),
       Validators.maxLength(ITEM_TITLE_MAXIMUM_LENGTH),
       Validators.pattern(this.itemTitleSymbolsPattern)
     ]),
-    itemDescription: new FormControl('', [
+    price: new FormControl(0, [
+      Validators.required,
+      Validators.min(ITEM_PRICE_MINIMUM),
+      Validators.max(ITEM_PRICE_MAXIMUM)
+    ]),
+    description: new FormControl('', [
       Validators.required,
       Validators.minLength(ITEM_DESCRIPTION_MINIMUM_LENGTH),
       Validators.maxLength(ITEM_DESCRIPTION_MAXIMUM_LENGTH)
@@ -72,45 +92,63 @@ export class AddItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // item title
+  // title
 
-  get itemTitleInput(): FormControl {
-    return this.newItemFormGroup.get('itemTitle') as FormControl;
+  get titleInput(): FormControl {
+    return this.newItemFormGroup.get('title') as FormControl;
   }
 
-  get itemTitleNotProvided(): boolean {
-    return this.itemTitleInput.hasError('required');
+  get titleNotProvided(): boolean {
+    return this.titleInput.hasError('required');
   }
 
-  get itemTitleTooShort(): boolean {
-    return this.itemTitleInput.hasError('minlength');
+  get titleTooShort(): boolean {
+    return this.titleInput.hasError('minlength');
   }
 
-  get itemTitleTooLong(): boolean {
-    return this.itemTitleInput.hasError('maxlength');
+  get titleTooLong(): boolean {
+    return this.titleInput.hasError('maxlength');
   }
 
-  get itemTitleDoesntMatchPattern(): boolean {
-    return !this.itemTitleTooShort && !this.itemTitleTooLong
-      && this.itemTitleInput.hasError('pattern');
+  get titleDoesntMatchPattern(): boolean {
+    return !this.titleTooShort && !this.titleTooLong
+      && this.titleInput.hasError('pattern');
   }
 
-  // item description
+  // price
 
-  get itemDescriptionInput(): FormControl {
-    return this.newItemFormGroup.get('itemDescription') as FormControl;
+  get priceInput(): FormControl {
+    return this.newItemFormGroup.get('price') as FormControl;
   }
 
-  get itemDescriptionNotProvided(): boolean {
-    return this.itemDescriptionInput.hasError('required');
+  get priceNotProvided(): boolean {
+    return this.priceInput.hasError('required');
   }
 
-  get itemDescriptionTooShort(): boolean {
-    return this.itemDescriptionInput.hasError('minlength');
+  get priceIsNegative(): boolean {
+    return this.priceInput.hasError('min');
   }
 
-  get itemDescriptionTooLong(): boolean {
-    return this.itemDescriptionInput.hasError('maxlength');
+  get priceIsTooHigh(): boolean {
+    return this.priceInput.hasError('max');
+  }
+
+  // description
+
+  get descriptionInput(): FormControl {
+    return this.newItemFormGroup.get('description') as FormControl;
+  }
+
+  get descriptionNotProvided(): boolean {
+    return this.descriptionInput.hasError('required');
+  }
+
+  get descriptionTooShort(): boolean {
+    return this.descriptionInput.hasError('minlength');
+  }
+
+  get descriptionTooLong(): boolean {
+    return this.descriptionInput.hasError('maxlength');
   }
 
 }

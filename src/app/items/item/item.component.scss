@@ -43,6 +43,10 @@
   .item-actions > * {
     margin: 0 $dimen-xs;
   }
+
+  .item-actions > *:last-of-type {
+    margin: 0;
+  }
 }
 
 .item-content {

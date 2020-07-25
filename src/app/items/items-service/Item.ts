@@ -1,6 +1,8 @@
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
 export class Item {
+  public static readonly ETH_SYMBOL = 'Ξ';
+
   public readonly title: string;
   public readonly description: string;
   public readonly price: number;
@@ -9,6 +11,7 @@ export class Item {
   public readonly category: string;
   public readonly usedStatus: string;
   public readonly photoUrls: string[];
+  public readonly closed: Date | null;
 
   constructor(resp: ItemResponse) {
     this.title = resp.title;
@@ -19,10 +22,15 @@ export class Item {
     this.category = resp.category;
     this.usedStatus = resp.usedStatus;
     this.photoUrls = resp.photoUrls;
+    this.closed = resp.closed !== null ? new Date(resp.closed) : null;
   }
 
   public getSafePhotoUrls(domSanitizer: DomSanitizer): SafeUrl[] {
     return this.photoUrls.map(url => domSanitizer.bypassSecurityTrustUrl(url));
+  }
+
+  public get formattedPrice(): string {
+    return `${this.price} ${Item.ETH_SYMBOL}`;
   }
 }
 
@@ -38,6 +46,7 @@ export interface ItemResponse {
   readonly category: string;
   readonly usedStatus: string;
   readonly photoUrls: string[];
+  readonly closed: string | null;
 }
 
 export interface NewItemRequest {

@@ -3,34 +3,49 @@
 </h1>
 <form [formGroup]="newItemFormGroup">
   <mat-form-field appearance="outline">
-    <mat-label>{{strings.itemTitle.label}}</mat-label>
-    <input matInput type="text" [formControl]="itemTitleInput" [errorStateMatcher]="errorStateMatcher">
-    <mat-hint>{{strings.itemTitle.hint}}</mat-hint>
-    <mat-error *ngIf="itemTitleNotProvided">
-      {{strings.itemTitle.required}}
+    <mat-label>{{strings.title.label}}</mat-label>
+    <input matInput type="text" [formControl]="titleInput" [errorStateMatcher]="errorStateMatcher">
+    <mat-hint>{{strings.title.hint}}</mat-hint>
+    <mat-error *ngIf="titleNotProvided">
+      {{strings.title.required}}
     </mat-error>
-    <mat-error *ngIf="itemTitleTooShort">
-      {{strings.itemTitle.tooShort}}
+    <mat-error *ngIf="titleTooShort">
+      {{strings.title.tooShort}}
     </mat-error>
-    <mat-error *ngIf="itemTitleTooLong">
-      {{strings.itemTitle.tooLong}}
+    <mat-error *ngIf="titleTooLong">
+      {{strings.title.tooLong}}
     </mat-error>
-    <mat-error *ngIf="itemTitleDoesntMatchPattern">
-      {{strings.itemTitle.illegalSymbols}}
+    <mat-error *ngIf="titleDoesntMatchPattern">
+      {{strings.title.illegalSymbols}}
     </mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline">
-    <mat-label>{{strings.itemDescription.label}}</mat-label>
-    <textarea matInput [formControl]="itemDescriptionInput" [errorStateMatcher]="errorStateMatcher"></textarea>
-    <mat-hint>{{strings.itemDescription.hint}}</mat-hint>
-    <mat-error *ngIf="itemDescriptionNotProvided">
-      {{strings.itemDescription.required}}
+    <mat-label>{{strings.price.label}}</mat-label>
+    <input matInput type="number" step="0.0001" [formControl]="priceInput" [errorStateMatcher]="errorStateMatcher">
+    <span matSuffix>Ξ</span>
+    <mat-hint>{{strings.price.hint}}</mat-hint>
+    <mat-error *ngIf="priceNotProvided">
+      {{strings.price.required}}
     </mat-error>
-    <mat-error *ngIf="itemDescriptionTooShort">
-      {{strings.itemDescription.tooShort}}
+    <mat-error *ngIf="priceIsNegative">
+      {{strings.price.negative}}
     </mat-error>
-    <mat-error *ngIf="itemDescriptionTooLong">
-      {{strings.itemDescription.tooLong}}
+    <mat-error *ngIf="priceIsTooHigh">
+      {{strings.price.tooHigh}}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>{{strings.description.label}}</mat-label>
+    <textarea matInput [formControl]="descriptionInput" [errorStateMatcher]="errorStateMatcher"></textarea>
+    <mat-hint>{{strings.description.hint}}</mat-hint>
+    <mat-error *ngIf="descriptionNotProvided">
+      {{strings.description.required}}
+    </mat-error>
+    <mat-error *ngIf="descriptionTooShort">
+      {{strings.description.tooShort}}
+    </mat-error>
+    <mat-error *ngIf="descriptionTooLong">
+      {{strings.description.tooLong}}
     </mat-error>
   </mat-form-field>
 </form>

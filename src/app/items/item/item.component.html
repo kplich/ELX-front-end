@@ -1,16 +1,20 @@
 <div class="item-header simple-card">
   <div class="item-header-row">
     <span class="item-title">{{item?.title}}</span>
-    <span class="item-price">{{item?.price}} ETH</span>
+    <span class="item-price">{{item?.formattedPrice}}</span>
   </div>
   <div class="item-header-row">
     <div class="item-details">
       <span *ngIf="item.usedStatus !== 'NOT_APPLICABLE'" class="item-detail">{{item?.usedStatus}}</span>
-      <span class="item-detail">Category: {{item?.category}}</span>
+      <span class="item-detail">{{strings.category}}: {{item?.category}}</span>
     </div>
-    <div class="item-actions">
-      <button mat-raised-button color="primary">Send message</button>
-      <button mat-raised-button color="accent">Send offer</button>
+    <div *ngIf="item?.closed === null" class="item-actions">
+      <button mat-raised-button>{{strings.buttons.sendMessage}}</button>
+      <button mat-raised-button color="primary">{{strings.buttons.sendOffer}}</button>
+      <button mat-raised-button color="accent">{{strings.buttons.acceptOffer}}</button>
+    </div>
+    <div *ngIf="item?.closed !== null">
+      {{strings.offerClosed}} {{item?.closed | date}}
     </div>
 
   </div>
@@ -42,10 +46,10 @@
   <div class="item-description-and-seller">
     <div class="item-seller">
       <div>
-        Sold by <a>{{item?.addedBy}}</a>
+        {{strings.offeredBy}} <a>{{item?.addedBy}}</a>
       </div>
       <div>
-        Added {{item?.added | date}}
+        {{strings.added}} {{item?.added | date}}
       </div>
     </div>
     <div>
