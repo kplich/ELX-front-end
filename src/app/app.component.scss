@@ -7,7 +7,8 @@
 }
 
 $toolbar-height: $dimen-m;
-$side-padding: 15vw;
+$max-width: 1080px;
+$side-padding: calc((100% - #{$max-width}) / 2);
 
 .toolbar {
   position: fixed;
@@ -27,7 +28,8 @@ $side-padding: 15vw;
 }
 
 .app-content {
-  padding: $toolbar-height $side-padding $dimen-xs $side-padding;
+  width: 100%;
+  padding: $toolbar-height $side-padding $dimen-xs;
   overflow-y: auto;
   height: 100%;
 }

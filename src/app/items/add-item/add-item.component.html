@@ -3,7 +3,7 @@
 </h1>
 <form [formGroup]="newItemFormGroup" (submit)="sendRequestToAddItem()">
   <div class="form-fields">
-    <mat-form-field class="field-wide" appearance="outline" [color]="'accent'">
+    <mat-form-field class="title-field" appearance="outline" [color]="'accent'">
       <mat-label>{{strings.title.label}}</mat-label>
       <input matInput type="text" [formControl]="titleInput" [errorStateMatcher]="errorStateMatcher">
       <mat-hint>{{strings.title.hint}}</mat-hint>
@@ -20,7 +20,7 @@
         {{strings.title.illegalSymbols}}
       </mat-error>
     </mat-form-field>
-    <mat-form-field class="field-narrow" appearance="outline">
+    <mat-form-field class="price-field" appearance="outline">
       <mat-label>{{strings.price.label}}</mat-label>
       <input matInput type="number" step="0.0001" [formControl]="priceInput" [errorStateMatcher]="errorStateMatcher">
       <span matSuffix>Ξ</span>
@@ -35,7 +35,7 @@
         {{strings.price.tooHigh}}
       </mat-error>
     </mat-form-field>
-    <mat-form-field class="field-narrow" appearance="outline">
+    <mat-form-field class="status-field" appearance="outline">
       <mat-label>{{strings.usedStatus.label}}</mat-label>
       <mat-select
         [required]="true"
@@ -56,7 +56,7 @@
         {{strings.usedStatus.required}}
       </mat-error>
     </mat-form-field>
-    <mat-form-field class="field-narrow" appearance="outline">
+    <mat-form-field class="category-field" appearance="outline">
       <mat-label>{{strings.category.label}}</mat-label>
       <mat-select
         [required]="true"
@@ -71,7 +71,7 @@
         {{strings.category.required}}
       </mat-error>
     </mat-form-field>
-    <mat-form-field class="field-wide" appearance="outline" [color]="'accent'">
+    <mat-form-field class="description-field" appearance="outline" [color]="'accent'">
       <mat-label>{{strings.description.label}}</mat-label>
       <textarea matInput [formControl]="descriptionInput" [errorStateMatcher]="errorStateMatcher"></textarea>
       <mat-hint>{{strings.description.hint}}</mat-hint>

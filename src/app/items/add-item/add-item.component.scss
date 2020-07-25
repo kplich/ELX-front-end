@@ -24,13 +24,20 @@ form {
     flex-flow: row wrap;
     justify-content: space-between;
 
-    .field-wide {
-      width: 100%;
+    .title-field {
+      width: 60%;
     }
 
-    .field-narrow {
-      width: 30%;
-      min-width: 150px;
+    .price-field {
+      width: 35%;
+    }
+
+    .status-field, .category-field {
+      width: 47.5%;
+    }
+
+    .description-field {
+      width: 100%;
     }
   }
 

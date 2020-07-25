@@ -1,3 +1,4 @@
+import {DragDropModule} from '@angular/cdk/drag-drop';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
@@ -12,11 +13,13 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    DragDropModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
@@ -28,9 +31,11 @@ import {MatRadioModule} from '@angular/material/radio';
     MatDividerModule,
     MatSnackBarModule,
     MatExpansionModule,
-    MatRadioModule
+    MatRadioModule,
+    MatProgressBarModule
   ],
   exports: [
+    DragDropModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
@@ -42,7 +47,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MatDividerModule,
     MatSnackBarModule,
     MatExpansionModule,
-    MatRadioModule
+    MatRadioModule,
+    MatProgressBarModule
   ]
 })
 export class MaterialModule { }
