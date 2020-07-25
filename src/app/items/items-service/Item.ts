@@ -26,7 +26,6 @@ export class Item {
   }
 }
 
-
 /**
  * Interface for a response from back end.
  */
@@ -38,5 +37,14 @@ export interface ItemResponse {
   readonly added: string;
   readonly category: string;
   readonly usedStatus: string;
+  readonly photoUrls: string[];
+}
+
+export interface NewItemRequest {
+  readonly title: string;
+  readonly description: string;
+  readonly price: number;
+  readonly category: number;
+  readonly usedStatus: number;
   readonly photoUrls: string[];
 }

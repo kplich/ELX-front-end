@@ -8,10 +8,12 @@ import {LoggingInComponent} from '../identity-management/logging-in/logging-in.c
 import {RegistrationComponent} from '../identity-management/registration/registration.component';
 import {LoggedInGuard} from './logged-in-guard/logged-in.guard';
 import {ItemComponent} from '../items/item/item.component';
+import {AddItemComponent} from '../items/add-item/add-item.component';
 
 const routes: Routes = [
   {path: 'log-in', component: LoggingInComponent},
   {path: 'register', component: RegistrationComponent},
+  {path: 'add-item', component: AddItemComponent},
   {path: 'browse-items', component: ItemBrowsingComponent},
   {path: 'item/:id', component: ItemComponent},
   {path: 'my-account', component: MyAccountComponent, canActivate: [LoggedInGuard]},

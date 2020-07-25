@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AuthenticationService} from './identity-management/authentication-service/authentication.service';
 import {Router} from '@angular/router';
 
+export const ADD_ITEM = 'Add item';
 export const BUTTON_BROWSE_ITEMS_TEXT = 'Browse items';
 export const BUTTON_MY_ACCOUNT_TEXT = 'My account';
 export const BUTTON_LOG_OUT_TEXT = 'Log out';
@@ -23,6 +24,11 @@ export class AppComponent {
    */
     // tslint:disable-next-line:variable-name
   private _toolbarLinks: ToolbarLink[] = [
+    {
+      displayedName: ADD_ITEM,
+      function: 'navigateToAddItem',
+      authenticationRequired: true
+    },
     {
       displayedName: BUTTON_BROWSE_ITEMS_TEXT,
       function: 'navigateToItems',
@@ -71,26 +77,27 @@ export class AppComponent {
 
   // noinspection JSUnusedLocalSymbols - called from template using callFunction
   private logOut() {
-    this.authenticationService.logOut();
-    window.location.reload();
+    this.authenticationService.logOut().then(_ => window.location.reload());
   }
 
   // noinspection JSUnusedLocalSymbols - called from template using callFunction
   private navigateToLogIn() {
-    this.router.navigateByUrl('/log-in').then(_ => {
-    });
+    this.router.navigateByUrl('/log-in').then(_ => {});
   }
 
   // noinspection JSUnusedLocalSymbols - called from template using callFunction
   private navigateToMyAccount() {
-    this.router.navigateByUrl('/my-account').then(_ => {
-    });
+    this.router.navigateByUrl('/my-account').then(_ => {});
   }
 
   // noinspection JSUnusedLocalSymbols - called from template using callFunction
   private navigateToItems() {
-    this.router.navigateByUrl('/browse-items').then(_ => {
-    });
+    this.router.navigateByUrl('/browse-items').then(_ => {});
+  }
+
+  // noinspection JSUnusedLocalSymbols - called from template using callFunction
+  private navigateToAddItem() {
+    this.router.navigateByUrl('/add-item').then(_ => {});
   }
 }
 

@@ -1,17 +1,12 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormGroupDirective,
-  NgForm,
-  Validators
-} from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { Router } from '@angular/router';
-import { AuthenticationService } from '../../identity-management/authentication-service/authentication.service';
-import { PasswordChangeRequest } from '../../identity-management/authentication-service/PasswordChangeRequest';
-import { SnackBarService } from '../../shared/snack-bar-service/snack-bar.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ErrorStateMatcher} from '@angular/material/core';
+import {Router} from '@angular/router';
+import {AuthenticationService} from '../../identity-management/authentication-service/authentication.service';
+import {PasswordChangeRequest} from '../../identity-management/authentication-service/PasswordChangeRequest';
+import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
+import {MyErrorStateMatcher} from '../../shared/MyErrorStateMatcher';
 
 export const ACCOUNT_SETTINGS_TITLE = 'Account settings';
 export const ACCOUNT_SETTINGS_DESCRIPTION =
@@ -33,26 +28,10 @@ export const PASSWORD_PATTERN_MESSAGE =
 export const PASSWORDS_EQUAL_MESSAGE = 'Passwords can\'t be equal.';
 export const BUTTON_CHANGE_PASSWORD_TEXT = 'Change password';
 
-export const PASSWORDS_MATCH_TAG = 'passwordsmatch';
-
 export const INVALID_DATA_MESSAGE = 'Invalid request data!';
 export const SERVER_ERROR_MESSAGE = 'Server error, try again!';
 export const PASSWORD_CHANGED_SUCCESSFULLY_MESSAGE =
   'Changed password successfully!';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
-}
 
 export function passwordsNotEqualValidator(formGroup: FormGroup) {
   const oldPasswordInput = formGroup.get('oldPasswordInput');
@@ -124,9 +103,9 @@ export class SettingsComponent implements OnInit {
     this.authenticationService
       .changePassword(this.passwordChangeRequest)
       .subscribe({
-        next: (resp) => {
-          this.authenticationService.logOut().then((v) => {
-            this.router.navigateByUrl('/browse-items').then((v2) => {
+        next: () => {
+          this.authenticationService.logOut().then(() => {
+            this.router.navigateByUrl('/browse-items').then(() => {
               this.snackBarService.openSnackBar(
                 PASSWORD_CHANGED_SUCCESSFULLY_MESSAGE
               );

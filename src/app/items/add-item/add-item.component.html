@@ -1,1 +1,36 @@
-<p>add-item works!</p>
+<h1>
+  {{strings.formHeader}}
+</h1>
+<form [formGroup]="newItemFormGroup">
+  <mat-form-field appearance="outline">
+    <mat-label>{{strings.itemTitle.label}}</mat-label>
+    <input matInput type="text" [formControl]="itemTitleInput" [errorStateMatcher]="errorStateMatcher">
+    <mat-hint>{{strings.itemTitle.hint}}</mat-hint>
+    <mat-error *ngIf="itemTitleNotProvided">
+      {{strings.itemTitle.required}}
+    </mat-error>
+    <mat-error *ngIf="itemTitleTooShort">
+      {{strings.itemTitle.tooShort}}
+    </mat-error>
+    <mat-error *ngIf="itemTitleTooLong">
+      {{strings.itemTitle.tooLong}}
+    </mat-error>
+    <mat-error *ngIf="itemTitleDoesntMatchPattern">
+      {{strings.itemTitle.illegalSymbols}}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>{{strings.itemDescription.label}}</mat-label>
+    <textarea matInput [formControl]="itemDescriptionInput" [errorStateMatcher]="errorStateMatcher"></textarea>
+    <mat-hint>{{strings.itemDescription.hint}}</mat-hint>
+    <mat-error *ngIf="itemDescriptionNotProvided">
+      {{strings.itemDescription.required}}
+    </mat-error>
+    <mat-error *ngIf="itemDescriptionTooShort">
+      {{strings.itemDescription.tooShort}}
+    </mat-error>
+    <mat-error *ngIf="itemDescriptionTooLong">
+      {{strings.itemDescription.tooLong}}
+    </mat-error>
+  </mat-form-field>
+</form>

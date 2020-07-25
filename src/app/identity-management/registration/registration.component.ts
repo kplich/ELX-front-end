@@ -1,20 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {AuthenticationService} from '../authentication-service/authentication.service';
 import {Credentials} from '../authentication-service/Credentials';
 import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
 import {Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
-
-// https://material.angular.io/components/input/overview#changing-when-error-messages-are-shown
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+import {MyErrorStateMatcher} from '../../shared/MyErrorStateMatcher';
 
 export const USERNAME_LABEL = 'Username';
 export const USERNAME_REQUIRED_MESSAGE = 'A username is required!';
