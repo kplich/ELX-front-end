@@ -1,7 +1,7 @@
 @import 'src/dimens.scss';
 
 h1 {
-  margin-top: $dimen-xs;
+  margin-top: $dimen-s;
 }
 
 form {
@@ -18,7 +18,25 @@ form {
     -moz-appearance: textfield;
   }
 
+  .form-fields {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+
+    .field-wide {
+      width: 100%;
+    }
+
+    .field-narrow {
+      width: 30%;
+      min-width: 150px;
+    }
+  }
+
+  .form-actions {
+    text-align: end;
+  }
+
   width: 100%;
-  display: flex;
-  flex-flow: row wrap;
 }

@@ -9,9 +9,31 @@ export const ITEM_TITLE_REQUIRED_MESSAGE = 'Item title is required!';
 export const ITEM_TITLE_MINIMUM_LENGTH = 10;
 export const ITEM_TITLE_MAXIMUM_LENGTH = 80;
 export const ITEM_TITLE_TOO_SHORT_MESSAGE = `Item title must be longer than ${ITEM_TITLE_MINIMUM_LENGTH} characters.`;
-export const ITEM_TITLE_TOO_LONG_MESSAGE = `Item title must not be longer than ${ITEM_TITLE_MAXIMUM_LENGTH} characters`;
-export const ITEM_TITLE_ILLEGAL_SYMBOLS_MESSAGE = 'Item title cannot contain following symbols: ! @ # $ ^ * = { } \\ < > ?';
+export const ITEM_TITLE_TOO_LONG_MESSAGE = `Item title must not be longer than ${ITEM_TITLE_MAXIMUM_LENGTH} characters.`;
+export const ITEM_TITLE_ILLEGAL_SYMBOLS_MESSAGE = 'Item title cannot contain following symbols: ! @ # $ ^ * = { } \\ < > ?.';
 export const ITEM_TITLE_HINT = `Item title should briefly describe the item sold. Use at least ${ITEM_TITLE_MINIMUM_LENGTH} and at most ${ITEM_TITLE_MAXIMUM_LENGTH} characters.`;
+
+export const ITEM_PRICE_LABEL = 'Item price';
+export const ITEM_PRICE_REQUIRED_MESSAGE = 'Item price is required!';
+export const ITEM_PRICE_MINIMUM = 0;
+export const ITEM_PRICE_MAXIMUM = 100_000_000;
+export const ITEM_PRICE_NEGATIVE_MESSAGE = 'Item price cannot be negative!';
+export const ITEM_PRICE_TOO_HIGH_MESSAGE = `Item price cannot be greater than ${ITEM_PRICE_MAXIMUM} Ξ.`;
+export const ITEM_PRICE_HINT = 'Desired price of item in Ξ with accuracy of 0.0001 Ξ (around 0.02 €). Amounts smaller than that will get rounded!';
+
+export const ITEM_USED_STATUS_LABEL = 'Item status';
+export const ITEM_USED_LABEL = 'Used';
+export const ITEM_USED_VALUE = 'USED';
+export const ITEM_NEW_LABEL = 'New';
+export const ITEM_NEW_VALUE = 'NEW';
+export const ITEM_NOT_APPLICABLE_LABEL = 'Not applicable';
+export const ITEM_NOT_APPLICABLE_VALUE = 'NOT_APPLICABLE';
+export const ITEM_USED_STATUS_NOT_PROVIDED_MESSAGE = 'Item status not provided!';
+export const ITEM_USED_STATUS_HINT = 'Does your item have signs of usage? If yes, select \'Used\'.';
+
+export const ITEM_CATEGORY_LABEL = 'Item category';
+export const ITEM_CATEGORY_REQUIRED_MESSAGE = 'You must assign a category to the item.';
+export const ITEM_CATEGORY_HINT = 'Choose a category that best describes your item.';
 
 export const ITEM_DESCRIPTION_LABEL = 'Item description';
 export const ITEM_DESCRIPTION_REQUIRED_MESSAGE = 'Item description is required!';
@@ -19,16 +41,9 @@ export const ITEM_DESCRIPTION_MINIMUM_LENGTH = 25;
 export const ITEM_DESCRIPTION_MAXIMUM_LENGTH = 5000;
 export const ITEM_DESCRIPTION_TOO_SHORT_MESSAGE = `Item description must be longer than ${ITEM_DESCRIPTION_MINIMUM_LENGTH} characters.`;
 export const ITEM_DESCRIPTION_TOO_LONG_MESSAGE = `Item description must not be longer than ${ITEM_DESCRIPTION_MAXIMUM_LENGTH} characters.`;
-export const ITEM_DESCRIPTION_HINT = 'Describe in detail the item being sold. Usually, the longer the better, although bear in mind that not everyone might want to read an essay here ;).';
+export const ITEM_DESCRIPTION_HINT = 'Describe in detail the item being sold. Usually, the longer the better, although bear in mind that not everyone might want to read an essay here 😉.';
 
-export const ITEM_PRICE_LABEL = 'Item price';
-export const ITEM_PRICE_REQUIRED_MESSAGE = 'Item price is required!';
-export const ITEM_PRICE_MINIMUM = 0;
-export const ITEM_PRICE_MAXIMUM = 100_000_000;
-export const ITEM_PRICE_NEGATIVE_MESSAGE = 'Item price cannot be negative!';
-export const ITEM_PRICE_TOO_HIGH_MESSAGE = `Item price cannot be greater than ${ITEM_PRICE_MAXIMUM} Ξ`;
-export const ITEM_PRICE_HINT = 'Desired price of item in Ξ with accuracy of 0.0001 Ξ (around 0.02 €).';
-
+export const BUTTON_ADD_ITEM_TEXT = 'Add item';
 
 @Component({
   selector: 'app-add-item',
@@ -57,14 +72,36 @@ export class AddItemComponent implements OnInit {
       tooHigh: ITEM_PRICE_TOO_HIGH_MESSAGE,
       hint: ITEM_PRICE_HINT
     },
+    usedStatus: {
+      label: ITEM_USED_STATUS_LABEL,
+      used: ITEM_USED_LABEL,
+      new: ITEM_NEW_LABEL,
+      notApplicable: ITEM_NOT_APPLICABLE_LABEL,
+      required: ITEM_USED_STATUS_NOT_PROVIDED_MESSAGE,
+      hint: ITEM_USED_STATUS_HINT
+    },
+    category: {
+      label: ITEM_CATEGORY_LABEL,
+      required: ITEM_CATEGORY_REQUIRED_MESSAGE,
+      hint: ITEM_CATEGORY_HINT
+    },
     description: {
       label: ITEM_DESCRIPTION_LABEL,
       required: ITEM_DESCRIPTION_REQUIRED_MESSAGE,
       tooShort: ITEM_DESCRIPTION_TOO_SHORT_MESSAGE,
       tooLong: ITEM_DESCRIPTION_TOO_LONG_MESSAGE,
       hint: ITEM_DESCRIPTION_HINT
-    }
+    },
+    buttonAddItem: BUTTON_ADD_ITEM_TEXT
   };
+
+  usedStatusValues = {
+    used: ITEM_USED_VALUE,
+    new: ITEM_NEW_VALUE,
+    notApplicable: ITEM_NOT_APPLICABLE_VALUE
+  };
+
+  categories = ['Books', 'Clothes', 'Computer hardware'];
 
   newItemFormGroup: FormGroup = new FormGroup({
     title: new FormControl('', [
@@ -78,6 +115,8 @@ export class AddItemComponent implements OnInit {
       Validators.min(ITEM_PRICE_MINIMUM),
       Validators.max(ITEM_PRICE_MAXIMUM)
     ]),
+    usedStatus: new FormControl(null, Validators.required),
+    category: new FormControl(null, Validators.required),
     description: new FormControl('', [
       Validators.required,
       Validators.minLength(ITEM_DESCRIPTION_MINIMUM_LENGTH),
@@ -90,6 +129,14 @@ export class AddItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  sendRequestToAddItem() {
+
+  }
+
+  get formIsValid(): boolean {
+    return this.newItemFormGroup.valid;
   }
 
   // title
@@ -133,6 +180,26 @@ export class AddItemComponent implements OnInit {
     return this.priceInput.hasError('max');
   }
 
+  // used status
+
+  get usedStatusInput(): FormControl {
+    return this.newItemFormGroup.get('usedStatus') as FormControl;
+  }
+
+  get usedStatusNotProvided(): boolean {
+    return this.usedStatusInput.hasError('required');
+  }
+
+  // category
+
+  get categoryInput(): FormControl {
+    return this.newItemFormGroup.get('category') as FormControl;
+  }
+
+  get categoryNotProvided(): boolean {
+    return this.categoryInput.hasError('required');
+  }
+
   // description
 
   get descriptionInput(): FormControl {
@@ -150,5 +217,4 @@ export class AddItemComponent implements OnInit {
   get descriptionTooLong(): boolean {
     return this.descriptionInput.hasError('maxlength');
   }
-
 }

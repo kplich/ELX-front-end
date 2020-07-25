@@ -15,11 +15,11 @@ import {AddItemComponent} from './add-item/add-item.component';
     ItemBrowsingCriteriaComponent,
     AddItemComponent
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    MatCarouselModule.forRoot()
-  ]
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        MatCarouselModule.forRoot()
+    ]
 })
 export class ItemsModule { }
