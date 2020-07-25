@@ -6,12 +6,14 @@ import {MaterialModule} from '../material/material.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ItemComponent} from './item/item.component';
 import {MatCarouselModule} from '@ngmodule/material-carousel';
+import {AddItemComponent} from './add-item/add-item.component';
 
 @NgModule({
   declarations: [
     ItemComponent,
     ItemBrowsingComponent,
-    ItemBrowsingCriteriaComponent
+    ItemBrowsingCriteriaComponent,
+    AddItemComponent
   ],
   imports: [
     CommonModule,

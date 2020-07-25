@@ -1,0 +1,21 @@
+@import 'node_modules/@angular/material/theming';
+
+@mixin search-container-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  .search-container {
+    color: mat-color($foreground, text);
+    background-color: mat-color($background, card);
+  }
+}
+
+@mixin search-container-typography($config) {
+  .search-container {
+    font: {
+      size: mat-font-size($config, caption);
+    }
+  }
+}
