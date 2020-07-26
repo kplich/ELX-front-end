@@ -113,8 +113,8 @@ interface ToolbarLink {
   function: string;
 
   /**
-   * Indicates if authentication is necessary to display the link. True means authentication is required.
-   * False means that only unauthenticated users should see the link.
+   * Indicates if authentication is necessary to display the link. True means authentication
+   * is required. False means that only unauthenticated users should see the link.
    * Null means that everyone can see the link.
    */
   authenticationRequired: boolean | null;

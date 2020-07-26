@@ -1,5 +1,9 @@
 @import 'src/dimens.scss';
 
+:host {
+  display: block;
+}
+
 h1 {
   margin-top: $dimen-s;
 }
@@ -42,6 +46,7 @@ form {
   }
 
   .form-actions {
+    margin: $dimen-xxs 0;
     text-align: end;
   }
 

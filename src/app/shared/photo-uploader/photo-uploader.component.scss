@@ -1,22 +1,28 @@
 @import 'src/dimens';
 
-.photo-list {
-  display: block;
-
-  margin: $dimen-s 0;
+:host {
   width: 100%;
+}
+
+.photo-list {
+  display: flex;
+  flex-flow: row nowrap;
+  overflow-x: auto;
+
+  margin-top: $dimen-xxs;
   border: solid 1px #ccc;
   border-radius: $dimen-xxs;
 }
 
 .photo {
   padding: 0 $dimen-xxs;
+  display: inline;
   cursor: move;
-  position: relative; // this allows delete-button to be position relatively to the photo
+  position: relative;
 
   img {
-    width: 100%;
-    max-height: $dimen-xxxl;
+    height: $dimen-xxxl;
+    object-fit: contain;
   }
 
   .delete-button {
@@ -24,12 +30,20 @@
     top: $dimen-xxs;
     right: $dimen-xxs;
   }
+}
 
-  .drag-indicator {
-    position: absolute;
-    top: 50%;
-    right: $dimen-xxs;
-  }
+.prompt {
+  font-size: 0.75em;
+  color: grey;
+  text-align: center;
+  margin: $dimen-xxs;
+}
+
+.error {
+  font-size: 0.75em;
+  color: red;
+  text-align: center;
+  margin: $dimen-xxs;
 }
 
 .photo:first-of-type {

@@ -1,8 +1,13 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Observable} from 'rxjs';
-import {finalize} from 'rxjs/operators';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AngularFireStorage} from '@angular/fire/storage';
+import {SnackBarService} from '../snack-bar-service/snack-bar.service';
 
+export const BUTTON_TEXT = 'Upload photos';
+export const UPLOAD_SUCCESSFUL_MESSAGE = 'File uploaded successfully!';
+export const UPLOAD_ALL_SUCCESSFUL_MESSAGE = 'Uploaded all files!';
+export const UPLOAD_ERROR_MESSAGE = 'Could not upload file!';
+export const DELETE_SUCCESSFUL_MESSAGE = 'File deleted successfully!';
+export const DELETE_ERROR_MESSAGE = 'Could not delete file!';
 
 @Component({
   selector: 'app-file-uploader',
@@ -11,62 +16,74 @@ import {AngularFireStorage} from '@angular/fire/storage';
 })
 export class FileUploaderComponent implements OnInit {
 
-  title = 'cloudsStorage';
-  finalUrl;
-  downloadURL: Observable<string>;
-  isUploading = false;
-  filesToUploadNumber;
+  @Input()
+  acceptedTypes = 'image/*';
 
-  constructor(private storage: AngularFireStorage) {
-  }
+  @Input()
+  buttonText = BUTTON_TEXT;
+
+  @Input()
+  disableUpload = false;
 
   @Output()
   fileUploaded = new EventEmitter<string>();
 
-  ngOnInit(): void {
-  }
+  isUploading = false;
+  numberOfFilesToUpload: number;
+
+  constructor(
+    private storage: AngularFireStorage,
+    private snackBarService: SnackBarService) {}
+
+
+
+  strings = {
+    uploadSuccess: UPLOAD_SUCCESSFUL_MESSAGE,
+    uploadAllSuccess: UPLOAD_ALL_SUCCESSFUL_MESSAGE,
+    uploadError: UPLOAD_ERROR_MESSAGE,
+    deleteSuccess: DELETE_SUCCESSFUL_MESSAGE,
+    deleteError: DELETE_ERROR_MESSAGE
+  };
+
+  ngOnInit(): void {}
 
   onFileSelected(event) {
-    this.isUploading = true;
-    this.filesToUploadNumber = event.target.files.length;
+
+    this.numberOfFilesToUpload = event.target.files.length;
+
+    const metadata = {
+      contentType: this.acceptedTypes
+    };
+
+    console.log(event.target.files);
+
     for (const file of event.target.files) {
-      const n = Date.now();
-      const filePath = `items/${n}`;
-      const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(`items/${n}`, file);
-      task
-        .snapshotChanges()
-        .pipe(
-          finalize(() => {
-            this.downloadURL = fileRef.getDownloadURL();
-            this.downloadURL.subscribe(url => {
-              if (url) {
-                this.finalUrl = url;
-                this.fileUploaded.emit(this.finalUrl);
-              }
-            });
-          })
-        )
-        .subscribe({
-          next: url => {
-            if (this.filesToUploadNumber === 0) {
+      this.isUploading = true;
+      const timestamp = Date.now();
+      const fileRef = this.storage.ref(`items/${timestamp}`);
+
+      fileRef.put(file, metadata)
+        .then(snapshot => {
+          snapshot.ref.getDownloadURL().then(url => {
+            this.fileUploaded.emit(url);
+            this.snackBarService.openSnackBar(this.strings.uploadSuccess);
+
+            this.numberOfFilesToUpload--;
+
+            if (this.numberOfFilesToUpload === 0) {
               this.isUploading = false;
-            } else {
-              this.filesToUploadNumber = this.filesToUploadNumber - 1;
             }
-          },
-          error: err => {
-            console.error(err);
-            this.isUploading = false;
-          },
-          complete: () => {
-              console.log(this.finalUrl);
-          }
+          });
+        })
+        .catch(() => {
+          this.snackBarService.openSnackBar(this.strings.uploadError);
         });
     }
   }
 
   deleteFile(fileUrl) {
-    this.storage.storage.refFromURL(fileUrl).delete();
+    this.storage.storage.refFromURL(fileUrl).delete()
+      .then(() => this.snackBarService.openSnackBar(this.strings.deleteSuccess))
+      .catch(() => this.snackBarService.openSnackBar(this.strings.deleteError));
   }
 }

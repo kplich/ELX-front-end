@@ -7,7 +7,10 @@ describe('SnackBarService', () => {
   let service: SnackBarService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [SnackBarService, MatSnackBar], imports: [MatSnackBarModule]});
+    TestBed.configureTestingModule({
+      providers: [SnackBarService, MatSnackBar],
+      imports: [MatSnackBarModule]
+    });
     service = TestBed.inject(SnackBarService);
   });
 

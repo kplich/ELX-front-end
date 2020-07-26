@@ -46,21 +46,26 @@ describe('LoggingInComponent', () => {
       fixture = TestBed.createComponent(LoggingInComponent);
       loader = TestbedHarnessEnvironment.loader(fixture);
 
-      loader.getHarness(MatFormFieldHarness.with({selector: '#username-form-field'})).then(harness => {
-        usernameFormField = harness;
-      });
-      loader.getHarness(MatInputHarness.with({selector: '#username-form-field input'})).then(harness => {
-        usernameInput = harness;
-      });
-      loader.getHarness(MatFormFieldHarness.with({selector: '#password-form-field'})).then(harness => {
-        passwordFormField = harness;
-      });
-      loader.getHarness(MatInputHarness.with({selector: '#password-form-field input'})).then(harness => {
-        passwordInput = harness;
-      });
-      loader.getHarness(MatButtonHarness.with({text: BUTTON_LOG_IN_TEXT})).then(harness => {
-        loggingInButton = harness;
-      });
+      loader.getHarness(MatFormFieldHarness.with({selector: '#username-form-field'}))
+        .then(harness => {
+          usernameFormField = harness;
+        });
+      loader.getHarness(MatInputHarness.with({selector: '#username-form-field input'}))
+        .then(harness => {
+          usernameInput = harness;
+        });
+      loader.getHarness(MatFormFieldHarness.with({selector: '#password-form-field'}))
+        .then(harness => {
+          passwordFormField = harness;
+        });
+      loader.getHarness(MatInputHarness.with({selector: '#password-form-field input'}))
+        .then(harness => {
+          passwordInput = harness;
+        });
+      loader.getHarness(MatButtonHarness.with({text: BUTTON_LOG_IN_TEXT}))
+        .then(harness => {
+          loggingInButton = harness;
+        });
     });
   }));
 

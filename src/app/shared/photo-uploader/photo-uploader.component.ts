@@ -1,6 +1,10 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {FileUploaderComponent} from '../file-uploader/file-uploader.component';
+
+export const TOO_FEW_PHOTOS_MESSAGE = 'More photos are necessary!';
+export const ENOUGH_PHOTOS_MESSAGE = 'You can\'t upload more photos.';
+export const TOO_MANY_PHOTOS_MESSAGE = 'You uploaded too many photos!';
 
 @Component({
   selector: 'app-photo-uploader',
@@ -8,11 +12,24 @@ import {FileUploaderComponent} from '../file-uploader/file-uploader.component';
   styleUrls: ['./photo-uploader.component.scss']
 })
 export class PhotoUploaderComponent implements OnInit {
-  photosList: string[] = [
-    'https://firebasestorage.googleapis.com/v0/b/elx-front-end.appspot.com/o/items%2F1595758407023?alt=media&token=437cec31-5cc5-405e-bc22-c2557572818c'
-  ];
-  @Output() photosListChanged = new EventEmitter<string[]>();
+
+  @Input() noPhotosPrompt: string | null = null;
+
+  @Input() minimumPhotos = 0;
+
+  @Input() maximumPhotos = Number.MAX_SAFE_INTEGER;
+
+  @Output() photoListChanged = new EventEmitter<string[]>();
+
   @ViewChild(FileUploaderComponent) private fileUploader: FileUploaderComponent;
+
+  strings = {
+    tooFewPhotos: TOO_FEW_PHOTOS_MESSAGE,
+    enoughPhotos: ENOUGH_PHOTOS_MESSAGE,
+    tooManyPhotos: TOO_MANY_PHOTOS_MESSAGE
+  };
+
+  photosList: string[] = [];
 
   constructor() {
   }
@@ -20,9 +37,25 @@ export class PhotoUploaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get photosWereUploaded(): boolean {
+    return this.photosList.length !== 0;
+  }
+
+  get enoughPhotosUploaded(): boolean {
+    return this.photosList.length === this.maximumPhotos;
+  }
+
+  get tooManyPhotosUploaded(): boolean {
+    return this.photosList.length > this.maximumPhotos;
+  }
+
+  get uploadShouldBeDisabled(): boolean {
+    return this.enoughPhotosUploaded || this.tooManyPhotosUploaded;
+  }
+
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.photosList, event.previousIndex, event.currentIndex);
-    this.photosListChanged.emit(this.photosList);
+    this.photoListChanged.emit(this.photosList);
   }
 
   initPhotoUploader(downloadedPhotosList: string[]) {
@@ -33,17 +66,13 @@ export class PhotoUploaderComponent implements OnInit {
     this.photosList.push(uploadedFileURL);
     console.log(this.photosList);
     this.ngOnInit();
-    this.photosListChanged.emit(this.photosList);
+    this.photoListChanged.emit(this.photosList);
   }
 
   deletePhoto(index: number) {
     this.fileUploader.deleteFile(this.photosList[index]);
     this.photosList.splice(index, 1);
-    this.photosListChanged.emit(this.photosList);
-  }
-
-  deletePhotos() {
-    this.photosList.every((value, index) => this.deletePhoto(index));
+    this.photoListChanged.emit(this.photosList);
   }
 }
 

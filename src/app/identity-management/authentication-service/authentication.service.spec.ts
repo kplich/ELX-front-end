@@ -5,7 +5,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {JwtStorageService} from '../../shared/jwt-storage-service/jwt-storage.service';
 
 // adapted from
-// https://skryvets.com/blog/2018/02/18/unit-testing-angular-service-with-httpclient/#third-step-add-login-to-service
+// skryvets.com/blog/2018/02/18/unit-testing-angular-service-with-httpclient
 
 describe('AuthenticationService signing up', () => {
   const signUpURL = `${API_URL}/sign-up`;

@@ -43,6 +43,10 @@ export const ITEM_DESCRIPTION_TOO_SHORT_MESSAGE = `Item description must be long
 export const ITEM_DESCRIPTION_TOO_LONG_MESSAGE = `Item description must not be longer than ${ITEM_DESCRIPTION_MAXIMUM_LENGTH} characters.`;
 export const ITEM_DESCRIPTION_HINT = 'Describe in detail the item being sold. Usually, the longer the better, although bear in mind that not everyone might want to read an essay here 😉.';
 
+export const ITEM_PHOTOS_ADD_PROMPT = 'Add up to 8 photos that show your item. First photo will be a main photo, displayed elsewhere in the site. You can reorder them by dragging or delete altogether.';
+export const ITEM_PHOTOS_MAXIMUM_NUMBER = 8;
+
+
 export const BUTTON_ADD_ITEM_TEXT = 'Add item';
 
 @Component({
@@ -92,6 +96,9 @@ export class AddItemComponent implements OnInit {
       tooLong: ITEM_DESCRIPTION_TOO_LONG_MESSAGE,
       hint: ITEM_DESCRIPTION_HINT
     },
+    photos: {
+      prompt: ITEM_PHOTOS_ADD_PROMPT
+    },
     buttonAddItem: BUTTON_ADD_ITEM_TEXT
   };
 
@@ -121,7 +128,8 @@ export class AddItemComponent implements OnInit {
       Validators.required,
       Validators.minLength(ITEM_DESCRIPTION_MINIMUM_LENGTH),
       Validators.maxLength(ITEM_DESCRIPTION_MAXIMUM_LENGTH)
-    ])
+    ]),
+    photoUrls: new FormControl([], Validators.maxLength(ITEM_PHOTOS_MAXIMUM_NUMBER))
   });
 
   errorStateMatcher = new MyErrorStateMatcher();
@@ -133,6 +141,10 @@ export class AddItemComponent implements OnInit {
 
   sendRequestToAddItem() {
 
+  }
+
+  updatePhotoUrls(event: string[]) {
+    this.photoUrlsInput.setValue(event);
   }
 
   get formIsValid(): boolean {
@@ -217,4 +229,12 @@ export class AddItemComponent implements OnInit {
   get descriptionTooLong(): boolean {
     return this.descriptionInput.hasError('maxlength');
   }
+
+  // photo list
+
+  get photoUrlsInput(): FormControl {
+    return this.newItemFormGroup.get('photoUrls') as FormControl;
+  }
+
+
 }

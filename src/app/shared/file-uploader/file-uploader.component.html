@@ -1,17 +1,18 @@
-<div class="form-group col-12">
-  <button mat-stroked-button (click)="fileToUpload.click()">
-    Prześlij zdjęcia
-    <mat-icon>publish</mat-icon>
-  </button>
-  <mat-progress-bar *ngIf="isUploading" mode="indeterminate"></mat-progress-bar>
-  <input class="ng-hide"
-         type="file"
-         id="fileToUpload"
-         #fileToUpload
+<div>
+  <input type="file"
+         id="fileUploaderInput"
+         #fileUploaderInput
          (change)="onFileSelected($event)"
-         name="image"
+         name="fileUploader"
          autocomplete="off"
          multiple
          hidden
-         accept="image/*"/>
+         accept="{{acceptedTypes}}"/>
+  <button mat-raised-button color="primary"
+          [disabled]="disableUpload"
+          (click)="fileUploaderInput.click()">
+    {{buttonText}}
+    <mat-icon>publish</mat-icon>
+  </button>
+  <mat-progress-bar *ngIf="isUploading" mode="indeterminate"></mat-progress-bar>
 </div>

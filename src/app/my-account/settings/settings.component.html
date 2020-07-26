@@ -23,7 +23,7 @@
           </mat-form-field>
           <mat-form-field id="new-password-form-field" appearance="outline">
             <mat-label>{{ passwordChangeMessages.newPasswordLabel }}</mat-label>
-            <input matInput type="password"[formControl]="newPasswordInput" />
+            <input matInput type="password" [formControl]="newPasswordInput" />
             <mat-hint *ngIf="!newPasswordInput.touched">
               {{ passwordChangeMessages.newPasswordHint }}
             </mat-hint>
