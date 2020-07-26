@@ -21,7 +21,7 @@ export const BUTTON_LOG_IN_TEXT = 'Log in';
 export const BUTTON_REGISTER_TEXT = 'Register';
 
 @Component({
-  selector: 'app-logging-in',
+  selector: 'identity-logging-in',
   templateUrl: './logging-in.component.html',
   styleUrls: ['./logging-in.component.scss']
 })

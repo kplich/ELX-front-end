@@ -34,7 +34,7 @@ export const SERVER_ERROR_MESSAGE = 'Server error, try again!';
 export const SIGNED_UP_SUCCESSFULLY_MESSAGE = 'Signed up successfully!';
 
 @Component({
-  selector: 'app-registration',
+  selector: 'identity-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })

@@ -1,35 +1,51 @@
+@import 'src/dimens';
 
-.example-list {
-  width: 300px;
-  max-width: 100%;
-  border: solid 1px #ccc;
+.photo-list {
   display: block;
-  background: white;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-top: 3vh;
+
+  margin: $dimen-s 0;
+  width: 100%;
+  border: solid 1px #ccc;
+  border-radius: $dimen-xxs;
 }
 
-.example-box {
-  padding: 20px 10px;
-  border-bottom: solid 1px #ccc;
-  margin-bottom: 10px;
-  color: rgba(0, 0, 0, 0.87);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
+.photo {
+  padding: 0 $dimen-xxs;
   cursor: move;
-  background: white;
-  font-size: 14px;
-  position: relative;
+  position: relative; // this allows delete-button to be position relatively to the photo
+
+  img {
+    width: 100%;
+    max-height: $dimen-xxxl;
+  }
+
+  .delete-button {
+    position: absolute;
+    top: $dimen-xxs;
+    right: $dimen-xxs;
+  }
+
+  .drag-indicator {
+    position: absolute;
+    top: 50%;
+    right: $dimen-xxs;
+  }
+}
+
+.photo:first-of-type {
+  padding-left: 0;
+}
+
+.photo:last-of-type {
+  padding-right: 0;
 }
 
 .cdk-drag-preview {
   box-sizing: border-box;
-  border-radius: 4px;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  border-radius: $dimen-xxs;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 .cdk-drag-placeholder {
@@ -40,26 +56,8 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.example-box:last-child {
-  border: none;
-}
-
-.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+.photo-list.cdk-drop-list-dragging .photo:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-img {
-  border-radius: 4px;
-  width: 100%;
-  max-height: 200px;
-  object-fit: contain;
-}
 
-.mat-mini-fab {
-  position: absolute;
-  top: 5px;
-  left: calc(100% - 50px);
-}
-
-.drag-indicator {
-}

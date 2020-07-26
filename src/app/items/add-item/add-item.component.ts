@@ -46,7 +46,7 @@ export const ITEM_DESCRIPTION_HINT = 'Describe in detail the item being sold. Us
 export const BUTTON_ADD_ITEM_TEXT = 'Add item';
 
 @Component({
-  selector: 'app-add-item',
+  selector: 'item-add',
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.scss']
 })

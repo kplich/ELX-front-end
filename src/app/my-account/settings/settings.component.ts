@@ -9,8 +9,7 @@ import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service'
 import {MyErrorStateMatcher} from '../../shared/MyErrorStateMatcher';
 
 export const ACCOUNT_SETTINGS_TITLE = 'Account settings';
-export const ACCOUNT_SETTINGS_DESCRIPTION =
-  'Change password, link your Ethereum wallet, etc.';
+export const ACCOUNT_SETTINGS_DESCRIPTION = 'Change password, link your Ethereum wallet, etc.';
 
 export const CHANGE_PASSWORD_TITLE = 'Change password';
 
@@ -18,13 +17,19 @@ export const OLD_PASSWORD_LABEL = 'Old password';
 export const NEW_PASSWORD_LABEL = 'New password';
 export const MINIMUM_PASSWORD_LENGTH = 8;
 export const MAXIMUM_PASSWORD_LENGTH = 40;
-export const NEW_PASSWORD_HINT = `Password has to be ${MINIMUM_PASSWORD_LENGTH}-${MAXIMUM_PASSWORD_LENGTH} characters long (including a lowercase letter, an uppercase letter, a digit and a special character) and different from the old password.`;
+export const NEW_PASSWORD_HINT =
+  `Password has to be ${MINIMUM_PASSWORD_LENGTH}-${MAXIMUM_PASSWORD_LENGTH} characters long
+  (including a lowercase letter, an uppercase letter, a digit and a special character)
+  and different from the old password.`;
 export const OLD_PASSWORD_REQUIRED_MESSAGE = 'Old password is required!';
 export const NEW_PASSWORD_REQUIRED_MESSAGE = 'New password is required!';
-export const MINIMUM_PASSWORD_LENGTH_MESSAGE = `The password needs to be at least ${MINIMUM_PASSWORD_LENGTH} characters long.`;
-export const MAXIMUM_PASSWORD_LENGTH_MESSAGE = `The password needs to be at most ${MAXIMUM_PASSWORD_LENGTH} characters long.`;
+export const MINIMUM_PASSWORD_LENGTH_MESSAGE =
+  `The password needs to be at least ${MINIMUM_PASSWORD_LENGTH} characters long.`;
+export const MAXIMUM_PASSWORD_LENGTH_MESSAGE =
+  `The password needs to be at most ${MAXIMUM_PASSWORD_LENGTH} characters long.`;
 export const PASSWORD_PATTERN_MESSAGE =
-  'The password needs to have a lowercase and an uppercase letter, a digit and a special character.';
+  'The password needs to have a lowercase and an uppercase ' +
+  'letter, a digit and a special character.';
 export const PASSWORDS_EQUAL_MESSAGE = 'Passwords can\'t be equal.';
 export const BUTTON_CHANGE_PASSWORD_TEXT = 'Change password';
 
@@ -43,7 +48,7 @@ export function passwordsNotEqualValidator(formGroup: FormGroup) {
 }
 
 @Component({
-  selector: 'app-settings',
+  selector: 'my-account-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })

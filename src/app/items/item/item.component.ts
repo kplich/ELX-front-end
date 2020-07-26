@@ -13,7 +13,7 @@ export const OFFERED_BY_LABEL = 'Offered by';
 export const ADDED_LABEL = 'Added';
 
 @Component({
-  selector: 'app-item',
+  selector: 'item-single',
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss']
 })

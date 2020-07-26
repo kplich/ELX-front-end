@@ -7,6 +7,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {ItemComponent} from './item/item.component';
 import {MatCarouselModule} from '@ngmodule/material-carousel';
 import {AddItemComponent} from './add-item/add-item.component';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {AddItemComponent} from './add-item/add-item.component';
         CommonModule,
         ReactiveFormsModule,
         MaterialModule,
-        MatCarouselModule.forRoot()
+        MatCarouselModule.forRoot(),
+        SharedModule
     ]
 })
 export class ItemsModule { }

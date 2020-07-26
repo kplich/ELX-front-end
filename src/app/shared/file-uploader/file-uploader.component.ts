@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Observable} from 'rxjs';
-import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 
 @Component({
@@ -31,9 +31,9 @@ export class FileUploaderComponent implements OnInit {
     this.filesToUploadNumber = event.target.files.length;
     for (const file of event.target.files) {
       const n = Date.now();
-      const filePath = `event/${n}`;
+      const filePath = `items/${n}`;
       const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(`event/${n}`, file);
+      const task = this.storage.upload(`items/${n}`, file);
       task
         .snapshotChanges()
         .pipe(
@@ -44,18 +44,23 @@ export class FileUploaderComponent implements OnInit {
                 this.finalUrl = url;
                 this.fileUploaded.emit(this.finalUrl);
               }
-              console.log(this.finalUrl);
             });
           })
         )
-        .subscribe(url => {
-          if (url) {
-            console.log(this.finalUrl);
-          }
-          if (this.filesToUploadNumber === 0) {
+        .subscribe({
+          next: url => {
+            if (this.filesToUploadNumber === 0) {
+              this.isUploading = false;
+            } else {
+              this.filesToUploadNumber = this.filesToUploadNumber - 1;
+            }
+          },
+          error: err => {
+            console.error(err);
             this.isUploading = false;
-          } else {
-            this.filesToUploadNumber = this.filesToUploadNumber - 1;
+          },
+          complete: () => {
+              console.log(this.finalUrl);
           }
         });
     }
@@ -64,6 +69,4 @@ export class FileUploaderComponent implements OnInit {
   deleteFile(fileUrl) {
     this.storage.storage.refFromURL(fileUrl).delete();
   }
-
-
 }

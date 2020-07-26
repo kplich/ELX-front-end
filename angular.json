@@ -155,6 +155,10 @@
               "devServerTarget": "elx-front-end:serve:staging"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }

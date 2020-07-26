@@ -5,9 +5,12 @@ import {FileUploaderComponent} from '../file-uploader/file-uploader.component';
 @Component({
   selector: 'app-photo-uploader',
   templateUrl: './photo-uploader.component.html',
-  styleUrls: ['./photo-uploader.component.scss']})
+  styleUrls: ['./photo-uploader.component.scss']
+})
 export class PhotoUploaderComponent implements OnInit {
-  photosList: string[] = [];
+  photosList: string[] = [
+    'https://firebasestorage.googleapis.com/v0/b/elx-front-end.appspot.com/o/items%2F1595758407023?alt=media&token=437cec31-5cc5-405e-bc22-c2557572818c'
+  ];
   @Output() photosListChanged = new EventEmitter<string[]>();
   @ViewChild(FileUploaderComponent) private fileUploader: FileUploaderComponent;
 

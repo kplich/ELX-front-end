@@ -1,10 +1,7 @@
 <app-file-uploader (fileUploaded)="fileUploaded($event)"></app-file-uploader>
-<div *ngIf="photosList.length != 0" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-  <div
-    *ngFor="let photo of photosList; let myIndex=index"
-    class="example-box" cdkDrag>
-    <img alt="Uploaded photo miniature" src="{{photo}}">
-    <mat-icon class="drag-indicator">drag_indicator</mat-icon>
+<div cdkDropList cdkDropListOrientation="horizontal" *ngIf="photosList.length != 0" class="photo-list" (cdkDropListDropped)="drop($event)">
+  <div cdkDrag cdkDragLockAxis="x" cdkDragBoundary=".photo-list" class="photo" *ngFor="let photo of photosList; let myIndex=index;" >
+    <img src="{{photo}}">
     <button mat-mini-fab color="primary" class="delete-button" (click)="deletePhoto(myIndex)">
       <mat-icon>clear</mat-icon>
     </button>
