@@ -1,28 +1,31 @@
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {dtoStringToStatus, UsedStatus} from './UsedStatus';
 
 export class Item {
   public static readonly ETH_SYMBOL = 'Ξ';
 
+  public readonly id: number;
   public readonly title: string;
   public readonly description: string;
   public readonly price: number;
-  public readonly addedBy: string;
-  public readonly added: Date;
-  public readonly category: string;
-  public readonly usedStatus: string;
+  public readonly addedBy: ItemAddedBy;
+  public readonly addedOn: Date;
+  public readonly category: ItemCategory;
+  public readonly usedStatus: UsedStatus;
   public readonly photoUrls: string[];
-  public readonly closed: Date | null;
+  public readonly closedOn: Date | null;
 
   constructor(resp: ItemResponse) {
+    this.id = resp.id;
     this.title = resp.title;
     this.description = resp.description;
     this.price = resp.price;
     this.addedBy = resp.addedBy;
-    this.added = new Date(resp.added);
+    this.addedOn = new Date(resp.addedOn);
     this.category = resp.category;
-    this.usedStatus = resp.usedStatus;
+    this.usedStatus = dtoStringToStatus(resp.usedStatus);
     this.photoUrls = resp.photoUrls;
-    this.closed = resp.closed !== null ? new Date(resp.closed) : null;
+    this.closedOn = resp.closedOn !== null ? new Date(resp.closedOn) : null;
   }
 
   public getSafePhotoUrls(domSanitizer: DomSanitizer): SafeUrl[] {
@@ -32,28 +35,48 @@ export class Item {
   public get formattedPrice(): string {
     return `${this.price} ${Item.ETH_SYMBOL}`;
   }
+
+  public get usedStatusIsApplicable(): boolean {
+    return this.usedStatus !== UsedStatus.NOT_APPLICABLE;
+  }
+
+  public get itemIsClosed(): boolean {
+    return this.closedOn !== null;
+  }
 }
 
 /**
  * Interface for a response from back end.
  */
 export interface ItemResponse {
+  readonly id: number;
   readonly title: string;
   readonly description: string;
   readonly price: number;
-  readonly addedBy: string;
-  readonly added: string;
-  readonly category: string;
+  readonly addedBy: ItemAddedBy;
+  readonly addedOn: string;
+  readonly category: ItemCategory;
   readonly usedStatus: string;
   readonly photoUrls: string[];
-  readonly closed: string | null;
+  readonly closedOn: string | null;
 }
 
-export interface NewItemRequest {
+export interface ItemAddedBy {
+  readonly id: number;
+  readonly username: string;
+}
+
+export interface ItemCategory {
+  readonly id: number;
+  readonly name: string;
+}
+
+export interface NewOrUpdatedItemRequest {
   readonly title: string;
   readonly description: string;
   readonly price: number;
   readonly category: number;
-  readonly usedStatus: number;
+  readonly usedStatus: string;
   readonly photoUrls: string[];
+  readonly id?: number;
 }

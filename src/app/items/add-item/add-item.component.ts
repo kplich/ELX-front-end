@@ -1,6 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MyErrorStateMatcher} from '../../shared/MyErrorStateMatcher';
+import {statusToDtoString, UsedStatus} from '../items-service/data/UsedStatus';
+import {ItemsService} from '../items-service/items.service';
+import {ItemCategory, NewOrUpdatedItemRequest} from '../items-service/data/Item';
+import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 export const ADD_ITEM_FORM_HEADER = 'Add an item for sale';
 
@@ -22,12 +28,12 @@ export const ITEM_PRICE_TOO_HIGH_MESSAGE = `Item price cannot be greater than ${
 export const ITEM_PRICE_HINT = 'Desired price of item in Ξ with accuracy of 0.0001 Ξ (around 0.02 €). Amounts smaller than that will get rounded!';
 
 export const ITEM_USED_STATUS_LABEL = 'Item status';
-export const ITEM_USED_LABEL = 'Used';
-export const ITEM_USED_VALUE = 'USED';
-export const ITEM_NEW_LABEL = 'New';
-export const ITEM_NEW_VALUE = 'NEW';
-export const ITEM_NOT_APPLICABLE_LABEL = 'Not applicable';
-export const ITEM_NOT_APPLICABLE_VALUE = 'NOT_APPLICABLE';
+export const ITEM_USED_LABEL = UsedStatus.USED.toString();
+export const ITEM_USED_VALUE = statusToDtoString(UsedStatus.USED);
+export const ITEM_NEW_LABEL = UsedStatus.NEW.toString();
+export const ITEM_NEW_VALUE = statusToDtoString(UsedStatus.NEW);
+export const ITEM_NOT_APPLICABLE_LABEL = UsedStatus.NOT_APPLICABLE;
+export const ITEM_NOT_APPLICABLE_VALUE = statusToDtoString(UsedStatus.NOT_APPLICABLE);
 export const ITEM_USED_STATUS_NOT_PROVIDED_MESSAGE = 'Item status not provided!';
 export const ITEM_USED_STATUS_HINT = 'Does your item have signs of usage? If yes, select \'Used\'.';
 
@@ -46,6 +52,10 @@ export const ITEM_DESCRIPTION_HINT = 'Describe in detail the item being sold. Us
 export const ITEM_PHOTOS_ADD_PROMPT = 'Add up to 8 photos that show your item. First photo will be a main photo, displayed elsewhere in the site. You can reorder them by dragging or delete altogether.';
 export const ITEM_PHOTOS_MAXIMUM_NUMBER = 8;
 
+export const COULD_NOT_LOAD_CATEGORIES_MESSAGE = 'Could not load categories. Load the page again.';
+export const BAD_REQUEST_DATA_MESSAGE = 'Incorrect data were provided!';
+export const SERVER_ERROR_MESSAGE = 'An unexpected error occured. Try again.';
+export const ITEM_ADDED_SUCCESSFULLY_MESSAGE = 'Item added successfully!';
 
 export const BUTTON_ADD_ITEM_TEXT = 'Add item';
 
@@ -108,7 +118,7 @@ export class AddItemComponent implements OnInit {
     notApplicable: ITEM_NOT_APPLICABLE_VALUE
   };
 
-  categories = ['Books', 'Clothes', 'Computer hardware'];
+  categories: ItemCategory[] = [];
 
   newItemFormGroup: FormGroup = new FormGroup({
     title: new FormControl('', [
@@ -134,17 +144,53 @@ export class AddItemComponent implements OnInit {
 
   errorStateMatcher = new MyErrorStateMatcher();
 
-  constructor() { }
+  constructor(
+    private itemsService: ItemsService,
+    private router: Router,
+    private snackBarService: SnackBarService
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.itemsService.getCategories().subscribe({
+      next: response => {
+        this.categories = response.body;
+      },
+      error: () => this.snackBarService.openSnackBar(COULD_NOT_LOAD_CATEGORIES_MESSAGE)
+    });
   }
 
   sendRequestToAddItem() {
-
+    this.itemsService.addNewItem(this.newItemRequest).subscribe({
+      next: response => {
+        this.router.navigateByUrl(`/item/${response.body.id}`).then(() => {
+          this.snackBarService.openSnackBar(ITEM_ADDED_SUCCESSFULLY_MESSAGE);
+        });
+      },
+      error: error => this.openErrorSnackBar(error)
+    });
   }
 
   updatePhotoUrls(event: string[]) {
     this.photoUrlsInput.setValue(event);
+  }
+
+  private openErrorSnackBar(errorResponse: HttpErrorResponse) {
+    if (errorResponse.status === 400) {
+      this.snackBarService.openSnackBar(BAD_REQUEST_DATA_MESSAGE);
+    } else {
+      this.snackBarService.openSnackBar(SERVER_ERROR_MESSAGE);
+    }
+  }
+
+  get newItemRequest(): NewOrUpdatedItemRequest {
+    return {
+      title: this.titleInput.value,
+      description: this.descriptionInput.value,
+      price: this.priceInput.value,
+      category: this.categoryInput.value,
+      usedStatus: this.usedStatusInput.value,
+      photoUrls: this.photoUrlsInput.value
+    };
   }
 
   get formIsValid(): boolean {

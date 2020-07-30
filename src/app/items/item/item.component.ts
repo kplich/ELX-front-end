@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ItemsService} from '../items-service/items.service';
-import {Item} from '../items-service/Item';
+import {Item} from '../items-service/data/Item';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
 
 export const CATEGORY_LABEL = 'Category';
 export const BUTTON_SEND_MESSAGE_TEXT = 'Send message';
@@ -11,6 +12,8 @@ export const BUTTON_ACCEPT_OFFER_TEXT = 'Accept offer';
 export const OFFER_CLOSED = 'Offer closed';
 export const OFFERED_BY_LABEL = 'Offered by';
 export const ADDED_LABEL = 'Added';
+
+export const COULD_NOT_LOAD_ITEM_MESSAGE = 'The item could not be loaded. Try again.';
 
 @Component({
   selector: 'item-single',
@@ -31,30 +34,34 @@ export class ItemComponent implements OnInit {
     added: ADDED_LABEL
   };
 
-  item: Item = new Item({
-    title: 'My new item for sale, very good!',
-    description: 'This is the item, very good, very cheap, like new - buy immediately! Once-in-a-lifetime offer, you mustn\'t miss it! What will you say when your child says \'Why didn\'t you invest in Eastern Poland?\'?',
-    price: 0.67,
-    addedBy: 'kplich',
-    added: new Date().toISOString(),
-    category: 'Books',
-    usedStatus: 'NEW',
-    photoUrls: ['https://http.cat/200.jpg', 'https://http.cat/201.jpg', 'https://http.cat/207.jpg', 'https://ireland.apollo.olxcdn.com/v1/files/83xjf4xoe3do1-PL/image;s=1000x700'],
-    closed: null
-  });
+  item: Item;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private itemsService: ItemsService,
+    private snackBarService: SnackBarService,
     private domSanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.snapshot.paramMap.get('id');
+    const id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'), 10);
+    this.itemsService.getItem(id).subscribe({
+      next: response => {
+        this.item = response.body;
+      },
+      error: error => {
+        console.error(error);
+        this.snackBarService.openSnackBar(COULD_NOT_LOAD_ITEM_MESSAGE);
+      }
+    });
   }
 
-  get safePhotoUrls(): SafeUrl[] {
-    return this.item.photoUrls.map(url => this.domSanitizer.bypassSecurityTrustUrl(url));
+  get itemPhotoUrls(): SafeUrl[] {
+    try {
+      return this.item.getSafePhotoUrls(this.domSanitizer);
+    } catch (_) {
+      console.warn('item not loaded yet... no reason to panic');
+      return undefined;
+    }
   }
-
 }
