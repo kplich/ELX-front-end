@@ -102,13 +102,14 @@ export class ItemBrowsingCriteriaComponent implements OnInit {
     }
 
     emitFilteringCriteria() {
-        const usedStatuses = [UsedStatus.NOT_APPLICABLE];
+        const usedStatuses = [];
 
         if (this.controls.status.value !== null) {
+            usedStatuses.push(UsedStatus.NOT_APPLICABLE);
             usedStatuses.push(this.controls.status.value);
         }
 
-        const filteringCriteria = {
+        const filteringProperties = {
             query: this.controls.query.valid ? this.controls.query.value : undefined,
             category: this.controls.category.value,
             statuses: usedStatuses,
@@ -120,8 +121,7 @@ export class ItemBrowsingCriteriaComponent implements OnInit {
                 ? this.controls.maximalPrice.value : undefined
         };
 
-        console.log(filteringCriteria);
-        console.log(this.criteriaForm);
-        this.filteringCriteria.emit(filteringCriteria);
+        console.log(filteringProperties);
+        this.filteringCriteria.emit(new ItemFilteringCriteria(filteringProperties));
     }
 }

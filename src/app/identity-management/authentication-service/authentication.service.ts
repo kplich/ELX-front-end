@@ -11,54 +11,56 @@ import {AUTHORIZATION, BEARER} from '../../routing/jwt-interceptor/jwt.intercept
 export const API_URL = `${environment.apiUrl}/auth`;
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(private httpClient: HttpClient, private jwtStorageService: JwtStorageService) { }
-
-  get authenticatedUser(): string | null {
-    return this.jwtStorageService.getAuthenticatedUser();
-  }
-
-  private static getTokenFromResponse(response: HttpResponse<any>): string {
-    const header = response.headers.get(AUTHORIZATION);
-
-    if (header === null) {
-      throw new Error('Authorization token not found!');
+    constructor(private httpClient: HttpClient, private jwtStorageService: JwtStorageService) {
     }
 
-    if (header.startsWith(BEARER)) {
-      return header.replace(BEARER, '').trim();
-    } else {
-      throw new Error('Bearer JSON Web Token required!');
+    get authenticatedUser(): string | null {
+        return this.jwtStorageService.getAuthenticatedUser();
     }
-  }
 
-  logIn(credentials: Credentials): Observable<HttpResponse<any>> {
-    return this.httpClient.post(`${API_URL}/log-in`, credentials, {observe: 'response'}).pipe(
-      tap(response => {
-        if (response.ok) {
-          this.jwtStorageService.putJwt(AuthenticationService.getTokenFromResponse(response));
+    private static getTokenFromResponse(response: HttpResponse<any>): string {
+        const header = response.headers.get(AUTHORIZATION);
+
+        if (header === null) {
+            throw new Error('Authorization token not found!');
         }
-      }),
-      shareReplay()
-    );
-  }
 
-  changePassword(passwordChangeRequest: PasswordChangeRequest): Observable<HttpResponse<any>> {
-    return this.httpClient.post(`${API_URL}/change-password`, passwordChangeRequest, {observe: 'response'}).pipe(
-      shareReplay()
-    );
-  }
+        if (header.startsWith(BEARER)) {
+            return header.replace(BEARER, '').trim();
+        } else {
+            throw new Error('Bearer JSON Web Token required!');
+        }
+    }
 
-  signUp(credentials: Credentials): Observable<HttpResponse<any>> {
-    return this.httpClient.post(`${API_URL}/sign-up`, credentials, {observe: 'response'}).pipe(
-      shareReplay()
-    );
-  }
+    logIn(credentials: Credentials): Observable<HttpResponse<any>> {
+        return this.httpClient.post(`${API_URL}/log-in`, credentials, {observe: 'response'}).pipe(
+            tap(response => {
+                if (response.ok) {
+                    this.jwtStorageService
+                        .putJwt(AuthenticationService.getTokenFromResponse(response));
+                }
+            }),
+            shareReplay()
+        );
+    }
 
-  logOut(): Promise<void> {
-    return new Promise(_ => this.jwtStorageService.removeJwt());
-  }
+    changePassword(passwordChangeRequest: PasswordChangeRequest): Observable<HttpResponse<any>> {
+        return this.httpClient.post(`${API_URL}/change-password`, passwordChangeRequest, {observe: 'response'}).pipe(
+            shareReplay()
+        );
+    }
+
+    signUp(credentials: Credentials): Observable<HttpResponse<any>> {
+        return this.httpClient.post(`${API_URL}/sign-up`, credentials, {observe: 'response'}).pipe(
+            shareReplay()
+        );
+    }
+
+    logOut(): Promise<void> {
+        return new Promise(_ => this.jwtStorageService.removeJwt());
+    }
 }

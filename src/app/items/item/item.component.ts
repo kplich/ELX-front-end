@@ -56,7 +56,7 @@ export class ItemComponent implements OnInit {
     try {
       return this.item.getSafePhotoUrls(this.domSanitizer);
     } catch (_) {
-      console.warn('item not loaded yet... no reason to panic');
+      console.warn('item not loaded yet, photos should arrive soon...');
       return undefined;
     }
   }

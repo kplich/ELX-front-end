@@ -1,67 +1,66 @@
 @import './dimens';
 
 @mixin sansFont {
-  font-family: Roboto, sans-serif;
+    font-family: Roboto, sans-serif;
 }
 
 @mixin monoFont {
-  font-family: Roboto Mono, sans-serif;
+    font-family: Roboto Mono, sans-serif;
 }
 
 @mixin fontSizeInPts($pts) {
-  font-size: $pts * 0.0625rem;
-  line-height: 1.25;
+    font-size: $pts * 0.0625rem;
+    line-height: 1.25;
 }
 
 @mixin header-1($mono: false) {
-  @if $mono {
-    @include monoFont;
-    font-weight: 500;
-  }
-  @else {
-    @include sansFont;
-    font-weight: 800;
-  }
+    @if $mono {
+        @include monoFont;
+        font-weight: 500;
+    } @else {
+        @include sansFont;
+        font-weight: 800;
+    }
 
-  @include fontSizeInPts(48);
+    @include fontSizeInPts(48);
 
-  margin-bottom: $dimen-xs;
-  letter-spacing: 0.5px;
+    margin-bottom: $dimen-xs;
+    letter-spacing: 0.5px;
 }
 
 @mixin header-2($mono: false) {
-  @if $mono {
-    @include monoFont;
-    font-weight: 300;
-  } @else {
-    @include sansFont;
-    font-weight: 600;
-  }
+    @if $mono {
+        @include monoFont;
+        font-weight: 300;
+    } @else {
+        @include sansFont;
+        font-weight: 600;
+    }
 
-  @include fontSizeInPts(32);
-  margin-bottom: $dimen-xxs;
+    @include fontSizeInPts(32);
+    margin-bottom: $dimen-xxs;
 }
 
 @mixin header-3($mono: false) {
-  @if $mono {
-    @include monoFont;
-    font-weight: 100;
-  } @else {
-    @include sansFont;
-    font-weight: 400;
-  }
+    @if $mono {
+        @include monoFont;
+        font-weight: 100;
+    } @else {
+        @include sansFont;
+        font-weight: 400;
+    }
 
-  @include fontSizeInPts(20);
+    @include fontSizeInPts(20);
 }
 
 @mixin body {
-  @include sansFont;
-  @include fontSizeInPts(14);
+    @include sansFont;
+    @include fontSizeInPts(14);
 }
 
 @mixin body-accent {
-  @include monoFont;
-  @include fontSizeInPts(14);
-  font-weight: 300;
-  font-style: italic;
+    @include monoFont;
+    @include fontSizeInPts(14);
+    font-weight: 300;
+    font-style: italic;
 }
