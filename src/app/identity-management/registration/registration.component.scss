@@ -1,21 +1,21 @@
 form {
-  display: flex;
-  flex-flow: column nowrap;
-
-  padding: 50px 30%;
-
-  .logging-in-actions {
     display: flex;
-    flex-flow: row nowrap;
-  }
+    flex-flow: column nowrap;
 
-  .mat-raised-button {
-    // make this padding smaller to better accommodate longer text
-    // and simultaneously allow for natural flex-grow
-    padding: 0 4px;
-  }
+    padding: 50px 30%;
 
-  button {
-    flex-basis: 25%;
-  }
+    .logging-in-actions {
+        display: flex;
+        flex-flow: row nowrap;
+    }
+
+    .mat-raised-button {
+        // make this padding smaller to better accommodate longer text
+        // and simultaneously allow for natural flex-grow
+        padding: 0 4px;
+    }
+
+    button {
+        flex-basis: 25%;
+    }
 }

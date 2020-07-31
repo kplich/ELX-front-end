@@ -7,7 +7,7 @@ import {MyErrorStateMatcher} from '../../../shared/MyErrorStateMatcher';
 import {ItemFilteringCriteria} from './ItemFilteringCriteria';
 
 export const SEARCH_BOX_LABEL = 'Keywords';
-export const SEARCH_BOX_PROMPT = 'Enter keywords that describe what you\'re looking for, e.g. \'book\', \'CD\', etc...';
+export const SEARCH_BOX_PLACEHOLDER = 'Enter keywords that describe what you\'re looking for, e.g. \'book\', \'CD\', etc...';
 export const SEARCH_BOX_QUERY_MAX_LENGTH = 100;
 export const SEARCH_QUERY_TOO_LONG_MESSAGE = `Search query cannot be longer than ${SEARCH_BOX_QUERY_MAX_LENGTH} characters.`;
 export const CATEGORY_LABEL = 'Category';
@@ -21,7 +21,6 @@ export const MAXIMAL_PRICE = ITEM_PRICE_MAXIMUM;
 export const BOUNDARY_OUT_OF_RANGE_MESSAGE = 'Prices can range from 0 to 100 000 000 Ξ.';
 export const MINIMAL_PRICE_GREATER_THAN_MAXIMAL_MESSAGE =
     'Minimal price should be smaller than maximal price. Prices given won\'t be used to filter items.';
-export const FILTER_LABEL = 'Filter';
 
 export function minimalPriceSmallerThanMaximalPriceValidator(formGroup: FormGroup) {
     const minimalPriceInput = formGroup.get('minimalPrice');
@@ -44,21 +43,28 @@ export function minimalPriceSmallerThanMaximalPriceValidator(formGroup: FormGrou
 export class ItemBrowsingCriteriaComponent implements OnInit {
 
     readonly strings = {
-        searchBoxLabel: SEARCH_BOX_LABEL,
-        searchBoxPrompt: SEARCH_BOX_PROMPT,
-        searchQueryTooLong: SEARCH_QUERY_TOO_LONG_MESSAGE,
-        categoryLabel: CATEGORY_LABEL,
-        emptyCategoryLabel: EMPTY_CATEGORY_LABEL,
-        statusLabel: STATUS_LABEL,
-        statusUsedLabel: UsedStatus.USED,
-        statusNewLabel: UsedStatus.NEW,
-        statusAnyLabel: STATUS_ANY_LABEL,
-        ethereumSymbol: Item.ETH_SYMBOL,
-        minimalPrice: MINIMAL_PRICE_LABEL,
-        maximalPrice: MAXIMAL_PRICE_LABEL,
-        priceBoundaryOutOfRangeMessage: BOUNDARY_OUT_OF_RANGE_MESSAGE,
-        minimalPriceGreaterThanMaximalMessage: MINIMAL_PRICE_GREATER_THAN_MAXIMAL_MESSAGE,
-        filterLabel: FILTER_LABEL
+        searchBox: {
+            label: SEARCH_BOX_LABEL,
+            placeholder: SEARCH_BOX_PLACEHOLDER,
+            queryTooLong: SEARCH_QUERY_TOO_LONG_MESSAGE
+        },
+        category: {
+            label: CATEGORY_LABEL,
+            emptyCategoryLabel: EMPTY_CATEGORY_LABEL
+        },
+        status: {
+            label: STATUS_LABEL,
+            statusUsedLabel: UsedStatus.USED,
+            statusNewLabel: UsedStatus.NEW,
+            statusAnyLabel: STATUS_ANY_LABEL,
+        },
+        price: {
+            ethereumSymbol: Item.ETH_SYMBOL,
+            minimalPriceLabel: MINIMAL_PRICE_LABEL,
+            maximalPriceLabel: MAXIMAL_PRICE_LABEL,
+            boundaryOutOfRange: BOUNDARY_OUT_OF_RANGE_MESSAGE,
+            minimalGreaterThanMaximal: MINIMAL_PRICE_GREATER_THAN_MAXIMAL_MESSAGE
+        }
     };
 
     readonly controls = {

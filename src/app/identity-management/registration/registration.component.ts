@@ -34,138 +34,131 @@ export const SERVER_ERROR_MESSAGE = 'Server error, try again!';
 export const SIGNED_UP_SUCCESSFULLY_MESSAGE = 'Signed up successfully!';
 
 @Component({
-  selector: 'identity-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+    selector: 'identity-registration',
+    templateUrl: './registration.component.html',
+    styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
 
-    // TODO: refactor this into single readonly 'strings' object';
-  usernameLabel = USERNAME_LABEL;
-  usernameHint = USERNAME_HINT;
-  usernameRequiredMessage = USERNAME_REQUIRED_MESSAGE;
-  minimumUsernameLengthMessage = MINIMUM_USERNAME_LENGTH_MESSAGE;
-  maximumUsernameLengthMessage = MAXIMUM_USERNAME_LENGTH_MESSAGE;
-  usernamePatternMessage = USERNAME_PATTERN_MESSAGE;
+    readonly strings = {
+        username: {
+            label: USERNAME_LABEL,
+            hint: USERNAME_HINT,
+            required: USERNAME_REQUIRED_MESSAGE,
+            tooShort: MINIMUM_USERNAME_LENGTH_MESSAGE,
+            tooLong: MAXIMUM_USERNAME_LENGTH_MESSAGE,
+            doesntMatchPattern: USERNAME_PATTERN_MESSAGE
+        },
+        password: {
+            label: PASSWORD_LABEL,
+            hint: PASSWORD_HINT,
+            required: PASSWORD_REQUIRED_MESSAGE,
+            tooShort: MINIMUM_PASSWORD_LENGTH_MESSAGE,
+            tooLong: MAXIMUM_PASSWORD_LENGTH_MESSAGE,
+            doesntMatchPattern: PASSWORD_PATTERN_MESSAGE
+        },
+        button: {
+            register: BUTTON_REGISTER_TEXT
+        }
+    };
 
-  passwordLabel = PASSWORD_LABEL;
-  passwordHint = PASSWORD_HINT;
-  passwordRequiredMessage = PASSWORD_REQUIRED_MESSAGE;
-  minimumPasswordLengthMessage = MINIMUM_PASSWORD_LENGTH_MESSAGE;
-  maximumPasswordLengthMessage = MAXIMUM_PASSWORD_LENGTH_MESSAGE;
-  passwordPatternMessage = PASSWORD_PATTERN_MESSAGE;
+    // language=JSRegexp
+    readonly lettersDigitsUnderscoresPattern = '\\w*';
+    // language=JSRegexp
+    readonly containsUppercaseLetterPattern = '.*[A-Z]+.*';
+    // language=JSRegexp
+    readonly containsLowercaseLetterPattern = '.*[a-z]+.*';
+    // language=JSRegexp
+    readonly containsDigitPattern = '.*\\d+.*';
+    // language=JSRegexp
+    readonly containsSpecialCharacterPattern = '.*[\\W_]+.*';
 
-  buttonRegisterText = BUTTON_REGISTER_TEXT;
+    readonly controls = {
+        username: new FormControl('', [
+            Validators.required,
+            Validators.minLength(MINIMUM_USERNAME_LENGTH),
+            Validators.maxLength(MAXIMUM_USERNAME_LENGTH),
+            Validators.pattern(this.lettersDigitsUnderscoresPattern)
+        ]),
+        password: new FormControl('', [
+            Validators.required,
+            Validators.pattern(this.containsLowercaseLetterPattern),
+            Validators.pattern(this.containsUppercaseLetterPattern),
+            Validators.pattern(this.containsDigitPattern),
+            Validators.pattern(this.containsSpecialCharacterPattern),
+            Validators.minLength(MINIMUM_PASSWORD_LENGTH),
+            Validators.maxLength(MAXIMUM_PASSWORD_LENGTH)
+        ])
+    };
 
-  // language=JSRegexp
-  lettersDigitsUnderscoresPattern = '\\w*';
-  // language=JSRegexp
-  containsUppercaseLetterPattern = '.*[A-Z]+.*';
-  // language=JSRegexp
-  containsLowercaseLetterPattern = '.*[a-z]+.*';
-  // language=JSRegexp
-  containsDigitPattern = '.*\\d+.*';
-  // language=JSRegexp
-  containsSpecialCharacterPattern = '.*[\\W_]+.*';
+    readonly errorStateMatcher: ErrorStateMatcher = new MyErrorStateMatcher();
+    readonly form: FormGroup = new FormGroup(this.controls);
 
-  registrationForm: FormGroup = new FormGroup({
-    username: new FormControl('', [
-      Validators.required,
-      Validators.minLength(MINIMUM_USERNAME_LENGTH),
-      Validators.maxLength(MAXIMUM_USERNAME_LENGTH),
-      Validators.pattern(this.lettersDigitsUnderscoresPattern)
-    ]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.pattern(this.containsLowercaseLetterPattern),
-      Validators.pattern(this.containsUppercaseLetterPattern),
-      Validators.pattern(this.containsDigitPattern),
-      Validators.pattern(this.containsSpecialCharacterPattern),
-      Validators.minLength(MINIMUM_PASSWORD_LENGTH),
-      Validators.maxLength(MAXIMUM_PASSWORD_LENGTH)
-    ])
-  });
-  errorStateMatcher: ErrorStateMatcher = new MyErrorStateMatcher();
-
-  constructor(
-    private authenticationService: AuthenticationService,
-    private router: Router,
-    private snackBarService: SnackBarService
-  ) {}
-
-  ngOnInit(): void {}
-
-  register() {
-    this.authenticationService.signUp(this.credentials).subscribe({
-      // tslint:disable-next-line:no-shadowed-variable
-      next: _ => this.router.navigateByUrl('/log-in').then(_ => {
-        this.snackBarService.openSnackBar(SIGNED_UP_SUCCESSFULLY_MESSAGE);
-      }),
-      error: error => this.openSnackBarOnError(error)
-    });
-  }
-
-  get username(): FormControl {
-    return this.registrationForm.get('username') as FormControl;
-  }
-
-  get password(): FormControl {
-    return this.registrationForm.get('password') as FormControl;
-  }
-
-  get usernameNotProvided(): boolean {
-    return this.username.hasError('required');
-  }
-
-  get usernameTooShort(): boolean {
-    return this.username.hasError('minlength');
-  }
-
-  get usernameTooLong(): boolean {
-    return this.username.hasError('maxlength');
-  }
-
-  get usernameDoesntMatchPattern(): boolean {
-    return !this.usernameTooShort && !this.usernameTooLong
-        && this.username.hasError('pattern');
-  }
-
-  get passwordNotProvided(): boolean {
-    return this.password.hasError('required');
-  }
-
-  get passwordTooShort(): boolean {
-    return this.password.hasError('minlength');
-  }
-
-  get passwordTooLong(): boolean {
-    return this.password.hasError('maxlength');
-  }
-
-  get passwordDoesntMatchPattern(): boolean {
-    return !this.passwordTooShort && !this.passwordTooLong
-        && this.password.hasError('pattern');
-  }
-
-  private get credentials(): Credentials {
-    return {username: this.username.value, password: this.password.value};
-  }
-
-  private openSnackBarOnError(errorResponse: HttpErrorResponse) {
-    switch (errorResponse.status) {
-      case 400: {
-        this.snackBarService.openSnackBar(INVALID_DATA_MESSAGE);
-        break;
-      }
-      case 409: {
-        this.snackBarService.openSnackBar(USER_ALREADY_EXISTS_MESSAGE);
-        break;
-      }
-      case 500: {
-        this.snackBarService.openSnackBar(SERVER_ERROR_MESSAGE);
-        break;
-      }
+    constructor(
+        private authenticationService: AuthenticationService,
+        private router: Router,
+        private snackBarService: SnackBarService
+    ) {
     }
-  }
+
+    get errors() {
+        return {
+            username: {
+                notProvided: () => this.controls.username.hasError('required'),
+                tooShort: () => this.controls.username.hasError('minlength'),
+                tooLong: () => this.controls.username.hasError('maxlength'),
+                doesntMatchPattern: () => !this.errors.username.tooLong()
+                    && !this.errors.username.tooShort()
+                    && this.controls.username.hasError('pattern')
+            },
+            password: {
+                notProvided: () => this.controls.password.hasError('required'),
+                tooShort: () => this.controls.password.hasError('minlength'),
+                tooLong: () => this.controls.password.hasError('maxlength'),
+                doesntMatchPattern: () => !this.errors.password.tooShort()
+                    && !this.errors.password.tooLong()
+                    && this.controls.password.hasError('pattern')
+            }
+        };
+    }
+
+    private get credentials(): Credentials {
+        return {
+            username: this.controls.username.value,
+            password: this.controls.password.value
+        };
+    }
+
+    ngOnInit(): void {
+        // TODO: redirect to items when user is logged in
+    }
+
+    register() {
+        this.authenticationService.signUp(this.credentials).subscribe({
+            next: () => {
+                this.router.navigateByUrl('/log-in').then(() => {
+                    this.snackBarService.openSnackBar(SIGNED_UP_SUCCESSFULLY_MESSAGE);
+                });
+            },
+            error: error => this.openSnackBarOnError(error)
+        });
+    }
+
+    private openSnackBarOnError(errorResponse: HttpErrorResponse) {
+        switch (errorResponse.status) {
+            case 400: {
+                this.snackBarService.openSnackBar(INVALID_DATA_MESSAGE);
+                break;
+            }
+            case 409: {
+                this.snackBarService.openSnackBar(USER_ALREADY_EXISTS_MESSAGE);
+                break;
+            }
+            case 500: {
+                this.snackBarService.openSnackBar(SERVER_ERROR_MESSAGE);
+                break;
+            }
+        }
+    }
 
 }
