@@ -28,9 +28,9 @@ export const ITEM_PRICE_TOO_HIGH_MESSAGE = `Item price cannot be greater than ${
 export const ITEM_PRICE_HINT = 'Desired price of item in Ξ with accuracy of 0.0001 Ξ (around 0.02 €). Amounts smaller than that will get rounded!';
 
 export const ITEM_USED_STATUS_LABEL = 'Item status';
-export const ITEM_USED_LABEL = UsedStatus.USED.toString();
+export const ITEM_USED_LABEL = UsedStatus.USED;
 export const ITEM_USED_VALUE = statusToDtoString(UsedStatus.USED);
-export const ITEM_NEW_LABEL = UsedStatus.NEW.toString();
+export const ITEM_NEW_LABEL = UsedStatus.NEW;
 export const ITEM_NEW_VALUE = statusToDtoString(UsedStatus.NEW);
 export const ITEM_NOT_APPLICABLE_LABEL = UsedStatus.NOT_APPLICABLE;
 export const ITEM_NOT_APPLICABLE_VALUE = statusToDtoString(UsedStatus.NOT_APPLICABLE);
@@ -67,19 +67,19 @@ export const BUTTON_ADD_ITEM_TEXT = 'Add item';
 export class AddItemComponent implements OnInit {
 
   // language=JSRegexp
-  itemTitleSymbolsPattern = '^[^!@#$^*={}|\\\\<>?]+$';
+    readonly itemTitleSymbolsPattern = '^[^!@#$^*={}|\\\\<>?]+$';
 
-  strings = {
-    formHeader: ADD_ITEM_FORM_HEADER,
-    title: {
-      label: ITEM_TITLE_LABEL,
-      required: ITEM_TITLE_REQUIRED_MESSAGE,
-      tooShort: ITEM_TITLE_TOO_SHORT_MESSAGE,
-      tooLong: ITEM_TITLE_TOO_LONG_MESSAGE,
-      illegalSymbols: ITEM_TITLE_ILLEGAL_SYMBOLS_MESSAGE,
-      hint: ITEM_TITLE_HINT
-    },
-    price: {
+    readonly strings = {
+        formHeader: ADD_ITEM_FORM_HEADER,
+        title: {
+            label: ITEM_TITLE_LABEL,
+            required: ITEM_TITLE_REQUIRED_MESSAGE,
+            tooShort: ITEM_TITLE_TOO_SHORT_MESSAGE,
+            tooLong: ITEM_TITLE_TOO_LONG_MESSAGE,
+            illegalSymbols: ITEM_TITLE_ILLEGAL_SYMBOLS_MESSAGE,
+            hint: ITEM_TITLE_HINT
+        },
+        price: {
       label: ITEM_PRICE_LABEL,
       required: ITEM_PRICE_REQUIRED_MESSAGE,
       negative: ITEM_PRICE_NEGATIVE_MESSAGE,
@@ -112,11 +112,11 @@ export class AddItemComponent implements OnInit {
     buttonAddItem: BUTTON_ADD_ITEM_TEXT
   };
 
-  usedStatusValues = {
-    used: ITEM_USED_VALUE,
-    new: ITEM_NEW_VALUE,
-    notApplicable: ITEM_NOT_APPLICABLE_VALUE
-  };
+    readonly usedStatusValues = {
+        used: ITEM_USED_VALUE,
+        new: ITEM_NEW_VALUE,
+        notApplicable: ITEM_NOT_APPLICABLE_VALUE
+    };
 
   categories: ItemCategory[] = [];
 

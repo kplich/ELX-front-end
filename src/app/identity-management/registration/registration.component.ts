@@ -40,6 +40,7 @@ export const SIGNED_UP_SUCCESSFULLY_MESSAGE = 'Signed up successfully!';
 })
 export class RegistrationComponent implements OnInit {
 
+    // TODO: refactor this into single readonly 'strings' object';
   usernameLabel = USERNAME_LABEL;
   usernameHint = USERNAME_HINT;
   usernameRequiredMessage = USERNAME_REQUIRED_MESSAGE;

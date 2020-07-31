@@ -20,12 +20,12 @@ import {RouterModule} from '@angular/router';
     ItemCardComponent
   ],
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    MatCarouselModule.forRoot(),
-    SharedModule,
-    RouterModule
+      CommonModule,
+      ReactiveFormsModule,
+      MaterialModule,
+      MatCarouselModule.forRoot(),
+      SharedModule,
+      RouterModule,
   ]
 })
 export class ItemsModule { }

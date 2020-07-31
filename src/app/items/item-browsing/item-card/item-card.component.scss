@@ -2,20 +2,20 @@
 @import 'src/typography';
 
 .simple-card {
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
 
-  margin-bottom: $dimen-xs;
+    margin-bottom: $dimen-s;
 
-  @include body;
+    @include body;
 
-  .item-card-img-container {
-    width: 20%;
-    border: 1px solid lightgrey;
-    border-radius: $dimen-xxs;
+    .item-card-img-container {
+        width: 20%;
+        border: 1px solid lightgrey;
+        border-radius: $dimen-xxs;
 
-    margin-right: $dimen-xs;
+        margin-right: $dimen-xs;
 
     text-align: center;
 
@@ -39,16 +39,15 @@
       justify-content: space-between;
 
       .item-card-details-title {
-        max-width: 90%;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
+          max-width: 85%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
 
-        @include header-2;
+          @include header-2;
       }
 
       .item-card-details-status {
-
         text-align: end;
 
         @include header-2($mono: true);

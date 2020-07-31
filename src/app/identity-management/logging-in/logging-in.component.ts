@@ -27,6 +27,7 @@ export const BUTTON_REGISTER_TEXT = 'Register';
 })
 export class LoggingInComponent implements OnInit {
 
+    // TODO: refactory this into a single readonly 'strings' object
   usernameLabel = USERNAME_LABEL;
   usernameRequiredMessage = USERNAME_REQUIRED_MESSAGE;
 

@@ -1,21 +1,62 @@
 @import 'node_modules/@angular/material/theming';
+@import 'src/dimens';
 
 .search-container-row {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
 
-  mat-form-field {
-    margin: 0 10px 0 0;
+    > * {
+        margin-right: $dimen-xs;
 
-    // used to simulate margin collapsing - if the field is the last in the row,
-    // disable its margins to fit nicely within the container
-    &:last-child {
-      margin: 0;
+        // used to simulate margin collapsing - if the field is the last in the row,
+        // disable its margins to fit nicely within the container
+        &:last-child {
+            margin-right: 0;
+        }
     }
-  }
+}
+
+.pseudo-mat-form-field {
+
+    .pseudo-mat-form-field-label {
+        text-align: center;
+        margin-bottom: $dimen-xxs;
+    }
+}
+
+.mat-radio-group-container {
+    padding: $dimen-xxs;
+
+    label {
+        display: block;
+        text-align: center;
+        margin-bottom: $dimen-xs;
+    }
+
+    mat-radio-group {
+        mat-radio-button {
+            margin: 0 $dimen-xs;
+        }
+    }
+}
+
+.mat-form-button {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+
+    .mat-form-button-error {
+        color: red;
+        font-size: 0.8em;
+    }
+
+    button {
+        margin-left: $dimen-xxs;
+    }
 }
 
 .search-input {
-  flex-grow: 3;
+    flex-grow: 3;
 }

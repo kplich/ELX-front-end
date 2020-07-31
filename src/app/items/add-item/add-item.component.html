@@ -1,98 +1,99 @@
 <h1>
-  {{strings.formHeader}}
+    {{strings.formHeader}}
 </h1>
 <form [formGroup]="newItemFormGroup">
-  <div class="form-fields">
-    <mat-form-field class="title-field" appearance="outline" [color]="'accent'">
-      <mat-label>{{strings.title.label}}</mat-label>
-      <input matInput type="text" [formControl]="titleInput" [errorStateMatcher]="errorStateMatcher">
-      <mat-hint>{{strings.title.hint}}</mat-hint>
-      <mat-error *ngIf="titleNotProvided">
-        {{strings.title.required}}
-      </mat-error>
-      <mat-error *ngIf="titleTooShort">
-        {{strings.title.tooShort}}
-      </mat-error>
-      <mat-error *ngIf="titleTooLong">
-        {{strings.title.tooLong}}
-      </mat-error>
-      <mat-error *ngIf="titleDoesntMatchPattern">
-        {{strings.title.illegalSymbols}}
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="price-field" appearance="outline">
-      <mat-label>{{strings.price.label}}</mat-label>
-      <input matInput type="number" step="0.0001" [formControl]="priceInput" [errorStateMatcher]="errorStateMatcher">
-      <span matSuffix>Ξ</span>
-      <mat-hint>{{strings.price.hint}}</mat-hint>
-      <mat-error *ngIf="priceNotProvided">
-        {{strings.price.required}}
-      </mat-error>
-      <mat-error *ngIf="priceIsNegative">
-        {{strings.price.negative}}
-      </mat-error>
-      <mat-error *ngIf="priceIsTooHigh">
-        {{strings.price.tooHigh}}
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="status-field" appearance="outline">
-      <mat-label>{{strings.usedStatus.label}}</mat-label>
-      <mat-select
-        [required]="true"
-        [formControl]="usedStatusInput"
-        [errorStateMatcher]="errorStateMatcher">
-        <mat-option [value]="usedStatusValues.new">
-          {{strings.usedStatus.new}}
-        </mat-option>
-        <mat-option [value]="usedStatusValues.used">
-          {{strings.usedStatus.used}}
-        </mat-option>
-        <mat-option [value]="usedStatusValues.notApplicable">
-          {{strings.usedStatus.notApplicable}}
-        </mat-option>
-      </mat-select>
-      <mat-hint>{{strings.usedStatus.hint}}</mat-hint>
-      <mat-error *ngIf="usedStatusNotProvided">
-        {{strings.usedStatus.required}}
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="category-field" appearance="outline">
-      <mat-label>{{strings.category.label}}</mat-label>
-      <mat-select
-        [required]="true"
-        [formControl]="categoryInput"
-        [errorStateMatcher]="errorStateMatcher">
-        <mat-option *ngFor="let category of categories" [value]="category.id">
-          {{category.name}}
-        </mat-option>
-      </mat-select>
-      <mat-hint>{{strings.category.hint}}</mat-hint>
-      <mat-error *ngIf="categoryNotProvided">
-        {{strings.category.required}}
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="description-field" appearance="outline" [color]="'accent'">
-      <mat-label>{{strings.description.label}}</mat-label>
-      <textarea matInput [formControl]="descriptionInput" [errorStateMatcher]="errorStateMatcher"></textarea>
-      <mat-hint>{{strings.description.hint}}</mat-hint>
-      <mat-error *ngIf="descriptionNotProvided">
-        {{strings.description.required}}
-      </mat-error>
-      <mat-error *ngIf="descriptionTooShort">
-        {{strings.description.tooShort}}
-      </mat-error>
-      <mat-error *ngIf="descriptionTooLong">
-        {{strings.description.tooLong}}
-      </mat-error>
-    </mat-form-field>
-    <app-photo-uploader
-      [maximumPhotos]="8"
-      [noPhotosPrompt]="strings.photos.prompt"
-      (photoListChanged)="updatePhotoUrls($event)"></app-photo-uploader>
-  </div>
-  <div class="form-actions">
-    <button mat-raised-button color="accent"
-            (click)="sendRequestToAddItem()" [disabled]="!formIsValid">{{strings.buttonAddItem}}</button>
-  </div>
+    <div class="form-fields">
+        <mat-form-field [color]="'accent'" appearance="outline" class="title-field">
+            <mat-label>{{strings.title.label}}</mat-label>
+            <input [errorStateMatcher]="errorStateMatcher" [formControl]="titleInput" matInput type="text">
+            <mat-hint>{{strings.title.hint}}</mat-hint>
+            <mat-error *ngIf="titleNotProvided">
+                {{strings.title.required}}
+            </mat-error>
+            <mat-error *ngIf="titleTooShort">
+                {{strings.title.tooShort}}
+            </mat-error>
+            <mat-error *ngIf="titleTooLong">
+                {{strings.title.tooLong}}
+            </mat-error>
+            <mat-error *ngIf="titleDoesntMatchPattern">
+                {{strings.title.illegalSymbols}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="price-field">
+            <mat-label>{{strings.price.label}}</mat-label>
+            <input [errorStateMatcher]="errorStateMatcher" [formControl]="priceInput" matInput step="0.0001"
+                   type="number">
+            <span matSuffix>Ξ</span>
+            <mat-hint>{{strings.price.hint}}</mat-hint>
+            <mat-error *ngIf="priceNotProvided">
+                {{strings.price.required}}
+            </mat-error>
+            <mat-error *ngIf="priceIsNegative">
+                {{strings.price.negative}}
+            </mat-error>
+            <mat-error *ngIf="priceIsTooHigh">
+                {{strings.price.tooHigh}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="status-field">
+            <mat-label>{{strings.usedStatus.label}}</mat-label>
+            <mat-select
+                [errorStateMatcher]="errorStateMatcher"
+                [formControl]="usedStatusInput"
+                [required]="true">
+                <mat-option [value]="usedStatusValues.new">
+                    {{strings.usedStatus.new}}
+                </mat-option>
+                <mat-option [value]="usedStatusValues.used">
+                    {{strings.usedStatus.used}}
+                </mat-option>
+                <mat-option [value]="usedStatusValues.notApplicable">
+                    {{strings.usedStatus.notApplicable}}
+                </mat-option>
+            </mat-select>
+            <mat-hint>{{strings.usedStatus.hint}}</mat-hint>
+            <mat-error *ngIf="usedStatusNotProvided">
+                {{strings.usedStatus.required}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="category-field">
+            <mat-label>{{strings.category.label}}</mat-label>
+            <mat-select
+                [errorStateMatcher]="errorStateMatcher"
+                [formControl]="categoryInput"
+                [required]="true">
+                <mat-option *ngFor="let category of categories" [value]="category.id">
+                    {{category.name}}
+                </mat-option>
+            </mat-select>
+            <mat-hint>{{strings.category.hint}}</mat-hint>
+            <mat-error *ngIf="categoryNotProvided">
+                {{strings.category.required}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field [color]="'accent'" appearance="outline" class="description-field">
+            <mat-label>{{strings.description.label}}</mat-label>
+            <textarea [errorStateMatcher]="errorStateMatcher" [formControl]="descriptionInput" matInput></textarea>
+            <mat-hint>{{strings.description.hint}}</mat-hint>
+            <mat-error *ngIf="descriptionNotProvided">
+                {{strings.description.required}}
+            </mat-error>
+            <mat-error *ngIf="descriptionTooShort">
+                {{strings.description.tooShort}}
+            </mat-error>
+            <mat-error *ngIf="descriptionTooLong">
+                {{strings.description.tooLong}}
+            </mat-error>
+        </mat-form-field>
+        <app-photo-uploader
+            (photoListChanged)="updatePhotoUrls($event)"
+            [maximumPhotos]="8"
+            [noPhotosPrompt]="strings.photos.prompt"></app-photo-uploader>
+    </div>
+    <div class="form-actions">
+        <button (click)="sendRequestToAddItem()" [disabled]="!formIsValid"
+                color="accent" mat-raised-button>{{strings.buttonAddItem}}</button>
+    </div>
 
 </form>
