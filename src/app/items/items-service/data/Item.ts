@@ -3,6 +3,10 @@ import {dtoStringToStatus, UsedStatus} from './UsedStatus';
 
 export class Item {
   public static readonly ETH_SYMBOL = 'Ξ';
+  public static readonly ADDED_BY = 'Added by';
+  public static readonly ADDED_ON_LABEL = 'Item added';
+  public static readonly CLOSED_ON_LABEL = 'Item closed';
+  public static readonly CATEGORY_LABEL = 'Category';
 
   public readonly id: number;
   public readonly title: string;
@@ -77,6 +81,6 @@ export interface NewOrUpdatedItemRequest {
   readonly price: number;
   readonly category: number;
   readonly usedStatus: string;
-  readonly photoUrls: string[];
+  readonly photos: string[];
   readonly id?: number;
 }

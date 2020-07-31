@@ -44,7 +44,10 @@ export class ItemsService {
   }
 
   addNewItem(requestData: NewOrUpdatedItemRequest): Observable<HttpResponse<Item>> {
-    return this.http.post<ItemResponse>(ITEMS_API_URL, requestData, {observe: 'response'}).pipe(
+    return this.http.post<ItemResponse>(
+      `${ITEMS_API_URL}/`,
+      requestData,
+      {observe: 'response'}).pipe(
       map(ItemsService.transformToResponseWithEntity)
     );
   }
@@ -60,7 +63,7 @@ export class ItemsService {
 
   updateItem(requestData: NewOrUpdatedItemRequest): Observable<HttpResponse<Item>> {
     return this.http.put<ItemResponse>(
-      `${ITEMS_API_URL}`,
+      `${ITEMS_API_URL}/`,
       requestData,
       {observe: 'response'}).pipe(
       map(ItemsService.transformToResponseWithEntity)

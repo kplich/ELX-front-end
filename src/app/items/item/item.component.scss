@@ -1,5 +1,6 @@
 @import '~@angular/material/theming';
-@import 'src/dimens.scss';
+@import 'src/dimens';
+@import 'src/typography';
 
 :host {
   display: flex;
@@ -10,34 +11,24 @@
 .item-header {
   display: flex;
   flex-flow: column nowrap;
-  flex-grow: 1;
 
   margin-bottom: $dimen-xs;
 
   .item-header-row {
     width: 100%;
-    margin: $dimen-xs 0;
 
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
     align-items: center;
-  }
 
-  .item-header-row:last-of-type {
-    margin-bottom: 0;
-  }
+    .item-detail:first-of-type {
+      margin: 0;
+    }
 
-  .item-details > * {
-    font-family: Roboto Mono, monospace;
-    font-weight: 300;
-    font-style: italic;
-    font-size: 1.2em;
-    margin: 0 $dimen-s;
-  }
-
-  .item-details > *:first-of-type {
-    margin: 0;
+    .item-detail {
+      @include header-3($mono: true)
+    }
   }
 
   .item-actions > * {
@@ -81,27 +72,21 @@
     flex-flow: column nowrap;
 
     .item-seller {
-      text-align: end;
+      text-align: start;
 
       margin-bottom: $dimen-xs;
 
-      font-size: 1.2em;
-      font-weight: lighter;
-      font-family: Roboto Mono, monospace;
-      font-style: italic;
+      @include body-accent
     }
   }
 }
 
 .item-title {
-  font-size: 2em;
-  font-weight: bold;
+  @include header-2
 }
 
 .item-price {
-  font-family: Roboto Mono, monospace;
-  font-size: 2em;
-  font-weight: lighter;
+  @include header-2(true)
 }
 
 

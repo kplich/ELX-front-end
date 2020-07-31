@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Item} from '../items-service/data/Item';
+import {ItemsService} from '../items-service/items.service';
 
 @Component({
   selector: 'item-browsing',
@@ -7,9 +9,15 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ItemBrowsingComponent implements OnInit {
 
-  constructor() { }
+  items: Item[];
+
+  constructor(private itemService: ItemsService) { }
 
   ngOnInit() {
+    this.itemService.getAllItems().subscribe({
+      next: response => this.items = response.body,
+      error: error => {}
+    });
   }
 
 }

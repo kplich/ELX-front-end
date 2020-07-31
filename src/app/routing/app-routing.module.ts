@@ -14,10 +14,11 @@ const routes: Routes = [
   {path: 'log-in', component: LoggingInComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'add-item', component: AddItemComponent},
-  {path: 'browse-items', component: ItemBrowsingComponent},
-  {path: 'item/:id', component: ItemComponent},
+  {path: 'items', component: ItemBrowsingComponent},
+  {path: 'items/:id', component: ItemComponent},
   {path: 'my-account', component: MyAccountComponent, canActivate: [LoggedInGuard]},
-  {path: 'offer', component: OfferComponent, canActivate: [LoggedInGuard]}
+  {path: 'offer', component: OfferComponent, canActivate: [LoggedInGuard]},
+  {path: '', component: ItemBrowsingComponent}
 ];
 
 @NgModule({

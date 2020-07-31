@@ -92,7 +92,7 @@ export class AppComponent {
 
   // noinspection JSUnusedLocalSymbols - called from template using callFunction
   private navigateToItems() {
-    this.router.navigateByUrl('/browse-items').then(_ => {});
+    this.router.navigateByUrl('/items').then(_ => {});
   }
 
   // noinspection JSUnusedLocalSymbols - called from template using callFunction

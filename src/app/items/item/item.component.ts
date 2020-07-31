@@ -5,13 +5,9 @@ import {Item} from '../items-service/data/Item';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
 
-export const CATEGORY_LABEL = 'Category';
 export const BUTTON_SEND_MESSAGE_TEXT = 'Send message';
 export const BUTTON_SEND_OFFER_TEXT = 'Send offer';
 export const BUTTON_ACCEPT_OFFER_TEXT = 'Accept offer';
-export const OFFER_CLOSED = 'Offer closed';
-export const OFFERED_BY_LABEL = 'Offered by';
-export const ADDED_LABEL = 'Added';
 
 export const COULD_NOT_LOAD_ITEM_MESSAGE = 'The item could not be loaded. Try again.';
 
@@ -23,15 +19,15 @@ export const COULD_NOT_LOAD_ITEM_MESSAGE = 'The item could not be loaded. Try ag
 export class ItemComponent implements OnInit {
 
   strings = {
-    category: CATEGORY_LABEL,
+    category: Item.CATEGORY_LABEL,
     buttons: {
       sendMessage: BUTTON_SEND_MESSAGE_TEXT,
       sendOffer: BUTTON_SEND_OFFER_TEXT,
       acceptOffer: BUTTON_ACCEPT_OFFER_TEXT
     },
-    offerClosed: OFFER_CLOSED,
-    offeredBy: OFFERED_BY_LABEL,
-    added: ADDED_LABEL
+    itemClosed: Item.CLOSED_ON_LABEL,
+    addedBy: Item.ADDED_BY,
+    addedOn: Item.ADDED_ON_LABEL
   };
 
   item: Item;

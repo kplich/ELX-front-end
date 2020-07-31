@@ -1,7 +1,7 @@
 <h1>
   {{strings.formHeader}}
 </h1>
-<form [formGroup]="newItemFormGroup" (submit)="sendRequestToAddItem()">
+<form [formGroup]="newItemFormGroup">
   <div class="form-fields">
     <mat-form-field class="title-field" appearance="outline" [color]="'accent'">
       <mat-label>{{strings.title.label}}</mat-label>
@@ -62,8 +62,8 @@
         [required]="true"
         [formControl]="categoryInput"
         [errorStateMatcher]="errorStateMatcher">
-        <mat-option *ngFor="let category of categories" [value]="category">
-          {{category}}
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{category.name}}
         </mat-option>
       </mat-select>
       <mat-hint>{{strings.category.hint}}</mat-hint>
@@ -91,7 +91,8 @@
       (photoListChanged)="updatePhotoUrls($event)"></app-photo-uploader>
   </div>
   <div class="form-actions">
-    <button mat-raised-button color="accent" [disabled]="!formIsValid">{{strings.buttonAddItem}}</button>
+    <button mat-raised-button color="accent"
+            (click)="sendRequestToAddItem()" [disabled]="!formIsValid">{{strings.buttonAddItem}}</button>
   </div>
 
 </form>

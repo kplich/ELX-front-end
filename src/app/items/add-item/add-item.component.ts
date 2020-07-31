@@ -189,7 +189,7 @@ export class AddItemComponent implements OnInit {
       price: this.priceInput.value,
       category: this.categoryInput.value,
       usedStatus: this.usedStatusInput.value,
-      photoUrls: this.photoUrlsInput.value
+      photos: this.photoUrlsInput.value
     };
   }
 

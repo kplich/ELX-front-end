@@ -1,2 +1,5 @@
 <item-browsing-criteria></item-browsing-criteria>
-<p>item cards</p>
+<div class="item-cards">
+  <item-card *ngFor="let item of items" [item]="item"></item-card>
+</div>
+
