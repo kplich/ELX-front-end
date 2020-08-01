@@ -10,14 +10,16 @@ import {SharedModule} from '../shared/shared.module';
 import {ItemCardComponent} from './item-browsing/item-card/item-card.component';
 import {ItemBrowsingCriteriaComponent} from './item-browsing/item-browsing-criteria/item-browsing-criteria.component';
 import {RouterModule} from '@angular/router';
+import {UpdateItemComponent} from './update-item/update-item.component';
 
 @NgModule({
   declarations: [
-    ItemComponent,
-    ItemBrowsingComponent,
-    ItemBrowsingCriteriaComponent,
-    AddItemComponent,
-    ItemCardComponent
+      ItemComponent,
+      ItemBrowsingComponent,
+      ItemBrowsingCriteriaComponent,
+      AddItemComponent,
+      ItemCardComponent,
+      UpdateItemComponent
   ],
   imports: [
       CommonModule,

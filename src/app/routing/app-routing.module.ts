@@ -15,6 +15,7 @@ const routes: Routes = [
     {path: 'register', component: RegistrationComponent},
     {path: 'items', component: ItemBrowsingComponent},
     {path: 'items/add', component: AddItemComponent},
+    {path: 'items/:id/edit', component: AddItemComponent},
     {path: 'items/:id', component: ItemComponent},
     {path: 'my-account', component: MyAccountComponent, canActivate: [LoggedInGuard]},
     {path: 'offer', component: OfferComponent, canActivate: [LoggedInGuard]},

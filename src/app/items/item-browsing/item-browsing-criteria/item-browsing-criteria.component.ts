@@ -2,9 +2,9 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Item, ItemCategory} from '../../items-service/data/Item';
 import {UsedStatus} from '../../items-service/data/UsedStatus';
-import {ITEM_PRICE_MAXIMUM, ITEM_PRICE_MINIMUM} from '../../add-item/add-item.component';
 import {MyErrorStateMatcher} from '../../../shared/MyErrorStateMatcher';
 import {ItemFilteringCriteria} from './ItemFilteringCriteria';
+import {ITEM_PRICE_MAXIMUM, ITEM_PRICE_MINIMUM} from '../../edit-item-base/ItemEditBase';
 
 export const SEARCH_BOX_LABEL = 'Keywords';
 export const SEARCH_BOX_PLACEHOLDER = 'Enter keywords that describe what you\'re looking for, e.g. \'book\', \'CD\', etc...';
