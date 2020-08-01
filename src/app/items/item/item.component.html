@@ -8,7 +8,7 @@
             *ngIf="item?.usedStatusIsApplicable"
             class="item-detail">{{item?.usedStatus.toString()}}</div>
         <div class="item-detail">{{strings.category}}: {{item?.category.name}}</div>
-        <div *ngIf="item?.isClosed else itemNotClosedActions">
+        <div *ngIf="item?.isClosed else itemNotClosedActions" class="item-closed">
             {{strings.itemClosed}} {{item?.closedOn | date}}
         </div>
         <ng-template #itemNotClosedActions>

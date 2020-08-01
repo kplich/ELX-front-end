@@ -31,6 +31,10 @@
         .item-detail {
             @include header-3($mono: true)
         }
+
+        .item-closed {
+            @include body-accent
+        }
     }
 
     .item-header-row:last-of-type {
