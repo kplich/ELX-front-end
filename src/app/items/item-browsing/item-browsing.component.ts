@@ -25,15 +25,11 @@ export class ItemBrowsingComponent implements OnInit {
     }
 
     get itemsWereLoaded(): boolean {
-        return this.allItems === undefined || this.allItems.length !== 0;
+        return this.allItems === undefined || this.allItems?.length !== 0;
     }
 
     get itemsWereFound(): boolean {
-        try {
-            return this.displayedItems.length !== 0;
-        } catch (_) {
-            console.warn('items not loaded yet, they should arrive soon...');
-        }
+        return this.displayedItems?.length !== 0;
     }
 
     ngOnInit() {

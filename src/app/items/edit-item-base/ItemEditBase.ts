@@ -56,6 +56,7 @@ export const BAD_REQUEST_DATA_MESSAGE = 'Incorrect data were provided!';
 export const SERVER_ERROR_MESSAGE = 'An unexpected error occured. Try again.';
 
 export const BUTTON_ADD_ITEM_TEXT = 'Add item';
+export const BUTTON_UPDATE_ITEM_TEXT = 'Save changes';
 
 export abstract class ItemEditBaseComponent {
 
@@ -99,7 +100,8 @@ export abstract class ItemEditBaseComponent {
         photos: {
             prompt: ITEM_PHOTOS_ADD_PROMPT
         },
-        buttonAddItem: BUTTON_ADD_ITEM_TEXT
+        buttonAddItem: BUTTON_ADD_ITEM_TEXT,
+        buttonUpdateItem: BUTTON_UPDATE_ITEM_TEXT
     };
     public readonly usedStatusValues = {
         used: ITEM_USED_VALUE,

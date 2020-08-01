@@ -22,8 +22,10 @@
                 <button *ngIf="!addedByLoggedInUser" color="accent" mat-raised-button>
                     {{strings.buttons.acceptOffer}}
                 </button>
-                <button (click)="closeOffer()" *ngIf="canBeClosed" color="warn"
-                        mat-raised-button>
+                <button (click)="navigateToUpdatingItem()" *ngIf="addedByLoggedInUser" color="accent" mat-raised-button>
+                    {{strings.buttons.editItem}}
+                </button>
+                <button (click)="closeOffer()" *ngIf="canBeClosed" color="warn" mat-raised-button>
                     {{strings.buttons.closeOffer}}
                 </button>
             </div>

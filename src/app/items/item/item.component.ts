@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ItemsService} from '../items-service/items.service';
 import {Item} from '../items-service/data/Item';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
@@ -10,6 +10,7 @@ export const BUTTON_SEND_MESSAGE_TEXT = 'Send message';
 export const BUTTON_SEND_OFFER_TEXT = 'Send offer';
 export const BUTTON_ACCEPT_OFFER_TEXT = 'Accept offer';
 export const BUTTON_CLOSE_OFFER_TEXT = 'Close offer';
+export const BUTTON_EDIT_ITEM_TEXT = 'Edit item';
 
 export const COULD_NOT_LOAD_ITEM_MESSAGE = 'The item could not be loaded. Try again.';
 export const COULD_NOT_CLOSE_ITEM_MESSAGE = 'An error occured while closing the item, try again later.';
@@ -28,7 +29,8 @@ export class ItemComponent implements OnInit {
             sendMessage: BUTTON_SEND_MESSAGE_TEXT,
             sendOffer: BUTTON_SEND_OFFER_TEXT,
             acceptOffer: BUTTON_ACCEPT_OFFER_TEXT,
-            closeOffer: BUTTON_CLOSE_OFFER_TEXT
+            closeOffer: BUTTON_CLOSE_OFFER_TEXT,
+            editItem: BUTTON_EDIT_ITEM_TEXT
         },
         itemClosed: Item.CLOSED_ON_LABEL,
         addedBy: Item.ADDED_BY,
@@ -42,7 +44,8 @@ export class ItemComponent implements OnInit {
         private itemsService: ItemsService,
         private snackBarService: SnackBarService,
         private domSanitizer: DomSanitizer,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
+        private router: Router
     ) {
     }
 
@@ -86,6 +89,11 @@ export class ItemComponent implements OnInit {
             error: error => {
                 this.snackBarService.openSnackBar(COULD_NOT_CLOSE_ITEM_MESSAGE);
             }
+        });
+    }
+
+    navigateToUpdatingItem() {
+        this.router.navigateByUrl(`items/${this.item.id}/edit`).then(() => {
         });
     }
 }

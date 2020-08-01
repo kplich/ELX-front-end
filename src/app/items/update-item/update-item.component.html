@@ -5,7 +5,8 @@
     <div class="form-fields">
         <mat-form-field appearance="outline" class="title-field" color="accent">
             <mat-label>{{strings.title.label}}</mat-label>
-            <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.title" matInput type="text">
+            <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.title" id="title-native-input"
+                   matInput type="text">
             <mat-hint>{{strings.title.hint}}</mat-hint>
             <mat-error *ngIf="errors.title.notProvided">
                 {{strings.title.required}}
@@ -94,8 +95,8 @@
             [noPhotosPrompt]="strings.photos.prompt"></app-photo-uploader>
     </div>
     <div class="form-actions">
-        <button (click)="sendRequestToAddItem()" [disabled]="errors.formIsInvalid"
-                color="accent" mat-raised-button>{{strings.buttonAddItem}}</button>
+        <button (click)="sendRequestToUpdateItem()" [disabled]="errors.formIsInvalid"
+                color="accent" mat-raised-button>{{strings.buttonUpdateItem}}</button>
     </div>
 
 </form>

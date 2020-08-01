@@ -39,7 +39,7 @@ export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
     sendRequestToAddItem() {
         this.itemsService.addNewItem(this.newItemRequest).subscribe({
             next: response => {
-                this.router.navigateByUrl(`/item/${response.body.id}`).then(() => {
+                this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
                     this.snackBarService.openSnackBar(ITEM_ADDED_SUCCESSFULLY_MESSAGE);
                 });
             },
@@ -47,7 +47,7 @@ export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
         });
     }
 
-    async ngOnInit() {
+    ngOnInit() {
         this.itemsService.getCategories().subscribe({
             next: categoryResponse => {
                 this.categories = categoryResponse.body;
