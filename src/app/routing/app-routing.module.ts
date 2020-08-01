@@ -11,14 +11,14 @@ import {ItemComponent} from '../items/item/item.component';
 import {AddItemComponent} from '../items/add-item/add-item.component';
 
 const routes: Routes = [
-  {path: 'log-in', component: LoggingInComponent},
-  {path: 'register', component: RegistrationComponent},
-  {path: 'add-item', component: AddItemComponent},
-  {path: 'items', component: ItemBrowsingComponent},
-  {path: 'items/:id', component: ItemComponent},
-  {path: 'my-account', component: MyAccountComponent, canActivate: [LoggedInGuard]},
-  {path: 'offer', component: OfferComponent, canActivate: [LoggedInGuard]},
-  {path: '', component: ItemBrowsingComponent}
+    {path: 'log-in', component: LoggingInComponent},
+    {path: 'register', component: RegistrationComponent},
+    {path: 'items', component: ItemBrowsingComponent},
+    {path: 'items/add', component: AddItemComponent},
+    {path: 'items/:id', component: ItemComponent},
+    {path: 'my-account', component: MyAccountComponent, canActivate: [LoggedInGuard]},
+    {path: 'offer', component: OfferComponent, canActivate: [LoggedInGuard]},
+    {path: '', component: ItemBrowsingComponent}
 ];
 
 @NgModule({

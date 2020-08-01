@@ -60,13 +60,13 @@ export const ITEM_ADDED_SUCCESSFULLY_MESSAGE = 'Item added successfully!';
 export const BUTTON_ADD_ITEM_TEXT = 'Add item';
 
 @Component({
-  selector: 'item-add',
-  templateUrl: './add-item.component.html',
-  styleUrls: ['./add-item.component.scss']
+    selector: 'item-add',
+    templateUrl: './add-item.component.html',
+    styleUrls: ['./add-item.component.scss']
 })
 export class AddItemComponent implements OnInit {
 
-  // language=JSRegexp
+    // language=JSRegexp
     readonly itemTitleSymbolsPattern = '^[^!@#$^*={}|\\\\<>?]+$';
 
     readonly strings = {
@@ -80,37 +80,37 @@ export class AddItemComponent implements OnInit {
             hint: ITEM_TITLE_HINT
         },
         price: {
-      label: ITEM_PRICE_LABEL,
-      required: ITEM_PRICE_REQUIRED_MESSAGE,
-      negative: ITEM_PRICE_NEGATIVE_MESSAGE,
-      tooHigh: ITEM_PRICE_TOO_HIGH_MESSAGE,
-      hint: ITEM_PRICE_HINT
-    },
-    usedStatus: {
-      label: ITEM_USED_STATUS_LABEL,
-      used: ITEM_USED_LABEL,
-      new: ITEM_NEW_LABEL,
-      notApplicable: ITEM_NOT_APPLICABLE_LABEL,
-      required: ITEM_USED_STATUS_NOT_PROVIDED_MESSAGE,
-      hint: ITEM_USED_STATUS_HINT
-    },
-    category: {
-      label: ITEM_CATEGORY_LABEL,
-      required: ITEM_CATEGORY_REQUIRED_MESSAGE,
-      hint: ITEM_CATEGORY_HINT
-    },
-    description: {
-      label: ITEM_DESCRIPTION_LABEL,
-      required: ITEM_DESCRIPTION_REQUIRED_MESSAGE,
-      tooShort: ITEM_DESCRIPTION_TOO_SHORT_MESSAGE,
-      tooLong: ITEM_DESCRIPTION_TOO_LONG_MESSAGE,
-      hint: ITEM_DESCRIPTION_HINT
-    },
-    photos: {
-      prompt: ITEM_PHOTOS_ADD_PROMPT
-    },
-    buttonAddItem: BUTTON_ADD_ITEM_TEXT
-  };
+            label: ITEM_PRICE_LABEL,
+            required: ITEM_PRICE_REQUIRED_MESSAGE,
+            negative: ITEM_PRICE_NEGATIVE_MESSAGE,
+            tooHigh: ITEM_PRICE_TOO_HIGH_MESSAGE,
+            hint: ITEM_PRICE_HINT
+        },
+        usedStatus: {
+            label: ITEM_USED_STATUS_LABEL,
+            used: ITEM_USED_LABEL,
+            new: ITEM_NEW_LABEL,
+            notApplicable: ITEM_NOT_APPLICABLE_LABEL,
+            required: ITEM_USED_STATUS_NOT_PROVIDED_MESSAGE,
+            hint: ITEM_USED_STATUS_HINT
+        },
+        category: {
+            label: ITEM_CATEGORY_LABEL,
+            required: ITEM_CATEGORY_REQUIRED_MESSAGE,
+            hint: ITEM_CATEGORY_HINT
+        },
+        description: {
+            label: ITEM_DESCRIPTION_LABEL,
+            required: ITEM_DESCRIPTION_REQUIRED_MESSAGE,
+            tooShort: ITEM_DESCRIPTION_TOO_SHORT_MESSAGE,
+            tooLong: ITEM_DESCRIPTION_TOO_LONG_MESSAGE,
+            hint: ITEM_DESCRIPTION_HINT
+        },
+        photos: {
+            prompt: ITEM_PHOTOS_ADD_PROMPT
+        },
+        buttonAddItem: BUTTON_ADD_ITEM_TEXT
+    };
 
     readonly usedStatusValues = {
         used: ITEM_USED_VALUE,
@@ -118,169 +118,113 @@ export class AddItemComponent implements OnInit {
         notApplicable: ITEM_NOT_APPLICABLE_VALUE
     };
 
-  categories: ItemCategory[] = [];
-
-  newItemFormGroup: FormGroup = new FormGroup({
-    title: new FormControl('', [
-      Validators.required,
-      Validators.minLength(ITEM_TITLE_MINIMUM_LENGTH),
-      Validators.maxLength(ITEM_TITLE_MAXIMUM_LENGTH),
-      Validators.pattern(this.itemTitleSymbolsPattern)
-    ]),
-    price: new FormControl(0, [
-      Validators.required,
-      Validators.min(ITEM_PRICE_MINIMUM),
-      Validators.max(ITEM_PRICE_MAXIMUM)
-    ]),
-    usedStatus: new FormControl(null, Validators.required),
-    category: new FormControl(null, Validators.required),
-    description: new FormControl('', [
-      Validators.required,
-      Validators.minLength(ITEM_DESCRIPTION_MINIMUM_LENGTH),
-      Validators.maxLength(ITEM_DESCRIPTION_MAXIMUM_LENGTH)
-    ]),
-    photoUrls: new FormControl([], Validators.maxLength(ITEM_PHOTOS_MAXIMUM_NUMBER))
-  });
-
-  errorStateMatcher = new MyErrorStateMatcher();
-
-  constructor(
-    private itemsService: ItemsService,
-    private router: Router,
-    private snackBarService: SnackBarService
-  ) { }
-
-  ngOnInit() {
-    this.itemsService.getCategories().subscribe({
-      next: response => {
-        this.categories = response.body;
-      },
-      error: () => this.snackBarService.openSnackBar(COULD_NOT_LOAD_CATEGORIES_MESSAGE)
-    });
-  }
-
-  sendRequestToAddItem() {
-    this.itemsService.addNewItem(this.newItemRequest).subscribe({
-      next: response => {
-        this.router.navigateByUrl(`/item/${response.body.id}`).then(() => {
-          this.snackBarService.openSnackBar(ITEM_ADDED_SUCCESSFULLY_MESSAGE);
-        });
-      },
-      error: error => this.openErrorSnackBar(error)
-    });
-  }
-
-  updatePhotoUrls(event: string[]) {
-    this.photoUrlsInput.setValue(event);
-  }
-
-  private openErrorSnackBar(errorResponse: HttpErrorResponse) {
-    if (errorResponse.status === 400) {
-      this.snackBarService.openSnackBar(BAD_REQUEST_DATA_MESSAGE);
-    } else {
-      this.snackBarService.openSnackBar(SERVER_ERROR_MESSAGE);
-    }
-  }
-
-  get newItemRequest(): NewOrUpdatedItemRequest {
-    return {
-      title: this.titleInput.value,
-      description: this.descriptionInput.value,
-      price: this.priceInput.value,
-      category: this.categoryInput.value,
-      usedStatus: this.usedStatusInput.value,
-      photos: this.photoUrlsInput.value
+    readonly controls = {
+        title: new FormControl('', [
+            Validators.required,
+            Validators.minLength(ITEM_TITLE_MINIMUM_LENGTH),
+            Validators.maxLength(ITEM_TITLE_MAXIMUM_LENGTH),
+            Validators.pattern(this.itemTitleSymbolsPattern)
+        ]),
+        price: new FormControl(0, [
+            Validators.required,
+            Validators.min(ITEM_PRICE_MINIMUM),
+            Validators.max(ITEM_PRICE_MAXIMUM)
+        ]),
+        usedStatus: new FormControl(null, Validators.required),
+        category: new FormControl(null, Validators.required),
+        description: new FormControl('', [
+            Validators.required,
+            Validators.minLength(ITEM_DESCRIPTION_MINIMUM_LENGTH),
+            Validators.maxLength(ITEM_DESCRIPTION_MAXIMUM_LENGTH)
+        ]),
+        photoUrls: new FormControl([], Validators.maxLength(ITEM_PHOTOS_MAXIMUM_NUMBER))
     };
-  }
 
-  get formIsValid(): boolean {
-    return this.newItemFormGroup.valid;
-  }
+    readonly newItemFormGroup: FormGroup = new FormGroup(this.controls);
+    readonly errorStateMatcher = new MyErrorStateMatcher();
 
-  // title
+    categories: ItemCategory[] = [];
 
-  get titleInput(): FormControl {
-    return this.newItemFormGroup.get('title') as FormControl;
-  }
+    constructor(
+        private itemsService: ItemsService,
+        private router: Router,
+        private snackBarService: SnackBarService
+    ) {
+    }
 
-  get titleNotProvided(): boolean {
-    return this.titleInput.hasError('required');
-  }
+    get errors() {
+        return {
+            title: {
+                notProvided: this.controls.title.hasError('required'),
+                tooShort: () => this.controls.title.hasError('minlength'),
+                tooLong: () => this.controls.title.hasError('maxlength'),
+                doesntMatchPattern: () => {
+                    return !this.errors.title.tooShort() && !this.errors.title.tooLong()
+                        && this.controls.title.hasError('pattern');
+                }
+            },
+            price: {
+                notProvided: this.controls.price.hasError('required'),
+                negative: this.controls.price.hasError('min'),
+                tooHigh: this.controls.price.hasError('max')
+            },
+            status: {
+                notProvided: this.controls.usedStatus.hasError('required')
+            },
+            category: {
+                notProvided: this.controls.category.hasError('required')
+            },
+            description: {
+                notProvided: this.controls.description.hasError('required'),
+                tooShort: this.controls.description.hasError('minlength'),
+                tooLong: this.controls.description.hasError('maxlength')
+            },
+            formIsInvalid: !this.newItemFormGroup.valid
+        };
+    }
 
-  get titleTooShort(): boolean {
-    return this.titleInput.hasError('minlength');
-  }
+    private get newItemRequest(): NewOrUpdatedItemRequest {
+        return {
+            title: this.controls.title.value,
+            description: this.controls.description.value,
+            price: this.controls.price.value,
+            category: this.controls.category.value,
+            usedStatus: this.controls.usedStatus.value,
+            photos: this.controls.photoUrls.value
+        };
+    }
 
-  get titleTooLong(): boolean {
-    return this.titleInput.hasError('maxlength');
-  }
+    ngOnInit() {
+        this.itemsService.getCategories().subscribe({
+            next: response => {
+                this.categories = response.body;
+            },
+            error: () => this.snackBarService.openSnackBar(COULD_NOT_LOAD_CATEGORIES_MESSAGE)
+        });
+    }
 
-  get titleDoesntMatchPattern(): boolean {
-    return !this.titleTooShort && !this.titleTooLong
-      && this.titleInput.hasError('pattern');
-  }
+    sendRequestToAddItem() {
+        this.itemsService.addNewItem(this.newItemRequest).subscribe({
+            next: response => {
+                this.router.navigateByUrl(`/item/${response.body.id}`).then(() => {
+                    this.snackBarService.openSnackBar(ITEM_ADDED_SUCCESSFULLY_MESSAGE);
+                });
+            },
+            error: error => this.openErrorSnackBar(error)
+        });
+    }
 
-  // price
+    updatePhotoUrls(event: string[]) {
+        this.controls.photoUrls.setValue(event);
+    }
 
-  get priceInput(): FormControl {
-    return this.newItemFormGroup.get('price') as FormControl;
-  }
-
-  get priceNotProvided(): boolean {
-    return this.priceInput.hasError('required');
-  }
-
-  get priceIsNegative(): boolean {
-    return this.priceInput.hasError('min');
-  }
-
-  get priceIsTooHigh(): boolean {
-    return this.priceInput.hasError('max');
-  }
-
-  // used status
-
-  get usedStatusInput(): FormControl {
-    return this.newItemFormGroup.get('usedStatus') as FormControl;
-  }
-
-  get usedStatusNotProvided(): boolean {
-    return this.usedStatusInput.hasError('required');
-  }
-
-  // category
-
-  get categoryInput(): FormControl {
-    return this.newItemFormGroup.get('category') as FormControl;
-  }
-
-  get categoryNotProvided(): boolean {
-    return this.categoryInput.hasError('required');
-  }
-
-  // description
-
-  get descriptionInput(): FormControl {
-    return this.newItemFormGroup.get('description') as FormControl;
-  }
-
-  get descriptionNotProvided(): boolean {
-    return this.descriptionInput.hasError('required');
-  }
-
-  get descriptionTooShort(): boolean {
-    return this.descriptionInput.hasError('minlength');
-  }
-
-  get descriptionTooLong(): boolean {
-    return this.descriptionInput.hasError('maxlength');
-  }
-
-  // photo list
-
-  get photoUrlsInput(): FormControl {
-    return this.newItemFormGroup.get('photoUrls') as FormControl;
-  }
+    private openErrorSnackBar(errorResponse: HttpErrorResponse) {
+        if (errorResponse.status === 400) {
+            this.snackBarService.openSnackBar(BAD_REQUEST_DATA_MESSAGE);
+        } else {
+            this.snackBarService.openSnackBar(SERVER_ERROR_MESSAGE);
+        }
+    }
 
 
 }

@@ -3,36 +3,36 @@
 </h1>
 <form [formGroup]="newItemFormGroup">
     <div class="form-fields">
-        <mat-form-field [color]="'accent'" appearance="outline" class="title-field">
+        <mat-form-field appearance="outline" class="title-field" color="accent">
             <mat-label>{{strings.title.label}}</mat-label>
-            <input [errorStateMatcher]="errorStateMatcher" [formControl]="titleInput" matInput type="text">
+            <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.title" matInput type="text">
             <mat-hint>{{strings.title.hint}}</mat-hint>
-            <mat-error *ngIf="titleNotProvided">
+            <mat-error *ngIf="errors.title.notProvided">
                 {{strings.title.required}}
             </mat-error>
-            <mat-error *ngIf="titleTooShort">
+            <mat-error *ngIf="errors.title.tooShort()">
                 {{strings.title.tooShort}}
             </mat-error>
-            <mat-error *ngIf="titleTooLong">
+            <mat-error *ngIf="errors.title.tooLong()">
                 {{strings.title.tooLong}}
             </mat-error>
-            <mat-error *ngIf="titleDoesntMatchPattern">
+            <mat-error *ngIf="errors.title.doesntMatchPattern()">
                 {{strings.title.illegalSymbols}}
             </mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="price-field">
             <mat-label>{{strings.price.label}}</mat-label>
-            <input [errorStateMatcher]="errorStateMatcher" [formControl]="priceInput" matInput step="0.0001"
+            <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.price" matInput step="0.0001"
                    type="number">
             <span matSuffix>Ξ</span>
             <mat-hint>{{strings.price.hint}}</mat-hint>
-            <mat-error *ngIf="priceNotProvided">
+            <mat-error *ngIf="errors.price.notProvided">
                 {{strings.price.required}}
             </mat-error>
-            <mat-error *ngIf="priceIsNegative">
+            <mat-error *ngIf="errors.price.negative">
                 {{strings.price.negative}}
             </mat-error>
-            <mat-error *ngIf="priceIsTooHigh">
+            <mat-error *ngIf="errors.price.tooHigh">
                 {{strings.price.tooHigh}}
             </mat-error>
         </mat-form-field>
@@ -40,7 +40,7 @@
             <mat-label>{{strings.usedStatus.label}}</mat-label>
             <mat-select
                 [errorStateMatcher]="errorStateMatcher"
-                [formControl]="usedStatusInput"
+                [formControl]="controls.usedStatus"
                 [required]="true">
                 <mat-option [value]="usedStatusValues.new">
                     {{strings.usedStatus.new}}
@@ -53,7 +53,7 @@
                 </mat-option>
             </mat-select>
             <mat-hint>{{strings.usedStatus.hint}}</mat-hint>
-            <mat-error *ngIf="usedStatusNotProvided">
+            <mat-error *ngIf="errors.status.notProvided">
                 {{strings.usedStatus.required}}
             </mat-error>
         </mat-form-field>
@@ -61,28 +61,30 @@
             <mat-label>{{strings.category.label}}</mat-label>
             <mat-select
                 [errorStateMatcher]="errorStateMatcher"
-                [formControl]="categoryInput"
+                [formControl]="controls.category"
                 [required]="true">
                 <mat-option *ngFor="let category of categories" [value]="category.id">
                     {{category.name}}
                 </mat-option>
             </mat-select>
             <mat-hint>{{strings.category.hint}}</mat-hint>
-            <mat-error *ngIf="categoryNotProvided">
+            <mat-error *ngIf="errors.category.notProvided">
                 {{strings.category.required}}
             </mat-error>
         </mat-form-field>
-        <mat-form-field [color]="'accent'" appearance="outline" class="description-field">
+        <mat-form-field appearance="outline" class="description-field" color="accent">
             <mat-label>{{strings.description.label}}</mat-label>
-            <textarea [errorStateMatcher]="errorStateMatcher" [formControl]="descriptionInput" matInput></textarea>
+            <textarea [errorStateMatcher]="errorStateMatcher"
+                      [formControl]="controls.description"
+                      matInput></textarea>
             <mat-hint>{{strings.description.hint}}</mat-hint>
-            <mat-error *ngIf="descriptionNotProvided">
+            <mat-error *ngIf="errors.description.notProvided">
                 {{strings.description.required}}
             </mat-error>
-            <mat-error *ngIf="descriptionTooShort">
+            <mat-error *ngIf="errors.description.tooShort">
                 {{strings.description.tooShort}}
             </mat-error>
-            <mat-error *ngIf="descriptionTooLong">
+            <mat-error *ngIf="errors.description.tooLong">
                 {{strings.description.tooLong}}
             </mat-error>
         </mat-form-field>
@@ -92,7 +94,7 @@
             [noPhotosPrompt]="strings.photos.prompt"></app-photo-uploader>
     </div>
     <div class="form-actions">
-        <button (click)="sendRequestToAddItem()" [disabled]="!formIsValid"
+        <button (click)="sendRequestToAddItem()" [disabled]="errors.formIsInvalid"
                 color="accent" mat-raised-button>{{strings.buttonAddItem}}</button>
     </div>
 

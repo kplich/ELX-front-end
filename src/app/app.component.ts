@@ -23,7 +23,7 @@ export class AppComponent {
      * All links that can be displayed in the toolbar.
      */
         // tslint:disable-next-line:variable-name
-    private _toolbarLinks: ToolbarLink[] = [
+    private readonly _toolbarLinks: ToolbarLink[] = [
         {
             displayedName: ADD_ITEM,
             function: 'navigateToAddItem',
@@ -100,7 +100,7 @@ export class AppComponent {
 
     // noinspection JSUnusedLocalSymbols - called from template using callFunction
     private navigateToAddItem() {
-        this.router.navigateByUrl('/add-item').then(_ => {
+        this.router.navigateByUrl('/items/add').then(_ => {
         });
     }
 }
