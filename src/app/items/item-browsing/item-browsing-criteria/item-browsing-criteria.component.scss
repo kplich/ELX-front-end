@@ -44,12 +44,12 @@
 .mat-form-button {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
 
     .mat-form-button-error {
         color: red;
-        font-size: 0.8em;
+        font-size: 0.75em;
     }
 
     button {

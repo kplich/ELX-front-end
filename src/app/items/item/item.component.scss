@@ -3,90 +3,91 @@
 @import 'src/typography';
 
 :host {
-  display: flex;
-  flex-flow: column nowrap;
-  height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
 }
 
 .item-header {
-  display: flex;
-  flex-flow: column nowrap;
-
-  margin-bottom: $dimen-xs;
-
-  .item-header-row {
-    width: 100%;
-
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: center;
-
-    .item-detail:first-of-type {
-      margin: 0;
-    }
-
-    .item-detail {
-      @include header-3($mono: true)
-    }
-  }
-
-  .item-actions > * {
-    margin: 0 $dimen-xs;
-  }
-
-  .item-actions > *:last-of-type {
-    margin: 0;
-  }
-}
-
-.item-content {
-  flex-grow: 100;
-
-  display: flex;
-  flex-flow: row nowrap;
-
-  .item-photos {
-    flex-basis: 70%;
-    margin-right: $dimen-xxs;
-    border-radius: $dimen-xxs;
-    border: lightgray 1px solid;
-
-    .item-photo {
-      height: 100%;
-      width: 100%;
-
-      img {
-        object-fit: contain;
-        height: 100%;
-        width: 100%;
-      }
-    }
-  }
-
-  .item-description-and-seller {
-    flex-basis: 30%;
-    margin-left: $dimen-xxs;
-
     display: flex;
     flex-flow: column nowrap;
 
-    .item-seller {
-      text-align: start;
+    margin-bottom: $dimen-xs;
 
-      margin-bottom: $dimen-xs;
+    .item-header-row {
+        width: 100%;
 
-      @include body-accent
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        align-items: center;
+
+        .item-detail:first-of-type {
+            margin: 0;
+        }
+
+        .item-detail {
+            @include header-3($mono: true)
+        }
     }
-  }
+
+    .item-actions > * {
+        margin: 0 $dimen-xs;
+    }
+
+    .item-actions > *:last-of-type {
+        margin-right: 0;
+    }
+}
+
+// TODO: fix height when description is too long
+.item-content {
+    flex-grow: 100;
+
+    display: flex;
+    flex-flow: row nowrap;
+
+    .item-photos {
+        flex-basis: 70%;
+        margin-right: $dimen-xxs;
+        border-radius: $dimen-xxs;
+        border: lightgray 1px solid;
+
+        .item-photo {
+            height: 100%;
+            width: 100%;
+
+            img {
+                object-fit: contain;
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+
+    .item-description-and-seller {
+        flex-basis: 30%;
+        margin-left: $dimen-xxs;
+
+        display: flex;
+        flex-flow: column nowrap;
+
+        .item-seller {
+            text-align: start;
+
+            margin-bottom: $dimen-xs;
+
+            @include body-accent
+        }
+    }
 }
 
 .item-title {
-  @include header-2
+    @include header-2
 }
 
 .item-price {
-  @include header-2(true)
+    @include header-2(true)
 }
 
 

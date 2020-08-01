@@ -1,64 +1,74 @@
 <div class="item-header simple-card">
-  <div class="item-header-row">
-    <span class="item-title">{{item?.title}}</span>
-    <span class="item-price">{{item?.formattedPrice}}</span>
-  </div>
-  <div class="item-header-row">
-    <div
-      *ngIf="item?.usedStatusIsApplicable"
-      class="item-detail">{{item?.usedStatus.toString()}}</div>
-    <div class="item-detail">{{strings.category}}: {{item?.category.name}}</div>
-    <div *ngIf="item?.itemIsClosed else itemNotClosedTemplate">
-      {{strings.itemClosed}} {{item?.closedOn | date}}
+    <div class="item-header-row">
+        <span class="item-title">{{item?.title}}</span>
+        <span class="item-price">{{item?.formattedPrice}}</span>
     </div>
-    <ng-template #itemNotClosedTemplate>
-      <div class="item-actions">
-        <button mat-raised-button>{{strings.buttons.sendMessage}}</button>
-        <button mat-raised-button color="primary">{{strings.buttons.sendOffer}}</button>
-        <button mat-raised-button color="accent">{{strings.buttons.acceptOffer}}</button>
-      </div>
-    </ng-template>
+    <div class="item-header-row">
+        <div
+            *ngIf="item?.usedStatusIsApplicable"
+            class="item-detail">{{item?.usedStatus.toString()}}</div>
+        <div class="item-detail">{{strings.category}}: {{item?.category.name}}</div>
+        <div *ngIf="item?.isClosed else itemNotClosedActions">
+            {{strings.itemClosed}} {{item?.closedOn | date}}
+        </div>
+        <ng-template #itemNotClosedActions>
+            <div class="item-actions">
+                <button *ngIf="!addedByLoggedInUser" mat-raised-button>
+                    {{strings.buttons.sendMessage}}
+                </button>
+                <button *ngIf="!addedByLoggedInUser" color="primary" mat-raised-button>
+                    {{strings.buttons.sendOffer}}
+                </button>
+                <button *ngIf="!addedByLoggedInUser" color="accent" mat-raised-button>
+                    {{strings.buttons.acceptOffer}}
+                </button>
+                <button (click)="closeOffer()" *ngIf="canBeClosed" color="warn"
+                        mat-raised-button>
+                    {{strings.buttons.closeOffer}}
+                </button>
+            </div>
+        </ng-template>
 
-  </div>
+    </div>
 </div>
 <div class="item-content">
-  <div class="item-photos">
-    <mat-carousel
-      timings="250ms ease-in"
-      [autoplay]="false"
-      color="primary"
-      [loop]="true"
-      [hideArrows]="false"
-      [hideIndicators]="false"
-      [maxWidth]="'100%'"
-      [useKeyboard]="false"
-      [useMouseWheel]="false"
-      [maintainAspectRatio]="false"
-      orientation="ltr">
-      <mat-carousel-slide
-        *ngFor="let url of itemPhotoUrls"
-        overlayColor="#00000000"
-        [hideOverlay]="false">
-        <div class="item-photo">
-          <img alt="Item photo" [src]="url">
+    <div class="item-photos">
+        <mat-carousel
+            [autoplay]="false"
+            [hideArrows]="false"
+            [hideIndicators]="false"
+            [loop]="true"
+            [maintainAspectRatio]="false"
+            [maxWidth]="'100%'"
+            [useKeyboard]="false"
+            [useMouseWheel]="false"
+            color="primary"
+            orientation="ltr"
+            timings="250ms ease-in">
+            <mat-carousel-slide
+                *ngFor="let url of itemPhotoUrls"
+                [hideOverlay]="false"
+                overlayColor="#00000000">
+                <div class="item-photo">
+                    <img [src]="url" alt="Item photo">
+                </div>
+            </mat-carousel-slide>
+        </mat-carousel>
+    </div>
+    <div class="item-description-and-seller">
+        <div class="item-seller">
+            <div>
+                {{strings.addedBy}} <a>{{item?.addedBy.username}}</a>
+            </div>
+            <div>
+                {{strings.addedOn}} {{item?.addedOn | date}}
+            </div>
         </div>
-      </mat-carousel-slide>
-    </mat-carousel>
-  </div>
-  <div class="item-description-and-seller">
-    <div class="item-seller">
-      <div>
-        {{strings.addedBy}} <a>{{item?.addedBy.username}}</a>
-      </div>
-      <div>
-        {{strings.addedOn}} {{item?.addedOn | date}}
-      </div>
-    </div>
-    <div>
-      {{item?.description}}
-    </div>
+        <div>
+            {{item?.description}}
+        </div>
 
-  </div>
+    </div>
 </div>
 
 

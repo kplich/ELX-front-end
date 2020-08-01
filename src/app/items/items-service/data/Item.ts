@@ -36,17 +36,17 @@ export class Item {
     return this.photoUrls.map(url => domSanitizer.bypassSecurityTrustUrl(url));
   }
 
-  public get formattedPrice(): string {
-    return `${this.price} ${Item.ETH_SYMBOL}`;
-  }
+    public get formattedPrice(): string {
+        return `${this.price} ${Item.ETH_SYMBOL}`;
+    }
 
-  public get usedStatusIsApplicable(): boolean {
-    return this.usedStatus !== UsedStatus.NOT_APPLICABLE;
-  }
+    public get usedStatusIsApplicable(): boolean {
+        return this.usedStatus !== UsedStatus.NOT_APPLICABLE;
+    }
 
-  public get itemIsClosed(): boolean {
-    return this.closedOn !== null;
-  }
+    public get isClosed(): boolean {
+        return this.closedOn !== null;
+    }
 }
 
 /**

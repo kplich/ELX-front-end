@@ -107,6 +107,16 @@ export class ItemBrowsingCriteriaComponent implements OnInit {
     ngOnInit() {
     }
 
+    private get minimalPriceIsValid(): boolean {
+        return this.controls.minimalPrice.valid
+            && !this.errors.minimalPriceGreaterThanMaximalPrice;
+    }
+
+    private get maximalPriceIsValid(): boolean {
+        return this.controls.maximalPrice.valid
+            && !this.errors.minimalPriceGreaterThanMaximalPrice;
+    }
+
     emitFilteringCriteria() {
         const usedStatuses = [];
 
@@ -116,15 +126,13 @@ export class ItemBrowsingCriteriaComponent implements OnInit {
         }
 
         const filteringProperties = {
-            query: this.controls.query.valid ? this.controls.query.value : undefined,
+            query: this.controls.query.valid ? this.controls.query.value : null,
             category: this.controls.category.value,
             statuses: usedStatuses,
-            minimalPrice: this.controls.minimalPrice.valid
-            && !this.errors.minimalPriceGreaterThanMaximalPrice
-                ? this.controls.minimalPrice.value : undefined,
-            maximalPrice: this.controls.maximalPrice.valid
-            && !this.errors.minimalPriceGreaterThanMaximalPrice
-                ? this.controls.maximalPrice.value : undefined
+            minimalPrice: this.minimalPriceIsValid
+                ? this.controls.minimalPrice.value : null,
+            maximalPrice: this.maximalPriceIsValid
+                ? this.controls.maximalPrice.value : null
         };
 
         console.log(filteringProperties);
