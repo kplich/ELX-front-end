@@ -86,7 +86,7 @@ export class ItemComponent implements OnInit {
                 this.item = response.body;
                 this.snackBarService.openSnackBar(ITEM_CLOSED_MESSAGE);
             },
-            error: error => {
+            error: () => {
                 this.snackBarService.openSnackBar(COULD_NOT_CLOSE_ITEM_MESSAGE);
             }
         });

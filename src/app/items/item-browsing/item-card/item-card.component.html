@@ -1,6 +1,6 @@
 <div [routerLink]="[item.id]" class="simple-card">
     <div class="item-card-img-container">
-        <img [src]="itemPhotoUrl" alt="Main item photo">
+        <img (error)="item?.fixPhotoUrl(0)" [src]="itemPhotoUrl" alt="Main item photo">
     </div>
     <div class="item-card-details-container">
         <div class="item-card-details-header">

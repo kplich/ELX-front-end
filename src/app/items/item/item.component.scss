@@ -17,6 +17,8 @@
     .item-header-row {
         width: 100%;
 
+        margin-bottom: $dimen-xs;
+
         display: flex;
         flex-flow: row wrap;
         justify-content: space-between;
@@ -29,6 +31,10 @@
         .item-detail {
             @include header-3($mono: true)
         }
+    }
+
+    .item-header-row:last-of-type {
+        margin-bottom: 0;
     }
 
     .item-actions > * {

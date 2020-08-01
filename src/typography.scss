@@ -19,10 +19,10 @@
         font-weight: 500;
     } @else {
         @include sansFont;
-        font-weight: 800;
+        font-weight: 700;
     }
 
-    @include fontSizeInPts(48);
+    @include fontSizeInPts(45);
 
     margin-bottom: $dimen-xs;
     letter-spacing: 0.5px;
@@ -34,11 +34,11 @@
         font-weight: 300;
     } @else {
         @include sansFont;
-        font-weight: 600;
+        font-weight: 500;
     }
 
-    @include fontSizeInPts(32);
-    margin-bottom: $dimen-xxs;
+    @include fontSizeInPts(28);
+    letter-spacing: -0.5px;
 }
 
 @mixin header-3($mono: false) {
@@ -47,10 +47,10 @@
         font-weight: 100;
     } @else {
         @include sansFont;
-        font-weight: 400;
+        font-weight: 300;
     }
 
-    @include fontSizeInPts(20);
+    @include fontSizeInPts(18);
 }
 
 @mixin body {

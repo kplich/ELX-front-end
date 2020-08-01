@@ -9,7 +9,7 @@ export const BUTTON_LOG_OUT_TEXT = 'Log out';
 export const BUTTON_LOG_IN_TEXT = 'Log in';
 
 @Component({
-    selector: 'app-root',
+    selector: 'elx-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })

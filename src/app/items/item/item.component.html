@@ -37,8 +37,8 @@
     <div class="item-photos">
         <mat-carousel
             [autoplay]="false"
-            [hideArrows]="false"
-            [hideIndicators]="false"
+            [hideArrows]="item?.hasAtMostOnePhoto"
+            [hideIndicators]="item?.hasAtMostOnePhoto"
             [loop]="true"
             [maintainAspectRatio]="false"
             [maxWidth]="'100%'"
@@ -47,14 +47,22 @@
             color="primary"
             orientation="ltr"
             timings="250ms ease-in">
-            <mat-carousel-slide
-                *ngFor="let url of itemPhotoUrls"
-                [hideOverlay]="false"
-                overlayColor="#00000000">
+            <mat-carousel-slide *ngIf="item?.doesNotHavePhotos else slidesWithPhotos"
+                                [hideOverlay]="true">
                 <div class="item-photo">
-                    <img [src]="url" alt="Item photo">
+                    <img [src]="'assets/no-photo.png'" alt="Item photo">
                 </div>
             </mat-carousel-slide>
+            <ng-template #slidesWithPhotos>
+                <mat-carousel-slide
+                    *ngFor="let url of itemPhotoUrls; let i = index;"
+                    [hideOverlay]="true">
+                    <div class="item-photo">
+                        <img (error)="item?.fixPhotoUrl(i)" [src]="url" alt="Item photo">
+                    </div>
+                </mat-carousel-slide>
+            </ng-template>
+
         </mat-carousel>
     </div>
     <div class="item-description-and-seller">
