@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, TestBed} from '@angular/core/testing';
 
 import {
     BUTTON_CHANGE_PASSWORD_TEXT,
@@ -10,7 +10,6 @@ import {
     PASSWORD_PATTERN_MESSAGE,
     SettingsComponent,
 } from './settings.component';
-import {HarnessLoader} from '@angular/cdk/testing';
 import {MaterialModule} from 'src/app/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -23,17 +22,22 @@ import {MatButtonHarness} from '@angular/material/button/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 
 describe('SettingsComponent', () => {
-    const authenticationServiceSpy = jasmine.createSpyObj(
-        'AuthenticationService',
-        ['signUp']
-    );
+    const harnessPredicates = {
+        oldPasswordFormField: MatFormFieldHarness.with({selector: '#old-password-form-field'}),
+        oldPasswordInput: MatInputHarness.with({selector: '#old-password-form-field input'}),
+        newPasswordFormField: MatFormFieldHarness.with({selector: '#new-password-form-field'}),
+        newPasswordInput: MatInputHarness.with({selector: '#new-password-form-field input'}),
+        changePasswordButton: MatButtonHarness.with({selector: '#change-password-button'})
+    };
+
+    const authenticationServiceSpy = jasmine.createSpyObj('AuthenticationService', ['signUp']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
     const snackBarServiceSpy = jasmine.createSpyObj('SnackBarService', [
         'openSnackBar',
     ]);
 
-    let fixture: ComponentFixture<SettingsComponent>;
-    let loader: HarnessLoader;
+
+    let component: SettingsComponent;
 
     let oldPasswordFormField: MatFormFieldHarness;
     let oldPasswordInput: MatInputHarness;
@@ -41,6 +45,7 @@ describe('SettingsComponent', () => {
     let newPasswordInput: MatInputHarness;
     let changePasswordButton: MatButtonHarness;
 
+    // configure testing module
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [MaterialModule, BrowserAnimationsModule, ReactiveFormsModule],
@@ -48,59 +53,28 @@ describe('SettingsComponent', () => {
             providers: [
                 {provide: AuthenticationService, useValue: authenticationServiceSpy},
                 {provide: Router, useValue: routerSpy},
-                {provide: SnackBarService, useValue: snackBarServiceSpy},
-            ],
-        })
-            .compileComponents()
-            .then(() => {
-                fixture = TestBed.createComponent(SettingsComponent);
-                loader = TestbedHarnessEnvironment.loader(fixture);
-
-                loader
-                    .getHarness(
-                        MatFormFieldHarness.with({selector: '#old-password-form-field'})
-                    )
-                    .then((harness) => {
-                        oldPasswordFormField = harness;
-                    });
-                loader
-                    .getHarness(
-                        MatInputHarness.with({selector: '#old-password-form-field input'})
-                    )
-                    .then((harness) => {
-                        oldPasswordInput = harness;
-                    });
-                loader
-                    .getHarness(
-                        MatFormFieldHarness.with({selector: '#new-password-form-field'})
-                    )
-                    .then((harness) => {
-                        newPasswordFormField = harness;
-                    });
-                loader
-                    .getHarness(
-                        MatInputHarness.with({selector: '#new-password-form-field input'})
-                    )
-                    .then((harness) => {
-                        newPasswordInput = harness;
-                    });
-                loader
-                    .getHarness(
-                        MatButtonHarness.with({selector: '#change-password-button'})
-                    )
-                    .then((harness) => {
-                        changePasswordButton = harness;
-                    });
-            });
+                {provide: SnackBarService, useValue: snackBarServiceSpy}
+            ]
+        }).compileComponents();
     }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(SettingsComponent);
+    // configure component elements
+    beforeEach(async(async () => {
+        const fixture = TestBed.createComponent(SettingsComponent);
+        const loader = TestbedHarnessEnvironment.loader(fixture);
+        component = fixture.componentInstance;
+
+        oldPasswordFormField = await loader.getHarness(harnessPredicates.oldPasswordFormField);
+        oldPasswordInput = await loader.getHarness(harnessPredicates.oldPasswordInput);
+        newPasswordFormField = await loader.getHarness(harnessPredicates.newPasswordFormField);
+        newPasswordInput = await loader.getHarness(harnessPredicates.newPasswordInput);
+        changePasswordButton = await loader.getHarness(harnessPredicates.changePasswordButton);
+
         fixture.detectChanges();
-    });
+    }));
 
     it('should be created and displayed correctly', async(async () => {
-        expect(fixture.componentInstance).toBeTruthy();
+        expect(component).toBeTruthy();
 
         expect(await oldPasswordFormField.getLabel()).toEqual(OLD_PASSWORD_LABEL);
 
@@ -109,7 +83,7 @@ describe('SettingsComponent', () => {
             NEW_PASSWORD_HINT
         );
 
-        expect(fixture.componentInstance.form.valid).toBeFalsy();
+        expect(component.form.valid).toBeFalsy();
 
         expect(await changePasswordButton.getText()).toEqual(
             BUTTON_CHANGE_PASSWORD_TEXT
@@ -117,7 +91,7 @@ describe('SettingsComponent', () => {
         expect(await changePasswordButton.isDisabled()).toBeTruthy();
     }));
 
-    it('should display errors after touching the fields', async () => {
+    it('should display errors after touching the fields', async(async () => {
         await oldPasswordInput.focus();
         await oldPasswordInput.blur();
 
@@ -133,9 +107,9 @@ describe('SettingsComponent', () => {
         expect((await newPasswordFormField.getTextErrors())[0]).toEqual(
             NEW_PASSWORD_REQUIRED_MESSAGE
         );
-    });
+    }));
 
-    it('should show an error when new password doesn\'t match the pattern', async () => {
+    it('should show an error when new password doesn\'t match the pattern', async(async () => {
         await newPasswordInput.setValue('password');
         await newPasswordInput.blur();
 
@@ -144,9 +118,9 @@ describe('SettingsComponent', () => {
         expect((await newPasswordFormField.getTextErrors())[0]).toEqual(
             PASSWORD_PATTERN_MESSAGE
         );
-    });
+    }));
 
-    it('should show an error when new passwords match', async () => {
+    it('should show an error when new passwords match', async(async () => {
         const matchingPassword = 'P@ssw0rd';
         await oldPasswordInput.setValue(matchingPassword);
         await oldPasswordInput.blur();
@@ -166,5 +140,5 @@ describe('SettingsComponent', () => {
         expect(await changePasswordButton.isDisabled()).toBeTruthy(
             'Password change button should be disabled!'
         );
-    });
+    }));
 });
