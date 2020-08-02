@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Item} from '../../items-service/data/Item';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'item-card',
@@ -18,7 +19,9 @@ export class ItemCardComponent implements OnInit {
 
     @Input() item: Item;
 
-    constructor(private domSanitizer: DomSanitizer) {
+    constructor(
+        private domSanitizer: DomSanitizer,
+        private router: Router) {
     }
 
     get itemPhotoUrl(): SafeUrl {
@@ -30,5 +33,10 @@ export class ItemCardComponent implements OnInit {
     }
 
     ngOnInit(): void {
+    }
+
+    navigateToItem() {
+        this.router.navigateByUrl(`/items/${this.item?.id}`).then(() => {
+        });
     }
 }
