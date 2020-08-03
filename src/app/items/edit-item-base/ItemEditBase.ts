@@ -28,11 +28,8 @@ export const ITEM_PRICE_HINT = 'Desired price of item in Ξ with accuracy of 0.0
 
 export const ITEM_USED_STATUS_LABEL = 'Item status';
 export const ITEM_USED_LABEL = UsedStatus.USED;
-export const ITEM_USED_VALUE = statusToDtoString(UsedStatus.USED);
 export const ITEM_NEW_LABEL = UsedStatus.NEW;
-export const ITEM_NEW_VALUE = statusToDtoString(UsedStatus.NEW);
 export const ITEM_NOT_APPLICABLE_LABEL = UsedStatus.NOT_APPLICABLE;
-export const ITEM_NOT_APPLICABLE_VALUE = statusToDtoString(UsedStatus.NOT_APPLICABLE);
 export const ITEM_USED_STATUS_NOT_PROVIDED_MESSAGE = 'Item status not provided!';
 export const ITEM_USED_STATUS_HINT = 'Does your item have signs of usage? If yes, select \'Used\'.';
 
@@ -104,10 +101,11 @@ export abstract class ItemEditBaseComponent {
         buttonUpdateItem: BUTTON_UPDATE_ITEM_TEXT
     };
     public readonly usedStatusValues = {
-        used: ITEM_USED_VALUE,
-        new: ITEM_NEW_VALUE,
-        notApplicable: ITEM_NOT_APPLICABLE_VALUE
+        used: statusToDtoString(UsedStatus.USED),
+        new: statusToDtoString(UsedStatus.NEW),
+        notApplicable: statusToDtoString(UsedStatus.NOT_APPLICABLE)
     };
+
     public readonly errorStateMatcher = new MyErrorStateMatcher();
     public categories: ItemCategory[] = [];
     protected readonly snackBarService: SnackBarService;
@@ -115,7 +113,9 @@ export abstract class ItemEditBaseComponent {
     protected readonly router: Router;
     // language=JSRegexp
     protected readonly itemTitleSymbolsPattern = '^[^!@#$^*={}|\\\\<>?]+$';
-    public readonly controls = {
+
+    // tslint:disable-next-line:variable-name
+    public readonly controls = Object.freeze({
         title: new FormControl('', [
             Validators.required,
             Validators.minLength(ITEM_TITLE_MINIMUM_LENGTH),
@@ -135,7 +135,8 @@ export abstract class ItemEditBaseComponent {
             Validators.maxLength(ITEM_DESCRIPTION_MAXIMUM_LENGTH)
         ]),
         photoUrls: new FormControl([], Validators.maxLength(ITEM_PHOTOS_MAXIMUM_NUMBER))
-    };
+    });
+
     public readonly form: FormGroup = new FormGroup(this.controls);
 
     protected constructor(

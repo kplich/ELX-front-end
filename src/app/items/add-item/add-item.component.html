@@ -3,7 +3,7 @@
 </h1>
 <form [formGroup]="form">
     <div class="form-fields">
-        <mat-form-field appearance="outline" class="title-field" color="accent">
+        <mat-form-field appearance="outline" class="title-field" color="accent" id="title-form-field">
             <mat-label>{{strings.title.label}}</mat-label>
             <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.title" matInput type="text">
             <mat-hint>{{strings.title.hint}}</mat-hint>
@@ -20,7 +20,7 @@
                 {{strings.title.illegalSymbols}}
             </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="price-field">
+        <mat-form-field appearance="outline" class="price-field" id="price-form-field">
             <mat-label>{{strings.price.label}}</mat-label>
             <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.price" matInput step="0.0001"
                    type="number">
@@ -36,7 +36,7 @@
                 {{strings.price.tooHigh}}
             </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="status-field">
+        <mat-form-field appearance="outline" class="status-field" id="status-form-field">
             <mat-label>{{strings.usedStatus.label}}</mat-label>
             <mat-select
                 [errorStateMatcher]="errorStateMatcher"
@@ -57,7 +57,7 @@
                 {{strings.usedStatus.required}}
             </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="category-field">
+        <mat-form-field appearance="outline" class="category-field" id="category-form-field">
             <mat-label>{{strings.category.label}}</mat-label>
             <mat-select
                 [errorStateMatcher]="errorStateMatcher"
@@ -72,7 +72,7 @@
                 {{strings.category.required}}
             </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="description-field" color="accent">
+        <mat-form-field appearance="outline" class="description-field" color="accent" id="description-form-field">
             <mat-label>{{strings.description.label}}</mat-label>
             <textarea [errorStateMatcher]="errorStateMatcher"
                       [formControl]="controls.description"

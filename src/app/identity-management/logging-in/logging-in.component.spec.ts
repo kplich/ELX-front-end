@@ -18,9 +18,13 @@ import {MatButtonHarness} from '@angular/material/button/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {Observable} from 'rxjs';
 
 describe('LoggingInComponent', () => {
     const authenticationServiceSpy = jasmine.createSpyObj('AuthenticationService', ['logIn']);
+    authenticationServiceSpy.logIn.and.returnValue(new Observable(() => {
+    }));
+
     const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
     const snackBarServiceSpy = jasmine.createSpyObj('SnackBarService', ['openSnackBar']);
 
@@ -42,31 +46,32 @@ describe('LoggingInComponent', () => {
                 {provide: Router, useValue: routerSpy},
                 {provide: SnackBarService, useValue: snackBarServiceSpy}
             ]
-        }).compileComponents().then(() => {
-            fixture = TestBed.createComponent(LoggingInComponent);
-            loader = TestbedHarnessEnvironment.loader(fixture);
+        }).compileComponents()
+            .then(() => {
+                fixture = TestBed.createComponent(LoggingInComponent);
+                loader = TestbedHarnessEnvironment.loader(fixture);
 
-            loader.getHarness(MatFormFieldHarness.with({selector: '#username-form-field'}))
-                .then(harness => {
-                    usernameFormField = harness;
-                });
-            loader.getHarness(MatInputHarness.with({selector: '#username-form-field input'}))
-                .then(harness => {
-                    usernameInput = harness;
-                });
-            loader.getHarness(MatFormFieldHarness.with({selector: '#password-form-field'}))
-                .then(harness => {
-                    passwordFormField = harness;
-                });
-            loader.getHarness(MatInputHarness.with({selector: '#password-form-field input'}))
-                .then(harness => {
-                    passwordInput = harness;
-                });
-            loader.getHarness(MatButtonHarness.with({text: BUTTON_LOG_IN_TEXT}))
-                .then(harness => {
-                    loggingInButton = harness;
-                });
-        });
+                loader.getHarness(MatFormFieldHarness.with({selector: '#username-form-field'}))
+                    .then(harness => {
+                        usernameFormField = harness;
+                    });
+                loader.getHarness(MatInputHarness.with({selector: '#username-form-field input'}))
+                    .then(harness => {
+                        usernameInput = harness;
+                    });
+                loader.getHarness(MatFormFieldHarness.with({selector: '#password-form-field'}))
+                    .then(harness => {
+                        passwordFormField = harness;
+                    });
+                loader.getHarness(MatInputHarness.with({selector: '#password-form-field input'}))
+                    .then(harness => {
+                        passwordInput = harness;
+                    });
+                loader.getHarness(MatButtonHarness.with({text: BUTTON_LOG_IN_TEXT}))
+                    .then(harness => {
+                        loggingInButton = harness;
+                    });
+            });
     }));
 
     it('should be created and displayed correctly', async(async () => {

@@ -73,7 +73,7 @@ export class RegistrationComponent implements OnInit {
     // language=JSRegexp
     readonly containsSpecialCharacterPattern = '.*[\\W_]+.*';
 
-    readonly controls = {
+    readonly controls = Object.freeze({
         username: new FormControl('', [
             Validators.required,
             Validators.minLength(MINIMUM_USERNAME_LENGTH),
@@ -89,7 +89,7 @@ export class RegistrationComponent implements OnInit {
             Validators.minLength(MINIMUM_PASSWORD_LENGTH),
             Validators.maxLength(MAXIMUM_PASSWORD_LENGTH)
         ])
-    };
+    });
 
     readonly errorStateMatcher: ErrorStateMatcher = new MyErrorStateMatcher();
     readonly form: FormGroup = new FormGroup(this.controls);

@@ -23,9 +23,12 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldHarness} from '@angular/material/form-field/testing';
 import {MatInputHarness} from '@angular/material/input/testing';
+import {Observable} from 'rxjs';
 
 describe('RegistrationComponent', () => {
     const authenticationServiceSpy = jasmine.createSpyObj('AuthenticationService', ['signUp']);
+    authenticationServiceSpy.signUp.and.returnValue(new Observable(() => {
+    }));
     const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
     const snackBarServiceSpy = jasmine.createSpyObj('SnackBarService', ['openSnackBar']);
 
@@ -47,7 +50,7 @@ describe('RegistrationComponent', () => {
                 {provide: Router, useValue: routerSpy},
                 {provide: SnackBarService, useValue: snackBarServiceSpy}
             ]
-        }).compileComponents().then(() => {
+        }).compileComponents().then(async () => {
             fixture = TestBed.createComponent(RegistrationComponent);
             loader = TestbedHarnessEnvironment.loader(fixture);
 
@@ -63,13 +66,13 @@ describe('RegistrationComponent', () => {
                 .then(harness => {
                     passwordFormField = harness;
                 });
+
             loader.getHarness(MatInputHarness.with({selector: '#password-form-field input'}))
                 .then(harness => {
                     passwordInput = harness;
                 });
-            loader.getHarness(MatButtonHarness).then(harness => {
-                registrationButton = harness;
-            });
+
+            registrationButton = await loader.getHarness(MatButtonHarness);
         });
     }));
 
@@ -91,7 +94,7 @@ describe('RegistrationComponent', () => {
         expect(await registrationButton.isDisabled()).toBeTruthy();
     }));
 
-    it('should not be able to invoke service methods', async () => {
+    it('should not be able to invoke service methods', async(async () => {
         // the form should be invalid and the registration button disabled
         expect(fixture.componentInstance.form.valid).toBeFalsy();
         expect(await registrationButton.isDisabled()).toBeTruthy();
@@ -99,9 +102,9 @@ describe('RegistrationComponent', () => {
         // click the button and check that the service hasn't been called
         await registrationButton.click();
         expect(authenticationServiceSpy.signUp).not.toHaveBeenCalled();
-    });
+    }));
 
-    it('should display errors after touching the fields', async () => {
+    it('should display errors after touching the fields', async(async () => {
         await usernameInput.focus();
         await usernameInput.blur();
 
@@ -113,24 +116,24 @@ describe('RegistrationComponent', () => {
 
         expect(await passwordFormField.hasErrors()).toBeTruthy();
         expect((await passwordFormField.getTextErrors())[0]).toEqual(PASSWORD_REQUIRED_MESSAGE);
-    });
+    }));
 
-    it('should show an error when incorrect username is provided', async () => {
+    it('should show an error when incorrect username is provided', async(async () => {
         await usernameInput.setValue('kplich^^^');
         expect(fixture.componentInstance.controls.username.valid).toBeFalsy();
         expect(await usernameFormField.hasErrors()).toBeTruthy();
         expect((await usernameFormField.getTextErrors())[0]).toEqual(USERNAME_PATTERN_MESSAGE);
-    });
+    }));
 
-    it('should show an error when password is too short', async () => {
+    it('should show an error when password is too short', async(async () => {
         await passwordInput.setValue('pass');
         expect(fixture.componentInstance.controls.password.valid).toBeFalsy();
         expect(await passwordFormField.hasErrors()).toBeTruthy();
         expect((await passwordFormField.getTextErrors())[0])
             .toEqual(MINIMUM_PASSWORD_LENGTH_MESSAGE);
-    });
+    }));
 
-    it('should allow to sign up when credentials are correct', async () => {
+    it('should allow to sign up when credentials are correct', async(async () => {
         // when providing correct credentials
         await usernameInput.setValue('username');
         await usernameInput.blur();
@@ -153,5 +156,5 @@ describe('RegistrationComponent', () => {
 
         await registrationButton.click();
         expect(authenticationServiceSpy.signUp).toHaveBeenCalled();
-    });
+    }));
 });

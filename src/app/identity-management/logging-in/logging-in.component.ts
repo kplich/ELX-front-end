@@ -44,10 +44,10 @@ export class LoggingInComponent implements OnInit {
         }
     };
 
-    readonly controls = {
+    readonly controls = Object.freeze({
         username: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required])
-    };
+    });
 
     readonly errorStateMatcher = new MyErrorStateMatcher();
     readonly form = new FormGroup(this.controls);
