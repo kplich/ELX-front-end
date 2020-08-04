@@ -28,7 +28,7 @@ export class ItemCardComponent implements OnInit {
         if (this.item?.doesNotHavePhotos) {
             return this.domSanitizer.bypassSecurityTrustUrl('assets/no-photo.png');
         } else {
-            return this.item.getSafePhotoUrls(this.domSanitizer)[0];
+            return this.item?.getSafePhotoUrls(this.domSanitizer)[0];
         }
     }
 
