@@ -1,31 +1,33 @@
 <div class="item-header simple-card">
     <div class="item-header-row">
-        <span class="item-title">{{item?.title}}</span>
-        <span class="item-price">{{item?.formattedPrice}}</span>
+        <span class="item-title" id="item-title">{{item?.title}}</span>
+        <span class="item-price" id="item-price">{{item?.formattedPrice}}</span>
     </div>
     <div class="item-header-row">
-        <div
-            *ngIf="item?.usedStatusIsApplicable"
-            class="item-detail">{{item?.usedStatus.toString()}}</div>
-        <div class="item-detail">{{strings.category}}: {{item?.category.name}}</div>
-        <div *ngIf="item?.isClosed else itemNotClosedActions" class="item-closed">
+        <div id="item-status"
+             *ngIf="item?.usedStatusIsApplicable"
+             class="item-detail">{{item?.usedStatus.toString()}}</div>
+        <div class="item-detail" id="item-category">{{strings.category}}: {{item?.category.name}}</div>
+        <div *ngIf="item?.isClosed else itemNotClosedActions" class="item-closed"
+             id="item-closed">
             {{strings.itemClosed}} {{item?.closedOn | date}}
         </div>
         <ng-template #itemNotClosedActions>
             <div class="item-actions">
-                <button *ngIf="!addedByLoggedInUser" mat-raised-button>
+                <button *ngIf="!addedByLoggedInUser" id="item-send-message" mat-raised-button>
                     {{strings.buttons.sendMessage}}
                 </button>
-                <button *ngIf="!addedByLoggedInUser" color="primary" mat-raised-button>
+                <button *ngIf="!addedByLoggedInUser" color="primary" id="item-send-offer" mat-raised-button>
                     {{strings.buttons.sendOffer}}
                 </button>
-                <button *ngIf="!addedByLoggedInUser" color="accent" mat-raised-button>
+                <button *ngIf="!addedByLoggedInUser" color="accent" id="item-accept-offer" mat-raised-button>
                     {{strings.buttons.acceptOffer}}
                 </button>
-                <button (click)="navigateToUpdatingItem()" *ngIf="addedByLoggedInUser" color="accent" mat-raised-button>
+                <button (click)="navigateToUpdatingItem()" *ngIf="addedByLoggedInUser" color="accent"
+                        id="item-edit-item" mat-raised-button>
                     {{strings.buttons.editItem}}
                 </button>
-                <button (click)="closeOffer()" *ngIf="canBeClosed" color="warn" mat-raised-button>
+                <button (click)="closeOffer()" *ngIf="canBeClosed" color="warn" id="item-close-offer" mat-raised-button>
                     {{strings.buttons.closeOffer}}
                 </button>
             </div>
@@ -67,14 +69,14 @@
     </div>
     <div class="item-description-and-seller">
         <div class="item-seller">
-            <div>
+            <div id="item-added-by">
                 {{strings.addedBy}} <a>{{item?.addedBy.username}}</a>
             </div>
-            <div>
+            <div id="item-added-on">
                 {{strings.addedOn}} {{item?.addedOn | date}}
             </div>
         </div>
-        <div>
+        <div id="item-description">
             {{item?.description}}
         </div>
 

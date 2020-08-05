@@ -10,6 +10,7 @@ import {Item} from '../../items-service/data/Item';
 import {statusToDtoString, UsedStatus} from '../../items-service/data/UsedStatus';
 import {formatDate} from '@angular/common';
 import {DebugElement} from '@angular/core';
+import {findByCss as _findByCss} from '../../../shared/FindByCss';
 
 describe('ItemCardComponent', () => {
     const routerSpy = jasmine.createSpyObj('router', ['navigateByUrl']);
@@ -26,8 +27,8 @@ describe('ItemCardComponent', () => {
     let category: HTMLDivElement;
     let price: HTMLDivElement;
 
-    const findByCssClass = (classSelector: string) => {
-        return fixture.debugElement.query(By.css(classSelector)).nativeElement;
+    const findByCss: <EL extends HTMLElement> (selector: string) => EL = (selector: string) => {
+        return _findByCss(fixture, selector);
     };
 
     beforeEach(async () => {
@@ -44,11 +45,11 @@ describe('ItemCardComponent', () => {
         component = fixture.componentInstance;
 
         cardContainer = fixture.debugElement.query(By.css('.simple-card'));
-        title = findByCssClass('.item-card-details-title');
+        title = findByCss('.item-card-details-title');
         status = undefined; // at the beginning, component isn't defined, so the status doesn't show
-        addedBy = findByCssClass('.item-card-details-added-by');
-        category = findByCssClass('.item-card-details-category');
-        price = findByCssClass('.item-card-details-price');
+        addedBy = findByCss('.item-card-details-added-by');
+        category = findByCss('.item-card-details-category');
+        price = findByCss('.item-card-details-price');
 
         fixture.detectChanges();
     });
@@ -82,7 +83,7 @@ describe('ItemCardComponent', () => {
 
         component.item = item;
         fixture.detectChanges();
-        status = findByCssClass('.item-card-details-status');
+        status = findByCss('.item-card-details-status');
         expect(status).toBeDefined();
 
 
