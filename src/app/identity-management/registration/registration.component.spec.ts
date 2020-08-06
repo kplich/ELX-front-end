@@ -29,7 +29,9 @@ describe('RegistrationComponent', () => {
     const authenticationServiceSpy = jasmine.createSpyObj('AuthenticationService', ['signUp']);
     authenticationServiceSpy.signUp.and.returnValue(new Observable(() => {
     }));
+
     const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
+    routerSpy.navigateByUrl.and.returnValue(Promise.resolve());
     const snackBarServiceSpy = jasmine.createSpyObj('SnackBarService', ['openSnackBar']);
 
     let fixture: ComponentFixture<RegistrationComponent>;
