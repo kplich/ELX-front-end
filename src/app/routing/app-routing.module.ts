@@ -9,15 +9,18 @@ import {RegistrationComponent} from '../identity-management/registration/registr
 import {LoggedInGuard} from './logged-in-guard/logged-in.guard';
 import {ItemComponent} from '../items/item/item.component';
 import {AddItemComponent} from '../items/add-item/add-item.component';
+import {UpdateItemComponent} from '../items/update-item/update-item.component';
 
 const routes: Routes = [
-  {path: 'log-in', component: LoggingInComponent},
-  {path: 'register', component: RegistrationComponent},
-  {path: 'add-item', component: AddItemComponent},
-  {path: 'browse-items', component: ItemBrowsingComponent},
-  {path: 'item/:id', component: ItemComponent},
-  {path: 'my-account', component: MyAccountComponent, canActivate: [LoggedInGuard]},
-  {path: 'offer', component: OfferComponent, canActivate: [LoggedInGuard]}
+    {path: 'log-in', component: LoggingInComponent},
+    {path: 'register', component: RegistrationComponent},
+    {path: 'items', component: ItemBrowsingComponent},
+    {path: 'items/add', component: AddItemComponent, canActivate: [LoggedInGuard]},
+    {path: 'items/:id/edit', component: UpdateItemComponent, canActivate: [LoggedInGuard]},
+    {path: 'items/:id', component: ItemComponent},
+    {path: 'my-account', component: MyAccountComponent, canActivate: [LoggedInGuard]},
+    {path: 'offer', component: OfferComponent, canActivate: [LoggedInGuard]},
+    {path: '', component: ItemBrowsingComponent}
 ];
 
 @NgModule({

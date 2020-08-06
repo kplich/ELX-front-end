@@ -14,41 +14,48 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    DragDropModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatTabsModule,
-    MatCardModule,
-    MatDividerModule,
-    MatSnackBarModule,
-    MatExpansionModule,
-    MatRadioModule,
-    MatProgressBarModule
-  ],
-  exports: [
-    DragDropModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatTabsModule,
-    MatCardModule,
-    MatDividerModule,
-    MatSnackBarModule,
-    MatExpansionModule,
-    MatRadioModule,
-    MatProgressBarModule
-  ]
+    declarations: [],
+    imports: [
+        CommonModule,
+        DragDropModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatTabsModule,
+        MatCardModule,
+        MatDividerModule,
+        MatSnackBarModule,
+        MatExpansionModule,
+        MatRadioModule,
+        MatProgressBarModule,
+        MatCheckboxModule,
+        MatChipsModule
+    ],
+    exports: [
+        DragDropModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatTabsModule,
+        MatCardModule,
+        MatDividerModule,
+        MatSnackBarModule,
+        MatExpansionModule,
+        MatRadioModule,
+        MatProgressBarModule,
+        MatCheckboxModule,
+        MatChipsModule
+    ]
 })
-export class MaterialModule { }
+export class MaterialModule {
+}

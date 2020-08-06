@@ -1,62 +1,86 @@
 <div class="item-header simple-card">
-  <div class="item-header-row">
-    <span class="item-title">{{item?.title}}</span>
-    <span class="item-price">{{item?.formattedPrice}}</span>
-  </div>
-  <div class="item-header-row">
-    <div class="item-details">
-      <span *ngIf="item.usedStatus !== 'NOT_APPLICABLE'" class="item-detail">{{item?.usedStatus}}</span>
-      <span class="item-detail">{{strings.category}}: {{item?.category}}</span>
+    <div class="item-header-row">
+        <span class="item-title" id="item-title">{{item?.title}}</span>
+        <span class="item-price" id="item-price">{{item?.formattedPrice}}</span>
     </div>
-    <div *ngIf="item?.closed === null" class="item-actions">
-      <button mat-raised-button>{{strings.buttons.sendMessage}}</button>
-      <button mat-raised-button color="primary">{{strings.buttons.sendOffer}}</button>
-      <button mat-raised-button color="accent">{{strings.buttons.acceptOffer}}</button>
-    </div>
-    <div *ngIf="item?.closed !== null">
-      {{strings.offerClosed}} {{item?.closed | date}}
-    </div>
+    <div class="item-header-row">
+        <div id="item-status"
+             *ngIf="item?.usedStatusIsApplicable"
+             class="item-detail">{{item?.usedStatus.toString()}}</div>
+        <div class="item-detail" id="item-category">{{strings.category}}: {{item?.category.name}}</div>
+        <div *ngIf="item?.isClosed else itemNotClosedActions" class="item-closed"
+             id="item-closed">
+            {{strings.itemClosed}} {{item?.closedOn | date}}
+        </div>
+        <ng-template #itemNotClosedActions>
+            <div class="item-actions">
+                <button *ngIf="!addedByLoggedInUser" id="item-send-message" mat-raised-button>
+                    {{strings.buttons.sendMessage}}
+                </button>
+                <button *ngIf="!addedByLoggedInUser" color="primary" id="item-send-offer" mat-raised-button>
+                    {{strings.buttons.sendOffer}}
+                </button>
+                <button *ngIf="!addedByLoggedInUser" color="accent" id="item-accept-offer" mat-raised-button>
+                    {{strings.buttons.acceptOffer}}
+                </button>
+                <button (click)="navigateToUpdatingItem()" *ngIf="addedByLoggedInUser" color="accent"
+                        id="item-edit-item" mat-raised-button>
+                    {{strings.buttons.editItem}}
+                </button>
+                <button (click)="closeOffer()" *ngIf="canBeClosed" color="warn" id="item-close-offer" mat-raised-button>
+                    {{strings.buttons.closeOffer}}
+                </button>
+            </div>
+        </ng-template>
 
-  </div>
+    </div>
 </div>
 <div class="item-content">
-  <div class="item-photos">
-    <mat-carousel
-      timings="250ms ease-in"
-      [autoplay]="false"
-      color="primary"
-      [loop]="true"
-      [hideArrows]="false"
-      [hideIndicators]="false"
-      [maxWidth]="'100%'"
-      [useKeyboard]="false"
-      [useMouseWheel]="false"
-      [maintainAspectRatio]="false"
-      orientation="ltr">
-      <mat-carousel-slide
-        *ngFor="let url of safePhotoUrls; let i = index"
-        overlayColor="#00000000"
-        [hideOverlay]="false">
-        <div class="item-photo">
-          <img alt="Item photo" [src]="url">
-        </div>
-      </mat-carousel-slide>
-    </mat-carousel>
-  </div>
-  <div class="item-description-and-seller">
-    <div class="item-seller">
-      <div>
-        {{strings.offeredBy}} <a>{{item?.addedBy}}</a>
-      </div>
-      <div>
-        {{strings.added}} {{item?.added | date}}
-      </div>
-    </div>
-    <div>
-      {{item?.description}}
-    </div>
+    <div class="item-photos">
+        <mat-carousel
+            [autoplay]="false"
+            [hideArrows]="item?.hasAtMostOnePhoto"
+            [hideIndicators]="item?.hasAtMostOnePhoto"
+            [loop]="true"
+            [maintainAspectRatio]="false"
+            [maxWidth]="'100%'"
+            [useKeyboard]="false"
+            [useMouseWheel]="false"
+            color="primary"
+            orientation="ltr"
+            timings="250ms ease-in">
+            <mat-carousel-slide *ngIf="item?.doesNotHavePhotos else slidesWithPhotos"
+                                [hideOverlay]="true">
+                <div class="item-photo">
+                    <img [src]="'assets/no-photo.png'" alt="Item photo">
+                </div>
+            </mat-carousel-slide>
+            <ng-template #slidesWithPhotos>
+                <mat-carousel-slide
+                    *ngFor="let url of itemPhotoUrls; let i = index;"
+                    [hideOverlay]="true">
+                    <div class="item-photo">
+                        <img (error)="item?.fixPhotoUrl(i)" [src]="url" alt="Item photo">
+                    </div>
+                </mat-carousel-slide>
+            </ng-template>
 
-  </div>
+        </mat-carousel>
+    </div>
+    <div class="item-description-and-seller">
+        <div class="item-seller">
+            <div id="item-added-by">
+                {{strings.addedBy}} <a>{{item?.addedBy.username}}</a>
+            </div>
+            <div id="item-added-on">
+                {{strings.addedOn}} {{item?.addedOn | date}}
+            </div>
+        </div>
+        <div id="item-description">
+            {{item?.description}}
+        </div>
+
+    </div>
 </div>
 
 

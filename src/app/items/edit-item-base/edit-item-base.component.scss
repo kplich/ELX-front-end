@@ -1,0 +1,41 @@
+@import 'src/dimens.scss';
+
+:host {
+    display: block;
+}
+
+h1 {
+    margin-top: $dimen-s;
+}
+
+form {
+    .form-fields {
+        width: 100%;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+
+        .title-field {
+            width: 60%;
+        }
+
+        .price-field {
+            width: 35%;
+        }
+
+        .status-field, .category-field {
+            width: 47.5%;
+        }
+
+        .description-field {
+            width: 100%;
+        }
+    }
+
+    .form-actions {
+        margin: $dimen-xxs 0;
+        text-align: end;
+    }
+
+    width: 100%;
+}

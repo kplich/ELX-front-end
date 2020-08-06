@@ -10,7 +10,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 @NgModule({
     declarations: [PhotoUploaderComponent, FileUploaderComponent],
     exports: [
-        PhotoUploaderComponent
+        PhotoUploaderComponent,
     ],
     imports: [
       AngularFireModule.initializeApp(environment.firebaseConfig),

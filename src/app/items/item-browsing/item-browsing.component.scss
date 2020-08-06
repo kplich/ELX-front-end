@@ -1,1 +1,11 @@
+@import 'src/dimens';
 
+.item-cards {
+    margin: $dimen-m;
+}
+
+.item-cards-error {
+    margin: $dimen-m;
+    text-align: center;
+    color: grey;
+}

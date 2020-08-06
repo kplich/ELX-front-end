@@ -1,6 +1,7 @@
 @import 'node_modules/@angular/material/theming';
 
 @mixin purchase-offer-main {
+  //noinspection CssInvalidHtmlTagReference
   offer {
     display: flex;
     flex-flow: row nowrap;
@@ -11,10 +12,11 @@
 }
 
 @mixin purchase-offer-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
 
-  .offer-conversation {
-    background-color: mat-color($primary, 100);
-  }
+    //noinspection CssUnusedSymbol
+    .offer-conversation {
+        background-color: mat-color($primary, 100);
+    }
 }
