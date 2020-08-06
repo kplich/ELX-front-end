@@ -5,6 +5,7 @@ import {AuthenticationService} from '../authentication-service/authentication.se
 import {HttpErrorResponse} from '@angular/common/http';
 import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
 import {Credentials} from '../authentication-service/Credentials';
+import {MyErrorStateMatcher} from '../../shared/MyErrorStateMatcher';
 
 export const USERNAME_LABEL = 'Username';
 export const USERNAME_REQUIRED_MESSAGE = 'A username is required!';
@@ -21,70 +22,89 @@ export const BUTTON_LOG_IN_TEXT = 'Log in';
 export const BUTTON_REGISTER_TEXT = 'Register';
 
 @Component({
-  selector: 'app-logging-in',
-  templateUrl: './logging-in.component.html',
-  styleUrls: ['./logging-in.component.scss']
+    selector: 'identity-logging-in',
+    templateUrl: './logging-in.component.html',
+    styleUrls: ['./logging-in.component.scss']
 })
 export class LoggingInComponent implements OnInit {
 
-  usernameLabel = USERNAME_LABEL;
-  usernameRequiredMessage = USERNAME_REQUIRED_MESSAGE;
+    readonly strings = {
+        username: {
+            label: USERNAME_LABEL,
+            requiredMessage: USERNAME_REQUIRED_MESSAGE
+        },
+        password: {
+            label: PASSWORD_LABEL,
+            requiredMessage: PASSWORD_REQUIRED_MESSAGE,
+        },
+        buttons: {
+            forgotPasswordText: BUTTON_FORGOT_PASSWORD_TEXT,
+            logInText: BUTTON_LOG_IN_TEXT,
+            registerText: BUTTON_REGISTER_TEXT
+        }
+    };
 
-  passwordLabel = PASSWORD_LABEL;
-  passwordRequiredMessage = PASSWORD_REQUIRED_MESSAGE;
-
-  buttonForgotPasswordText = BUTTON_FORGOT_PASSWORD_TEXT;
-  buttonLogInText = BUTTON_LOG_IN_TEXT;
-  buttonRegisterText = BUTTON_REGISTER_TEXT;
-
-  loggingInForm: FormGroup;
-
-  constructor(
-    private authenticationService: AuthenticationService,
-    private router: Router,
-    private snackBarService: SnackBarService) {
-    this.loggingInForm = new FormGroup({
-      username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+    readonly controls = Object.freeze({
+        username: new FormControl('', [Validators.required]),
+        password: new FormControl('', [Validators.required])
     });
-  }
 
-  ngOnInit() {}
+    readonly errorStateMatcher = new MyErrorStateMatcher();
+    readonly form = new FormGroup(this.controls);
 
-  login() {
-    this.authenticationService.logIn(this.credentials).subscribe({
-      next: _ => {
-        // tslint:disable-next-line:no-shadowed-variable
-        this.router.navigateByUrl('/browse-items').then(_ => {
-          this.snackBarService.openSnackBar(LOGGED_IN_SUCCESSFULLY_MESSAGE(this.username.value));
+    constructor(
+        private authenticationService: AuthenticationService,
+        private router: Router,
+        private snackBarService: SnackBarService) {
+    }
+
+    get errors() {
+        return {
+            notProvided: this.controls.username.hasError('required'),
+            passwordNotProvided: this.controls.password.hasError('required')
+        };
+    }
+
+    private get credentials(): Credentials {
+        return {
+            username: this.controls.username.value,
+            password: this.controls.password.value
+        };
+    }
+
+    ngOnInit() {
+        if (this.authenticationService.authenticatedUser !== null) {
+            this.router.navigateByUrl('/items').then(() => {
+                this.snackBarService.openSnackBar(
+                    LOGGED_IN_SUCCESSFULLY_MESSAGE(this.authenticationService.authenticatedUser)
+                );
+            });
+        }
+    }
+
+    login() {
+        this.authenticationService.logIn(this.credentials).subscribe({
+            next: () => {
+                this.router.navigateByUrl('/items').then(() => {
+                    this.snackBarService.openSnackBar(
+                        LOGGED_IN_SUCCESSFULLY_MESSAGE(this.controls.username.value)
+                    );
+                });
+            },
+            error: errorResponse => this.openErrorSnackBar(errorResponse)
         });
-      },
-      error: errorResponse => this.openErrorSnackBar(errorResponse)
-    });
-  }
-
-  routeToRegistration() {
-    this.router.navigateByUrl('/register').then(_ => {});
-  }
-
-  get username(): FormControl {
-    return this.loggingInForm.get('username') as FormControl;
-  }
-
-  get password(): FormControl {
-    return this.loggingInForm.get('password') as FormControl;
-  }
-
-  private openErrorSnackBar(errorResponse: HttpErrorResponse) {
-    if (errorResponse.status === 403) {
-      this.snackBarService.openSnackBar(INCORRECT_USERNAME_OR_PASSWORD_MESSAGE);
     }
-    else {
-      this.snackBarService.openSnackBar(SERVER_ERROR_MESSAGE);
-    }
-  }
 
-  private get credentials(): Credentials {
-    return {username: this.username.value, password: this.password.value};
-  }
+    routeToRegistration() {
+        this.router.navigateByUrl('/register').then(_ => {
+        });
+    }
+
+    private openErrorSnackBar(errorResponse: HttpErrorResponse) {
+        if (errorResponse.status === 403) {
+            this.snackBarService.openSnackBar(INCORRECT_USERNAME_OR_PASSWORD_MESSAGE);
+        } else {
+            this.snackBarService.openSnackBar(SERVER_ERROR_MESSAGE);
+        }
+    }
 }

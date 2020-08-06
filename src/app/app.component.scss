@@ -2,34 +2,34 @@
 @import 'src/dimens.scss';
 
 :host {
-  height: 100%;
-  display: block;
+    height: 100%;
+    display: block;
 }
 
-// TODO: set some minimal height!
 $toolbar-height: $dimen-m;
-$side-padding: 10vw;
+$footer-height: $dimen-xs;
+$max-width: 1080px;
+$side-padding: calc((100% - #{$max-width}) / 2);
 
 .toolbar {
-  position: fixed;
-  top: 0;
-  height: $toolbar-height;
+    position: fixed;
+    top: 0;
+    height: $toolbar-height;
 
-  @include mat-elevation(5);
-  z-index: 5;
+    @include mat-elevation(5);
+    z-index: 5;
 
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
 
-  .toolbar-logo {
-    height: 100%;
-  }
+    .toolbar-logo {
+        height: 100%;
+    }
 }
 
 .app-content {
-  padding: $toolbar-height $side-padding 0 $side-padding;
-  z-index: 1;
-
-  overflow-y: auto;
+    width: 100%;
+    padding: $toolbar-height $side-padding $dimen-xs;
+    height: 100%;
 }

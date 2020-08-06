@@ -1,0 +1,15 @@
+<item-browsing-criteria (filteringCriteria)="filterItems($event)" [categories]="categories"></item-browsing-criteria>
+<div *ngIf="itemsWereFound else noItemsWereFoundTemplate" class="item-cards">
+    <item-card *ngFor="let item of displayedItems" [item]="item"></item-card>
+</div>
+<ng-template #noItemsWereFoundTemplate>
+    <div *ngIf="itemsWereLoaded else noItemsWereLoadedTemplate" class="item-cards-error">
+        {{strings.noItemsFoundMessage}}
+    </div>
+    <ng-template #noItemsWereLoadedTemplate>
+        <div class="item-cards-error">
+            {{strings.couldNotLoadItemsMessage}}
+        </div>
+    </ng-template>
+</ng-template>
+

@@ -1,52 +1,55 @@
 @import 'src/dimens';
 
 .settings-section {
-  .settings-section-header {
-    font-size: 1.2em;
-    font-weight: 500;
-    margin-bottom: $dimen-xs;
-  }
+    .settings-section-header {
+        font-size: 1.2em;
+        font-weight: 500;
+        margin-bottom: $dimen-xs;
+    }
 }
 
+//noinspection CssInvalidHtmlTagReference
 mat-divider {
-  margin: $dimen-xs 0;
+    margin: $dimen-xs 0;
 }
 
 .password-change-form {
-  form {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: stretch;
+    form {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: stretch;
 
-    > * {
-      margin: 0 $dimen-xs;
-    }
+        > * {
+            margin: 0 $dimen-xs;
+        }
 
-    mat-form-field {
-      flex-basis: 30%;
-      max-width: 40%;
-    }
+        //noinspection CssInvalidHtmlTagReference
+        mat-form-field {
+            flex-basis: 30%;
+            max-width: 40%;
+        }
 
-    .mat-form-button {
-      display: flex;
-      flex-flow: column nowrap;
-      justify-content: flex-start;
-      padding-top: $dimen-xs;
-    }
+        .mat-form-button {
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: flex-start;
+            padding-top: $dimen-xs;
+        }
 
-    .mat-form-button-error {
-      text-align: center;
-      font-size: 0.75em;
-      color: red;
+        .mat-form-button-error {
+            text-align: center;
+            font-size: 0.75em;
+            color: red;
+        }
     }
-  }
 }
 
 .account-settings-form {
-  width: 100%;
+    width: 100%;
 }
 
+//noinspection CssUnusedSymbol
 .mat-expansion-panel-header-description {
-  justify-content: flex-end;
+    justify-content: flex-end;
 }

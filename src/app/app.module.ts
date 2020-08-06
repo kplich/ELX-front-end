@@ -5,11 +5,12 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './routing/app-routing.module';
 import {MaterialModule} from './material/material.module';
-import {ItemBrowsingModule} from './item-browsing/item-browsing.module';
+import {ItemsModule} from './items/items.module';
 import {MyAccountModule} from './my-account/my-account.module';
 import {OfferModule} from './offer/offer.module';
 import {IdentityManagementModule} from './identity-management/identity-management.module';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {JwtInterceptor} from './routing/jwt-interceptor/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -21,12 +22,14 @@ import {HttpClientModule} from '@angular/common/http';
     AppRoutingModule,
     MaterialModule,
     IdentityManagementModule,
-    ItemBrowsingModule,
+    ItemsModule,
     MyAccountModule,
     OfferModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

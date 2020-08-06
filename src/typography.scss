@@ -1,0 +1,66 @@
+@import './dimens';
+
+@mixin sansFont {
+    font-family: Roboto, sans-serif;
+}
+
+@mixin monoFont {
+    font-family: Roboto Mono, sans-serif;
+}
+
+@mixin fontSizeInPts($pts) {
+    font-size: $pts * 0.0625rem;
+    line-height: 1.25;
+}
+
+@mixin header-1($mono: false) {
+    @if $mono {
+        @include monoFont;
+        font-weight: 500;
+    } @else {
+        @include sansFont;
+        font-weight: 700;
+    }
+
+    @include fontSizeInPts(45);
+
+    margin-bottom: $dimen-xs;
+    letter-spacing: 0.5px;
+}
+
+@mixin header-2($mono: false) {
+    @if $mono {
+        @include monoFont;
+        font-weight: 300;
+    } @else {
+        @include sansFont;
+        font-weight: 500;
+    }
+
+    @include fontSizeInPts(28);
+    letter-spacing: -0.5px;
+}
+
+@mixin header-3($mono: false) {
+    @if $mono {
+        @include monoFont;
+        font-weight: 100;
+    } @else {
+        @include sansFont;
+        font-weight: 300;
+    }
+
+    @include fontSizeInPts(18);
+}
+
+@mixin body {
+    @include sansFont;
+    @include fontSizeInPts(14);
+}
+
+@mixin body-accent {
+    @include monoFont;
+    @include fontSizeInPts(14);
+    font-weight: 300;
+    font-style: italic;
+}

@@ -1,5 +1,11 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+  UrlTree
+} from '@angular/router';
 import {Observable} from 'rxjs';
 import {AuthenticationService} from '../../identity-management/authentication-service/authentication.service';
 
@@ -12,8 +18,8 @@ export class LoggedInGuard implements CanActivate {
 
   // noinspection JSUnusedLocalSymbols
   canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    next: ActivatedRouteSnapshot, state: RouterStateSnapshot):
+    Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     if (this.authenticationService.authenticatedUser !== null) {
       return true;
