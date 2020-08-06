@@ -8,13 +8,14 @@ form {
         display: flex;
         flex-flow: row nowrap;
         margin-bottom: 2em;
-    }
 
-    button.mat-raised-button {
-        // make this padding smaller to better accommodate longer text
-        // and simultaneously allow for natural flex-grow
-        padding: 0 4px;
-        flex-basis: 25%;
+        //noinspection CssUnusedSymbol
+        button.mat-raised-button {
+            // make this padding smaller to better accommodate longer text
+            // and simultaneously allow for natural flex-grow
+            padding: 0 4px;
+            flex-basis: 25%;
+        }
     }
 }
 

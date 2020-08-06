@@ -8,6 +8,7 @@
     }
 }
 
+//noinspection CssInvalidHtmlTagReference
 mat-divider {
     margin: $dimen-xs 0;
 }
@@ -23,6 +24,7 @@ mat-divider {
             margin: 0 $dimen-xs;
         }
 
+        //noinspection CssInvalidHtmlTagReference
         mat-form-field {
             flex-basis: 30%;
             max-width: 40%;
@@ -47,6 +49,7 @@ mat-divider {
     width: 100%;
 }
 
+//noinspection CssUnusedSymbol
 .mat-expansion-panel-header-description {
     justify-content: flex-end;
 }

@@ -27,6 +27,7 @@
   float: left;
 }
 
+//noinspection CssInvalidHtmlTagReference
 offer-conversation-message {
   clear: both;
   float: left;
@@ -39,14 +40,15 @@ offer-conversation-message {
 }
 
 .conversation-input {
-  height: 10%;
+    height: 10%;
 
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: baseline;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: baseline;
 
-  mat-form-field {
-    flex-grow: 3;
-    text-align: right;
-  }
+    //noinspection CssInvalidHtmlTagReference
+    mat-form-field {
+        flex-grow: 3;
+        text-align: right;
+    }
 }

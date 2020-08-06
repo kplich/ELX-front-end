@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Item, ItemCategory} from '../items-service/data/Item';
 import {ItemsService} from '../items-service/items.service';
 import {ItemFilteringCriteria} from './item-browsing-criteria/ItemFilteringCriteria';
+import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
 
 export const COULD_NOT_LOAD_ITEMS_MESSAGE = 'Could not load items :/.';
 export const NO_ITEMS_FOUND_MESSAGE = 'No items matching given criteria were found.';
@@ -21,7 +22,8 @@ export class ItemBrowsingComponent implements OnInit {
     private allItems: Item[];
     categories: ItemCategory[];
 
-    constructor(private itemService: ItemsService) {
+    constructor(private itemService: ItemsService,
+                private snackBarService: SnackBarService) {
     }
 
     get itemsWereLoaded(): boolean {
@@ -44,8 +46,8 @@ export class ItemBrowsingComponent implements OnInit {
                     }
                 });
             },
-            error: error => {
-
+            error: () => {
+                this.snackBarService.openSnackBar(this.strings.couldNotLoadItemsMessage);
             }
         });
     }

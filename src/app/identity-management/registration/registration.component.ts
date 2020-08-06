@@ -7,6 +7,7 @@ import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service'
 import {Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 import {MyErrorStateMatcher} from '../../shared/MyErrorStateMatcher';
+import {LOGGED_IN_SUCCESSFULLY_MESSAGE} from '../logging-in/logging-in.component';
 
 export const USERNAME_LABEL = 'Username';
 export const USERNAME_REQUIRED_MESSAGE = 'A username is required!';
@@ -130,7 +131,13 @@ export class RegistrationComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        // TODO: redirect to items when user is logged in
+        if (this.authenticationService.authenticatedUser !== null) {
+            this.router.navigateByUrl('/items').then(() => {
+                this.snackBarService.openSnackBar(
+                    LOGGED_IN_SUCCESSFULLY_MESSAGE(this.authenticationService.authenticatedUser)
+                );
+            });
+        }
     }
 
     register() {

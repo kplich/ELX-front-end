@@ -17,14 +17,6 @@
     }
 }
 
-.pseudo-mat-form-field {
-
-    .pseudo-mat-form-field-label {
-        text-align: center;
-        margin-bottom: $dimen-xxs;
-    }
-}
-
 .mat-radio-group-container {
     padding: $dimen-xxs;
 
@@ -34,7 +26,9 @@
         margin-bottom: $dimen-xs;
     }
 
+    //noinspection CssInvalidHtmlTagReference
     mat-radio-group {
+        //noinspection CssInvalidHtmlTagReference
         mat-radio-button {
             margin: 0 $dimen-xs;
         }

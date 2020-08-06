@@ -13,7 +13,7 @@ export const ITEM_ADDED_SUCCESSFULLY_MESSAGE = 'Item added successfully!';
 @Component({
     selector: 'item-add',
     templateUrl: './add-item.component.html',
-    styleUrls: ['./add-item.component.scss']
+    styleUrls: ['../edit-item-base/edit-item-base.component.scss']
 })
 export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
 

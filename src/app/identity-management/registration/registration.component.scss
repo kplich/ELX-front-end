@@ -4,11 +4,7 @@ form {
 
     padding: 50px 30%;
 
-    .logging-in-actions {
-        display: flex;
-        flex-flow: row nowrap;
-    }
-
+    //noinspection CssUnusedSymbol
     .mat-raised-button {
         // make this padding smaller to better accommodate longer text
         // and simultaneously allow for natural flex-grow

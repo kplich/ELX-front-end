@@ -66,7 +66,6 @@ describe('RegistrationComponent', () => {
                 .then(harness => {
                     passwordFormField = harness;
                 });
-
             loader.getHarness(MatInputHarness.with({selector: '#password-form-field input'}))
                 .then(harness => {
                     passwordInput = harness;

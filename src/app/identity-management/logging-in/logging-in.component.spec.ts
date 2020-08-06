@@ -38,6 +38,7 @@ describe('LoggingInComponent', () => {
     let loggingInButton: MatButtonHarness;
 
     beforeEach(async(() => {
+        // noinspection DuplicatedCode
         TestBed.configureTestingModule({
             imports: [MaterialModule, BrowserAnimationsModule, ReactiveFormsModule],
             declarations: [LoggingInComponent],
@@ -89,6 +90,7 @@ describe('LoggingInComponent', () => {
         expect(await loggingInButton.isDisabled()).toBeTruthy();
     }));
 
+    // noinspection DuplicatedCode
     it('should display errors and not allow to log in after touching the fields', async () => {
         await usernameInput.focus();
         await usernameInput.blur();
@@ -106,6 +108,7 @@ describe('LoggingInComponent', () => {
         expect(authenticationServiceSpy.logIn).not.toHaveBeenCalled();
     });
 
+    // noinspection DuplicatedCode
     it('should allow to log in when credentials are correct', async () => {
         // when providing correct credentials
         await usernameInput.setValue('username');

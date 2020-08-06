@@ -1,8 +1,9 @@
 import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {API_URL, AuthenticationService} from './authentication.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {HttpErrorResponse} from '@angular/common/http';
+import {HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {JwtStorageService} from '../../shared/jwt-storage-service/jwt-storage.service';
+import {AUTHORIZATION, BEARER} from '../../routing/jwt-interceptor/jwt.interceptor';
 
 // adapted from
 // skryvets.com/blog/2018/02/18/unit-testing-angular-service-with-httpclient
@@ -108,36 +109,36 @@ describe('AuthenticationService logging in', () => {
     });
 
     // TODO: fix this test
-    /*it('should save the token after successful login and remove it after logout',
+    xit('should save the token after successful login and remove it after logout',
         fakeAsync(() => {
-      const expectedResponseBody = {};
-      const expectedStatus = 200;
-      // can't read these guys later :/
-      const expectedHeaders = new HttpHeaders();
-      expectedHeaders.append(AUTHORIZATION, `${BEARER} ${EXAMPLE_JWT}`);
-      let response: HttpResponse<any> = null;
+            const expectedResponseBody = {};
+            const expectedStatus = 200;
+            // can't read these guys later :/
+            const expectedHeaders = new HttpHeaders();
+            expectedHeaders.append(AUTHORIZATION, `${BEARER} ${EXAMPLE_JWT}`);
+            let response: HttpResponse<any> = null;
 
-      authenticationService.logIn(USER_CREDENTIALS).subscribe(resp => {
-        response = resp;
-      });
+            authenticationService.logIn(USER_CREDENTIALS).subscribe(resp => {
+                response = resp;
+            });
 
-      const testRequest = httpTestingController.expectOne({url: LOGIN_API_URL});
-      testRequest.flush(expectedResponseBody, {headers: expectedHeaders});
+            const testRequest = httpTestingController.expectOne({url: LOGIN_API_URL});
+            testRequest.flush(expectedResponseBody, {headers: expectedHeaders});
 
-      tick();
+            tick();
 
-      expect(testRequest.request.method).toEqual('POST');
-      expect(response.headers).toEqual(expectedHeaders);
-      expect(response.body).toEqual(expectedResponseBody);
-      expect(response.status).toEqual(expectedStatus);
+            expect(testRequest.request.method).toEqual('POST');
+            expect(response.headers).toEqual(expectedHeaders);
+            expect(response.body).toEqual(expectedResponseBody);
+            expect(response.status).toEqual(expectedStatus);
 
-      expect(authenticationService.authenticatedUser).toEqual(EXAMPLE_USERNAME);
-      expect(authenticationService.authenticatedUser).not.toEqual(ANYTHING_ELSE);
+            expect(authenticationService.authenticatedUser).toEqual(EXAMPLE_USERNAME);
+            expect(authenticationService.authenticatedUser).not.toEqual(ANYTHING_ELSE);
 
-      authenticationService.logOut();
+            authenticationService.logOut();
 
-      expect(authenticationService.authenticatedUser).toBeNull();
-    }));*/
+            expect(authenticationService.authenticatedUser).toBeNull();
+        }));
 
     it('should not save token after unsuccessful login', fakeAsync(() => {
         const expectedStatus = 401;

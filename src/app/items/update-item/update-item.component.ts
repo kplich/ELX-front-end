@@ -18,7 +18,7 @@ export const COULD_NOT_LOAD_ITEM = 'Could not load item.';
 @Component({
     selector: 'item-update',
     templateUrl: './update-item.component.html',
-    styleUrls: ['./update-item.component.scss']
+    styleUrls: ['../edit-item-base/edit-item-base.component.scss']
 })
 export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit {
 

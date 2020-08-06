@@ -57,8 +57,7 @@ export class Item {
     }
 
     public fixPhotoUrl(index: number) {
-        // TODO: add a new photo particularly for errors
-        this.photoUrls[index] = 'assets/no-photo.png';
+        this.photoUrls[index] = 'assets/error-photo.png';
     }
 }
 

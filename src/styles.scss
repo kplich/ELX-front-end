@@ -44,18 +44,21 @@ body {
 }
 
 // allows hints in inputs to be shown in full and not be hidden by other elements
+//noinspection CssInvalidHtmlTagReference
 mat-form-field {
-  .mat-form-field-subscript-wrapper {
-    position: revert;
-  }
+    .mat-form-field-subscript-wrapper {
+        position: revert;
+    }
 
-  .mat-form-field-prefix {
-    top: revert !important;
-  }
+    //noinspection CssUnusedSymbol
+    .mat-form-field-prefix {
+        top: revert !important;
+    }
 }
 
+//noinspection ALL,CssUnusedSymbol
 .mat-tab-body-content {
-  padding: $dimen-s;
+    padding: $dimen-xs;
 }
 
 // TODO: extract this to a proper theme mixin?

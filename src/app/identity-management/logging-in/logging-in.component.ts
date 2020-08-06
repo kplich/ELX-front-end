@@ -73,7 +73,13 @@ export class LoggingInComponent implements OnInit {
     }
 
     ngOnInit() {
-        // TODO: when user is logged in, redirect to items
+        if (this.authenticationService.authenticatedUser !== null) {
+            this.router.navigateByUrl('/items').then(() => {
+                this.snackBarService.openSnackBar(
+                    LOGGED_IN_SUCCESSFULLY_MESSAGE(this.authenticationService.authenticatedUser)
+                );
+            });
+        }
     }
 
     login() {
