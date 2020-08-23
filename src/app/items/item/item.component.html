@@ -14,16 +14,16 @@
         </div>
         <ng-template #itemNotClosedActions>
             <div class="item-actions">
-                <button *ngIf="!addedByLoggedInUser" id="item-send-message" mat-raised-button>
+                <button *ngIf="!loggedInUserIsOwner" id="item-send-message" mat-raised-button (click)="goToConversation()">
                     {{strings.buttons.sendMessage}}
                 </button>
-                <button *ngIf="!addedByLoggedInUser" color="primary" id="item-send-offer" mat-raised-button>
+                <button *ngIf="!loggedInUserIsOwner" color="primary" id="item-send-offer" mat-raised-button>
                     {{strings.buttons.sendOffer}}
                 </button>
-                <button *ngIf="!addedByLoggedInUser" color="accent" id="item-accept-offer" mat-raised-button>
+                <button *ngIf="!loggedInUserIsOwner" color="accent" id="item-accept-offer" mat-raised-button>
                     {{strings.buttons.acceptOffer}}
                 </button>
-                <button (click)="navigateToUpdatingItem()" *ngIf="addedByLoggedInUser" color="accent"
+                <button (click)="navigateToUpdatingItem()" *ngIf="loggedInUserIsOwner" color="accent"
                         id="item-edit-item" mat-raised-button>
                     {{strings.buttons.editItem}}
                 </button>

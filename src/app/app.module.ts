@@ -11,26 +11,28 @@ import {OfferModule} from './offer/offer.module';
 import {IdentityManagementModule} from './identity-management/identity-management.module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {JwtInterceptor} from './routing/jwt-interceptor/jwt.interceptor';
+import {ConversationModule} from "./conversation/conversation.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    MaterialModule,
-    IdentityManagementModule,
-    ItemsModule,
-    MyAccountModule,
-    OfferModule,
-    HttpClientModule
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        MaterialModule,
+        IdentityManagementModule,
+        ConversationModule,
+        ItemsModule,
+        MyAccountModule,
+        OfferModule,
+        HttpClientModule
+    ],
+    providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

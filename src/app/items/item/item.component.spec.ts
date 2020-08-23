@@ -163,7 +163,7 @@ describe('ItemComponent with no logged in user, open item and applicable status'
     it('should display correct data', () => {
         expect(component).toBeTruthy();
 
-        expect(component.addedByLoggedInUser).toBeFalsy();
+        expect(component.loggedInUserIsOwner).toBeFalsy();
         expect(itemsServiceSpy.getItem).toHaveBeenCalledWith(usualItem.id);
         expect(component.item).toEqual(usualItem);
 
@@ -357,7 +357,7 @@ describe('ItemComponent with logged in user, open item and applicable status', (
     it('should display item and applicable actions correctly', () => {
         expect(component).toBeTruthy();
 
-        expect(component.addedByLoggedInUser).toBeTruthy();
+        expect(component.loggedInUserIsOwner).toBeTruthy();
         expect(itemsServiceSpy.getItem).toHaveBeenCalledWith(usualItem.id);
         expect(component.item).toEqual(usualItem);
 

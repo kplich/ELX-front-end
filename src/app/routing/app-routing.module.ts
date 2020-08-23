@@ -10,6 +10,7 @@ import {LoggedInGuard} from './logged-in-guard/logged-in.guard';
 import {ItemComponent} from '../items/item/item.component';
 import {AddItemComponent} from '../items/add-item/add-item.component';
 import {UpdateItemComponent} from '../items/update-item/update-item.component';
+import {ConversationComponent} from "../conversation/conversation/conversation.component";
 
 const routes: Routes = [
     {path: 'log-in', component: LoggingInComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
     {path: 'items/add', component: AddItemComponent, canActivate: [LoggedInGuard]},
     {path: 'items/:id/edit', component: UpdateItemComponent, canActivate: [LoggedInGuard]},
     {path: 'items/:id', component: ItemComponent},
+    {path: 'items/:id/conversation', component: ConversationComponent},
     {path: 'my-account', component: MyAccountComponent, canActivate: [LoggedInGuard]},
     {path: 'offer', component: OfferComponent, canActivate: [LoggedInGuard]},
     {path: '', component: ItemBrowsingComponent}

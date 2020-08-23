@@ -54,10 +54,10 @@ export class ItemComponent implements OnInit {
     }
 
     get canBeClosed(): boolean {
-        return this.addedByLoggedInUser && !this.item?.isClosed;
+        return this.loggedInUserIsOwner && !this.item?.isClosed;
     }
 
-    get addedByLoggedInUser(): boolean {
+    get loggedInUserIsOwner(): boolean {
         const loggedInUser = this.authenticationService.authenticatedUser;
 
         if (loggedInUser === null) {
@@ -95,5 +95,9 @@ export class ItemComponent implements OnInit {
     navigateToUpdatingItem() {
         this.router.navigateByUrl(`items/${this.item.id}/edit`).then(() => {
         });
+    }
+
+    goToConversation() {
+        this.router.navigateByUrl(`items/${this.item.id}/conversation`);
     }
 }
