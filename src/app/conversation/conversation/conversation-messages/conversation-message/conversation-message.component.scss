@@ -1,4 +1,5 @@
 @import 'src/dimens';
+@import 'src/typography';
 
 :host {
     display: block;
@@ -7,4 +8,12 @@
     border-radius: $dimen-xxs;
     max-width: 60%;
     clear: both;
+}
+
+.message-time {
+    @include detail($mono: true);
+}
+
+app-conversation-offer {
+    margin-top: $dimen-xs;
 }

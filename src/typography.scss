@@ -64,3 +64,15 @@
     font-weight: 300;
     font-style: italic;
 }
+
+@mixin detail($mono: false) {
+    @if $mono {
+        @include monoFont;
+    } @else {
+        @include sansFont;
+    }
+
+    @include fontSizeInPts(10);
+    font-weight: 300;
+    font-style: italic;
+}

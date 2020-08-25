@@ -2,6 +2,8 @@ import {dtoStringToStatus as dtoStringToOfferType, OfferType, OfferTypeDto} from
 import {dtoStringToStatus as dtoStringToOfferStatus, OfferStatus, OfferStatusDto} from "./OfferStatus";
 
 export class Offer {
+    public static readonly ETH_SYMBOL = 'Ξ';
+
     id: number;
     type: OfferType;
     price: number;
@@ -18,20 +20,28 @@ export class Offer {
         this.contractAddress = null;
     }
 
+    get formattedPrice(): string {
+        return `${this.price} ${Offer.ETH_SYMBOL}`;
+    }
+
+    get formattedAdvance(): string {
+        return `${this.advance} ${Offer.ETH_SYMBOL}`;
+    }
+
     get accepted(): boolean {
-        return this.offerStatus == OfferStatus.ACCEPTED;
+        return this.offerStatus === OfferStatus.ACCEPTED;
     }
 
     get declined(): boolean {
-        return this.offerStatus == OfferStatus.DECLINED;
+        return this.offerStatus === OfferStatus.DECLINED;
     }
 
     get cancelled(): boolean {
-        return this.offerStatus == OfferStatus.CANCELLED
+        return this.offerStatus === OfferStatus.CANCELLED
     }
 
     get awaiting(): boolean {
-        return this.offerStatus == OfferStatus.AWAITING
+        return this.offerStatus === OfferStatus.AWAITING
     }
 }
 

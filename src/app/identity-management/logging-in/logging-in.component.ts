@@ -6,6 +6,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
 import {Credentials} from '../authentication-service/Credentials';
 import {MyErrorStateMatcher} from '../../shared/MyErrorStateMatcher';
+import {LoggedInUserService} from "../../shared/logged-in-user/logged-in-user.service";
 
 export const USERNAME_LABEL = 'Username';
 export const USERNAME_REQUIRED_MESSAGE = 'A username is required!';
@@ -53,6 +54,7 @@ export class LoggingInComponent implements OnInit {
     readonly form = new FormGroup(this.controls);
 
     constructor(
+        private loggedInUserService: LoggedInUserService,
         private authenticationService: AuthenticationService,
         private router: Router,
         private snackBarService: SnackBarService) {
@@ -73,11 +75,12 @@ export class LoggingInComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.authenticationService.authenticatedUser !== null) {
+        // TODO: use a guard instead
+        if (this.loggedInUserService.authenticatedUser !== null) {
             this.router.navigateByUrl('/items').then(() => {
-                if (this.authenticationService.authenticatedUser !== null) {
+                if (this.loggedInUserService.authenticatedUser !== null) {
                     this.snackBarService.openSnackBar(
-                        LOGGED_IN_SUCCESSFULLY_MESSAGE(this.authenticationService.authenticatedUser.username)
+                        LOGGED_IN_SUCCESSFULLY_MESSAGE(this.loggedInUserService.authenticatedUser.username)
                     );
                 }
             });

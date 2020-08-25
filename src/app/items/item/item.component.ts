@@ -4,7 +4,7 @@ import {ItemsService} from '../items-service/items.service';
 import {Item} from '../items-service/data/Item';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
-import {AuthenticationService} from '../../identity-management/authentication-service/authentication.service';
+import {LoggedInUserService} from "../../shared/logged-in-user/logged-in-user.service";
 
 export const BUTTON_SEND_MESSAGE_TEXT = 'Send message';
 export const BUTTON_SEND_OFFER_TEXT = 'Send offer';
@@ -44,7 +44,7 @@ export class ItemComponent implements OnInit {
         private itemsService: ItemsService,
         private snackBarService: SnackBarService,
         private domSanitizer: DomSanitizer,
-        private authenticationService: AuthenticationService,
+        private loggedInUserService: LoggedInUserService,
         private router: Router
     ) {
     }
@@ -58,7 +58,7 @@ export class ItemComponent implements OnInit {
     }
 
     get loggedInUserIsOwner(): boolean {
-        const loggedInUser = this.authenticationService.authenticatedUser;
+        const loggedInUser = this.loggedInUserService.authenticatedUser;
 
         if (loggedInUser === null) {
             return false;

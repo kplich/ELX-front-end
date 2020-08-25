@@ -63,9 +63,11 @@ mat-form-field {
 
 // TODO: extract this to a proper theme mixin?
 .simple-card {
+
+    display: block;
     @include mat-elevation(3);
     z-index: 3;
-    border-radius: 0 0 $dimen-xxs $dimen-xxs;
+    border-radius: $dimen-xxs;
     padding: $dimen-xs;
 }
 

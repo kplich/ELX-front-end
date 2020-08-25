@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 import {MyErrorStateMatcher} from '../../shared/MyErrorStateMatcher';
 import {LOGGED_IN_SUCCESSFULLY_MESSAGE} from '../logging-in/logging-in.component';
+import {LoggedInUserService} from "../../shared/logged-in-user/logged-in-user.service";
 
 export const USERNAME_LABEL = 'Username';
 export const USERNAME_REQUIRED_MESSAGE = 'A username is required!';
@@ -96,6 +97,7 @@ export class RegistrationComponent implements OnInit {
     readonly form: FormGroup = new FormGroup(this.controls);
 
     constructor(
+        private loggedInUserService: LoggedInUserService,
         private authenticationService: AuthenticationService,
         private router: Router,
         private snackBarService: SnackBarService
@@ -131,11 +133,11 @@ export class RegistrationComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (this.authenticationService.authenticatedUser !== null) {
+        if (this.loggedInUserService.authenticatedUser !== null) {
             this.router.navigateByUrl('/items').then(() => {
-                if (this.authenticationService.authenticatedUser !== null) {
+                if (this.loggedInUserService.authenticatedUser !== null) {
                     this.snackBarService.openSnackBar(
-                        LOGGED_IN_SUCCESSFULLY_MESSAGE(this.authenticationService.authenticatedUser.username)
+                        LOGGED_IN_SUCCESSFULLY_MESSAGE(this.loggedInUserService.authenticatedUser.username)
                     );
                 }
             });

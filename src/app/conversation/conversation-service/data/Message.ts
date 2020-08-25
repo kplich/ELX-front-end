@@ -19,6 +19,10 @@ export class Message {
     get senderId(): number {
         return this.sendingUser.id;
     }
+
+    get hasOffer(): boolean {
+        return this.offer !== null;
+    }
 }
 
 export interface MessageResponse {

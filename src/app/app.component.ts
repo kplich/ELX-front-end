@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AuthenticationService} from './identity-management/authentication-service/authentication.service';
 import {Router} from '@angular/router';
 import {SimpleUser} from "./my-account/user-service/data/SimpleUser";
+import {LoggedInUserService} from "./shared/logged-in-user/logged-in-user.service";
 
 export const ADD_ITEM = 'Add item';
 export const BUTTON_BROWSE_ITEMS_TEXT = 'Browse items';
@@ -17,6 +18,7 @@ export const BUTTON_LOG_IN_TEXT = 'Log in';
 export class AppComponent {
     constructor(
         private authenticationService: AuthenticationService,
+        private loggedInUserService: LoggedInUserService,
         private router: Router) {
     }
 
@@ -66,7 +68,7 @@ export class AppComponent {
     }
 
     get authenticatedUser(): SimpleUser | null {
-        return this.authenticationService.authenticatedUser;
+        return this.loggedInUserService.authenticatedUser;
     }
 
     // noinspection JSUnusedLocalSymbols - called from template using callFunction

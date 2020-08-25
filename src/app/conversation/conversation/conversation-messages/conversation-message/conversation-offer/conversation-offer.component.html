@@ -1,0 +1,12 @@
+<div class="offer-header">New offer!</div>
+<mat-divider></mat-divider>
+<div class="offer-info">
+    <div>price: {{offer.formattedPrice}}</div>
+    <div>advance: {{offer.formattedAdvance}}</div>
+    <div>offer type: {{offer.type}}</div>
+</div>
+<div *ngIf="offer.awaiting" class="offer-buttons">
+    <button mat-raised-button color="primary" *ngIf="loggedInIsSender">Cancel</button>
+    <button mat-raised-button color="primary" *ngIf="!loggedInIsSender">Decline</button>
+    <button mat-raised-button color="accent" *ngIf="!loggedInIsSender">Accept</button>
+</div>

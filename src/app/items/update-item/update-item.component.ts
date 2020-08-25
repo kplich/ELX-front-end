@@ -8,9 +8,9 @@ import {
     COULD_NOT_LOAD_CATEGORIES_MESSAGE,
     ItemEditBaseComponent
 } from '../edit-item-base/ItemEditBase';
-import {AuthenticationService} from '../../identity-management/authentication-service/authentication.service';
 import {MatFormField} from '@angular/material/form-field';
 import {statusToDtoString} from '../items-service/data/UsedStatus';
+import {LoggedInUserService} from "../../shared/logged-in-user/logged-in-user.service";
 
 export const ITEM_UPDATED_SUCCESSFULLY_MESSAGE = 'Item updated successfully!';
 export const COULD_NOT_LOAD_ITEM = 'Could not load item.';
@@ -28,7 +28,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private authenticationService: AuthenticationService,
+        private loggedInUserService: LoggedInUserService,
         itemsService: ItemsService,
         router: Router,
         snackBarService: SnackBarService
@@ -73,7 +73,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
 
             console.log(item);
             if (item.isClosed
-                || item.addedBy.username !== this.authenticationService.authenticatedUser?.username) {
+                || item.addedBy.username !== this.loggedInUserService.authenticatedUser?.username) {
                 this.router.navigateByUrl('/items').then(() => {
                     // HACK: router doesn't seem to be navigating as expected;
                     window.location.reload();
