@@ -1,5 +1,5 @@
-import {dtoStringToStatus as dtoStringToOfferType, OfferType} from "./OfferType";
-import {dtoStringToStatus as dtoStringToOfferStatus, OfferStatus} from "./OfferStatus";
+import {dtoStringToStatus as dtoStringToOfferType, OfferType, OfferTypeDto} from "./OfferType";
+import {dtoStringToStatus as dtoStringToOfferStatus, OfferStatus, OfferStatusDto} from "./OfferStatus";
 
 export class Offer {
     id: number;
@@ -15,6 +15,7 @@ export class Offer {
         this.price = response.price;
         this.advance = response.advance;
         this.offerStatus = dtoStringToOfferStatus(response.offerStatus);
+        this.contractAddress = null;
     }
 
     get accepted(): boolean {
@@ -36,10 +37,10 @@ export class Offer {
 
 export interface OfferResponse {
     id: number,
-    type: string,
+    type: OfferTypeDto,
     price: number,
     advance: number,
-    offerStatus: string,
+    offerStatus: OfferStatusDto,
     contractAddress: string | null
 }
 

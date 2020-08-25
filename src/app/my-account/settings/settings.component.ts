@@ -1,6 +1,6 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators, ValidationErrors, AbstractControl} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../identity-management/authentication-service/authentication.service';
@@ -38,9 +38,9 @@ export const SERVER_ERROR_MESSAGE = 'Server error, try again!';
 export const PASSWORD_CHANGED_SUCCESSFULLY_MESSAGE =
     'Changed password successfully!';
 
-export function passwordsNotEqualValidator(formGroup: FormGroup) {
-    const oldPassword = formGroup.get('oldPassword');
-    const newPassword = formGroup.get('newPassword');
+export function passwordsNotEqualValidator(formGroup: AbstractControl): ValidationErrors | null {
+    const oldPassword = formGroup.get('oldPassword')!;
+    const newPassword = formGroup.get('newPassword')!;
 
     return oldPassword.value !== newPassword.value
         ? null

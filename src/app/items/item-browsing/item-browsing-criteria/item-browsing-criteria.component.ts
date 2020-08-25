@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators, ValidationErrors, AbstractControl} from '@angular/forms';
 import {Item, ItemCategory} from '../../items-service/data/Item';
 import {UsedStatus} from '../../items-service/data/UsedStatus';
 import {MyErrorStateMatcher} from '../../../shared/MyErrorStateMatcher';
@@ -22,9 +22,9 @@ export const BOUNDARY_OUT_OF_RANGE_MESSAGE = 'Prices can range from 0 to 100 000
 export const MINIMAL_PRICE_GREATER_THAN_MAXIMAL_MESSAGE =
     'Minimal price should be smaller than maximal price. Prices given won\'t be used to filter items.';
 
-export function minimalPriceSmallerThanMaximalPriceValidator(formGroup: FormGroup) {
-    const minimalPriceInput = formGroup.get('minimalPrice');
-    const maximalPriceInput = formGroup.get('maximalPrice');
+export function minimalPriceSmallerThanMaximalPriceValidator(formGroup: AbstractControl): ValidationErrors | null {
+    const minimalPriceInput = formGroup.get('minimalPrice')!;
+    const maximalPriceInput = formGroup.get('maximalPrice')!;
 
     if (minimalPriceInput.value === null || maximalPriceInput.value === null) {
         return null;
@@ -81,12 +81,11 @@ export class ItemBrowsingCriteriaComponent implements OnInit {
         ])
     };
 
-    readonly criteriaForm: FormGroup = new FormGroup(
-        this.controls, [minimalPriceSmallerThanMaximalPriceValidator]);
+    readonly criteriaForm: FormGroup = new FormGroup(this.controls, [minimalPriceSmallerThanMaximalPriceValidator]);
 
     readonly errorStateMatcher = new MyErrorStateMatcher();
 
-    @Input() categories: ItemCategory[];
+    @Input() categories!: ItemCategory[];
 
     @Output() filteringCriteria = new EventEmitter<ItemFilteringCriteria>();
 

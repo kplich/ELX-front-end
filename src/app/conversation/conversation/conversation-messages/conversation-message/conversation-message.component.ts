@@ -8,7 +8,7 @@ import {Message} from "../../../conversation-service/data/Message";
 })
 export class ConversationMessageComponent implements OnInit {
 
-    @Input() message: Message;
+    @Input() message: Message | undefined;
 
     constructor() {
     }

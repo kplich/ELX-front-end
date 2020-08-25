@@ -21,7 +21,7 @@ export class PhotoUploaderComponent implements OnInit {
 
   @Output() photoListChanged = new EventEmitter<string[]>();
 
-  @ViewChild(FileUploaderComponent) private fileUploader: FileUploaderComponent;
+  @ViewChild(FileUploaderComponent) private fileUploader!: FileUploaderComponent;
 
   strings = {
     tooFewPhotos: TOO_FEW_PHOTOS_MESSAGE,

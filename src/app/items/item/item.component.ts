@@ -37,7 +37,7 @@ export class ItemComponent implements OnInit {
         addedOn: Item.ADDED_ON_LABEL
     };
 
-    item: Item;
+    item: Item | undefined;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -49,7 +49,7 @@ export class ItemComponent implements OnInit {
     ) {
     }
 
-    get itemPhotoUrls(): SafeUrl[] {
+    get itemPhotoUrls(): SafeUrl[] | undefined {
         return this.item?.getSafePhotoUrls(this.domSanitizer);
     }
 
@@ -68,9 +68,10 @@ export class ItemComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'), 10);
+        const id = parseInt(this.activatedRoute.snapshot.paramMap.get('id')!, 10);
         this.itemsService.getItem(id).subscribe({
             next: response => {
+                if (response.body === null) throw new Error('Empty response body');
                 this.item = response.body;
             },
             error: error => {
@@ -81,23 +82,32 @@ export class ItemComponent implements OnInit {
     }
 
     closeOffer() {
-        this.itemsService.closeItem(this.item.id).subscribe({
-            next: response => {
-                this.item = response.body;
-                this.snackBarService.openSnackBar(ITEM_CLOSED_MESSAGE);
-            },
-            error: () => {
-                this.snackBarService.openSnackBar(COULD_NOT_CLOSE_ITEM_MESSAGE);
-            }
-        });
+        if(this.item) {
+            this.itemsService.closeItem(this.item.id).subscribe({
+                next: response => {
+                    if (response.body === null) throw new Error('Empty response body');
+                    this.item = response.body;
+                    this.snackBarService.openSnackBar(ITEM_CLOSED_MESSAGE);
+                },
+                error: () => {
+                    this.snackBarService.openSnackBar(COULD_NOT_CLOSE_ITEM_MESSAGE);
+                }
+            });
+        }
+        else {
+            this.snackBarService.openSnackBar(COULD_NOT_CLOSE_ITEM_MESSAGE);
+        }
     }
 
     navigateToUpdatingItem() {
-        this.router.navigateByUrl(`items/${this.item.id}/edit`).then(() => {
-        });
+        if(this.item) {
+            this.router.navigateByUrl(`items/${this.item.id}/edit`).then(() => {});
+        }
     }
 
     goToConversation() {
-        this.router.navigateByUrl(`items/${this.item.id}/conversation`);
+        if(this.item) {
+            this.router.navigateByUrl(`items/${this.item.id}/conversation`).then(() => {});
+        }
     }
 }

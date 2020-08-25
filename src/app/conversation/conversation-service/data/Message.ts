@@ -1,4 +1,4 @@
-import {Offer} from "./Offer";
+import {Offer, OfferResponse} from "./Offer";
 import {SimpleUser, SimpleUserResponse} from "../../../my-account/user-service/data/SimpleUser";
 
 export class Message {
@@ -22,5 +22,5 @@ export interface MessageResponse {
     sendingUser: SimpleUserResponse;
     sentOn: string;
     textContent: string;
-    offer: Offer | null;
+    offer: OfferResponse | null;
 }

@@ -1,5 +1,5 @@
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
-import {dtoStringToStatus, UsedStatus} from './UsedStatus';
+import {dtoStringToStatus, UsedStatus, UsedStatusDto} from './UsedStatus';
 
 export class Item {
     public static readonly ETH_SYMBOL = 'Ξ';
@@ -27,7 +27,7 @@ export class Item {
         this.addedBy = resp.addedBy;
         this.addedOn = new Date(resp.addedOn);
         this.category = resp.category;
-        this.usedStatus = dtoStringToStatus(resp.usedStatus);
+        this.usedStatus = dtoStringToStatus(resp.usedStatus)
         this.photoUrls = resp.photoUrls;
         this.closedOn = resp.closedOn !== null ? new Date(resp.closedOn) : null;
     }
@@ -72,7 +72,7 @@ export interface ItemResponse {
     readonly addedBy: ItemAddedBy;
     readonly addedOn: string;
     readonly category: ItemCategory;
-    readonly usedStatus: string;
+    readonly usedStatus: UsedStatusDto;
     readonly photoUrls: string[];
     readonly closedOn: string | null;
 }

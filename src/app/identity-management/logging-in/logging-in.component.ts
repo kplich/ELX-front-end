@@ -73,13 +73,13 @@ export class LoggingInComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.authenticationService.authenticatedUser !== null) {
-            this.router.navigateByUrl('/items').then(() => {
+        this.router.navigateByUrl('/items').then(() => {
+            if (this.authenticationService.authenticatedUser !== null) {
                 this.snackBarService.openSnackBar(
                     LOGGED_IN_SUCCESSFULLY_MESSAGE(this.authenticationService.authenticatedUser)
                 );
-            });
-        }
+            }
+        });
     }
 
     login() {

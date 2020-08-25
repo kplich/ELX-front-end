@@ -22,9 +22,9 @@ export const COULD_NOT_LOAD_ITEM = 'Could not load item.';
 })
 export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit {
 
-    @ViewChild(PhotoUploaderComponent) private photoUploader;
-    @ViewChildren(MatFormField) private formFields: MatFormField[];
-    private id: number;
+    @ViewChild(PhotoUploaderComponent) private photoUploader!: PhotoUploaderComponent;
+    @ViewChildren(MatFormField) private formFields!: MatFormField[];
+    private id!: number;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -50,34 +50,46 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
 
     async ngOnInit() {
         try {
-            this.categories = (await this.itemsService.getCategories().toPromise()).body;
+            const categories = (await this.itemsService.getCategories().toPromise()).body;
+            if(categories === null) {
+                this.categories = [];
+            }
+            else {
+                this.categories = categories;
+            }
         } catch (err) {
             this.snackBarService.openSnackBar(COULD_NOT_LOAD_CATEGORIES_MESSAGE);
             return;
         }
 
-        this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'), 10);
+        this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id')!, 10);
         try {
             const item = (await this.itemsService.getItem(this.id).toPromise()).body;
+            if(item === null) {
+                console.warn('empty response body');
+                this.snackBarService.openSnackBar(COULD_NOT_LOAD_ITEM);
+                return;
+            }
+
             console.log(item);
             if (item.isClosed
                 || item.addedBy.username !== this.authenticationService.authenticatedUser) {
                 this.router.navigateByUrl('/items').then(() => {
-                    // HACK: router doesn't seem to be navigating properly;
+                    // HACK: router doesn't seem to be navigating as expected;
                     window.location.reload();
                 });
             } else {
                 this.initializeFormWithItem(item);
             }
         } catch (err) {
-            this.snackBarService.openSnackBar(COULD_NOT_LOAD_ITEM);
-            return;
+
         }
     }
 
     sendRequestToUpdateItem() {
         this.itemsService.updateItem(this.newItemRequest).subscribe({
             next: response => {
+                if (response.body === null) throw new Error('Response with empty body!');
                 this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
                     this.snackBarService.openSnackBar(ITEM_UPDATED_SUCCESSFULLY_MESSAGE);
                 });
@@ -97,7 +109,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
         this.photoUploader.initPhotoUploader(this.controls.photoUrls.value);
 
         // HACK: ugly form right after updating controls
-        setTimeout(() => document.getElementById('title-native-input').focus(), 100);
-        setTimeout(() => document.getElementById('title-native-input').blur(), 100);
+        setTimeout(() => document.getElementById('title-native-input')!.focus(), 100);
+        setTimeout(() => document.getElementById('title-native-input')!.blur(), 100);
     }
 }

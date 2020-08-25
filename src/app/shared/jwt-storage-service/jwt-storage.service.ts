@@ -29,9 +29,12 @@ export class JwtStorageService {
       return null;
     }
     else {
-      const payload = jwt_decode(token);
+      const payload = jwt_decode<JwtDto>(token);
       return payload.sub;
     }
-
   }
+}
+
+interface JwtDto {
+    sub: string
 }

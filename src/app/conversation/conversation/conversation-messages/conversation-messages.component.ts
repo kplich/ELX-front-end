@@ -1,5 +1,4 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {ConversationService} from "../../conversation-service/conversation.service";
 import { Conversation } from '../../conversation-service/data/Conversation';
 
 @Component({
@@ -9,7 +8,7 @@ import { Conversation } from '../../conversation-service/data/Conversation';
 })
 export class ConversationMessagesComponent implements OnInit {
 
-    @Input() conversation: Conversation;
+    @Input() conversation: Conversation | undefined;
 
     constructor() {
     }

@@ -16,8 +16,8 @@ import { map } from 'rxjs/operators';
 })
 export class ConversationComponent implements OnInit {
 
-    item: Observable<Item>;
-    conversation: Observable<Conversation>;
+    item!: Observable<Item | null>;
+    conversation!: Observable<Conversation | null>;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -27,7 +27,7 @@ export class ConversationComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        const id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'), 10);
+        const id = parseInt(this.activatedRoute.snapshot.paramMap.get('id')!, 10);
         this.item = this.itemsService.getItem(id)
             .pipe(
                 map(response => response.body),

@@ -17,7 +17,7 @@ export class ItemCardComponent implements OnInit {
         addedOn: Item.ADDED_ON_LABEL
     };
 
-    @Input() item: Item;
+    @Input() item!: Item;
 
     constructor(
         private domSanitizer: DomSanitizer,

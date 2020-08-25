@@ -5,21 +5,27 @@ export enum OfferStatus {
     DECLINED = "Declined"
 }
 
-export function statusToDtoString(status: OfferStatus): string {
+export enum OfferStatusDto {
+    AWAITING = "AWAITING",
+    CANCELLED = "CANCELLED",
+    ACCEPTED = "ACCEPTED",
+    DECLINED = "DECLINED"
+}
+
+export function statusToDtoString(status: OfferStatus): OfferStatusDto {
     switch (status) {
-        case OfferStatus.AWAITING: return 'AWAITING';
-        case OfferStatus.CANCELLED: return 'CANCELLED';
-        case OfferStatus.ACCEPTED: return 'ACCEPTED';
-        case OfferStatus.DECLINED: return 'DECLINED';
+        case OfferStatus.AWAITING: return OfferStatusDto.AWAITING;
+        case OfferStatus.CANCELLED: return OfferStatusDto.CANCELLED;
+        case OfferStatus.ACCEPTED: return OfferStatusDto.ACCEPTED;
+        case OfferStatus.DECLINED: return OfferStatusDto.DECLINED;
     }
 }
 
-export function dtoStringToStatus(str: string): OfferStatus | null {
+export function dtoStringToStatus(str: OfferStatusDto): OfferStatus {
     switch (str) {
-        case 'AWAITING': return OfferStatus.AWAITING;
-        case 'CANCELLED': return OfferStatus.CANCELLED;
-        case 'ACCEPTED': return OfferStatus.ACCEPTED;
-        case 'DECLINED': return OfferStatus.DECLINED;
-        default: return null;
+        case OfferStatusDto.AWAITING: return OfferStatus.AWAITING;
+        case OfferStatusDto.CANCELLED: return OfferStatus.CANCELLED;
+        case OfferStatusDto.ACCEPTED: return OfferStatus.ACCEPTED;
+        case OfferStatusDto.DECLINED: return OfferStatus.DECLINED;
     }
 }

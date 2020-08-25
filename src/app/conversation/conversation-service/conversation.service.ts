@@ -17,18 +17,13 @@ export class ConversationService {
 
     private static transformToResponseWithEntity(
         response: HttpResponse<ConversationResponse>): HttpResponse<Conversation> {
+        if(response.body === null) { throw new Error('Empty response body!')}
         return response.clone({body: new Conversation(response.body)});
     }
 
     getConversation(itemId: number): Observable<HttpResponse<Conversation>> {
         return this.http.get<ConversationResponse>(`${ITEMS_API_URL}/${itemId}/conversation`, {observe: 'response'}).pipe(
             map(ConversationService.transformToResponseWithEntity)
-        )
-    }
-
-    getConversationNoResponse(itemId: number): Observable<Conversation> {
-        return this.http.get<ConversationResponse>(`${ITEMS_API_URL}/${itemId}/conversation`).pipe(
-            map(response => new Conversation(response))
         )
     }
 }

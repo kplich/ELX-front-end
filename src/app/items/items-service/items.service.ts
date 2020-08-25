@@ -18,11 +18,13 @@ export class ItemsService {
 
     private static transformToResponseWithEntity(
         response: HttpResponse<ItemResponse>): HttpResponse<Item> {
+        if (response.body === null) throw new Error("Empty response body!");
         return response.clone({body: new Item(response.body)});
     }
 
     private static transformToResponseWithEntities(
         response: HttpResponse<ItemResponse[]>): HttpResponse<Item[]> {
+        if (response.body === null) throw new Error("Empty response body!");
         return response.clone({body: response.body.map(itemResponse => new Item(itemResponse))});
     }
 
@@ -56,7 +58,7 @@ export class ItemsService {
     closeItem(id: number): Observable<HttpResponse<Item>> {
         return this.http.put<ItemResponse>(
             `${ITEMS_API_URL}/${id}/close`,
-            null,
+            undefined,
             {observe: 'response'}).pipe(
             map(ItemsService.transformToResponseWithEntity)
         );

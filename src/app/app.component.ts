@@ -26,27 +26,27 @@ export class AppComponent {
     private readonly _toolbarLinks: ToolbarLink[] = [
         {
             displayedName: ADD_ITEM,
-            function: 'navigateToAddItem',
+            function: () => this.navigateToAddItem(),
             authenticationRequired: true
         },
         {
             displayedName: BUTTON_BROWSE_ITEMS_TEXT,
-            function: 'navigateToItems',
+            function: () => this.navigateToItems(),
             authenticationRequired: null
         },
         {
             displayedName: BUTTON_MY_ACCOUNT_TEXT,
-            function: 'navigateToMyAccount',
+            function: () => this.navigateToMyAccount(),
             authenticationRequired: true
         },
         {
             displayedName: BUTTON_LOG_OUT_TEXT,
-            function: 'logOut',
+            function: () => this.logOut(),
             authenticationRequired: true
         },
         {
             displayedName: BUTTON_LOG_IN_TEXT,
-            function: 'navigateToLogIn',
+            function: () => this.navigateToLogIn(),
             authenticationRequired: false
         }
     ];
@@ -66,13 +66,6 @@ export class AppComponent {
 
     get authenticatedUser(): string | null {
         return this.authenticationService.authenticatedUser;
-    }
-
-    /**
-     * Calls one of the functions below.
-     */
-    callFunction(functionName: string) {
-        this[functionName]();
     }
 
     // noinspection JSUnusedLocalSymbols - called from template using callFunction
@@ -114,7 +107,7 @@ interface ToolbarLink {
     /**
      * Function name from AppComponent that should be called on clicking the link.
      */
-    function: string;
+    function: () => void;
 
     /**
      * Indicates if authentication is necessary to display the link. True means authentication

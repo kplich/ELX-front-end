@@ -39,6 +39,7 @@ export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
     sendRequestToAddItem() {
         this.itemsService.addNewItem(this.newItemRequest).subscribe({
             next: response => {
+                if (response.body === null) throw new Error('Empty response body');
                 this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
                     this.snackBarService.openSnackBar(ITEM_ADDED_SUCCESSFULLY_MESSAGE);
                 });
@@ -49,8 +50,13 @@ export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
 
     ngOnInit() {
         this.itemsService.getCategories().subscribe({
-            next: categoryResponse => {
-                this.categories = categoryResponse.body;
+            next: response => {
+                if(response.body === null) {
+                    this.categories = [];
+                }
+                else {
+                    this.categories = response.body;
+                }
             },
             error: () => this.snackBarService.openSnackBar(COULD_NOT_LOAD_CATEGORIES_MESSAGE)
         });

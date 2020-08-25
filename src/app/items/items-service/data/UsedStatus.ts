@@ -4,26 +4,30 @@ export enum UsedStatus {
     NOT_APPLICABLE = 'Not applicable'
 }
 
-export function statusToDtoString(status: UsedStatus): string {
+export enum UsedStatusDto {
+    NEW = 'NEW',
+    USED = 'USED',
+    NOT_APPLICABLE = 'NOT_APPLICABLE'
+}
+
+export function statusToDtoString(status: UsedStatus): UsedStatusDto {
     switch (status) {
         case UsedStatus.NEW:
-            return 'NEW';
+            return UsedStatusDto.NEW;
         case UsedStatus.USED:
-            return 'USED';
+            return UsedStatusDto.USED;
         case UsedStatus.NOT_APPLICABLE:
-            return 'NOT_APPLICABLE';
+            return UsedStatusDto.NOT_APPLICABLE;
     }
 }
 
-export function dtoStringToStatus(str: string): UsedStatus | null {
-    switch (str) {
-        case 'NEW':
+export function dtoStringToStatus(dto: UsedStatusDto): UsedStatus {
+    switch (dto) {
+        case UsedStatusDto.NEW:
             return UsedStatus.NEW;
-        case 'USED':
+        case UsedStatusDto.USED:
             return UsedStatus.USED;
-        case 'NOT_APPLICABLE':
+        case UsedStatusDto.NOT_APPLICABLE:
             return UsedStatus.NOT_APPLICABLE;
-        default:
-            return null;
     }
 }

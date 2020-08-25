@@ -9,11 +9,11 @@ import {Item} from "../../../items/items-service/data/Item";
 })
 export class ConversationItemDisplayComponent {
 
-    @Input() item: Item;
+    @Input() item: Item | undefined;
 
     constructor(private domSanitizer: DomSanitizer) {}
 
-    get photoUrl(): SafeUrl {
-        return this?.item.getSafePhotoUrls(this.domSanitizer)[0];
+    get photoUrl(): SafeUrl | undefined {
+        return this?.item?.getSafePhotoUrls(this.domSanitizer)[0];
     }
 }

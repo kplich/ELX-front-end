@@ -18,9 +18,10 @@ export class ItemBrowsingComponent implements OnInit {
         couldNotLoadItemsMessage: COULD_NOT_LOAD_ITEMS_MESSAGE,
         noItemsFoundMessage: NO_ITEMS_FOUND_MESSAGE
     };
-    displayedItems: Item[];
-    private allItems: Item[];
-    categories: ItemCategory[];
+
+    displayedItems!: Item[];
+    private allItems!: Item[];
+    categories!: ItemCategory[];
 
     constructor(private itemService: ItemsService,
                 private snackBarService: SnackBarService) {
@@ -37,10 +38,12 @@ export class ItemBrowsingComponent implements OnInit {
     ngOnInit() {
         this.itemService.getCategories().subscribe({
             next: categoriesResponse => {
+                if(categoriesResponse.body === null) throw new Error('Empty categories response body');
                 this.categories = categoriesResponse.body;
 
                 this.itemService.getAllItems().subscribe({
                     next: itemsResponse => {
+                        if(itemsResponse.body === null) throw new Error('Empty items Response body');
                         this.allItems = itemsResponse.body;
                         this.displayedItems = this.allItems;
                     }
