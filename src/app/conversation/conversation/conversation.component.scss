@@ -1,4 +1,14 @@
+:host {
+    height: 100%;
+
+    display: flex;
+    flex-flow: row nowrap;
+}
+
 app-conversation-item-display {
-    height: 500px;
-    width: 500px;
+    flex: 1 1 30%;
+}
+
+app-conversation-messages {
+    flex: 1 1 70%;
 }

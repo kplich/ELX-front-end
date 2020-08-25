@@ -1,4 +1,38 @@
+@import 'src/dimens';
+@import 'src/typography';
+
+:host {
+    position: relative;
+}
+
+.item-navigate {
+    position: absolute;
+    top: $dimen-xs;
+    left: $dimen-xs;
+}
+
 img {
     width: 100%;
     object-fit: contain;
+}
+
+.item-info {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-title {
+    @include header-2;
+
+    flex: 1 1 auto;
+}
+
+.item-price {
+    @include header-2($mono: true);
+}
+
+.item-status {
+    @include header-3($mono: true);
 }

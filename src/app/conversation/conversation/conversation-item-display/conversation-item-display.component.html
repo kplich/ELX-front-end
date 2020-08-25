@@ -1,4 +1,7 @@
-<img [src]="photoUrl">
-<div>{{item?.title}}</div>
-<div>{{item?.usedStatus}}</div>
-<div>{{item?.price}}</div>
+<a mat-mini-fab color="primary" class="item-navigate" (click)="navigateToItem()">
+    <mat-icon>arrow_back</mat-icon>
+</a>
+<img alt="Photo depicting the item for sale" [src]="photoUrl" (error)="item?.fixPhotoUrl(0)">
+<div class="item-title">{{item?.title}}</div>
+<div class="item-price">{{item?.formattedPrice}}</div>
+<div class="item-status">{{item?.usedStatus}}</div>
