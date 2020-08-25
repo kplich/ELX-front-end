@@ -1,8 +1,5 @@
 <app-conversation-item-display
-    [itemTitle]="(item | async).title"
-    [itemUrl]="(firstPhotoUrl | async)"
-    [itemPrice]="(item | async).formattedPrice"
-    [itemStatus]="(item | async).usedStatus">
+    [item]="(item | async)">
 </app-conversation-item-display>
 <app-conversation-messages
     [conversation]="(conversation | async)">

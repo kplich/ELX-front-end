@@ -1,23 +1,19 @@
-import {Component, OnInit, Input} from '@angular/core';
-import { SafeUrl } from '@angular/platform-browser';
-import {UsedStatus} from "../../../items/items-service/data/UsedStatus";
+import {Component, Input} from '@angular/core';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
+import {Item} from "../../../items/items-service/data/Item";
 
 @Component({
     selector: 'app-conversation-item-display',
     templateUrl: './conversation-item-display.component.html',
     styleUrls: ['./conversation-item-display.component.scss']
 })
-export class ConversationItemDisplayComponent implements OnInit {
+export class ConversationItemDisplayComponent {
 
-    @Input() itemUrl: SafeUrl;
-    @Input() itemTitle: string;
-    @Input() itemStatus: UsedStatus;
-    @Input() itemPrice: string;
+    @Input() item: Item;
 
-    constructor() {
+    constructor(private domSanitizer: DomSanitizer) {}
+
+    get photoUrl(): SafeUrl {
+        return this?.item.getSafePhotoUrls(this.domSanitizer)[0];
     }
-
-    ngOnInit(): void {
-    }
-
 }

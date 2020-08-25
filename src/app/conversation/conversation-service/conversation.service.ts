@@ -25,4 +25,10 @@ export class ConversationService {
             map(ConversationService.transformToResponseWithEntity)
         )
     }
+
+    getConversationNoResponse(itemId: number): Observable<Conversation> {
+        return this.http.get<ConversationResponse>(`${ITEMS_API_URL}/${itemId}/conversation`).pipe(
+            map(response => new Conversation(response))
+        )
+    }
 }

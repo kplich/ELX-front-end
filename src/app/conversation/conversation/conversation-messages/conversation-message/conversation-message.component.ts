@@ -1,4 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
+import {Message} from "../../../conversation-service/data/Message";
 
 @Component({
     selector: 'app-conversation-message',
@@ -7,7 +8,7 @@ import {Component, OnInit, Input} from '@angular/core';
 })
 export class ConversationMessageComponent implements OnInit {
 
-    @Input() message: string;
+    @Input() message: Message;
 
     constructor() {
     }
