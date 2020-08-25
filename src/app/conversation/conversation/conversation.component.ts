@@ -7,7 +7,7 @@ import {Item} from "../../items/items-service/data/Item";
 import {Conversation} from "../conversation-service/data/Conversation";
 import {ConversationService} from "../conversation-service/conversation.service";
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-conversation',
@@ -30,11 +30,12 @@ export class ConversationComponent implements OnInit {
         const id = parseInt(this.activatedRoute.snapshot.paramMap.get('id')!, 10);
         this.item = this.itemsService.getItem(id)
             .pipe(
-                map(response => response.body),
+                map(response => response.body)
             );
         this.conversation = this.conversationService.getConversation(id)
             .pipe(
-                map(response => response.body)
+                map(response => response.body),
+                tap(console.log)
             );
     }
 }

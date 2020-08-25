@@ -1,4 +1,5 @@
 <app-conversation-message
     *ngFor="let message of conversation?.messages"
-    [message]="message">
+    [message]="message"
+    [ngClass]="message.senderId === loggedInUserId ? 'sent-by-self' : 'sent-by-other'">
 </app-conversation-message>

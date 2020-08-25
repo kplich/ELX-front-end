@@ -15,6 +15,10 @@ export class Message {
         this.textContent = response.textContent;
         this.offer = response.offer ? new Offer(response.offer) : null;
     }
+
+    get senderId(): number {
+        return this.sendingUser.id;
+    }
 }
 
 export interface MessageResponse {

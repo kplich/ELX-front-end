@@ -1,0 +1,10 @@
+@import 'src/dimens';
+
+:host {
+    display: block;
+    margin: $dimen-xxs;
+    padding: $dimen-xs;
+    border-radius: $dimen-xxs;
+    max-width: 60%;
+    clear: both;
+}

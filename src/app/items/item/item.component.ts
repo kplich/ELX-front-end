@@ -63,7 +63,7 @@ export class ItemComponent implements OnInit {
         if (loggedInUser === null) {
             return false;
         } else {
-            return loggedInUser === this.item?.addedBy.username;
+            return loggedInUser.username === this.item?.addedBy.username;
         }
     }
 

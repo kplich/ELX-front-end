@@ -7,6 +7,7 @@ import {JwtStorageService} from '../../shared/jwt-storage-service/jwt-storage.se
 import {Credentials} from './Credentials';
 import {PasswordChangeRequest} from './PasswordChangeRequest';
 import {AUTHORIZATION, BEARER} from '../../routing/jwt-interceptor/jwt.interceptor';
+import {SimpleUser} from "../../my-account/user-service/data/SimpleUser";
 
 export const API_URL = `${environment.apiUrl}/auth`;
 
@@ -18,7 +19,7 @@ export class AuthenticationService {
     constructor(private httpClient: HttpClient, private jwtStorageService: JwtStorageService) {
     }
 
-    get authenticatedUser(): string | null {
+    get authenticatedUser(): SimpleUser | null {
         return this.jwtStorageService.getAuthenticatedUser();
     }
 

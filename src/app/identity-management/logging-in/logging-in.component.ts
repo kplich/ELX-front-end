@@ -77,7 +77,7 @@ export class LoggingInComponent implements OnInit {
             this.router.navigateByUrl('/items').then(() => {
                 if (this.authenticationService.authenticatedUser !== null) {
                     this.snackBarService.openSnackBar(
-                        LOGGED_IN_SUCCESSFULLY_MESSAGE(this.authenticationService.authenticatedUser)
+                        LOGGED_IN_SUCCESSFULLY_MESSAGE(this.authenticationService.authenticatedUser.username)
                     );
                 }
             });

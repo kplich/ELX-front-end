@@ -3,6 +3,9 @@
 
 :host {
     position: relative;
+
+    border-radius: $dimen-xxs;
+    border: lightgray 1px solid;
 }
 
 .item-navigate {
@@ -17,10 +20,7 @@ img {
 }
 
 .item-info {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: center;
+    padding: 0 $dimen-xs;
 }
 
 .item-title {

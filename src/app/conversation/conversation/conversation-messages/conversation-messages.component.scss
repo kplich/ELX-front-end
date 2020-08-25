@@ -1,0 +1,16 @@
+@import 'src/dimens';
+
+:host {
+    display: block;
+}
+
+.sent-by-self {
+    float: right;
+    background-color: lightblue;
+
+}
+
+.sent-by-other {
+    float: left;
+    background-color: lightgray;
+}

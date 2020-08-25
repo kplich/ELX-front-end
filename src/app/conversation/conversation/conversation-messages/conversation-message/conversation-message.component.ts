@@ -6,14 +6,10 @@ import {Message} from "../../../conversation-service/data/Message";
     templateUrl: './conversation-message.component.html',
     styleUrls: ['./conversation-message.component.scss']
 })
-export class ConversationMessageComponent implements OnInit {
+export class ConversationMessageComponent {
 
-    @Input() message: Message | undefined;
+    @Input() message!: Message;
 
     constructor() {
     }
-
-    ngOnInit(): void {
-    }
-
 }

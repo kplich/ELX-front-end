@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as jwt_decode from 'jwt-decode';
+import {SimpleUser} from "../../my-account/user-service/data/SimpleUser";
 
 export const JWT_TAG = 'jwt';
 
@@ -22,7 +23,7 @@ export class JwtStorageService {
     sessionStorage.removeItem(JWT_TAG);
   }
 
-  getAuthenticatedUser(): string | null {
+  getAuthenticatedUser(): SimpleUser | null {
     const token = sessionStorage.getItem(JWT_TAG);
 
     if (token === null) {
@@ -30,11 +31,15 @@ export class JwtStorageService {
     }
     else {
       const payload = jwt_decode<JwtDto>(token);
-      return payload.sub;
+      return new SimpleUser({
+          id: parseInt(payload.sub, 10),
+          username: payload.username
+      });
     }
   }
 }
 
 interface JwtDto {
-    sub: string
+    sub: string;
+    username: string;
 }

@@ -73,7 +73,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
 
             console.log(item);
             if (item.isClosed
-                || item.addedBy.username !== this.authenticationService.authenticatedUser) {
+                || item.addedBy.username !== this.authenticationService.authenticatedUser?.username) {
                 this.router.navigateByUrl('/items').then(() => {
                     // HACK: router doesn't seem to be navigating as expected;
                     window.location.reload();

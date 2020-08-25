@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthenticationService} from './identity-management/authentication-service/authentication.service';
 import {Router} from '@angular/router';
+import {SimpleUser} from "./my-account/user-service/data/SimpleUser";
 
 export const ADD_ITEM = 'Add item';
 export const BUTTON_BROWSE_ITEMS_TEXT = 'Browse items';
@@ -64,7 +65,7 @@ export class AppComponent {
         });
     }
 
-    get authenticatedUser(): string | null {
+    get authenticatedUser(): SimpleUser | null {
         return this.authenticationService.authenticatedUser;
     }
 
