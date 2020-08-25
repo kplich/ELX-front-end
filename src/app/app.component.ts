@@ -75,7 +75,9 @@ export class AppComponent {
 
     // noinspection JSUnusedLocalSymbols - called from template using callFunction
     private navigateToLogIn() {
+        console.log('navigating to log-in');
         this.router.navigateByUrl('/log-in').then(_ => {
+            console.log('navigated!');
         });
     }
 

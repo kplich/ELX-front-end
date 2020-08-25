@@ -1,7 +1,8 @@
 <form (submit)="login()" [formGroup]="form">
     <mat-form-field appearance="outline" id="username-form-field">
         <mat-label>{{strings.username.label}}</mat-label>
-        <input [errorStateMatcher]="errorStateMatcher"
+        <input autocomplete="username"
+            [errorStateMatcher]="errorStateMatcher"
                [formControl]="controls.username"
                matInput>
         <mat-error *ngIf="errors.notProvided">
@@ -10,7 +11,8 @@
     </mat-form-field>
     <mat-form-field appearance="outline" id="password-form-field">
         <mat-label>{{strings.password.label}}</mat-label>
-        <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.password"
+        <input autocomplete="current-password"
+            [errorStateMatcher]="errorStateMatcher" [formControl]="controls.password"
                matInput
                type="password">
         <mat-error *ngIf="errors.passwordNotProvided">

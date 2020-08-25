@@ -131,13 +131,15 @@ export class RegistrationComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.router.navigateByUrl('/items').then(() => {
-            if(this.authenticationService.authenticatedUser) {
-                this.snackBarService.openSnackBar(
-                    LOGGED_IN_SUCCESSFULLY_MESSAGE(this.authenticationService.authenticatedUser)
-                );
-            }
-        });
+        if (this.authenticationService.authenticatedUser !== null) {
+            this.router.navigateByUrl('/items').then(() => {
+                if (this.authenticationService.authenticatedUser !== null) {
+                    this.snackBarService.openSnackBar(
+                        LOGGED_IN_SUCCESSFULLY_MESSAGE(this.authenticationService.authenticatedUser)
+                    );
+                }
+            });
+        }
     }
 
     register() {
