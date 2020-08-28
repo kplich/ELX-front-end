@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {FileUploaderComponent} from '../file-uploader/file-uploader.component';
+import {FileUploaderComponent} from '@shared/file-uploader/file-uploader.component';
 
 export const TOO_FEW_PHOTOS_MESSAGE = 'More photos are necessary!';
 export const ENOUGH_PHOTOS_MESSAGE = 'You can\'t upload more photos.';

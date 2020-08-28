@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as jwt_decode from 'jwt-decode';
-import {SimpleUser} from "../../my-account/user-service/data/SimpleUser";
+import {SimpleUser} from '@my-account/data/SimpleUser';
 
 export const JWT_TAG = 'jwt';
 

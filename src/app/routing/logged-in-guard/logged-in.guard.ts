@@ -7,7 +7,7 @@ import {
   UrlTree
 } from '@angular/router';
 import {Observable} from 'rxjs';
-import {LoggedInUserService} from "../../shared/logged-in-user/logged-in-user.service";
+import {LoggedInUserService} from '@shared/logged-in-user/logged-in-user.service';
 
 @Injectable({
   providedIn: 'root'

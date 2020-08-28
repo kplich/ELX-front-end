@@ -6,8 +6,8 @@
     <div class="item-header-row">
         <div id="item-status"
              *ngIf="item?.usedStatusIsApplicable"
-             class="item-detail">{{item?.usedStatus.toString()}}</div>
-        <div class="item-detail" id="item-category">{{strings.category}}: {{item?.category.name}}</div>
+             class="item-detail">{{item?.usedStatus?.toString()}}</div>
+        <div class="item-detail" id="item-category">{{strings.category}}: {{item?.category?.name}}</div>
         <div *ngIf="item?.isClosed else itemNotClosedActions" class="item-closed"
              id="item-closed">
             {{strings.itemClosed}} {{item?.closedOn | date}}
@@ -39,8 +39,8 @@
     <div class="item-photos">
         <mat-carousel
             [autoplay]="false"
-            [hideArrows]="item?.hasAtMostOnePhoto"
-            [hideIndicators]="item?.hasAtMostOnePhoto"
+            [hideArrows]="item!.hasAtMostOnePhoto"
+            [hideIndicators]="item!.hasAtMostOnePhoto"
             [loop]="true"
             [maintainAspectRatio]="false"
             [maxWidth]="'100%'"
@@ -70,7 +70,7 @@
     <div class="item-description-and-seller">
         <div class="item-seller">
             <div id="item-added-by">
-                {{strings.addedBy}} <a>{{item?.addedBy.username}}</a>
+                {{strings.addedBy}} <a>{{item?.addedBy?.username}}</a>
             </div>
             <div id="item-added-on">
                 {{strings.addedOn}} {{item?.addedOn | date}}

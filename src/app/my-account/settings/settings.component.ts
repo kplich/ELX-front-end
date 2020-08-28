@@ -3,10 +3,10 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators, ValidationErrors, AbstractControl} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {Router} from '@angular/router';
-import {AuthenticationService} from '../../identity-management/authentication-service/authentication.service';
-import {PasswordChangeRequest} from '../../identity-management/authentication-service/PasswordChangeRequest';
-import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
-import {MyErrorStateMatcher} from '../../shared/MyErrorStateMatcher';
+import {AuthenticationService} from '@authentication/authentication-service/authentication.service';
+import {PasswordChangeRequest} from '@authentication/data/PasswordChangeRequest';
+import {SnackBarService} from '@shared/snack-bar-service/snack-bar.service';
+import {MyErrorStateMatcher} from '@shared/MyErrorStateMatcher';
 
 export const ACCOUNT_SETTINGS_TITLE = 'Account settings';
 export const ACCOUNT_SETTINGS_DESCRIPTION = 'Change password, link your Ethereum wallet, etc.';
@@ -39,8 +39,12 @@ export const PASSWORD_CHANGED_SUCCESSFULLY_MESSAGE =
     'Changed password successfully!';
 
 export function passwordsNotEqualValidator(formGroup: AbstractControl): ValidationErrors | null {
-    const oldPassword = formGroup.get('oldPassword')!;
-    const newPassword = formGroup.get('newPassword')!;
+    const oldPassword = formGroup.get('oldPassword');
+    const newPassword = formGroup.get('newPassword');
+
+    if (oldPassword === null || newPassword === null) {
+        throw new Error('form controls not found');
+    }
 
     return oldPassword.value !== newPassword.value
         ? null

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AngularFireStorage} from '@angular/fire/storage';
-import {SnackBarService} from '../snack-bar-service/snack-bar.service';
+import {SnackBarService} from '@shared/snack-bar-service/snack-bar.service';
 
 export const BUTTON_TEXT = 'Upload photos';
 export const UPLOAD_SUCCESSFUL_MESSAGE = 'File uploaded successfully!';
@@ -49,10 +49,10 @@ export class FileUploaderComponent implements OnInit {
 
     onFileSelected(event: Event) {
 
-        if (event.target == null) return;
+        if (event.target == null) { return; }
 
         const files = (event.target as HTMLInputElement).files;
-        if(files === null) return;
+        if (files === null) { return; }
 
         this.numberOfFilesToUpload = files.length;
 
@@ -60,7 +60,7 @@ export class FileUploaderComponent implements OnInit {
             contentType: this.acceptedTypes
         };
 
-        for(let i = 0; i < this.numberOfFilesToUpload; i++) {
+        for (let i = 0; i < this.numberOfFilesToUpload; i++) {
             const file = files.item(i);
             this.isUploading = true;
             const timestamp = Date.now();

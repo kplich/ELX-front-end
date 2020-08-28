@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {COULD_NOT_LOAD_ITEM_MESSAGE} from "../../items/item/item.component";
-import {ItemsService} from "../../items/items-service/items.service";
-import {SnackBarService} from "../../shared/snack-bar-service/snack-bar.service";
 import {ActivatedRoute} from '@angular/router';
-import {Item} from "../../items/items-service/data/Item";
-import {Conversation} from "../conversation-service/data/Conversation";
-import {ConversationService} from "../conversation-service/conversation.service";
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {map, tap} from 'rxjs/operators';
+
+import {Conversation} from '@conversation/data/Conversation';
+import {ConversationService} from '@conversation/service/conversation.service';
+import {ItemsService} from '@items/service/items.service';
+import {Item} from '@items/data/Item';
 
 @Component({
     selector: 'app-conversation',
@@ -16,26 +15,32 @@ import { map, tap } from 'rxjs/operators';
 })
 export class ConversationComponent implements OnInit {
 
-    item!: Observable<Item | null>;
-    conversation!: Observable<Conversation | null>;
+    item!: Observable<Item | undefined>;
+    conversation!: Observable<Conversation | undefined>;
 
     constructor(
         private activatedRoute: ActivatedRoute,
         private itemsService: ItemsService,
-        private conversationService: ConversationService,
-        private snackBarService: SnackBarService
-    ) {}
+        private conversationService: ConversationService
+    ) {
+    }
 
     ngOnInit(): void {
-        const id = parseInt(this.activatedRoute.snapshot.paramMap.get('id')!, 10);
-        this.item = this.itemsService.getItem(id)
-            .pipe(
-                map(response => response.body)
-            );
-        this.conversation = this.conversationService.getConversation(id)
-            .pipe(
-                map(response => response.body),
-                tap(console.log)
-            );
+        console.log('conversation component ng on init!');
+        const itemIdString = this.activatedRoute.snapshot.paramMap.get('id');
+        if (itemIdString) {
+            const itemId = parseInt(itemIdString, 10);
+            this.item = this.itemsService.getItem(itemId)
+                .pipe(
+                    map(response => response.body ? response.body : undefined)
+                );
+            this.conversation = this.conversationService.getConversation(itemId)
+                .pipe(
+                    map(response => response.body ? response.body : undefined),
+                    tap(console.log)
+                );
+        } else {
+            console.warn('no id for item!');
+        }
     }
 }

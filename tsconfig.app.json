@@ -1,18 +1,46 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "./out-tsc/app",
-    "types": []
-  },
-  "files": [
-    "src/main.ts",
-    "src/polyfills.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts"
-  ],
-  "exclude": [
-    "src/test.ts",
-    "src/**/*.spec.ts"
-  ]
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "outDir": "./out-tsc/app",
+        "paths": {
+            "@environments/*": [
+                "src/environments/*"
+            ],
+            "@shared/*": [
+                "src/app/shared/*"
+            ],
+            "@routing/*": [
+                "src/app/routing/*"
+            ],
+            "@app/*": [
+                "src/app/*"
+            ],
+            "@authentication/*": [
+                "src/app/authentication/*"
+            ],
+            "@material/*": [
+                "src/app/material/*"
+            ],
+            "@conversation/*": [
+                "src/app/conversation/*"
+            ],
+            "@items/*": [
+                "src/app/items/*"
+            ],
+            "@my-account/*": [
+                "src/app/my-account/*"
+            ]
+        }
+    },
+    "files": [
+        "src/main.ts",
+        "src/polyfills.ts"
+    ],
+    "include": [
+        "src/**/*.d.ts"
+    ],
+    "exclude": [
+        "src/test.ts",
+        "src/**/*.spec.ts"
+    ]
 }

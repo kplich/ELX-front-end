@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
-import {ItemBrowsingComponent} from '../items/item-browsing/item-browsing.component';
-import {MyAccountComponent} from '../my-account/my-account/my-account.component';
+import {ItemBrowsingComponent} from '@items/browsing/item-browsing.component';
+import {MyAccountComponent} from '@my-account/my-account/my-account.component';
 import {OfferComponent} from '../offer/offer/offer.component';
-import {LoggingInComponent} from '../identity-management/logging-in/logging-in.component';
-import {RegistrationComponent} from '../identity-management/registration/registration.component';
-import {LoggedInGuard} from './logged-in-guard/logged-in.guard';
-import {ItemComponent} from '../items/item/item.component';
-import {AddItemComponent} from '../items/add-item/add-item.component';
-import {UpdateItemComponent} from '../items/update-item/update-item.component';
-import {ConversationComponent} from "../conversation/conversation/conversation.component";
+import {LoggingInComponent} from '@authentication/logging-in/logging-in.component';
+import {RegistrationComponent} from '@authentication/registration/registration.component';
+import {LoggedInGuard} from '@routing/logged-in-guard/logged-in.guard';
+import {ItemComponent} from '@items/item/item.component';
+import {AddItemComponent} from '@items/add/add-item.component';
+import {UpdateItemComponent} from '@items/update-item/update-item.component';
+import {ConversationComponent} from '@conversation/conversation/conversation.component';
 
 const routes: Routes = [
     {path: 'log-in', component: LoggingInComponent},

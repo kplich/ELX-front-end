@@ -1,0 +1,7 @@
+<div class="message-time">{{ message?.sentOn | date: 'HH:mm d.MM.y' }}</div>
+<div>{{message?.textContent}}</div>
+<app-conversation-offer
+    class="simple-card"
+    *ngIf="message?.hasOffer"
+    [offer]="message?.offer"
+    [senderId]="message?.senderId"></app-conversation-offer>

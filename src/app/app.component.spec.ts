@@ -5,7 +5,7 @@ import {
     BUTTON_LOG_OUT_TEXT,
     BUTTON_MY_ACCOUNT_TEXT
 } from './app.component';
-import {AuthenticationService} from './identity-management/authentication-service/authentication.service';
+import {AuthenticationService} from './authentication/authentication-service/authentication.service';
 import {MaterialModule} from './material/material.module';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {HarnessLoader} from '@angular/cdk/testing';

@@ -14,7 +14,7 @@ import {HarnessLoader} from '@angular/cdk/testing';
 import {MaterialModule} from 'src/app/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
-import {AuthenticationService} from 'src/app/identity-management/authentication-service/authentication.service';
+import {AuthenticationService} from 'src/app/authentication/authentication-service/authentication.service';
 import {Router} from '@angular/router';
 import {SnackBarService} from 'src/app/shared/snack-bar-service/snack-bar.service';
 import {MatFormFieldHarness} from '@angular/material/form-field/testing';

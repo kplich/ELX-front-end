@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {AuthenticationService} from './identity-management/authentication-service/authentication.service';
+import {AuthenticationService} from '@authentication/authentication-service/authentication.service';
 import {Router} from '@angular/router';
-import {SimpleUser} from "./my-account/user-service/data/SimpleUser";
-import {LoggedInUserService} from "./shared/logged-in-user/logged-in-user.service";
+import {SimpleUser} from '@my-account/data/SimpleUser';
+import {LoggedInUserService} from '@shared/logged-in-user/logged-in-user.service';
 
 export const ADD_ITEM = 'Add item';
 export const BUTTON_BROWSE_ITEMS_TEXT = 'Browse items';

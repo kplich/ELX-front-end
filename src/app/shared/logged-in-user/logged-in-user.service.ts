@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {SimpleUser} from "../../my-account/user-service/data/SimpleUser";
-import {JwtStorageService} from "../jwt-storage-service/jwt-storage.service";
+import {SimpleUser} from '@my-account/data/SimpleUser';
+import {JwtStorageService} from '@shared/jwt-storage-service/jwt-storage.service';
 
 @Injectable({
   providedIn: 'root'

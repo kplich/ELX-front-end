@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemsService} from '../items-service/items.service';
-import {Item} from '../items-service/data/Item';
+import {ItemsService} from '@items/service/items.service';
+import {Item} from '@items/data/Item';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
-import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
-import {LoggedInUserService} from "../../shared/logged-in-user/logged-in-user.service";
+import {SnackBarService} from '@shared/snack-bar-service/snack-bar.service';
+import {LoggedInUserService} from '@shared/logged-in-user/logged-in-user.service';
 
 export const BUTTON_SEND_MESSAGE_TEXT = 'Send message';
 export const BUTTON_SEND_OFFER_TEXT = 'Send offer';
@@ -46,8 +46,7 @@ export class ItemComponent implements OnInit {
         private domSanitizer: DomSanitizer,
         private loggedInUserService: LoggedInUserService,
         private router: Router
-    ) {
-    }
+    ) {}
 
     get itemPhotoUrls(): SafeUrl[] | undefined {
         return this.item?.getSafePhotoUrls(this.domSanitizer);
@@ -68,24 +67,28 @@ export class ItemComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const id = parseInt(this.activatedRoute.snapshot.paramMap.get('id')!, 10);
-        this.itemsService.getItem(id).subscribe({
-            next: response => {
-                if (response.body === null) throw new Error('Empty response body');
-                this.item = response.body;
-            },
-            error: error => {
-                console.error(error);
-                this.snackBarService.openSnackBar(COULD_NOT_LOAD_ITEM_MESSAGE);
-            }
-        });
+        const itemIdString = this.activatedRoute.snapshot.paramMap.get('id');
+
+        if (itemIdString !== null) {
+            const id = parseInt(itemIdString, 10);
+            this.itemsService.getItem(id).subscribe({
+                next: response => {
+                    if (response.body === null) { throw new Error('Empty response body'); }
+                    this.item = response.body;
+                },
+                error: error => {
+                    console.error(error);
+                    this.snackBarService.openSnackBar(COULD_NOT_LOAD_ITEM_MESSAGE);
+                }
+            });
+        }
     }
 
     closeOffer() {
-        if(this.item) {
+        if (this.item) {
             this.itemsService.closeItem(this.item.id).subscribe({
                 next: response => {
-                    if (response.body === null) throw new Error('Empty response body');
+                    if (response.body === null) { throw new Error('Empty response body'); }
                     this.item = response.body;
                     this.snackBarService.openSnackBar(ITEM_CLOSED_MESSAGE);
                 },
@@ -93,21 +96,22 @@ export class ItemComponent implements OnInit {
                     this.snackBarService.openSnackBar(COULD_NOT_CLOSE_ITEM_MESSAGE);
                 }
             });
-        }
-        else {
+        } else {
             this.snackBarService.openSnackBar(COULD_NOT_CLOSE_ITEM_MESSAGE);
         }
     }
 
     navigateToUpdatingItem() {
-        if(this.item) {
-            this.router.navigateByUrl(`items/${this.item.id}/edit`).then(() => {});
+        if (this.item) {
+            this.router.navigateByUrl(`items/${this.item.id}/edit`).then(() => {
+            });
         }
     }
 
     goToConversation() {
-        if(this.item) {
-            this.router.navigateByUrl(`items/${this.item.id}/conversation`).then(() => {});
+        if (this.item) {
+            this.router.navigateByUrl(`items/${this.item.id}/conversation`).then(() => {
+            });
         }
     }
 }

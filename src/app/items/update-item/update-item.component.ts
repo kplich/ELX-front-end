@@ -1,16 +1,16 @@
 import {Component, OnInit, ViewChild, ViewChildren} from '@angular/core';
-import {ItemsService} from '../items-service/items.service';
-import {Item, NewOrUpdatedItemRequest} from '../items-service/data/Item';
-import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
+import {ItemsService} from '@items/service/items.service';
+import {Item, NewOrUpdatedItemRequest} from '@items/data/Item';
+import {SnackBarService} from '@shared/snack-bar-service/snack-bar.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PhotoUploaderComponent} from '../../shared/photo-uploader/photo-uploader.component';
+import {PhotoUploaderComponent} from '@shared/photo-uploader/photo-uploader.component';
 import {
     COULD_NOT_LOAD_CATEGORIES_MESSAGE,
     ItemEditBaseComponent
-} from '../edit-item-base/ItemEditBase';
+} from '@items/edit-base/ItemEditBase';
 import {MatFormField} from '@angular/material/form-field';
-import {statusToDtoString} from '../items-service/data/UsedStatus';
-import {LoggedInUserService} from "../../shared/logged-in-user/logged-in-user.service";
+import {statusToDtoString} from '@items/data/UsedStatus';
+import {LoggedInUserService} from '@shared/logged-in-user/logged-in-user.service';
 
 export const ITEM_UPDATED_SUCCESSFULLY_MESSAGE = 'Item updated successfully!';
 export const COULD_NOT_LOAD_ITEM = 'Could not load item.';
@@ -18,7 +18,7 @@ export const COULD_NOT_LOAD_ITEM = 'Could not load item.';
 @Component({
     selector: 'item-update',
     templateUrl: './update-item.component.html',
-    styleUrls: ['../edit-item-base/edit-item-base.component.scss']
+    styleUrls: ['../edit-base/edit-item-base.component.scss']
 })
 export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit {
 
@@ -51,7 +51,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
     async ngOnInit() {
         try {
             const categories = (await this.itemsService.getCategories().toPromise()).body;
-            if(categories === null) {
+            if (categories === null) {
                 this.categories = [];
             }
             else {
@@ -62,10 +62,16 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
             return;
         }
 
-        this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id')!, 10);
+        const itemIdString = this.activatedRoute.snapshot.paramMap.get('id');
+        if (itemIdString === null) {
+            console.warn('no item id provided');
+            return;
+        }
+
+        this.id = parseInt(itemIdString, 10);
         try {
             const item = (await this.itemsService.getItem(this.id).toPromise()).body;
-            if(item === null) {
+            if (item === null) {
                 console.warn('empty response body');
                 this.snackBarService.openSnackBar(COULD_NOT_LOAD_ITEM);
                 return;
@@ -89,7 +95,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
     sendRequestToUpdateItem() {
         this.itemsService.updateItem(this.newItemRequest).subscribe({
             next: response => {
-                if (response.body === null) throw new Error('Response with empty body!');
+                if (response.body === null) { throw new Error('Response with empty body!'); }
                 this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
                     this.snackBarService.openSnackBar(ITEM_UPDATED_SUCCESSFULLY_MESSAGE);
                 });
@@ -109,7 +115,10 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
         this.photoUploader.initPhotoUploader(this.controls.photoUrls.value);
 
         // HACK: ugly form right after updating controls
-        setTimeout(() => document.getElementById('title-native-input')!.focus(), 100);
-        setTimeout(() => document.getElementById('title-native-input')!.blur(), 100);
+        const titleInput = document.getElementById('title-native-input');
+        if (titleInput !== null) {
+            setTimeout(() => titleInput.focus(), 100);
+            setTimeout(() => titleInput.blur(), 100);
+        }
     }
 }

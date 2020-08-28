@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 
 import {LoggedInGuard} from './logged-in.guard';
-import {AuthenticationService} from '../../identity-management/authentication-service/authentication.service';
+import {AuthenticationService} from '../../authentication/authentication-service/authentication.service';
 import {Router} from '@angular/router';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 

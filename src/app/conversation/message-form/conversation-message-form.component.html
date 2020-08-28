@@ -1,0 +1,15 @@
+<form class="message-form" [formGroup]="form">
+    <mat-form-field appearance="outline">
+        <mat-label>{{strings.message.label}}</mat-label>
+        <input type="text" matInput [errorStateMatcher]="errorStateMatcher" [formControl]="controls.message">
+        <mat-error *ngIf="errors.message.notProvided">
+            {{strings.message.required}}
+        </mat-error>
+    </mat-form-field>
+    <button mat-icon-button>
+        <mat-icon>euro_symbol</mat-icon>
+    </button>
+    <button mat-icon-button [disabled]="errors.formIsInvalid" (click)="emitMessageRequest()">
+        <mat-icon>send</mat-icon>
+    </button>
+</form>
