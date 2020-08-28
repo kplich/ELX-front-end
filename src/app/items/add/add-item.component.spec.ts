@@ -1,35 +1,35 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {AddItemComponent} from './add-item.component';
-import {MaterialModule} from '../../material/material.module';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ReactiveFormsModule} from '@angular/forms';
-import {ItemsService} from '../service/items.service';
-import {Router} from '@angular/router';
-import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
-import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
-import {MatFormFieldHarness} from '@angular/material/form-field/testing';
-import {MatInputHarness} from '@angular/material/input/testing';
-import {MatSelectHarness} from '@angular/material/select/testing';
-import {MatButtonHarness} from '@angular/material/button/testing';
-import {HarnessLoader} from '@angular/cdk/testing';
-import {SharedModule} from '../../shared/shared.module';
-import {Observable} from 'rxjs';
-import {UsedStatus} from '../data/UsedStatus';
+import {AddItemComponent} from "./add-item.component";
+import {MaterialModule} from "../../material/material.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ReactiveFormsModule} from "@angular/forms";
+import {ItemsService} from "../service/items.service";
+import {Router} from "@angular/router";
+import {SnackBarService} from "../../shared/snack-bar-service/snack-bar.service";
+import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
+import {MatFormFieldHarness} from "@angular/material/form-field/testing";
+import {MatInputHarness} from "@angular/material/input/testing";
+import {MatSelectHarness} from "@angular/material/select/testing";
+import {MatButtonHarness} from "@angular/material/button/testing";
+import {HarnessLoader} from "@angular/cdk/testing";
+import {SharedModule} from "../../shared/shared.module";
+import {Observable} from "rxjs";
+import {UsedStatus} from "../data/UsedStatus";
 
 // ZONE? BREAKS? EVERYTHING?
-xdescribe('AddItemComponent', () => {
+xdescribe("AddItemComponent", () => {
 
     const itemsServiceSpy = jasmine.createSpyObj(
-        'ItemsService',
-        ['addNewItem', 'getCategories']
+        "ItemsService",
+        ["addNewItem", "getCategories"]
     );
     itemsServiceSpy.getCategories.and.returnValue(new Observable(subscriber => {
-        subscriber.next([{id: 1, name: 'Category 1'}, {id: 2, name: 'Category 2'}]);
+        subscriber.next([{id: 1, name: "Category 1"}, {id: 2, name: "Category 2"}]);
     }));
-    const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
-    const snackBarServiceSpy = jasmine.createSpyObj('SnackBarService', [
-        'openSnackBar',
+    const routerSpy = jasmine.createSpyObj("Router", ["navigateByUrl"]);
+    const snackBarServiceSpy = jasmine.createSpyObj("SnackBarService", [
+        "openSnackBar",
     ]);
 
     let fixture: ComponentFixture<AddItemComponent>;
@@ -67,37 +67,37 @@ xdescribe('AddItemComponent', () => {
         component = fixture.componentInstance;
         loader = TestbedHarnessEnvironment.loader(fixture);
 
-        loader.getHarness(MatFormFieldHarness.with({selector: '#title-form-field'}))
+        loader.getHarness(MatFormFieldHarness.with({selector: "#title-form-field"}))
             .then(harness => titleFormField = harness);
 
-        loader.getHarness(MatInputHarness.with({selector: '#title-form-field input'}))
+        loader.getHarness(MatInputHarness.with({selector: "#title-form-field input"}))
             .then(harness => titleInput = harness);
 
-        loader.getHarness(MatFormFieldHarness.with({selector: '#price-form-field'}))
+        loader.getHarness(MatFormFieldHarness.with({selector: "#price-form-field"}))
             .then(harness => priceFormField = harness);
 
-        loader.getHarness(MatInputHarness.with({selector: '#price-form-field input'}))
+        loader.getHarness(MatInputHarness.with({selector: "#price-form-field input"}))
             .then(harness => priceInput = harness);
 
-        loader.getHarness(MatFormFieldHarness.with({selector: '#status-form-field'}))
+        loader.getHarness(MatFormFieldHarness.with({selector: "#status-form-field"}))
             .then(harness => statusFormField = harness);
 
-        loader.getHarness(MatSelectHarness.with({selector: '#status-form-field mat-select'}))
+        loader.getHarness(MatSelectHarness.with({selector: "#status-form-field mat-select"}))
             .then(harness => statusSelect = harness);
 
-        loader.getHarness(MatFormFieldHarness.with({selector: '#category-form-field'}))
+        loader.getHarness(MatFormFieldHarness.with({selector: "#category-form-field"}))
             .then(harness => categoryFormField = harness);
 
-        loader.getHarness(MatSelectHarness.with({selector: '#category-form-field mat-select'}))
+        loader.getHarness(MatSelectHarness.with({selector: "#category-form-field mat-select"}))
             .then(harness => categorySelect = harness);
 
-        loader.getHarness(MatFormFieldHarness.with({selector: '#description-form-field'}))
+        loader.getHarness(MatFormFieldHarness.with({selector: "#description-form-field"}))
             .then(harness => descriptionFormField = harness);
 
-        loader.getHarness(MatInputHarness.with({selector: '#description-form-field textarea'}))
+        loader.getHarness(MatInputHarness.with({selector: "#description-form-field textarea"}))
             .then(harness => descriptionInput = harness);
 
-        photoUploaderComponent = fixture.nativeElement.querySelector('app-photo-uploader');
+        photoUploaderComponent = fixture.nativeElement.querySelector("app-photo-uploader");
 
         loader.getHarness(MatButtonHarness.with({text: component.strings.buttonAddItem}))
             .then(harness => addItemButton = harness);
@@ -105,7 +105,7 @@ xdescribe('AddItemComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create the component and child components', async () => {
+    it("should create the component and child components", async () => {
         expect(itemsServiceSpy.getCategories).toHaveBeenCalled();
 
         expect(component.categories.length).toEqual(2);
@@ -124,22 +124,22 @@ xdescribe('AddItemComponent', () => {
         expect(await addItemButton.isDisabled()).toBeTruthy();
     });
 
-    it('should not allow to add an item with invalid data', async () => {
+    it("should not allow to add an item with invalid data", async () => {
         expect(itemsServiceSpy.getCategories).toHaveBeenCalled();
         expect(component.categories.length).toEqual(2);
         expect((await categorySelect.getOptions()).length).toEqual(2);
 
-        await titleInput.setValue('long enough value, but doesn\'t match the pattern!');
+        await titleInput.setValue("long enough value, but doesn't match the pattern!");
 
         expect((await titleFormField.getTextErrors())[0])
             .toEqual(component.strings.title.illegalSymbols);
 
-        await priceInput.setValue('15.543');
+        await priceInput.setValue("15.543");
 
-        await categorySelect.clickOptions({text: 'Category 2'});
+        await categorySelect.clickOptions({text: "Category 2"});
 
         await statusSelect.clickOptions(({text: UsedStatus.NEW}));
-        await descriptionInput.setValue('long enough description for the form to be happy');
+        await descriptionInput.setValue("long enough description for the form to be happy");
 
         expect((await titleFormField.getTextErrors())[0])
             .toEqual(component.strings.title.illegalSymbols);
@@ -152,24 +152,24 @@ xdescribe('AddItemComponent', () => {
         expect(itemsServiceSpy.addNewItem).not.toHaveBeenCalled();
     });
 
-    it('should allow to add an item with valid data', async () => {
+    it("should allow to add an item with valid data", async () => {
         fixture.detectChanges();
 
         expect(itemsServiceSpy.getCategories).toHaveBeenCalled();
         expect(component.categories.length).toEqual(2);
         expect((await categorySelect.getOptions()).length).toEqual(2);
 
-        await titleInput.setValue('long enough value and matches the pattern');
+        await titleInput.setValue("long enough value and matches the pattern");
         expect((await titleFormField.getTextErrors())[0])
             .toEqual(component.strings.title.illegalSymbols);
         expect(await titleFormField.hasErrors()).toBeFalsy();
 
-        await priceInput.setValue('15.543');
+        await priceInput.setValue("15.543");
 
-        await categorySelect.clickOptions({text: 'Category 2'});
+        await categorySelect.clickOptions({text: "Category 2"});
 
         await statusSelect.clickOptions(({text: UsedStatus.NEW}));
-        await descriptionInput.setValue('long enough description for the form to be happy');
+        await descriptionInput.setValue("long enough description for the form to be happy");
 
         expect((await titleFormField.getTextErrors())[0])
             .toEqual(component.strings.title.illegalSymbols);

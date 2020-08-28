@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {PhotoUploaderComponent} from './photo-uploader.component';
+import {PhotoUploaderComponent} from "./photo-uploader.component";
 
-describe('PhotoUploaderComponent', () => {
+describe("PhotoUploaderComponent", () => {
   let component: PhotoUploaderComponent;
   let fixture: ComponentFixture<PhotoUploaderComponent>;
 

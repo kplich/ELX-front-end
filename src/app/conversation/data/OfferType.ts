@@ -1,9 +1,9 @@
 export enum OfferType {
-    PLAIN_ADVANCE = 'Plain advance'
+    PLAIN_ADVANCE = "Plain advance"
 }
 
 export enum OfferTypeDto {
-    PLAIN_ADVANCE = 'PLAIN_ADVANCE'
+    PLAIN_ADVANCE = "PLAIN_ADVANCE"
 }
 
 export function statusToDtoString(status: OfferType): OfferTypeDto {

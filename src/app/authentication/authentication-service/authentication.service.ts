@@ -1,17 +1,17 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
-import {environment} from '@environments/environment';
-import {Observable} from 'rxjs';
-import {shareReplay, tap} from 'rxjs/operators';
-import {JwtStorageService} from '@shared/jwt-storage-service/jwt-storage.service';
-import {Credentials} from '@authentication/data/Credentials';
-import {PasswordChangeRequest} from '@authentication/data/PasswordChangeRequest';
-import {AUTHORIZATION, BEARER} from '@routing/jwt-interceptor/jwt.interceptor';
+import {Injectable} from "@angular/core";
+import {HttpClient, HttpResponse} from "@angular/common/http";
+import {environment} from "@environments/environment";
+import {Observable} from "rxjs";
+import {shareReplay, tap} from "rxjs/operators";
+import {JwtStorageService} from "@shared/jwt-storage-service/jwt-storage.service";
+import {Credentials} from "@authentication/data/Credentials";
+import {PasswordChangeRequest} from "@authentication/data/PasswordChangeRequest";
+import {AUTHORIZATION, BEARER} from "@routing/jwt-interceptor/jwt.interceptor";
 
 export const API_URL = `${environment.apiUrl}/auth`;
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: "root"
 })
 export class AuthenticationService {
 
@@ -22,18 +22,18 @@ export class AuthenticationService {
         const header = response.headers.get(AUTHORIZATION);
 
         if (header === null) {
-            throw new Error('Authorization token not found!');
+            throw new Error("Authorization token not found!");
         }
 
         if (header.startsWith(BEARER)) {
-            return header.replace(BEARER, '').trim();
+            return header.replace(BEARER, "").trim();
         } else {
-            throw new Error('Bearer JSON Web Token required!');
+            throw new Error("Bearer JSON Web Token required!");
         }
     }
 
     logIn(credentials: Credentials): Observable<HttpResponse<any>> {
-        return this.httpClient.post(`${API_URL}/log-in`, credentials, {observe: 'response'}).pipe(
+        return this.httpClient.post(`${API_URL}/log-in`, credentials, {observe: "response"}).pipe(
             tap(response => {
                 if (response.ok) {
                     this.jwtStorageService
@@ -45,13 +45,13 @@ export class AuthenticationService {
     }
 
     changePassword(passwordChangeRequest: PasswordChangeRequest): Observable<HttpResponse<any>> {
-        return this.httpClient.post(`${API_URL}/change-password`, passwordChangeRequest, {observe: 'response'}).pipe(
+        return this.httpClient.post(`${API_URL}/change-password`, passwordChangeRequest, {observe: "response"}).pipe(
             shareReplay()
         );
     }
 
     signUp(credentials: Credentials): Observable<HttpResponse<any>> {
-        return this.httpClient.post(`${API_URL}/sign-up`, credentials, {observe: 'response'}).pipe(
+        return this.httpClient.post(`${API_URL}/sign-up`, credentials, {observe: "response"}).pipe(
             shareReplay()
         );
     }

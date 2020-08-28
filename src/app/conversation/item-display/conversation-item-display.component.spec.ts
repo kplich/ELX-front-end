@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ConversationItemDisplayComponent } from './conversation-item-display.component';
+import { ConversationItemDisplayComponent } from "./conversation-item-display.component";
 
-describe('ConversationItemDisplayComponent', () => {
+describe("ConversationItemDisplayComponent", () => {
   let component: ConversationItemDisplayComponent;
   let fixture: ComponentFixture<ConversationItemDisplayComponent>;
 
@@ -19,7 +19,7 @@ describe('ConversationItemDisplayComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

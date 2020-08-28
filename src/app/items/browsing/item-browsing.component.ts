@@ -1,16 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {Item, ItemCategory} from '@items/data/Item';
-import {ItemsService} from '@items/service/items.service';
-import {ItemFilteringCriteria} from '@items/browsing-criteria/ItemFilteringCriteria';
-import {SnackBarService} from '@shared/snack-bar-service/snack-bar.service';
+import {Component, OnInit} from "@angular/core";
+import {Item, ItemCategory} from "@items/data/Item";
+import {ItemsService} from "@items/service/items.service";
+import {ItemFilteringCriteria} from "@items/browsing-criteria/ItemFilteringCriteria";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 
-export const COULD_NOT_LOAD_ITEMS_MESSAGE = 'Could not load items :/.';
-export const NO_ITEMS_FOUND_MESSAGE = 'No items matching given criteria were found.';
+export const COULD_NOT_LOAD_ITEMS_MESSAGE = "Could not load items :/.";
+export const NO_ITEMS_FOUND_MESSAGE = "No items matching given criteria were found.";
 
 @Component({
-    selector: 'item-browsing',
-    templateUrl: './item-browsing.component.html',
-    styleUrls: ['./item-browsing.component.scss']
+    selector: "item-browsing",
+    templateUrl: "./item-browsing.component.html",
+    styleUrls: ["./item-browsing.component.scss"]
 })
 export class ItemBrowsingComponent implements OnInit {
 
@@ -38,12 +38,12 @@ export class ItemBrowsingComponent implements OnInit {
     ngOnInit() {
         this.itemService.getCategories().subscribe({
             next: categoriesResponse => {
-                if (categoriesResponse.body === null) { throw new Error('Empty categories response body'); }
+                if (categoriesResponse.body === null) { throw new Error("Empty categories response body"); }
                 this.categories = categoriesResponse.body;
 
                 this.itemService.getAllItems().subscribe({
                     next: itemsResponse => {
-                        if (itemsResponse.body === null) { throw new Error('Empty items Response body'); }
+                        if (itemsResponse.body === null) { throw new Error("Empty items Response body"); }
                         this.allItems = itemsResponse.body;
                         this.displayedItems = this.allItems;
                     }

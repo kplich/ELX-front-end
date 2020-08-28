@@ -1,12 +1,12 @@
-import {Component, Input} from '@angular/core';
-import {SafeUrl, DomSanitizer} from '@angular/platform-browser';
-import {Router} from '@angular/router';
-import {Item} from '@items/data/Item';
+import {Component, Input} from "@angular/core";
+import {SafeUrl, DomSanitizer} from "@angular/platform-browser";
+import {Router} from "@angular/router";
+import {Item} from "@items/data/Item";
 
 @Component({
-    selector: 'app-conversation-item-display',
-    templateUrl: './conversation-item-display.component.html',
-    styleUrls: ['./conversation-item-display.component.scss']
+    selector: "app-conversation-item-display",
+    templateUrl: "./conversation-item-display.component.html",
+    styleUrls: ["./conversation-item-display.component.scss"]
 })
 export class ConversationItemDisplayComponent {
 

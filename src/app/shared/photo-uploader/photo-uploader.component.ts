@@ -1,15 +1,15 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {FileUploaderComponent} from '@shared/file-uploader/file-uploader.component';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {FileUploaderComponent} from "@shared/file-uploader/file-uploader.component";
 
-export const TOO_FEW_PHOTOS_MESSAGE = 'More photos are necessary!';
-export const ENOUGH_PHOTOS_MESSAGE = 'You can\'t upload more photos.';
-export const TOO_MANY_PHOTOS_MESSAGE = 'You uploaded too many photos!';
+export const TOO_FEW_PHOTOS_MESSAGE = "More photos are necessary!";
+export const ENOUGH_PHOTOS_MESSAGE = "You can't upload more photos.";
+export const TOO_MANY_PHOTOS_MESSAGE = "You uploaded too many photos!";
 
 @Component({
-  selector: 'app-photo-uploader',
-  templateUrl: './photo-uploader.component.html',
-  styleUrls: ['./photo-uploader.component.scss']
+  selector: "app-photo-uploader",
+  templateUrl: "./photo-uploader.component.html",
+  styleUrls: ["./photo-uploader.component.scss"]
 })
 export class PhotoUploaderComponent implements OnInit {
 

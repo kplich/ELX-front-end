@@ -4,15 +4,15 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080',
+  apiUrl: "http://localhost:8080",
   firebaseConfig: {
-    apiKey: 'AIzaSyA2BxZ5Tkmk8FkIK5dcw_bA2sDvfqxE0vo',
-    authDomain: 'elx-front-end.firebaseapp.com',
-    databaseURL: 'https://elx-front-end.firebaseio.com',
-    projectId: 'elx-front-end',
-    storageBucket: 'elx-front-end.appspot.com',
-    messagingSenderId: '711482551261',
-    appId: '1:711482551261:web:9f350e736aba28511f2434'
+    apiKey: "AIzaSyA2BxZ5Tkmk8FkIK5dcw_bA2sDvfqxE0vo",
+    authDomain: "elx-front-end.firebaseapp.com",
+    databaseURL: "https://elx-front-end.firebaseio.com",
+    projectId: "elx-front-end",
+    storageBucket: "elx-front-end.appspot.com",
+    messagingSenderId: "711482551261",
+    appId: "1:711482551261:web:9f350e736aba28511f2434"
   }
 };
 
@@ -23,4 +23,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-import 'zone.js/dist/zone-error'; // Included with Angular CLI.
+import "zone.js/dist/zone-error"; // Included with Angular CLI.

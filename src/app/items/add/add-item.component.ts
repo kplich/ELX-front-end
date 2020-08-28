@@ -1,16 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {ItemsService} from '@items/service/items.service';
-import {NewOrUpdatedItemRequest} from '@items/data/Item';
-import {SnackBarService} from '@shared/snack-bar-service/snack-bar.service';
-import {Router} from '@angular/router';
-import {COULD_NOT_LOAD_CATEGORIES_MESSAGE, ItemEditBaseComponent} from '@items/edit-base/ItemEditBase';
+import {Component, OnInit} from "@angular/core";
+import {ItemsService} from "@items/service/items.service";
+import {NewOrUpdatedItemRequest} from "@items/data/Item";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
+import {Router} from "@angular/router";
+import {COULD_NOT_LOAD_CATEGORIES_MESSAGE, ItemEditBaseComponent} from "@items/edit-base/ItemEditBase";
 
-export const ITEM_ADDED_SUCCESSFULLY_MESSAGE = 'Item added successfully!';
+export const ITEM_ADDED_SUCCESSFULLY_MESSAGE = "Item added successfully!";
 
 @Component({
-    selector: 'item-add',
-    templateUrl: './add-item.component.html',
-    styleUrls: ['../edit-base/edit-item-base.component.scss']
+    selector: "item-add",
+    templateUrl: "./add-item.component.html",
+    styleUrls: ["../edit-base/edit-item-base.component.scss"]
 })
 export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
 
@@ -36,7 +36,7 @@ export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
     sendRequestToAddItem() {
         this.itemsService.addNewItem(this.newItemRequest).subscribe({
             next: response => {
-                if (response.body === null) { throw new Error('Empty response body'); }
+                if (response.body === null) { throw new Error("Empty response body"); }
                 this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
                     this.snackBarService.openSnackBar(ITEM_ADDED_SUCCESSFULLY_MESSAGE);
                 });

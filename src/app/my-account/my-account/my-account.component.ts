@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 
 @Component({
-  selector: 'my-account',
-  templateUrl: './my-account.component.html',
-  styleUrls: ['./my-account.component.scss']
+  selector: "my-account",
+  templateUrl: "./my-account.component.html",
+  styleUrls: ["./my-account.component.scss"]
 })
 export class MyAccountComponent implements OnInit {
 

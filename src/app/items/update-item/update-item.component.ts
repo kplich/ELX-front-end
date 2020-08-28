@@ -1,24 +1,24 @@
-import {Component, OnInit, ViewChild, ViewChildren} from '@angular/core';
-import {ItemsService} from '@items/service/items.service';
-import {Item, NewOrUpdatedItemRequest} from '@items/data/Item';
-import {SnackBarService} from '@shared/snack-bar-service/snack-bar.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {PhotoUploaderComponent} from '@shared/photo-uploader/photo-uploader.component';
+import {Component, OnInit, ViewChild, ViewChildren} from "@angular/core";
+import {ItemsService} from "@items/service/items.service";
+import {Item, NewOrUpdatedItemRequest} from "@items/data/Item";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {PhotoUploaderComponent} from "@shared/photo-uploader/photo-uploader.component";
 import {
     COULD_NOT_LOAD_CATEGORIES_MESSAGE,
     ItemEditBaseComponent
-} from '@items/edit-base/ItemEditBase';
-import {MatFormField} from '@angular/material/form-field';
-import {statusToDtoString} from '@items/data/UsedStatus';
-import {LoggedInUserService} from '@shared/logged-in-user/logged-in-user.service';
+} from "@items/edit-base/ItemEditBase";
+import {MatFormField} from "@angular/material/form-field";
+import {statusToDtoString} from "@items/data/UsedStatus";
+import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 
-export const ITEM_UPDATED_SUCCESSFULLY_MESSAGE = 'Item updated successfully!';
-export const COULD_NOT_LOAD_ITEM = 'Could not load item.';
+export const ITEM_UPDATED_SUCCESSFULLY_MESSAGE = "Item updated successfully!";
+export const COULD_NOT_LOAD_ITEM = "Could not load item.";
 
 @Component({
-    selector: 'item-update',
-    templateUrl: './update-item.component.html',
-    styleUrls: ['../edit-base/edit-item-base.component.scss']
+    selector: "item-update",
+    templateUrl: "./update-item.component.html",
+    styleUrls: ["../edit-base/edit-item-base.component.scss"]
 })
 export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit {
 
@@ -62,9 +62,9 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
             return;
         }
 
-        const itemIdString = this.activatedRoute.snapshot.paramMap.get('id');
+        const itemIdString = this.activatedRoute.snapshot.paramMap.get("id");
         if (itemIdString === null) {
-            console.warn('no item id provided');
+            console.warn("no item id provided");
             return;
         }
 
@@ -72,7 +72,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
         try {
             const item = (await this.itemsService.getItem(this.id).toPromise()).body;
             if (item === null) {
-                console.warn('empty response body');
+                console.warn("empty response body");
                 this.snackBarService.openSnackBar(COULD_NOT_LOAD_ITEM);
                 return;
             }
@@ -80,7 +80,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
             console.log(item);
             if (item.isClosed
                 || item.addedBy.username !== this.loggedInUserService.authenticatedUser?.username) {
-                this.router.navigateByUrl('/items').then(() => {
+                this.router.navigateByUrl("/items").then(() => {
                     // HACK: router doesn't seem to be navigating as expected;
                     window.location.reload();
                 });
@@ -95,7 +95,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
     sendRequestToUpdateItem() {
         this.itemsService.updateItem(this.newItemRequest).subscribe({
             next: response => {
-                if (response.body === null) { throw new Error('Response with empty body!'); }
+                if (response.body === null) { throw new Error("Response with empty body!"); }
                 this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
                     this.snackBarService.openSnackBar(ITEM_UPDATED_SUCCESSFULLY_MESSAGE);
                 });
@@ -115,7 +115,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
         this.photoUploader.initPhotoUploader(this.controls.photoUrls.value);
 
         // HACK: ugly form right after updating controls
-        const titleInput = document.getElementById('title-native-input');
+        const titleInput = document.getElementById("title-native-input");
         if (titleInput !== null) {
             setTimeout(() => titleInput.focus(), 100);
             setTimeout(() => titleInput.blur(), 100);

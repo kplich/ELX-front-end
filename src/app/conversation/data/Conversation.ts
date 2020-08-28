@@ -1,6 +1,6 @@
-import {Item, ItemResponse} from '@items/data/Item';
-import {SimpleUser, SimpleUserResponse} from '@my-account/data/SimpleUser';
-import {Message, MessageResponse} from '@conversation/data/Message';
+import {Item, ItemResponse} from "@items/data/Item";
+import {SimpleUser, SimpleUserResponse} from "@my-account/data/SimpleUser";
+import {Message, MessageResponse} from "@conversation/data/Message";
 
 export class Conversation {
     id: number;

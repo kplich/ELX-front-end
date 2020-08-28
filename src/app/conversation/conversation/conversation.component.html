@@ -1,6 +1,7 @@
 <app-conversation-item-display
     [item]="(item | async)">
 </app-conversation-item-display>
-<app-conversation-messages
-    [conversation]="(conversation | async)">
+<app-conversation-messages #conversationMessages
+    [conversation]="(conversation | async)"
+    (messageSent)="sendMessage($event)">
 </app-conversation-messages>

@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {Component, OnInit} from "@angular/core";
+import {Router} from "@angular/router";
 
 @Component({
-  selector: 'item-sold-offer',
-  templateUrl: './item-sold-offer.component.html',
-  styleUrls: ['./item-sold-offer.component.scss']
+  selector: "item-sold-offer",
+  templateUrl: "./item-sold-offer.component.html",
+  styleUrls: ["./item-sold-offer.component.scss"]
 })
 export class ItemSoldOfferComponent implements OnInit {
 
@@ -14,6 +14,6 @@ export class ItemSoldOfferComponent implements OnInit {
   }
 
   navigateToOffer() {
-    this.router.navigateByUrl('/offer').then(_ => {});
+    this.router.navigateByUrl("/offer").then(_ => {});
   }
 }

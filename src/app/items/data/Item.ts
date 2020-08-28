@@ -1,12 +1,12 @@
-import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
-import {dtoStringToStatus, UsedStatus, UsedStatusDto} from '@items/data/UsedStatus';
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {dtoStringToStatus, UsedStatus, UsedStatusDto} from "@items/data/UsedStatus";
 
 export class Item {
-    public static readonly ETH_SYMBOL = 'Ξ';
-    public static readonly ADDED_BY = 'Added by';
-    public static readonly ADDED_ON_LABEL = 'Item added';
-    public static readonly CLOSED_ON_LABEL = 'Item closed';
-    public static readonly CATEGORY_LABEL = 'Category';
+    public static readonly ETH_SYMBOL = "Ξ";
+    public static readonly ADDED_BY = "Added by";
+    public static readonly ADDED_ON_LABEL = "Item added";
+    public static readonly CLOSED_ON_LABEL = "Item closed";
+    public static readonly CATEGORY_LABEL = "Category";
 
     public readonly id: number;
     public readonly title: string;
@@ -57,7 +57,7 @@ export class Item {
     }
 
     public fixPhotoUrl(index: number) {
-        this.photoUrls[index] = 'assets/error-photo.png';
+        this.photoUrls[index] = "assets/error-photo.png";
     }
 }
 

@@ -1,25 +1,25 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ItemsService} from '@items/service/items.service';
-import {Item} from '@items/data/Item';
-import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
-import {SnackBarService} from '@shared/snack-bar-service/snack-bar.service';
-import {LoggedInUserService} from '@shared/logged-in-user/logged-in-user.service';
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ItemsService} from "@items/service/items.service";
+import {Item} from "@items/data/Item";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
+import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 
-export const BUTTON_SEND_MESSAGE_TEXT = 'Send message';
-export const BUTTON_SEND_OFFER_TEXT = 'Send offer';
-export const BUTTON_ACCEPT_OFFER_TEXT = 'Accept offer';
-export const BUTTON_CLOSE_OFFER_TEXT = 'Close offer';
-export const BUTTON_EDIT_ITEM_TEXT = 'Edit item';
+export const BUTTON_SEND_MESSAGE_TEXT = "Send message";
+export const BUTTON_SEND_OFFER_TEXT = "Send offer";
+export const BUTTON_ACCEPT_OFFER_TEXT = "Accept offer";
+export const BUTTON_CLOSE_OFFER_TEXT = "Close offer";
+export const BUTTON_EDIT_ITEM_TEXT = "Edit item";
 
-export const COULD_NOT_LOAD_ITEM_MESSAGE = 'The item could not be loaded. Try again.';
-export const COULD_NOT_CLOSE_ITEM_MESSAGE = 'An error occured while closing the item, try again later.';
-export const ITEM_CLOSED_MESSAGE = 'Item closed!';
+export const COULD_NOT_LOAD_ITEM_MESSAGE = "The item could not be loaded. Try again.";
+export const COULD_NOT_CLOSE_ITEM_MESSAGE = "An error occured while closing the item, try again later.";
+export const ITEM_CLOSED_MESSAGE = "Item closed!";
 
 @Component({
-    selector: 'item-single',
-    templateUrl: './item.component.html',
-    styleUrls: ['./item.component.scss']
+    selector: "item-single",
+    templateUrl: "./item.component.html",
+    styleUrls: ["./item.component.scss"]
 })
 export class ItemComponent implements OnInit {
 
@@ -67,13 +67,13 @@ export class ItemComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const itemIdString = this.activatedRoute.snapshot.paramMap.get('id');
+        const itemIdString = this.activatedRoute.snapshot.paramMap.get("id");
 
         if (itemIdString !== null) {
             const id = parseInt(itemIdString, 10);
             this.itemsService.getItem(id).subscribe({
                 next: response => {
-                    if (response.body === null) { throw new Error('Empty response body'); }
+                    if (response.body === null) { throw new Error("Empty response body"); }
                     this.item = response.body;
                 },
                 error: error => {
@@ -88,7 +88,7 @@ export class ItemComponent implements OnInit {
         if (this.item) {
             this.itemsService.closeItem(this.item.id).subscribe({
                 next: response => {
-                    if (response.body === null) { throw new Error('Empty response body'); }
+                    if (response.body === null) { throw new Error("Empty response body"); }
                     this.item = response.body;
                     this.snackBarService.openSnackBar(ITEM_CLOSED_MESSAGE);
                 },

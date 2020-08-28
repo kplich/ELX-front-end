@@ -1,35 +1,35 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {Item, ItemCategory} from '@items/data/Item';
-import {UsedStatus} from '@items/data/UsedStatus';
-import {MyErrorStateMatcher} from '@shared/MyErrorStateMatcher';
-import {ItemFilteringCriteria} from '@items/browsing-criteria/ItemFilteringCriteria';
-import {ITEM_PRICE_MAXIMUM, ITEM_PRICE_MINIMUM} from '@items/edit-base/ItemEditBase';
+import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {Item, ItemCategory} from "@items/data/Item";
+import {UsedStatus} from "@items/data/UsedStatus";
+import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
+import {ItemFilteringCriteria} from "@items/browsing-criteria/ItemFilteringCriteria";
+import {ITEM_PRICE_MAXIMUM, ITEM_PRICE_MINIMUM} from "@items/edit-base/ItemEditBase";
 
-export const SEARCH_BOX_LABEL = 'Keywords';
+export const SEARCH_BOX_LABEL = "Keywords";
 export const SEARCH_BOX_PLACEHOLDER
-    = 'Enter keywords that describe what you\'re looking for, e.g. \'book\', \'CD\', etc...';
+    = "Enter keywords that describe what you're looking for, e.g. 'book', 'CD', etc...";
 export const SEARCH_BOX_QUERY_MAX_LENGTH = 100;
 export const SEARCH_QUERY_TOO_LONG_MESSAGE
     = `Search query cannot be longer than ${SEARCH_BOX_QUERY_MAX_LENGTH} characters.`;
-export const CATEGORY_LABEL = 'Category';
-export const EMPTY_CATEGORY_LABEL = 'None';
-export const STATUS_LABEL = 'Status';
-export const STATUS_ANY_LABEL = 'Any';
-export const MINIMAL_PRICE_LABEL = 'Minimal price';
-export const MAXIMAL_PRICE_LABEL = 'Maximal price';
+export const CATEGORY_LABEL = "Category";
+export const EMPTY_CATEGORY_LABEL = "None";
+export const STATUS_LABEL = "Status";
+export const STATUS_ANY_LABEL = "Any";
+export const MINIMAL_PRICE_LABEL = "Minimal price";
+export const MAXIMAL_PRICE_LABEL = "Maximal price";
 export const MINIMAL_PRICE = ITEM_PRICE_MINIMUM;
 export const MAXIMAL_PRICE = ITEM_PRICE_MAXIMUM;
-export const BOUNDARY_OUT_OF_RANGE_MESSAGE = 'Prices can range from 0 to 100 000 000 Ξ.';
+export const BOUNDARY_OUT_OF_RANGE_MESSAGE = "Prices can range from 0 to 100 000 000 Ξ.";
 export const MINIMAL_PRICE_GREATER_THAN_MAXIMAL_MESSAGE =
-    'Minimal price should be smaller than maximal price. Prices given won\'t be used to filter items.';
+    "Minimal price should be smaller than maximal price. Prices given won't be used to filter items.";
 
 export function minimalPriceSmallerThanMaximalPriceValidator(formGroup: AbstractControl): ValidationErrors | null {
-    const minimalPriceInput = formGroup.get('minimalPrice');
-    const maximalPriceInput = formGroup.get('maximalPrice');
+    const minimalPriceInput = formGroup.get("minimalPrice");
+    const maximalPriceInput = formGroup.get("maximalPrice");
 
     if (minimalPriceInput === null || maximalPriceInput === null) {
-        throw new Error('form controls not found');
+        throw new Error("form controls not found");
     }
 
     if (minimalPriceInput.value === null || maximalPriceInput.value === null) {
@@ -42,9 +42,9 @@ export function minimalPriceSmallerThanMaximalPriceValidator(formGroup: Abstract
 }
 
 @Component({
-    selector: 'item-browsing-criteria',
-    templateUrl: './item-browsing-criteria.component.html',
-    styleUrls: ['./item-browsing-criteria.component.scss']
+    selector: "item-browsing-criteria",
+    templateUrl: "./item-browsing-criteria.component.html",
+    styleUrls: ["./item-browsing-criteria.component.scss"]
 })
 export class ItemBrowsingCriteriaComponent {
 
@@ -99,12 +99,12 @@ export class ItemBrowsingCriteriaComponent {
 
     get errors() {
         return {
-            queryTooLong: this.controls.query.hasError('maxlength'),
-            minimalPriceOutOfRange: this.controls.minimalPrice.hasError('min')
-                || this.controls.minimalPrice.hasError('max'),
-            maximalPriceOutOfRange: this.controls.maximalPrice.hasError('min')
-                || this.controls.maximalPrice.hasError('max'),
-            minimalPriceGreaterThanMaximalPrice: this.criteriaForm.hasError('priceRangeInvalid')
+            queryTooLong: this.controls.query.hasError("maxlength"),
+            minimalPriceOutOfRange: this.controls.minimalPrice.hasError("min")
+                || this.controls.minimalPrice.hasError("max"),
+            maximalPriceOutOfRange: this.controls.maximalPrice.hasError("min")
+                || this.controls.maximalPrice.hasError("max"),
+            minimalPriceGreaterThanMaximalPrice: this.criteriaForm.hasError("priceRangeInvalid")
         };
     }
 

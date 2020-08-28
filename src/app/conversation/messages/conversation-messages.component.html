@@ -5,4 +5,4 @@
         [ngClass]="message.senderId === loggedInUserId ? 'sent-by-self' : 'sent-by-other'">
     </app-conversation-message>
 </div>
-<app-conversation-message-input></app-conversation-message-input>
+<app-conversation-message-input (messageSent)="emitMessage($event)"></app-conversation-message-input>

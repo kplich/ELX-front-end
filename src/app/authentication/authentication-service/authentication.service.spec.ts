@@ -1,17 +1,17 @@
-import {fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {API_URL, AuthenticationService} from './authentication.service';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
-import {JwtStorageService} from '../../shared/jwt-storage-service/jwt-storage.service';
-import {AUTHORIZATION, BEARER} from '../../routing/jwt-interceptor/jwt.interceptor';
+import {fakeAsync, TestBed, tick} from "@angular/core/testing";
+import {API_URL, AuthenticationService} from "./authentication.service";
+import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
+import {HttpErrorResponse, HttpHeaders, HttpResponse} from "@angular/common/http";
+import {JwtStorageService} from "../../shared/jwt-storage-service/jwt-storage.service";
+import {AUTHORIZATION, BEARER} from "../../routing/jwt-interceptor/jwt.interceptor";
 
 // adapted from
 // skryvets.com/blog/2018/02/18/unit-testing-angular-service-with-httpclient
 
-describe('AuthenticationService signing up', () => {
+describe("AuthenticationService signing up", () => {
     const signUpURL = `${API_URL}/sign-up`;
 
-    const userCredentials = {username: 'username', password: 'password'};
+    const userCredentials = {username: "username", password: "password"};
 
     let authenticationService: AuthenticationService;
     let httpTestingController: HttpTestingController;
@@ -31,11 +31,11 @@ describe('AuthenticationService signing up', () => {
         httpTestingController.verify();
     });
 
-    it('should be created', () => {
+    it("should be created", () => {
         expect(authenticationService).toBeTruthy();
     });
 
-    it('should sign up correctly with correct credentials', fakeAsync(() => {
+    it("should sign up correctly with correct credentials", fakeAsync(() => {
         const expectedResponseBody = {};
         const expectedStatus = 200;
         let response = null;
@@ -49,12 +49,12 @@ describe('AuthenticationService signing up', () => {
 
         tick();
 
-        expect(testRequest.request.method).toEqual('POST');
+        expect(testRequest.request.method).toEqual("POST");
         expect(response.body).toEqual(expectedResponseBody);
         expect(response.status).toBe(expectedStatus);
     }));
 
-    it('should return an error response for invalid login data', fakeAsync(() => {
+    it("should return an error response for invalid login data", fakeAsync(() => {
         const expectedStatus = 400;
         let response = null;
 
@@ -67,26 +67,26 @@ describe('AuthenticationService signing up', () => {
         });
 
         const testRequest = httpTestingController.expectOne({url: signUpURL});
-        testRequest.error(new ErrorEvent('Bad Request'), {status: expectedStatus});
+        testRequest.error(new ErrorEvent("Bad Request"), {status: expectedStatus});
 
         tick();
 
-        expect(testRequest.request.method).toEqual('POST');
+        expect(testRequest.request.method).toEqual("POST");
         expect(response.status).toEqual(expectedStatus);
     }));
 
 
 });
 
-describe('AuthenticationService logging in', () => {
+describe("AuthenticationService logging in", () => {
     const LOGIN_API_URL = `${API_URL}/log-in`;
 
-    const EXAMPLE_USERNAME = 'username2';
-    const ANYTHING_ELSE = 'sefsefhsuie';
+    const EXAMPLE_USERNAME = "username2";
+    const ANYTHING_ELSE = "sefsefhsuie";
     // noinspection SpellCheckingInspection
-    const EXAMPLE_JWT = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTIifQ.SCOWl0eWOb14t3BicSyNRlOlSVV8gQFkpeJGswPHbUo!';
+    const EXAMPLE_JWT = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTIifQ.SCOWl0eWOb14t3BicSyNRlOlSVV8gQFkpeJGswPHbUo!";
 
-    const USER_CREDENTIALS = {username: EXAMPLE_USERNAME, password: 'password'};
+    const USER_CREDENTIALS = {username: EXAMPLE_USERNAME, password: "password"};
 
     let authenticationService: AuthenticationService;
     let jwtStorageService: JwtStorageService;
@@ -109,7 +109,7 @@ describe('AuthenticationService logging in', () => {
     });
 
     // TODO: fix this test
-    xit('should save the token after successful login and remove it after logout',
+    xit("should save the token after successful login and remove it after logout",
         fakeAsync(() => {
             const expectedResponseBody = {};
             const expectedStatus = 200;
@@ -127,7 +127,7 @@ describe('AuthenticationService logging in', () => {
 
             tick();
 
-            expect(testRequest.request.method).toEqual('POST');
+            expect(testRequest.request.method).toEqual("POST");
             expect(response.headers).toEqual(expectedHeaders);
             expect(response.body).toEqual(expectedResponseBody);
             expect(response.status).toEqual(expectedStatus);
@@ -140,7 +140,7 @@ describe('AuthenticationService logging in', () => {
             expect(authenticationService.authenticatedUser).toBeNull();
         }));
 
-    it('should not save token after unsuccessful login', fakeAsync(() => {
+    it("should not save token after unsuccessful login", fakeAsync(() => {
         const expectedStatus = 401;
         let error: HttpErrorResponse = null;
 
@@ -153,11 +153,11 @@ describe('AuthenticationService logging in', () => {
         });
 
         const testRequest = httpTestingController.expectOne({url: LOGIN_API_URL});
-        testRequest.error(new ErrorEvent('Unauthorized'), {status: expectedStatus});
+        testRequest.error(new ErrorEvent("Unauthorized"), {status: expectedStatus});
 
         tick();
 
-        expect(testRequest.request.method).toEqual('POST');
+        expect(testRequest.request.method).toEqual("POST");
         expect(error.status).toEqual(expectedStatus);
 
         expect(authenticationService.authenticatedUser).toBeNull();

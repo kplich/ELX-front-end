@@ -1,21 +1,21 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 import {
     AppComponent,
     BUTTON_LOG_IN_TEXT,
     BUTTON_LOG_OUT_TEXT,
     BUTTON_MY_ACCOUNT_TEXT
-} from './app.component';
-import {AuthenticationService} from './authentication/authentication-service/authentication.service';
-import {MaterialModule} from './material/material.module';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {HarnessLoader} from '@angular/cdk/testing';
-import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
-import {MatButtonHarness} from '@angular/material/button/testing';
-import {Router} from '@angular/router';
-import {RouterTestingModule} from '@angular/router/testing';
+} from "./app.component";
+import {AuthenticationService} from "./authentication/authentication-service/authentication.service";
+import {MaterialModule} from "./material/material.module";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {HarnessLoader} from "@angular/cdk/testing";
+import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
+import {MatButtonHarness} from "@angular/material/button/testing";
+import {Router} from "@angular/router";
+import {RouterTestingModule} from "@angular/router/testing";
 
-describe('AppComponent', () => {
-    const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
+describe("AppComponent", () => {
+    const routerSpy = jasmine.createSpyObj("Router", ["navigateByUrl"]);
     routerSpy.navigateByUrl.and.returnValue(Promise.resolve());
 
     let authenticationService: AuthenticationService;
@@ -44,13 +44,13 @@ describe('AppComponent', () => {
         });
     }));
 
-    it('should create the app', () => {
+    it("should create the app", () => {
         expect(fixture.componentInstance).toBeTruthy();
     });
 
-    it('should display \'log in\' button when no user is authenticated',
+    it("should display 'log in' button when no user is authenticated",
         async () => {
-            spyOnProperty(authenticationService, 'authenticatedUser').and.returnValue(null);
+            spyOnProperty(authenticationService, "authenticatedUser").and.returnValue(null);
 
             expect(fixture.componentInstance.authenticatedUser).toBeNull();
             const logInButton =
@@ -63,11 +63,11 @@ describe('AppComponent', () => {
             expect(routerSpy.navigateByUrl).toHaveBeenCalled();
         });
 
-    xit('should display \'log out\' and \'my account\' buttons when user is authenticated',
+    xit("should display 'log out' and 'my account' buttons when user is authenticated",
         async () => {
-            const EXAMPLE_USERNAME = 'username';
+            const EXAMPLE_USERNAME = "username";
 
-            spyOnProperty(authenticationService, 'authenticatedUser')
+            spyOnProperty(authenticationService, "authenticatedUser")
                 .and.returnValue(EXAMPLE_USERNAME);
 
             expect(fixture.componentInstance.authenticatedUser).toEqual(EXAMPLE_USERNAME);

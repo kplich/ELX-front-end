@@ -1,8 +1,8 @@
-import {dtoStringToStatus as dtoStringToOfferType, OfferType, OfferTypeDto} from '@conversation/data/OfferType';
-import {dtoStringToStatus as dtoStringToOfferStatus, OfferStatus, OfferStatusDto} from '@conversation/data/OfferStatus';
+import {dtoStringToStatus as dtoStringToOfferType, OfferType, OfferTypeDto} from "@conversation/data/OfferType";
+import {dtoStringToStatus as dtoStringToOfferStatus, OfferStatus, OfferStatusDto} from "@conversation/data/OfferStatus";
 
 export class Offer {
-    public static readonly ETH_SYMBOL = 'Ξ';
+    public static readonly ETH_SYMBOL = "Ξ";
 
     id: number;
     type: OfferType;

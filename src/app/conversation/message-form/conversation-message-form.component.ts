@@ -1,10 +1,10 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {OfferType} from '@conversation/data/OfferType';
-import {MyErrorStateMatcher} from '@shared/MyErrorStateMatcher';
+import {Component, OnInit, Output, EventEmitter} from "@angular/core";
+import {FormGroup, FormControl, Validators} from "@angular/forms";
+import {OfferType} from "@conversation/data/OfferType";
+import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
 
-export const MESSAGE_LABEL = 'Your message';
-export const MESSAGE_REQUIRED_MESSAGE = 'Message is required if you\'re not sending an offer.';
+export const MESSAGE_LABEL = "Your message";
+export const MESSAGE_REQUIRED_MESSAGE = "Message is required if you're not sending an offer.";
 
 export interface NewOfferRequest {
     type: OfferType;
@@ -13,14 +13,14 @@ export interface NewOfferRequest {
 }
 
 export interface NewMessageRequest {
-    message: string;
+    content: string;
     offer?: NewOfferRequest;
 }
 
 @Component({
-    selector: 'app-conversation-message-input',
-    templateUrl: './conversation-message-form.component.html',
-    styleUrls: ['./conversation-message-form.component.scss']
+    selector: "app-conversation-message-input",
+    templateUrl: "./conversation-message-form.component.html",
+    styleUrls: ["./conversation-message-form.component.scss"]
 })
 export class ConversationMessageFormComponent implements OnInit {
 
@@ -36,7 +36,7 @@ export class ConversationMessageFormComponent implements OnInit {
     readonly errorStateMatcher = new MyErrorStateMatcher();
 
     readonly controls = {
-        message: new FormControl('', Validators.required)
+        message: new FormControl("", Validators.required)
     };
 
     readonly form = new FormGroup(this.controls);
@@ -44,7 +44,7 @@ export class ConversationMessageFormComponent implements OnInit {
     get errors() {
         return {
             message: {
-                notProvided: this.controls.message.hasError('required')
+                notProvided: this.controls.message.hasError("required")
             },
             formIsInvalid: !this.form.valid
         };
@@ -57,9 +57,11 @@ export class ConversationMessageFormComponent implements OnInit {
     }
 
     emitMessageRequest(): void {
-        console.log('emitting!');
+        console.log("emitting!");
         this.messageSent.emit({
-            message: this.controls.message.value
+            content: this.controls.message.value
         });
+
+        this.form.reset();
     }
 }

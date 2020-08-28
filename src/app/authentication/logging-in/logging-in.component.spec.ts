@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 import {
     BUTTON_LOG_IN_TEXT,
     LoggingInComponent,
@@ -6,31 +6,31 @@ import {
     PASSWORD_REQUIRED_MESSAGE,
     USERNAME_LABEL,
     USERNAME_REQUIRED_MESSAGE
-} from './logging-in.component';
-import {AuthenticationService} from '../authentication-service/authentication.service';
-import {Router} from '@angular/router';
-import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
-import {MaterialModule} from '../../material/material.module';
-import {HarnessLoader} from '@angular/cdk/testing';
-import {MatFormFieldHarness} from '@angular/material/form-field/testing';
-import {MatInputHarness} from '@angular/material/input/testing';
-import {MatButtonHarness} from '@angular/material/button/testing';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ReactiveFormsModule} from '@angular/forms';
-import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
-import {Observable} from 'rxjs';
+} from "./logging-in.component";
+import {AuthenticationService} from "../authentication-service/authentication.service";
+import {Router} from "@angular/router";
+import {SnackBarService} from "../../shared/snack-bar-service/snack-bar.service";
+import {MaterialModule} from "../../material/material.module";
+import {HarnessLoader} from "@angular/cdk/testing";
+import {MatFormFieldHarness} from "@angular/material/form-field/testing";
+import {MatInputHarness} from "@angular/material/input/testing";
+import {MatButtonHarness} from "@angular/material/button/testing";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ReactiveFormsModule} from "@angular/forms";
+import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
+import {Observable} from "rxjs";
 
-describe('LoggingInComponent', () => {
+describe("LoggingInComponent", () => {
     const authenticationServiceSpy = {
-        ...jasmine.createSpyObj('AuthenticationService', ['logIn'])
+        ...jasmine.createSpyObj("AuthenticationService", ["logIn"])
     };
     authenticationServiceSpy.logIn.and.returnValue(new Observable(() => {
     }));
 
-    const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
+    const routerSpy = jasmine.createSpyObj("Router", ["navigateByUrl"]);
     routerSpy.navigateByUrl.and.returnValue(Promise.resolve());
 
-    const snackBarServiceSpy = jasmine.createSpyObj('SnackBarService', ['openSnackBar']);
+    const snackBarServiceSpy = jasmine.createSpyObj("SnackBarService", ["openSnackBar"]);
 
     let fixture: ComponentFixture<LoggingInComponent>;
     let loader: HarnessLoader;
@@ -56,19 +56,19 @@ describe('LoggingInComponent', () => {
                 fixture = TestBed.createComponent(LoggingInComponent);
                 loader = TestbedHarnessEnvironment.loader(fixture);
 
-                loader.getHarness(MatFormFieldHarness.with({selector: '#username-form-field'}))
+                loader.getHarness(MatFormFieldHarness.with({selector: "#username-form-field"}))
                     .then(harness => {
                         usernameFormField = harness;
                     });
-                loader.getHarness(MatInputHarness.with({selector: '#username-form-field input'}))
+                loader.getHarness(MatInputHarness.with({selector: "#username-form-field input"}))
                     .then(harness => {
                         usernameInput = harness;
                     });
-                loader.getHarness(MatFormFieldHarness.with({selector: '#password-form-field'}))
+                loader.getHarness(MatFormFieldHarness.with({selector: "#password-form-field"}))
                     .then(harness => {
                         passwordFormField = harness;
                     });
-                loader.getHarness(MatInputHarness.with({selector: '#password-form-field input'}))
+                loader.getHarness(MatInputHarness.with({selector: "#password-form-field input"}))
                     .then(harness => {
                         passwordInput = harness;
                     });
@@ -79,7 +79,7 @@ describe('LoggingInComponent', () => {
             });
     }));
 
-    it('should be created and displayed correctly', async(async () => {
+    it("should be created and displayed correctly", async(async () => {
         expect(fixture.componentInstance).toBeTruthy();
 
         // should display labels on fields
@@ -95,7 +95,7 @@ describe('LoggingInComponent', () => {
     }));
 
     // noinspection DuplicatedCode
-    it('should display errors and not allow to log in after touching the fields', async () => {
+    it("should display errors and not allow to log in after touching the fields", async () => {
         await usernameInput.focus();
         await usernameInput.blur();
 
@@ -113,11 +113,11 @@ describe('LoggingInComponent', () => {
     });
 
     // noinspection DuplicatedCode
-    it('should allow to log in when credentials are correct', async () => {
+    it("should allow to log in when credentials are correct", async () => {
         // when providing correct credentials
-        await usernameInput.setValue('username');
+        await usernameInput.setValue("username");
         await usernameInput.blur();
-        await passwordInput.setValue('password');
+        await passwordInput.setValue("password");
         await passwordInput.blur();
 
         // the form should be valid

@@ -1,13 +1,13 @@
 export enum UsedStatus {
-    NEW = 'New',
-    USED = 'Used',
-    NOT_APPLICABLE = 'Not applicable'
+    NEW = "New",
+    USED = "Used",
+    NOT_APPLICABLE = "Not applicable"
 }
 
 export enum UsedStatusDto {
-    NEW = 'NEW',
-    USED = 'USED',
-    NOT_APPLICABLE = 'NOT_APPLICABLE'
+    NEW = "NEW",
+    USED = "USED",
+    NOT_APPLICABLE = "NOT_APPLICABLE"
 }
 
 export function statusToDtoString(status: UsedStatus): UsedStatusDto {

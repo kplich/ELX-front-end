@@ -1,15 +1,15 @@
 export enum OfferStatus {
-    AWAITING = 'Awaiting',
-    CANCELLED = 'Cancelled',
-    ACCEPTED = 'Accepted',
-    DECLINED = 'Declined'
+    AWAITING = "Awaiting",
+    CANCELLED = "Cancelled",
+    ACCEPTED = "Accepted",
+    DECLINED = "Declined"
 }
 
 export enum OfferStatusDto {
-    AWAITING = 'AWAITING',
-    CANCELLED = 'CANCELLED',
-    ACCEPTED = 'ACCEPTED',
-    DECLINED = 'DECLINED'
+    AWAITING = "AWAITING",
+    CANCELLED = "CANCELLED",
+    ACCEPTED = "ACCEPTED",
+    DECLINED = "DECLINED"
 }
 
 export function statusToDtoString(status: OfferStatus): OfferStatusDto {

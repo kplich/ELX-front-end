@@ -1,5 +1,5 @@
-import {Offer, OfferResponse} from '@conversation/data/Offer';
-import {SimpleUser, SimpleUserResponse} from '@my-account/data/SimpleUser';
+import {Offer, OfferResponse} from "@conversation/data/Offer";
+import {SimpleUser, SimpleUserResponse} from "@my-account/data/SimpleUser";
 
 export class Message {
     id: number;

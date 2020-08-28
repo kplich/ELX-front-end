@@ -1,12 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Item} from '@items/data/Item';
-import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
-import {Router} from '@angular/router';
+import {Component, Input} from "@angular/core";
+import {Item} from "@items/data/Item";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {Router} from "@angular/router";
 
 @Component({
-    selector: 'item-card',
-    templateUrl: './item-card.component.html',
-    styleUrls: ['./item-card.component.scss']
+    selector: "item-card",
+    templateUrl: "./item-card.component.html",
+    styleUrls: ["./item-card.component.scss"]
 })
 export class ItemCardComponent {
 
@@ -26,7 +26,7 @@ export class ItemCardComponent {
 
     get itemPhotoUrl(): SafeUrl {
         if (this.item?.doesNotHavePhotos) {
-            return this.domSanitizer.bypassSecurityTrustUrl('assets/no-photo.png');
+            return this.domSanitizer.bypassSecurityTrustUrl("assets/no-photo.png");
         } else {
             return this.item?.getSafePhotoUrls(this.domSanitizer)[0];
         }

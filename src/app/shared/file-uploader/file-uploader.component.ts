@@ -1,23 +1,23 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AngularFireStorage} from '@angular/fire/storage';
-import {SnackBarService} from '@shared/snack-bar-service/snack-bar.service';
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {AngularFireStorage} from "@angular/fire/storage";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 
-export const BUTTON_TEXT = 'Upload photos';
-export const UPLOAD_SUCCESSFUL_MESSAGE = 'File uploaded successfully!';
-export const UPLOAD_ALL_SUCCESSFUL_MESSAGE = 'Uploaded all files!';
-export const UPLOAD_ERROR_MESSAGE = 'Could not upload file!';
-export const DELETE_SUCCESSFUL_MESSAGE = 'File deleted successfully!';
-export const DELETE_ERROR_MESSAGE = 'Could not delete file!';
+export const BUTTON_TEXT = "Upload photos";
+export const UPLOAD_SUCCESSFUL_MESSAGE = "File uploaded successfully!";
+export const UPLOAD_ALL_SUCCESSFUL_MESSAGE = "Uploaded all files!";
+export const UPLOAD_ERROR_MESSAGE = "Could not upload file!";
+export const DELETE_SUCCESSFUL_MESSAGE = "File deleted successfully!";
+export const DELETE_ERROR_MESSAGE = "Could not delete file!";
 
 @Component({
-    selector: 'app-file-uploader',
-    templateUrl: './file-uploader.component.html',
-    styleUrls: ['./file-uploader.component.scss']
+    selector: "app-file-uploader",
+    templateUrl: "./file-uploader.component.html",
+    styleUrls: ["./file-uploader.component.scss"]
 })
 export class FileUploaderComponent implements OnInit {
 
     @Input()
-    acceptedTypes = 'image/*';
+    acceptedTypes = "image/*";
 
     @Input()
     buttonText = BUTTON_TEXT;

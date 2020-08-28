@@ -1,5 +1,5 @@
-import {Item, ItemCategory} from '@items/data/Item';
-import {UsedStatus} from '@items/data/UsedStatus';
+import {Item, ItemCategory} from "@items/data/Item";
+import {UsedStatus} from "@items/data/UsedStatus";
 
 interface ItemFilteringProperties {
     readonly query: string;

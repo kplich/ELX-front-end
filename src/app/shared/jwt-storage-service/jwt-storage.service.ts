@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import * as jwt_decode from 'jwt-decode';
-import {SimpleUser} from '@my-account/data/SimpleUser';
+import { Injectable } from "@angular/core";
+import * as jwt_decode from "jwt-decode";
+import {SimpleUser} from "@my-account/data/SimpleUser";
 
-export const JWT_TAG = 'jwt';
+export const JWT_TAG = "jwt";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class JwtStorageService {
 
