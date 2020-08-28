@@ -1,8 +1,11 @@
 <form class="conversation-input">
     <!--TODO: Angular Material inputs are hell to style properly.-->
     <mat-form-field appearance="outline">
-        <mat-label>Your message</mat-label>
-        <input matInput placeholder="Enter your message">
+        <mat-label>{{strings.message.label}}</mat-label>
+        <input type="text" matInput [errorStateMatcher]="errorStateMatcher" [formControl]="controls.message">
+        <mat-error *ngIf="errors.message.notProvided">
+            {{strings.message.required}}
+        </mat-error>
     </mat-form-field>
     <button mat-icon-button>
         <mat-icon>euro_symbol</mat-icon>

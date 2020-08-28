@@ -100,6 +100,7 @@ export abstract class ItemEditBaseComponent {
         buttonAddItem: BUTTON_ADD_ITEM_TEXT,
         buttonUpdateItem: BUTTON_UPDATE_ITEM_TEXT
     };
+
     public readonly usedStatusValues = {
         used: statusToDtoString(UsedStatus.USED),
         new: statusToDtoString(UsedStatus.NEW),
