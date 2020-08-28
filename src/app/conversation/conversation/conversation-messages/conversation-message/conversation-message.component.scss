@@ -12,8 +12,9 @@
 
 .message-time {
     @include detail($mono: true);
+    margin-bottom: $dimen-xxs;
 }
 
 app-conversation-offer {
-    margin-top: $dimen-xs;
+    margin-top: $dimen-xxs;
 }

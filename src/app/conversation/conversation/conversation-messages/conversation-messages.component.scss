@@ -1,16 +1,33 @@
 @import 'src/dimens';
 
 :host {
-    display: block;
-}
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    max-height: 100%;
 
-.sent-by-self {
-    float: right;
-    background-color: lightblue;
+    .messages-container {
+        flex: 0 1 auto;
 
-}
+        display: flex;
+        flex-flow: column nowrap;
 
-.sent-by-other {
-    float: left;
-    background-color: lightgray;
+        overflow-y: auto;
+
+        .sent-by-self {
+            align-self: flex-end;
+            background-color: lightblue;
+        }
+
+        .sent-by-other {
+            align-self: flex-start;
+            background-color: lightgray;
+        }
+    }
+
+    app-conversation-message-input {
+        flex: 1 0 auto;
+
+        margin-top: $dimen-s
+    }
 }

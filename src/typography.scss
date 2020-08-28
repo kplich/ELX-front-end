@@ -72,7 +72,8 @@
         @include sansFont;
     }
 
-    @include fontSizeInPts(10);
+    @include fontSizeInPts(12);
     font-weight: 300;
     font-style: italic;
+    color: gray;
 }

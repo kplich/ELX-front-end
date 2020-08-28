@@ -6,6 +6,7 @@ import {ConversationItemDisplayComponent} from './conversation/conversation-item
 import {ConversationMessagesComponent} from './conversation/conversation-messages/conversation-messages.component';
 import {ConversationMessageComponent} from './conversation/conversation-messages/conversation-message/conversation-message.component';
 import {ConversationOfferComponent} from "./conversation/conversation-messages/conversation-message/conversation-offer/conversation-offer.component";
+import { ConversationMessageInputComponent } from './conversation/conversation-messages/conversation-message-input/conversation-message-input.component';
 
 @NgModule({
     declarations: [
@@ -13,7 +14,8 @@ import {ConversationOfferComponent} from "./conversation/conversation-messages/c
         ConversationItemDisplayComponent,
         ConversationMessagesComponent,
         ConversationMessageComponent,
-        ConversationOfferComponent
+        ConversationOfferComponent,
+        ConversationMessageInputComponent
     ],
     imports: [
         CommonModule,

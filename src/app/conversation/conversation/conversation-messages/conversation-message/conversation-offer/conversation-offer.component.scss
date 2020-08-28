@@ -22,8 +22,18 @@
 .offer-buttons {
     display: flex;
     flex-flow: row nowrap;
+    margin-top: $dimen-xs;
 
     button {
         flex: 1 1 auto;
+        margin: 0 $dimen-xxs;
     }
+}
+
+.offer-cancelled {
+    margin-top: $dimen-xs;
+
+    @include detail;
+
+    text-align: center;
 }
