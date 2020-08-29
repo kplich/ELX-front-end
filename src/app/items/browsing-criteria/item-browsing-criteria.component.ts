@@ -38,7 +38,7 @@ export function minimalPriceSmallerThanMaximalPriceValidator(formGroup: Abstract
 
     return minimalPriceInput.value < maximalPriceInput.value
         ? null
-        : {priceRangeInvalid: true};
+        : {advanceGreaterThanPrice: true};
 }
 
 @Component({

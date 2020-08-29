@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, AfterViewChecked} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {Observable} from "rxjs";
 import {map, tap} from "rxjs/operators";
@@ -14,20 +14,19 @@ import {NewMessageRequest} from "@conversation/message-form/conversation-message
     templateUrl: "./conversation.component.html",
     styleUrls: ["./conversation.component.scss"]
 })
-export class ConversationComponent implements OnInit, AfterViewChecked {
+export class ConversationComponent implements OnInit {
 
     item!: Observable<Item | undefined>;
     conversation!: Observable<Conversation | undefined>;
 
-    @ViewChild("conversationMessages") conversationMessages!: ElementRef;
+
     private itemId!: number;
 
     constructor(
         private activatedRoute: ActivatedRoute,
         private itemsService: ItemsService,
         private conversationService: ConversationService
-    ) {
-    }
+    ) {}
 
     ngOnInit(): void {
         console.log("conversation component ng on init!");
@@ -46,17 +45,6 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
         } else {
             console.warn("no id for item!");
         }
-    }
-
-    ngAfterViewChecked(): void {
-        this.scrollMessagesToBottom();
-    }
-
-    private scrollMessagesToBottom(): void {
-        (this.conversationMessages.nativeElement as HTMLElement).scrollBy({
-            top: (this.conversationMessages.nativeElement as HTMLElement).scrollHeight,
-            behavior: "smooth"
-        });
     }
 
     sendMessage(message: NewMessageRequest): void {

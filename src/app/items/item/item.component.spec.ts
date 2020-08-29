@@ -31,7 +31,7 @@ const fakeActivatedRoute = {
 
 const usualItem = new Item({
     id: 10,
-    title: "Item title",
+    formTitle: "Item title",
     description: "Item description",
     price: 5.567,
     addedBy: {
@@ -50,7 +50,7 @@ const usualItem = new Item({
 
 const closedItem = new Item({
     id: 10,
-    title: "Item title",
+    formTitle: "Item title",
     description: "Item description",
     price: 5.567,
     addedBy: {
@@ -69,7 +69,7 @@ const closedItem = new Item({
 
 const notApplicableStatusItem = new Item({
     id: 10,
-    title: "Item title",
+    formTitle: "Item title",
     description: "Item description",
     price: 5.567,
     addedBy: {

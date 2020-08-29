@@ -64,7 +64,7 @@ describe("ItemCardComponent", () => {
 
         const item = new Item({
             id: 10,
-            title: "Item title",
+            formTitle: "Item title",
             description: "Item description",
             price: 5.567,
             addedBy: {
@@ -103,7 +103,7 @@ describe("ItemCardComponent", () => {
 
         component.item = new Item({
             id: 10,
-            title: "Item title",
+            formTitle: "Item title",
             description: "Item description",
             price: 5.567,
             addedBy: {
@@ -130,7 +130,7 @@ describe("ItemCardComponent", () => {
         const itemId = 10;
         component.item = new Item({
             id: itemId,
-            title: "Item title",
+            formTitle: "Item title",
             description: "Item description",
             price: 5.567,
             addedBy: {

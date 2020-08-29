@@ -12,6 +12,7 @@ import {AuthenticationModule} from "@authentication/authentication.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {JwtInterceptor} from "@routing/jwt-interceptor/jwt.interceptor";
 import {ConversationModule} from "@conversation/conversation.module";
+import {OfferFormComponent} from "@conversation/offer-form/offer-form.component";
 
 @NgModule({
     declarations: [
@@ -31,6 +32,9 @@ import {ConversationModule} from "@conversation/conversation.module";
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+    ],
+    entryComponents: [
+        OfferFormComponent
     ],
     bootstrap: [AppComponent]
 })

@@ -8,6 +8,7 @@ import {ConversationMessageComponent} from "@conversation/message/conversation-m
 import {ConversationOfferComponent} from "@conversation/offer/conversation-offer.component";
 import {ConversationMessageFormComponent} from "@conversation/message-form/conversation-message-form.component";
 import {ReactiveFormsModule} from "@angular/forms";
+import {OfferFormComponent} from "./offer-form/offer-form.component";
 
 @NgModule({
     declarations: [
@@ -16,7 +17,8 @@ import {ReactiveFormsModule} from "@angular/forms";
         ConversationMessagesComponent,
         ConversationMessageComponent,
         ConversationOfferComponent,
-        ConversationMessageFormComponent
+        ConversationMessageFormComponent,
+        OfferFormComponent
     ],
     imports: [
         CommonModule,

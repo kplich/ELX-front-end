@@ -6,10 +6,10 @@
             {{strings.message.required}}
         </mat-error>
     </mat-form-field>
-    <button mat-icon-button>
-        <mat-icon>euro_symbol</mat-icon>
+    <button mat-raised-button (click)="openOfferForm()" [color]="offer === null ? 'accent' : 'warn'">
+        {{offer === null ? "Add offer" : "Edit offer"}}
     </button>
-    <button mat-icon-button [disabled]="errors.formIsInvalid" (click)="emitMessageRequest()">
+    <button mat-icon-button [disabled]="formCannotBeSent" (click)="emitMessageRequest()">
         <mat-icon>send</mat-icon>
     </button>
 </form>

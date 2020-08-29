@@ -16,6 +16,7 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
     declarations: [],
@@ -36,7 +37,8 @@ import {MatChipsModule} from "@angular/material/chips";
         MatRadioModule,
         MatProgressBarModule,
         MatCheckboxModule,
-        MatChipsModule
+        MatChipsModule,
+        MatDialogModule
     ],
     exports: [
         DragDropModule,
@@ -54,7 +56,8 @@ import {MatChipsModule} from "@angular/material/chips";
         MatRadioModule,
         MatProgressBarModule,
         MatCheckboxModule,
-        MatChipsModule
+        MatChipsModule,
+        MatDialogModule
     ]
 })
 export class MaterialModule {

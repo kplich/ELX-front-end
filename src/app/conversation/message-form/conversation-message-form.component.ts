@@ -1,16 +1,11 @@
 import {Component, OnInit, Output, EventEmitter} from "@angular/core";
 import {FormGroup, FormControl, Validators} from "@angular/forms";
-import {OfferType} from "@conversation/data/OfferType";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
+import {DialogService} from "@shared/dialog/dialog.service";
+import {NewOfferRequest, OfferFormComponent} from "@conversation/offer-form/offer-form.component";
 
 export const MESSAGE_LABEL = "Your message";
 export const MESSAGE_REQUIRED_MESSAGE = "Message is required if you're not sending an offer.";
-
-export interface NewOfferRequest {
-    type: OfferType;
-    price: number;
-    advance: number;
-}
 
 export interface NewMessageRequest {
     content: string;
@@ -18,7 +13,7 @@ export interface NewMessageRequest {
 }
 
 @Component({
-    selector: "app-conversation-message-input",
+    selector: "app-conversation-message-form",
     templateUrl: "./conversation-message-form.component.html",
     styleUrls: ["./conversation-message-form.component.scss"]
 })
@@ -30,6 +25,8 @@ export class ConversationMessageFormComponent implements OnInit {
             required: MESSAGE_REQUIRED_MESSAGE
         }
     };
+
+    offer: NewOfferRequest | null = null;
 
     @Output() messageSent = new EventEmitter<NewMessageRequest>();
 
@@ -50,18 +47,42 @@ export class ConversationMessageFormComponent implements OnInit {
         };
     }
 
-    constructor() {
+    get offerAdded(): boolean {
+        return this.offer !== null;
+    }
+
+    get formCannotBeSent(): boolean {
+        return this.offerAdded ? false : !this.form.valid;
+    }
+
+    constructor(private dialogService: DialogService) {
     }
 
     ngOnInit(): void {
     }
 
     emitMessageRequest(): void {
-        console.log("emitting!");
+        console.log("emitting!", {
+            content: this.controls.message.value,
+            offer: this.offer ? this.offer : undefined
+        });
+
         this.messageSent.emit({
-            content: this.controls.message.value
+            content: this.controls.message.value,
+            offer: this.offer ? this.offer : undefined
         });
 
         this.form.reset();
+        this.offer = null;
+    }
+
+    openOfferForm() {
+        this.dialogService.openDialogForData<NewOfferRequest | null | undefined>(OfferFormComponent, this.offer)
+            .subscribe(offer => {
+                console.log(offer);
+                if (offer !== undefined) {
+                    this.offer = offer;
+                }
+            });
     }
 }

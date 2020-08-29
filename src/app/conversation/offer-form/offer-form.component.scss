@@ -1,0 +1,19 @@
+@import "src/dimens";
+
+:host {
+    display: block;
+}
+
+.mat-form-field {
+    display: block;
+}
+
+mat-dialog-actions {
+    margin-bottom: 0;
+}
+
+.mat-form-error {
+    text-align: center;
+    font-size: 0.75em;
+    color: red;
+}
