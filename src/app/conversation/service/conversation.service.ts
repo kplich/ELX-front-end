@@ -24,12 +24,21 @@ export class ConversationService {
         return response.clone({body: new Conversation(response.body)});
     }
 
-    getConversation(itemId: number): Observable<HttpResponse<Conversation>> {
-        return this.http.get<ConversationResponse>(
-            `${ITEMS_API_URL}/${itemId}/conversation`,
-            {observe: "response"}).pipe(
-            map(ConversationService.transformToResponseWithEntity)
-        );
+    getConversation(itemId: number, subjectId: number | null): Observable<HttpResponse<Conversation>> {
+        if (subjectId) {
+            return this.http.get<ConversationResponse>(
+                `${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`,
+                {observe: "response"}).pipe(
+                map(ConversationService.transformToResponseWithEntity)
+            );
+        }
+        else {
+            return this.http.get<ConversationResponse>(
+                `${ITEMS_API_URL}/${itemId}/conversation`,
+                {observe: "response"}).pipe(
+                map(ConversationService.transformToResponseWithEntity)
+            );
+        }
     }
 
     sendMessage(itemId: number, messageRequest: NewMessageRequest): Observable<Conversation> {

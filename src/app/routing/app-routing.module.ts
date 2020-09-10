@@ -19,7 +19,7 @@ const routes: Routes = [
     {path: "items/add", component: AddItemComponent, canActivate: [LoggedInGuard]},
     {path: "items/:id/edit", component: UpdateItemComponent, canActivate: [LoggedInGuard]},
     {path: "items/:id", component: ItemComponent},
-    {path: "items/:id/conversation", component: ConversationComponent},
+    {path: "items/:id/conversation", component: ConversationComponent, canActivate: [LoggedInGuard]},
     {path: "my-account", component: MyAccountComponent, canActivate: [LoggedInGuard]},
     {path: "offer", component: OfferComponent, canActivate: [LoggedInGuard]},
     {path: "", component: ItemBrowsingComponent}

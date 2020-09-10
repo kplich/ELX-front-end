@@ -20,8 +20,8 @@ export class ConversationComponent implements OnInit {
     item!: Observable<Item | undefined>;
     conversation!: Observable<Conversation | undefined>;
 
-
     private itemId!: number;
+    private subjectId!: number | null;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -34,18 +34,22 @@ export class ConversationComponent implements OnInit {
         const itemIdString = this.activatedRoute.snapshot.paramMap.get("id");
         if (itemIdString) {
             this.itemId = parseInt(itemIdString, 10);
+
             this.item = this.itemsService.getItem(this.itemId)
                 .pipe(
                     map(response => response.body ? response.body : undefined)
                 );
-            this.conversation = this.getConversation(this.itemId);
+
+            const subjectIdString = this.activatedRoute.snapshot.queryParamMap.get("subjectId");
+            this.subjectId = subjectIdString ? parseInt(subjectIdString, 10) : null;
+            this.conversation = this.getConversation(this.itemId, this.subjectId);
         } else {
             console.warn("no id for item!");
         }
     }
 
-    private getConversation(itemId: number) {
-        return this.conversationService.getConversation(itemId)
+    private getConversation(itemId: number, subjectId: number | null) {
+        return this.conversationService.getConversation(itemId, subjectId)
             .pipe(
                 catchError(_ => of(new HttpResponse())),
                 map(response => response.body ? response.body : undefined),
@@ -65,7 +69,7 @@ export class ConversationComponent implements OnInit {
             _ => {},
             err => console.error(err),
             () => {
-                this.conversation = this.getConversation(this.itemId);
+                this.conversation = this.getConversation(this.itemId, this.subjectId);
             }
         );
     }
@@ -75,7 +79,7 @@ export class ConversationComponent implements OnInit {
             _ => {},
             err => console.error(err),
             () => {
-                this.conversation = this.getConversation(this.itemId);
+                this.conversation = this.getConversation(this.itemId, this.subjectId);
             }
         );
     }
