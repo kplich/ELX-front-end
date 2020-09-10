@@ -40,4 +40,22 @@ export class ConversationService {
             map(response => new Conversation(response))
         );
     }
+
+    acceptOffer(offerId: number, contractAddress: string): Observable<null> {
+        return this.http.put(`${ITEMS_API_URL}/${offerId}/accept`, {contractAddress}).pipe(
+            map(_ => null)
+        );
+    }
+
+    declineOffer(offerId: number): Observable<null> {
+        return this.http.put(`${ITEMS_API_URL}/${offerId}/decline`, undefined).pipe(
+            map(_ => null)
+        );
+    }
+
+    cancelOffer(offerId: number): Observable<null> {
+        return this.http.put(`${ITEMS_API_URL}/${offerId}/cancel`, undefined).pipe(
+            map(_ => null)
+        );
+    }
 }

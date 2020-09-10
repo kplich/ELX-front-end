@@ -1,4 +1,5 @@
 @import 'src/dimens';
+@import 'src/typography';
 
 :host {
     display: flex;
@@ -7,7 +8,7 @@
     max-height: 100%;
 
     .messages-container {
-        flex: 0 1 auto;
+        flex: 1 1 auto;
 
         display: flex;
         flex-flow: column nowrap;
@@ -25,9 +26,21 @@
         }
     }
 
-    app-conversation-message-input {
-        flex: 1 0 auto;
+    .no-message-container {
+        flex: 1 1 auto;
 
-        margin-top: $dimen-s
+        display: flex;
+        flex-flow: column nowrap;
+
+        align-items: center;
+        justify-content: center;
+
+        @include detail;
+    }
+
+    app-conversation-message-form {
+        flex: 0 0 auto;
+
+        margin-top: $dimen-xs
     }
 }

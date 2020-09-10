@@ -41,7 +41,7 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
     <button mat-raised-button color="warn" [mat-dialog-close]="null">{{strings.buttons.delete}}</button>
-    <button mat-raised-button color="primary" mat-dialog-close>{{strings.buttons.cancel}}</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="undefined">{{strings.buttons.cancel}}</button>
     <button mat-raised-button color="accent"
             [disabled]="form.invalid"
             [mat-dialog-close]="request">{{strings.buttons.save}}</button>

@@ -1,13 +1,14 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
-import {Observable} from "rxjs";
-import {map, tap} from "rxjs/operators";
+import {Observable, of} from "rxjs";
+import {catchError, map, tap} from "rxjs/operators";
 
 import {Conversation} from "@conversation/data/Conversation";
 import {ConversationService} from "@conversation/service/conversation.service";
 import {ItemsService} from "@items/service/items.service";
 import {Item} from "@items/data/Item";
 import {NewMessageRequest} from "@conversation/message-form/conversation-message-form.component";
+import {HttpResponse} from "@angular/common/http";
 
 @Component({
     selector: "app-conversation",
@@ -37,14 +38,19 @@ export class ConversationComponent implements OnInit {
                 .pipe(
                     map(response => response.body ? response.body : undefined)
                 );
-            this.conversation = this.conversationService.getConversation(this.itemId)
-                .pipe(
-                    map(response => response.body ? response.body : undefined),
-                    tap(console.log)
-                );
+            this.conversation = this.getConversation(this.itemId);
         } else {
             console.warn("no id for item!");
         }
+    }
+
+    private getConversation(itemId: number) {
+        return this.conversationService.getConversation(itemId)
+            .pipe(
+                catchError(_ => of(new HttpResponse())),
+                map(response => response.body ? response.body : undefined),
+                tap(console.log)
+            );
     }
 
     sendMessage(message: NewMessageRequest): void {
@@ -52,5 +58,29 @@ export class ConversationComponent implements OnInit {
             this.itemId,
             message
         );
+    }
+
+    cancelOffer(offerId: number) {
+        this.conversationService.cancelOffer(offerId).subscribe(
+            _ => {},
+            err => console.error(err),
+            () => {
+                this.conversation = this.getConversation(this.itemId);
+            }
+        );
+    }
+
+    declineOffer(offerId: number) {
+        this.conversationService.declineOffer(offerId).subscribe(
+            _ => {},
+            err => console.error(err),
+            () => {
+                this.conversation = this.getConversation(this.itemId);
+            }
+        );
+    }
+
+    acceptOffer(offerId: number) {
+        console.log("accepting offer! :D");
     }
 }
