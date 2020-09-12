@@ -71,12 +71,11 @@ export class AppComponent {
         return this.loggedInUserService.authenticatedUser;
     }
 
-    // noinspection JSUnusedLocalSymbols - called from template using callFunction
     private logOut() {
-        this.authenticationService.logOut().then(_ => window.location.reload());
+        this.authenticationService.logOut();
+        window.location.reload();
     }
 
-    // noinspection JSUnusedLocalSymbols - called from template using callFunction
     private navigateToLogIn() {
         console.log("navigating to log-in");
         this.router.navigateByUrl("/log-in").then(_ => {
@@ -84,19 +83,16 @@ export class AppComponent {
         });
     }
 
-    // noinspection JSUnusedLocalSymbols - called from template using callFunction
     private navigateToMyAccount() {
         this.router.navigateByUrl("/my-account").then(_ => {
         });
     }
 
-    // noinspection JSUnusedLocalSymbols - called from template using callFunction
     private navigateToItems() {
         this.router.navigateByUrl("/items").then(_ => {
         });
     }
 
-    // noinspection JSUnusedLocalSymbols - called from template using callFunction
     private navigateToAddItem() {
         this.router.navigateByUrl("/items/add").then(_ => {
         });

@@ -56,7 +56,7 @@ export class AuthenticationService {
         );
     }
 
-    logOut(): Promise<void> {
-        return new Promise(_ => this.jwtStorageService.removeJwt());
+    logOut(): void {
+        this.jwtStorageService.removeJwt();
     }
 }
