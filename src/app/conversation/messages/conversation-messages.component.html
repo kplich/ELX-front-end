@@ -11,4 +11,6 @@
 <div class="no-message-container" *ngIf="conversation === undefined">
     No messages in this conversation! Send the first one!
 </div>
-<app-conversation-message-form (messageSent)="emitMessage($event)"></app-conversation-message-form>
+<app-conversation-message-form
+    (messageSent)="emitMessage($event)">
+</app-conversation-message-form>

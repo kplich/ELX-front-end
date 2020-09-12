@@ -24,21 +24,20 @@ export class ConversationService {
         return response.clone({body: new Conversation(response.body)});
     }
 
-    getConversation(itemId: number, subjectId: number | null): Observable<HttpResponse<Conversation>> {
-        if (subjectId) {
-            return this.http.get<ConversationResponse>(
-                `${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`,
-                {observe: "response"}).pipe(
-                map(ConversationService.transformToResponseWithEntity)
-            );
-        }
-        else {
-            return this.http.get<ConversationResponse>(
-                `${ITEMS_API_URL}/${itemId}/conversation`,
-                {observe: "response"}).pipe(
-                map(ConversationService.transformToResponseWithEntity)
-            );
-        }
+    getConversation(itemId: number): Observable<HttpResponse<Conversation>> {
+        return this.http.get<ConversationResponse>(
+            `${ITEMS_API_URL}/${itemId}/conversation`,
+            {observe: "response"}).pipe(
+            map(ConversationService.transformToResponseWithEntity)
+        );
+    }
+
+    getConversationWithSubject(itemId: number, subjectId: number): Observable<HttpResponse<Conversation>> {
+        return this.http.get<ConversationResponse>(
+            `${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`,
+            {observe: "response"}).pipe(
+            map(ConversationService.transformToResponseWithEntity)
+        );
     }
 
     sendMessage(itemId: number, messageRequest: NewMessageRequest): Observable<Conversation> {
@@ -50,21 +49,30 @@ export class ConversationService {
         );
     }
 
-    acceptOffer(offerId: number, contractAddress: string): Observable<null> {
-        return this.http.put(`${ITEMS_API_URL}/${offerId}/accept`, {contractAddress}).pipe(
-            map(_ => null)
+    acceptOffer(offerId: number, contractAddress: string): Observable<Conversation> {
+        return this.http.put<ConversationResponse>(
+            `${ITEMS_API_URL}/${offerId}/accept`,
+            {contractAddress}
+        ).pipe(
+            map(response => new Conversation(response))
         );
     }
 
-    declineOffer(offerId: number): Observable<null> {
-        return this.http.put(`${ITEMS_API_URL}/${offerId}/decline`, undefined).pipe(
-            map(_ => null)
+    declineOffer(offerId: number): Observable<Conversation> {
+        return this.http.put<ConversationResponse>(
+            `${ITEMS_API_URL}/${offerId}/decline`,
+            undefined
+        ).pipe(
+            map(response => new Conversation(response))
         );
     }
 
-    cancelOffer(offerId: number): Observable<null> {
-        return this.http.put(`${ITEMS_API_URL}/${offerId}/cancel`, undefined).pipe(
-            map(_ => null)
+    cancelOffer(offerId: number): Observable<Conversation> {
+        return this.http.put<ConversationResponse>(
+            `${ITEMS_API_URL}/${offerId}/cancel`,
+            undefined
+        ).pipe(
+            map(response => new Conversation(response))
         );
     }
 }

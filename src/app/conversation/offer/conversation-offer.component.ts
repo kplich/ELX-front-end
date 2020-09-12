@@ -13,9 +13,9 @@ export const STRINGS = {
         acceptLabel: "Accept"
     },
     notices: {
-        cancelled: "Offer has been cancelled by sender.",
-        declined: "You declined the offer.",
-        accepted: "You accepted the offer!"
+        cancelled: "Offer has been cancelled.",
+        declined: "Offer has been declined.",
+        accepted: "Offer has been accepted!"
     }
 };
 

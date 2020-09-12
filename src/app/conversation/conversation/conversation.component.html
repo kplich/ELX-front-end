@@ -1,8 +1,8 @@
 <app-conversation-item-display
-    [item]="(item | async)">
+    [item]="(item$ | async)">
 </app-conversation-item-display>
 <app-conversation-messages
-    [conversation]="(conversation | async)"
+    [conversation]="(conversation$ | async)"
     (messageSent)="sendMessage($event)"
     (offerCancelled)="cancelOffer($event)"
     (offerDeclined)="declineOffer($event)"

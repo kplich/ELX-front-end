@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, of} from "rxjs";
 import {catchError, map, tap} from "rxjs/operators";
 
@@ -9,6 +9,12 @@ import {ItemsService} from "@items/service/items.service";
 import {Item} from "@items/data/Item";
 import {NewMessageRequest} from "@conversation/message-form/conversation-message-form.component";
 import {HttpResponse} from "@angular/common/http";
+import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
+
+export const STRINGS = {
+    error: "An error occurred."
+};
 
 @Component({
     selector: "app-conversation",
@@ -17,70 +23,116 @@ import {HttpResponse} from "@angular/common/http";
 })
 export class ConversationComponent implements OnInit {
 
-    item!: Observable<Item | undefined>;
-    conversation!: Observable<Conversation | undefined>;
+    item$!: Observable<Item | undefined>;
+    conversation$!: Observable<Conversation | undefined>;
 
     private itemId!: number;
     private subjectId!: number | null;
 
     constructor(
+        private loggedInUserService: LoggedInUserService,
+        private router: Router,
         private activatedRoute: ActivatedRoute,
         private itemsService: ItemsService,
-        private conversationService: ConversationService
+        private conversationService: ConversationService,
+        private snackBarService: SnackBarService
     ) {}
 
     ngOnInit(): void {
-        console.log("conversation component ng on init!");
+        const loggedInUser = this.loggedInUserService.authenticatedUser;
+        if (loggedInUser === null) {
+            this.router.navigateByUrl("/log-in").then(() => {});
+        }
+
         const itemIdString = this.activatedRoute.snapshot.paramMap.get("id");
         if (itemIdString) {
             this.itemId = parseInt(itemIdString, 10);
 
-            this.item = this.itemsService.getItem(this.itemId)
+            this.item$ = this.itemsService.getItem(this.itemId)
                 .pipe(
                     map(response => response.body ? response.body : undefined)
                 );
 
             const subjectIdString = this.activatedRoute.snapshot.queryParamMap.get("subjectId");
             this.subjectId = subjectIdString ? parseInt(subjectIdString, 10) : null;
-            this.conversation = this.getConversation(this.itemId, this.subjectId);
+
+            this.loadConversation();
         } else {
             console.warn("no id for item!");
         }
     }
 
-    private getConversation(itemId: number, subjectId: number | null) {
-        return this.conversationService.getConversation(itemId, subjectId)
+    private loadConversation() {
+        if (this.subjectId === null) {
+            this.conversation$ = this.getConversation(this.itemId);
+        } else {
+            this.conversation$ = this.getConversationWithSubject(this.itemId, this.subjectId);
+        }
+    }
+
+    private getConversationWithSubject(itemId: number, subjectId: number) {
+        return this.conversationService.getConversationWithSubject(itemId, subjectId)
             .pipe(
-                catchError(_ => of(new HttpResponse())),
+                catchError(error => {
+                    // if this user hasn't started a conversation, owner cannot start it
+                    if (error.status === 404) {
+                        this.router.navigateByUrl(`/items/${this.itemId}`).then(() => {
+                            this.snackBarService.openSnackBar(STRINGS.error);
+                        });
+                    }
+
+                    // owner cannot have a conversation with self
+                    if (error.status === 400) {
+                        this.router.navigateByUrl(`/items/${this.itemId}`).then(() => {
+                            this.snackBarService.openSnackBar(STRINGS.error);
+                        });
+                    }
+
+                    return of(new HttpResponse());
+                }),
+                map(response => response.body ? response.body : undefined),
+                tap(console.log)
+            );
+    }
+
+    private getConversation(itemId: number) {
+        return this.conversationService.getConversation(itemId)
+            .pipe(
+                catchError(error => {
+                    // if there's no conversation about the item, other user can start it
+
+                    // subject id is necessary
+                    if (error.status === 400) {
+                        this.router.navigateByUrl(`/items/${this.itemId}`).then(() => {
+                            this.snackBarService.openSnackBar(STRINGS.error);
+                        });
+                    }
+
+                    return of(new HttpResponse());
+                }),
                 map(response => response.body ? response.body : undefined),
                 tap(console.log)
             );
     }
 
     sendMessage(message: NewMessageRequest): void {
-        this.conversation = this.conversationService.sendMessage(
+        this.conversation$ = this.conversationService.sendMessage(
             this.itemId,
             message
         );
     }
 
     cancelOffer(offerId: number) {
-        this.conversationService.cancelOffer(offerId).subscribe(
-            _ => {},
-            err => console.error(err),
-            () => {
-                this.conversation = this.getConversation(this.itemId, this.subjectId);
-            }
+        this.conversation$ = this.conversationService.cancelOffer(offerId).pipe(
+            catchError(_ => of(undefined)),
+            tap(console.log)
         );
     }
 
     declineOffer(offerId: number) {
-        this.conversationService.declineOffer(offerId).subscribe(
-            _ => {},
-            err => console.error(err),
-            () => {
-                this.conversation = this.getConversation(this.itemId, this.subjectId);
-            }
+        this.conversation$ = this.conversationService.declineOffer(offerId).pipe(
+            catchError(_ => of(undefined)),
+            tap(console.log)
         );
     }
 
