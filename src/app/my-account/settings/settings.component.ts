@@ -1,6 +1,12 @@
 import {HttpErrorResponse} from "@angular/common/http";
 import {Component, OnInit} from "@angular/core";
-import {FormControl, FormGroup, Validators, ValidationErrors, AbstractControl} from "@angular/forms";
+import {
+    AbstractControl,
+    FormControl,
+    FormGroup,
+    ValidationErrors,
+    Validators
+} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "@authentication/authentication-service/authentication.service";
@@ -171,12 +177,11 @@ export class SettingsComponent implements OnInit {
             .changePassword(this.passwordChangeRequest)
             .subscribe({
                 next: () => {
-                    this.authenticationService.logOut().then(() => {
-                        this.router.navigateByUrl("/browse-items").then(() => {
-                            this.snackBarService.openSnackBar(
-                                PASSWORD_CHANGED_SUCCESSFULLY_MESSAGE
-                            );
-                        });
+                    this.authenticationService.logOut();
+                    this.router.navigateByUrl("/browse-items").then(() => {
+                        this.snackBarService.openSnackBar(
+                            PASSWORD_CHANGED_SUCCESSFULLY_MESSAGE
+                        );
                     });
                 },
                 error: (error) => this.openSnackBarOnError(error),
