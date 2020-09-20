@@ -1,16 +1,17 @@
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Observable, of} from "rxjs";
-import {catchError, map, tap} from "rxjs/operators";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable, of} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
 
-import {Conversation} from "@conversation/data/Conversation";
-import {ConversationService} from "@conversation/service/conversation.service";
-import {ItemsService} from "@items/service/items.service";
-import {Item} from "@items/data/Item";
-import {NewMessageRequest} from "@conversation/message-form/conversation-message-form.component";
-import {HttpResponse} from "@angular/common/http";
-import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
-import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
+import {Conversation} from '@conversation/data/Conversation';
+import {ConversationService} from '@conversation/service/conversation/conversation.service';
+import {ItemsService} from '@items/service/items.service';
+import {Item} from '@items/data/Item';
+import {NewMessageRequest} from '@conversation/message-form/conversation-message-form.component';
+import {HttpResponse} from '@angular/common/http';
+import {LoggedInUserService} from '@shared/logged-in-user/logged-in-user.service';
+import {SnackBarService} from '@shared/snack-bar-service/snack-bar.service';
+import {OfferContractService} from '@conversation/service/offer-contract/offer-contract.service';
 
 export const STRINGS = {
     error: "An error occurred."
@@ -35,6 +36,7 @@ export class ConversationComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private itemsService: ItemsService,
         private conversationService: ConversationService,
+        private offerContractService: OfferContractService,
         private snackBarService: SnackBarService
     ) {}
 
@@ -137,6 +139,7 @@ export class ConversationComponent implements OnInit {
     }
 
     acceptOffer(offerId: number) {
-        console.log("accepting offer! :D");
+        this.offerContractService.createContract().then(contract => console.log(contract));
+
     }
 }
