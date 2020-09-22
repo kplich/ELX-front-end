@@ -1,0 +1,24 @@
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ strings.accountSettings.title }}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{ strings.accountSettings.description }}
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="settings-section">
+            <div class="settings-section-header">
+                {{ strings.accountSettings.changePasswordHeader }}
+            </div>
+            <app-change-password (changePasswordRequest)="sendPasswordChangeRequest($event)"
+                                 class="settings-section-content"></app-change-password>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="settings-section">
+            <div class="settings-section-header">Dummy section</div>
+            <div>no content here</div>
+        </div>
+    </mat-expansion-panel>
+</mat-accordion>
