@@ -2,7 +2,7 @@
     <mat-form-field appearance="outline" id="username-form-field">
         <mat-label>{{strings.username.label}}</mat-label>
         <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.username" matInput>
-        <mat-hint *ngIf="!controls.username.touched">
+        <mat-hint *ngIf="neitherTouchedNorDirty.username">
             {{strings.username.hint}}
         </mat-hint>
         <mat-error *ngIf="errors.username.notProvided()">
@@ -23,7 +23,7 @@
         <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.password"
                matInput
                type="password">
-        <mat-hint *ngIf="!controls.password.touched">
+        <mat-hint *ngIf="neitherTouchedNorDirty.password">
             {{strings.password.hint}}
         </mat-hint>
         <mat-error *ngIf="errors.password.notProvided()">
@@ -37,6 +37,16 @@
         </mat-error>
         <mat-error *ngIf="errors.password.doesntMatchPattern()">
             {{strings.password.doesntMatchPattern}}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>{{strings.ethereumAddress.label}}</mat-label>
+        <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.ethereumAddress"
+               matInput
+               type="text">
+        <mat-hint>{{strings.ethereumAddress.hint}}</mat-hint>
+        <mat-error *ngIf="errors.ethereumAddress.tooShortOrTooLong">
+            {{strings.ethereumAddress.tooShortOrTooLong}}
         </mat-error>
     </mat-form-field>
     <button (click)="register()" [disabled]="form.invalid" class="register-btn" color="accent"
