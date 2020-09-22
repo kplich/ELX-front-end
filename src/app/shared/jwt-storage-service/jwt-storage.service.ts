@@ -33,7 +33,7 @@ export class JwtStorageService {
             const payload = jwt_decode<JwtDto>(token);
             return new SimpleUser({
                 id: parseInt(payload.sub, 10),
-                ethereumAddress: payload.ethereumAddress,
+                ethereumAddress: payload.eth_address,
                 username: payload.username
             });
         }
@@ -42,6 +42,6 @@ export class JwtStorageService {
 
 interface JwtDto {
     sub: string;
-    ethereumAddress: string | null;
+    eth_address: string | null;
     username: string;
 }

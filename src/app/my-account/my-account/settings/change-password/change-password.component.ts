@@ -41,8 +41,6 @@ export function passwordsNotEqualValidator(form: AbstractControl): ValidationErr
         throw new Error("form controls not found");
     }
 
-    console.log("passwords not equal?");
-
     return oldPassword.value === newPassword.value ? {passwordsmatch: true} : null;
 }
 

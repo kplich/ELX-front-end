@@ -1,9 +1,11 @@
 import {HttpErrorResponse} from "@angular/common/http";
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "src/app/authentication/authentication-service/authentication.service";
 import {PasswordChangeRequest} from "src/app/authentication/data/PasswordChangeRequest";
 import {SnackBarService} from "src/app/shared/snack-bar-service/snack-bar.service";
+import {SimpleUser} from "@my-account/data/SimpleUser";
+import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 
 export const INVALID_DATA_MESSAGE = "Invalid request data!";
 export const SERVER_ERROR_MESSAGE = "Server error, try again!";
@@ -13,7 +15,8 @@ export const STRINGS = {
     accountSettings: {
         title: "Account settings",
         description: "Change password, link your Ethereum wallet, etc.",
-        changePasswordHeader: "Change password"
+        changePasswordHeader: "Change password",
+        ethereumAddressHeader: "Your Ethereum address"
     }
 };
 
@@ -22,14 +25,27 @@ export const STRINGS = {
     templateUrl: "./settings.component.html",
     styleUrls: ["./settings.component.scss"],
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit {
     readonly strings = STRINGS;
 
+    loggedInUser!: SimpleUser;
+
     constructor(
+        private loggedInUserService: LoggedInUserService,
         private authenticationService: AuthenticationService,
         private router: Router,
         private snackBarService: SnackBarService
     ) {
+    }
+
+    ngOnInit() {
+        const loggedInUser = this.loggedInUserService.authenticatedUser;
+
+        if (loggedInUser === null) {
+            throw new Error("Logged in user must exist!");
+        }
+
+        this.loggedInUser = loggedInUser;
     }
 
     sendPasswordChangeRequest(request: PasswordChangeRequest) {

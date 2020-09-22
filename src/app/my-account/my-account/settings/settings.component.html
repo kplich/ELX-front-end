@@ -17,8 +17,9 @@
         </div>
         <mat-divider></mat-divider>
         <div class="settings-section">
-            <div class="settings-section-header">Dummy section</div>
-            <div>no content here</div>
+            <div class="settings-section-header">{{ strings.accountSettings.ethereumAddressHeader}}</div>
+            <app-ethereum-address [loggedInUser]="this.loggedInUser"
+                                  class="settings-section-content"></app-ethereum-address>
         </div>
     </mat-expansion-panel>
 </mat-accordion>
