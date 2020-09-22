@@ -13,10 +13,11 @@ import {AngularFireStorageModule} from "@angular/fire/storage";
         PhotoUploaderComponent,
     ],
     imports: [
-      AngularFireModule.initializeApp(environment.firebaseConfig),
-      AngularFireStorageModule,
-      CommonModule,
-      MaterialModule
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireStorageModule,
+        CommonModule,
+        MaterialModule
     ]
 })
-export class SharedModule { }
+export class SharedModule {
+}

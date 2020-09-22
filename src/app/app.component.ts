@@ -16,16 +16,10 @@ export const BUTTON_LOG_IN_TEXT = "Log in";
     styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-    constructor(
-        private authenticationService: AuthenticationService,
-        private loggedInUserService: LoggedInUserService,
-        private router: Router) {
-    }
-
     /**
      * All links that can be displayed in the toolbar.
      */
-        // tslint:disable-next-line:variable-name
+    // tslint:disable-next-line:variable-name
     private readonly _toolbarLinks: ToolbarLink[] = [
         {
             displayedName: ADD_ITEM,
@@ -53,6 +47,12 @@ export class AppComponent {
             authenticationRequired: false
         }
     ];
+
+    constructor(
+        private authenticationService: AuthenticationService,
+        private loggedInUserService: LoggedInUserService,
+        private router: Router) {
+    }
 
     /**
      * Toolbar links filtered depending on user's authentication.

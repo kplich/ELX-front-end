@@ -4,17 +4,17 @@ import {SnackBarService} from "./snack-bar.service";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 
 describe("SnackBarService", () => {
-  let service: SnackBarService;
+    let service: SnackBarService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [SnackBarService, MatSnackBar],
-      imports: [MatSnackBarModule]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            providers: [SnackBarService, MatSnackBar],
+            imports: [MatSnackBarModule]
+        });
+        service = TestBed.inject(SnackBarService);
     });
-    service = TestBed.inject(SnackBarService);
-  });
 
-  it("should be created", () => {
-    expect(service).toBeTruthy();
-  });
+    it("should be created", () => {
+        expect(service).toBeTruthy();
+    });
 });
