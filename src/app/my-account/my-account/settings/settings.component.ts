@@ -1,11 +1,13 @@
 import {HttpErrorResponse} from "@angular/common/http";
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, OnDestroy} from "@angular/core";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "src/app/authentication/authentication-service/authentication.service";
 import {PasswordChangeRequest} from "src/app/authentication/data/PasswordChangeRequest";
 import {SnackBarService} from "src/app/shared/snack-bar-service/snack-bar.service";
 import {SimpleUser} from "@my-account/data/SimpleUser";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import {Web3Service} from "@shared/web3/web3.service";
+import { Subscription } from "rxjs";
 
 export const INVALID_DATA_MESSAGE = "Invalid request data!";
 export const SERVER_ERROR_MESSAGE = "Server error, try again!";
@@ -26,12 +28,16 @@ export const STRINGS = {
     templateUrl: "./settings.component.html",
     styleUrls: ["./settings.component.scss"],
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
     readonly strings = STRINGS;
 
     loggedInUser!: SimpleUser;
 
+    private accountsSubscription!: Subscription;
+    accounts!: string[];
+
     constructor(
+        private web3Service: Web3Service,
         private loggedInUserService: LoggedInUserService,
         private authenticationService: AuthenticationService,
         private router: Router,
@@ -47,6 +53,15 @@ export class SettingsComponent implements OnInit {
         }
 
         this.loggedInUser = loggedInUser;
+
+        this.accountsSubscription = this.web3Service.accounts$.subscribe({
+            next: newAccounts => this.accounts = newAccounts,
+            error: err => console.error(err)
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.accountsSubscription.unsubscribe();
     }
 
     sendPasswordChangeRequest(request: PasswordChangeRequest) {

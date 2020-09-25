@@ -3,10 +3,10 @@
 </div>
 
 <div class="ethereum-address-message">
-    <div *ngIf="(userIsLoggedInWithDeclaredAccount() | async)">You're logged in with your Ethereum address. Happy
-        shopping!
+    <div *ngIf="userIsLoggedInWithDeclaredAccount()">
+        You're logged in with your Ethereum address. Happy shopping!
     </div>
-    <div *ngIf="!(userIsLoggedInWithDeclaredAccount() | async)">You're not logged in with your Ethereum address. Log in
-        and refresh the page.
+    <div *ngIf="!userIsLoggedInWithDeclaredAccount()">
+        You're not logged in with your Ethereum address. Log in to be able to accept or send offers.
     </div>
 </div>

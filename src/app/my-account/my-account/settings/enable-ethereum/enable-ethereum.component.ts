@@ -1,6 +1,4 @@
-import {Component, Inject} from "@angular/core";
-import {WEB3} from "@shared/web3-token";
-import Web3 from "web3";
+import {Component, Input} from "@angular/core";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 
 @Component({
@@ -10,20 +8,21 @@ import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 })
 export class EnableEthereumComponent {
 
-    constructor(@Inject(WEB3) private web3: Web3,
-                private snackBarService: SnackBarService) {
+    @Input() accounts!: string[];
+
+    constructor(private snackBarService: SnackBarService) {
     }
 
-    async noEthereumAddressIsLoggedIn(): Promise<boolean> {
-        console.log((await this.web3.eth.getAccounts()).length);
-        console.log((await this.web3.eth.getAccounts()).length === 0);
-        return (await this.web3.eth.getAccounts()).length === 0;
+    get noEthereumAddressIsLoggedIn(): boolean {
+        return this.accounts.length === 0;
     }
 
     connectToBlockchain() {
-        window.ethereum.enable().catch(() => {
+        window.ethereum.enable()
+            .catch(() => {
             this.snackBarService.openSnackBar("You did not allow the wallet to connect.");
-        }).then(() => {
+        })
+            .then(() => {
             this.snackBarService.openSnackBar("You're connected to blockchain!");
         });
     }

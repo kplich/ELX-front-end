@@ -1,5 +1,5 @@
 <ng-template
-        *ngIf="(noEthereumAddressIsLoggedIn() | async) then noEthereumAddresses; else ethereumAddressFound"></ng-template>
+        *ngIf="noEthereumAddressIsLoggedIn then noEthereumAddresses; else ethereumAddressFound"></ng-template>
 <ng-template #noEthereumAddresses>
     <div>
         You're not connected to the blockchain. Click the button to enable our website to interact with blockchain.
