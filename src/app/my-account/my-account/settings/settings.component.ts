@@ -16,7 +16,8 @@ export const STRINGS = {
         title: "Account settings",
         description: "Change password, link your Ethereum wallet, etc.",
         changePasswordHeader: "Change password",
-        ethereumAddressHeader: "Your Ethereum address"
+        ethereumAddressHeader: "Your Ethereum address",
+        enableEthereumHeader: "Enable Ethereum"
     }
 };
 

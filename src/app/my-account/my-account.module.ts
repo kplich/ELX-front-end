@@ -9,6 +9,7 @@ import {SettingsComponent} from "@my-account/my-account/settings/settings.compon
 import {ReactiveFormsModule} from "@angular/forms";
 import {ChangePasswordComponent} from "@my-account/my-account/settings/change-password/change-password.component";
 import {EthereumAddressComponent} from "./my-account/settings/ethereum-address/ethereum-address.component";
+import {EnableEthereumComponent} from "./my-account/settings/enable-ethereum/enable-ethereum.component";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {EthereumAddressComponent} from "./my-account/settings/ethereum-address/e
       ItemSoldOfferComponent,
       SettingsComponent,
       ChangePasswordComponent,
-      EthereumAddressComponent
+      EthereumAddressComponent,
+      EnableEthereumComponent
   ],
   imports: [
     CommonModule,

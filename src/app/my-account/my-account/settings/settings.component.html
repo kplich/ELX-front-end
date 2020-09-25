@@ -21,5 +21,10 @@
             <app-ethereum-address [loggedInUser]="this.loggedInUser"
                                   class="settings-section-content"></app-ethereum-address>
         </div>
+        <mat-divider></mat-divider>
+        <div class="settings-section">
+            <div class="settings-section-header">{{ strings.accountSettings.enableEthereumHeader}}</div>
+            <app-enable-ethereum></app-enable-ethereum>
+        </div>
     </mat-expansion-panel>
 </mat-accordion>

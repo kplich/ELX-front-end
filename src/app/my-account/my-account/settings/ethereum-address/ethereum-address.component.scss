@@ -1,0 +1,9 @@
+@import "src/typography";
+
+.ethereum-address {
+    @include body-accent
+}
+
+.ethereum-address-message {
+    @include detail;
+}
