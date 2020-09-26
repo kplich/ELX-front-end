@@ -12,6 +12,7 @@ import {HttpResponse} from "@angular/common/http";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {OfferContractService} from "@conversation/service/offer-contract/offer-contract.service";
+import {AcceptedOfferData} from "@conversation/messages/conversation-messages.component";
 
 export const STRINGS = {
     error: "An error occurred."
@@ -138,10 +139,16 @@ export class ConversationComponent implements OnInit {
         );
     }
 
-    acceptOffer(offerId: number) {
-        this.offerContractService.createContract().then(contract => {
-            this.conversation$ = this.conversationService.acceptOffer(offerId, contract.address);
+    acceptOffer(acceptedOfferData: AcceptedOfferData) {
+        console.log("accepting offer!", acceptedOfferData);
+        this.offerContractService.createPlainAdvanceContract(
+            acceptedOfferData.sellerAddress,
+            acceptedOfferData.buyerAddress,
+            acceptedOfferData.price,
+            acceptedOfferData.advance
+        ).then(contract => {
+            console.log("contract created!");
+            this.conversation$ = this.conversationService.acceptOffer(acceptedOfferData.offerId, contract.address);
         });
-
     }
 }

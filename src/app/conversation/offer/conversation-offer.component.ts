@@ -2,6 +2,12 @@ import {Component, Input, Output, EventEmitter} from "@angular/core";
 import {Offer} from "@conversation/data/Offer";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 
+export interface AcceptedOfferPrices {
+    offerId: number;
+    price: number;
+    advance: number;
+}
+
 export const STRINGS = {
     header: "New offer!",
     priceLabel: "price",
@@ -33,7 +39,7 @@ export class ConversationOfferComponent {
 
     @Output() cancelled = new EventEmitter<number>();
     @Output() declined = new EventEmitter<number>();
-    @Output() accepted = new EventEmitter<number>();
+    @Output() accepted = new EventEmitter<AcceptedOfferPrices>();
 
     constructor(private loggedInUserService: LoggedInUserService) {
     }
@@ -63,9 +69,12 @@ export class ConversationOfferComponent {
     }
 
     emitAccepted() {
-        // TODO: contract address is also needed here!
         if (this.offer) {
-            this.accepted.emit(this.offer.id);
+            this.accepted.emit({
+                offerId: this.offer.id,
+                price: this.offer.price,
+                advance: this.offer.advance
+            });
         }
         else {
             console.warn("offer is undefined!");

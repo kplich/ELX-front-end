@@ -2,6 +2,15 @@ import {Component, AfterViewChecked, Input, Output, EventEmitter, ViewChild, Ele
 import {Conversation} from "@conversation/data/Conversation";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {NewMessageRequest} from "@conversation/message-form/conversation-message-form.component";
+import {AcceptedOfferPrices} from "@conversation/offer/conversation-offer.component";
+
+export interface AcceptedOfferData {
+    offerId: number;
+    price: number;
+    advance: number;
+    sellerAddress: string;
+    buyerAddress: string;
+}
 
 @Component({
     selector: "app-conversation-messages",
@@ -15,7 +24,7 @@ export class ConversationMessagesComponent implements AfterViewChecked {
     @Output() messageSent = new EventEmitter<NewMessageRequest>();
     @Output() offerCancelled = new EventEmitter<number>();
     @Output() offerDeclined = new EventEmitter<number>();
-    @Output() offerAccepted = new EventEmitter<number>();
+    @Output() offerAccepted = new EventEmitter<AcceptedOfferData>();
 
     @ViewChild("messagesContainer")
     private messagesContainer!: ElementRef;
@@ -61,7 +70,25 @@ export class ConversationMessagesComponent implements AfterViewChecked {
         this.offerDeclined.emit(offerId);
     }
 
-    emitOfferAccepted(offerId: number) {
-        this.offerAccepted.emit(offerId);
+    emitOfferAccepted(offerPrices: AcceptedOfferPrices) {
+        if (this.conversation) {
+            if (this.conversation.interestedUser.ethereumAddress && this.conversation.item.addedBy.ethereumAddress) {
+                this.offerAccepted.emit({
+                    offerId: offerPrices.offerId,
+                    sellerAddress: this.conversation.item.addedBy.ethereumAddress,
+                    buyerAddress: this.conversation.interestedUser.ethereumAddress,
+                    price: offerPrices.price,
+                    advance: offerPrices.advance
+                });
+            }
+            else {
+                // TODO: let the user know
+                console.warn("users need to have ethereum addresses!");
+            }
+        }
+        else {
+            console.warn("conversation is undefined!");
+        }
+
     }
 }

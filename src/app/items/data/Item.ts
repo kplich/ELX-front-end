@@ -1,5 +1,6 @@
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {dtoStringToStatus, UsedStatus, UsedStatusDto} from "@items/data/UsedStatus";
+import {SimpleUser, SimpleUserResponse} from "@my-account/data/SimpleUser";
 
 export class Item {
     public static readonly ETH_SYMBOL = "Ξ";
@@ -12,7 +13,7 @@ export class Item {
     public readonly title: string;
     public readonly description: string;
     public readonly price: number;
-    public readonly addedBy: ItemAddedBy;
+    public readonly addedBy: SimpleUser;
     public readonly addedOn: Date;
     public readonly category: ItemCategory;
     public readonly usedStatus: UsedStatus;
@@ -24,7 +25,7 @@ export class Item {
         this.title = resp.title;
         this.description = resp.description;
         this.price = resp.price;
-        this.addedBy = resp.addedBy;
+        this.addedBy = new SimpleUser(resp.addedBy);
         this.addedOn = new Date(resp.addedOn);
         this.category = resp.category;
         this.usedStatus = dtoStringToStatus(resp.usedStatus);
@@ -69,19 +70,13 @@ export interface ItemResponse {
     readonly title: string;
     readonly description: string;
     readonly price: number;
-    readonly addedBy: ItemAddedBy;
+    readonly addedBy: SimpleUserResponse;
     readonly addedOn: string;
     readonly category: ItemCategory;
     readonly usedStatus: UsedStatusDto;
     readonly photoUrls: string[];
     readonly closedOn: string | null;
 }
-
-export interface ItemAddedBy {
-    readonly id: number;
-    readonly username: string;
-}
-
 export interface ItemCategory {
     readonly id: number;
     readonly name: string;

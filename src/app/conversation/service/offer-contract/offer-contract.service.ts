@@ -1,32 +1,72 @@
 import {Injectable} from "@angular/core";
-import contract from "truffle-contract";
 import {Web3Service} from "@shared/web3/web3.service";
-import {OfferType} from "@conversation/data/OfferType";
-import * as PlainAdvance from "@contracts/PlainAdvance.json";
-import * as DoubleAdvance from "@contracts/DoubleAdvance.json";
+import PlainAdvance from "@contracts/PlainAdvance.json";
+import DoubleAdvance from "@contracts/DoubleAdvance.json";
+import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+
+const contract = require("@truffle/contract");
+const ETH_TO_WEI = 10 ** 18;
 
 @Injectable({
     providedIn: "root"
 })
 export class OfferContractService {
 
-    private static readonly OFFER_TYPES = new Map<OfferType, any>([
-        [OfferType.PLAIN_ADVANCE, PlainAdvance],
-        [OfferType.DOUBLE_ADVANCE, DoubleAdvance]
-    ]);
-
-    constructor(private web3Service: Web3Service) {
+    constructor(private web3Service: Web3Service,
+                private loggedInUserService: LoggedInUserService) {
     }
 
-    async createContract() {
-        if (window.ethereum) {
-            const contractAbstraction = contract(OfferContractService.OFFER_TYPES.get(OfferType.PLAIN_ADVANCE));
-            contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
+    async createPlainAdvanceContract(
+            buyerAddress: string,
+            sellerAddress: string,
+            priceInEth: number,
+            advanceInEth: number) {
+        const loggedInUser = this.loggedInUserService.authenticatedUser;
 
-            return contractAbstraction.new("0x54BF75cB26D30f274604d2029283FFaD52503BC4", "0x10dbeCf5F27F215E831333998D23c24008c6F285", 2, 1, {from: this.web3Service.currentAccounts[0]});
+        if (loggedInUser === null) {
+            throw new Error("User must be logged in to create contract!");
         }
-        else {
-            return null;
+
+        if (loggedInUser.ethereumAddress === null) {
+            throw new Error("User must have an Ethereum address to create a contract!");
         }
+
+        // TODO: multiple accounts?
+        if (this.web3Service.currentAccounts[0] !== loggedInUser.ethereumAddress) {
+            console.log(this.web3Service.currentAccounts);
+            console.log(loggedInUser.ethereumAddress);
+            throw new Error("User must be logged in to their Ethereum account to initiate the transaction!");
+        }
+
+        if (loggedInUser.ethereumAddress !== sellerAddress
+            && loggedInUser.ethereumAddress !== buyerAddress) {
+            throw new Error("Only buyer or seller may initiate the transaction!");
+        }
+
+        const contractAbstraction = contract(PlainAdvance);
+        contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
+
+        const new1 = await contractAbstraction.new(
+            sellerAddress,
+            buyerAddress,
+            (priceInEth * ETH_TO_WEI).toString(),
+            (advanceInEth * ETH_TO_WEI).toString(),
+            {from: loggedInUser.ethereumAddress});
+        console.log(new1);
+        return new1;
+    }
+
+    async createDoubleAdvanceContract(
+            buyerAddress: string,
+            sellerAddress: string,
+            priceInEth: number) {
+        const contractAbstraction = contract(DoubleAdvance);
+        contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
+
+        return contractAbstraction.new(
+            sellerAddress,
+            buyerAddress,
+            priceInEth * ETH_TO_WEI,
+            {from: this.web3Service.currentAccounts[0]});
     }
 }
