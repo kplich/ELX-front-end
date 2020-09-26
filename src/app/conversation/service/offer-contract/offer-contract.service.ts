@@ -46,14 +46,12 @@ export class OfferContractService {
         const contractAbstraction = contract(PlainAdvance);
         contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
 
-        const new1 = await contractAbstraction.new(
+        return await contractAbstraction.new(
             sellerAddress,
             buyerAddress,
             (priceInEth * ETH_TO_WEI).toString(),
             (advanceInEth * ETH_TO_WEI).toString(),
             {from: loggedInUser.ethereumAddress});
-        console.log(new1);
-        return new1;
     }
 
     async createDoubleAdvanceContract(

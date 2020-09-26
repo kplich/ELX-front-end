@@ -1,7 +1,5 @@
 pragma solidity ^0.7.0;
 
-// https://solidity.readthedocs.io/en/v0.7.1/solidity-by-example.html#safe-remote-purchase
-// for inspiration
 // TODO: license?
 // SPDX-License-Identifier: UNLICENSED
 abstract contract AbstractEscrow {
@@ -30,15 +28,35 @@ abstract contract AbstractEscrow {
         _;
     }
 
-    enum ContractState { CREATED, AWAITING_OTHER, LOCKED, RELEASED, RESOLVED }
-    enum Party { BUYER, SELLER }
+    modifier onlyBuyerOrSeller() {
+        require(
+            msg.sender == seller || msg.sender == buyer,
+            "Only buyer or seller can call this."
+        );
+        _;
+    }
+
+    enum ContractState {
+        CREATED,
+        AWAITING_OTHER,
+        LOCKED,
+        RELEASED,
+        REPORTED, // reserved for future use
+        RESOLVED // reserved for future use
+    }
+    enum Party {
+        BUYER,
+        SELLER,
+        MEDIATOR // reserved for future use
+    }
 
     event Transfer(Party party, uint amount);
     event Locked();
     event Released();
     event Withdrawal(Party party, uint amount);
-    event Cancelled(address cancelledBy);
-    event Resolved(address resolvedBy);
+    event Reported(); // reserved for future use
+    event Cancelled(address cancelledBy); // reserved for future use
+    event Resolved(address resolvedBy); // reserved for future use
 
     address payable public seller;
     address payable public buyer;
