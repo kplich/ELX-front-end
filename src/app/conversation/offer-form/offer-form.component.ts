@@ -1,9 +1,26 @@
 import {Component, Inject} from "@angular/core";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {OfferTypeDto} from "@conversation/data/OfferType";
+import {OFFER_TYPES, OfferTypeRequestDto, OfferTypePair} from "@conversation/data/OfferType";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
 import {Item} from "@items/data/Item";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {NewOfferRequest} from "@conversation/data/NewOfferRequest";
+
+export function advanceRequiredIfPlainAdvance(formGroup: AbstractControl): ValidationErrors | null {
+    const typeInput = formGroup.get("type");
+    const advanceInput = formGroup.get("advance");
+
+    if (typeInput === null || advanceInput === null) {
+        throw new Error("form controls not found");
+    }
+
+    if (typeInput.value === OfferTypeRequestDto.PLAIN_ADVANCE) {
+        return advanceInput.value === null ? { advanceRequired: true } : null;
+    }
+    else {
+        return null;
+    }
+}
 
 export function advanceNoGreaterThanPrice(formGroup: AbstractControl): ValidationErrors | null {
     const priceInput = formGroup.get("price");
@@ -17,8 +34,14 @@ export function advanceNoGreaterThanPrice(formGroup: AbstractControl): Validatio
         return null;
     }
 
-    const price = parseFloat(priceInput.value);
-    const advance = parseFloat(advanceInput.value);
+    const price = Number(priceInput.value);
+    const advance = Number(advanceInput.value);
+
+    if (isNaN(price) || isNaN(advance)) {
+        return {
+            nan: true
+        };
+    }
 
     console.log(`${price} >= ${advance} ? ${price >= advance}`);
 
@@ -29,12 +52,6 @@ export function advanceNoGreaterThanPrice(formGroup: AbstractControl): Validatio
             advanceGreaterThanPrice: true
         };
     }
-}
-
-export interface NewOfferRequest {
-    type: OfferTypeDto;
-    price: number;
-    advance: number;
 }
 
 export const STRINGS = {
@@ -78,6 +95,7 @@ export const STRINGS = {
 export class OfferFormComponent {
 
     readonly strings = STRINGS;
+    readonly offerTypes: OfferTypePair[] = OFFER_TYPES;
     readonly errorStateMatcher = new MyErrorStateMatcher();
     readonly controls = {
         price: new FormControl(null, [
@@ -85,12 +103,14 @@ export class OfferFormComponent {
             Validators.min(0)
         ]),
         advance: new FormControl(null, [
-            Validators.required,
             Validators.min(0)
         ]),
         type: new FormControl(null, Validators.required)
     };
-    readonly form = new FormGroup(this.controls, [advanceNoGreaterThanPrice]);
+    readonly form = new FormGroup(this.controls, [
+        advanceNoGreaterThanPrice,
+        advanceRequiredIfPlainAdvance
+    ]);
     readonly errors = {
         price: {
             notProvided: this.controls.price.hasError("required"),
@@ -103,22 +123,36 @@ export class OfferFormComponent {
         type: {
             notProvided: this.controls.type.hasError("required")
         },
-        advanceIsGreaterThanPrice: this.form.hasError("advanceGreaterThanPrice")
+        advanceIsGreaterThanPrice: this.form.hasError("advanceGreaterThanPrice"),
+        advanceRequiredIfPlainAdvance: this.form.hasError("advanceRequired")
     };
 
     constructor(@Inject(MAT_DIALOG_DATA) data: NewOfferRequest | null) {
         if (data !== null) {
             this.controls.advance.setValue(data.advance);
             this.controls.price.setValue(data.price);
-            this.controls.type.setValue(data.type);
+            this.controls.type.setValue(data.requestType);
         }
     }
 
     get request(): NewOfferRequest {
-        return {
-            type: this.controls.type.value,
-            price: parseFloat(this.controls.price.value),
-            advance: parseFloat(this.controls.advance.value)
-        };
+        if (this.typeIsPlainAdvance) {
+            return {
+                requestType: this.controls.type.value,
+                price: parseFloat(this.controls.price.value),
+                advance: parseFloat(this.controls.advance.value)
+            };
+        }
+        else {
+            return {
+                requestType: this.controls.type.value,
+                price: parseFloat(this.controls.price.value),
+                advance: parseFloat(this.controls.price.value)
+            };
+        }
+    }
+
+    get typeIsPlainAdvance(): boolean {
+        return this.controls.type.value === OfferTypeRequestDto.PLAIN_ADVANCE;
     }
 }

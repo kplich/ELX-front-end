@@ -2,7 +2,7 @@
 <mat-divider></mat-divider>
 <div class="offer-info">
     <div>{{strings.priceLabel}}: {{offer?.formattedPrice}}</div>
-    <div>{{strings.advanceLabel}}: {{offer?.formattedAdvance}}</div>
+    <div *ngIf="offerIsPlainAdvance">{{strings.advanceLabel}}: {{offer?.formattedAdvance}}</div>
     <div>{{strings.typeLabel}}: {{offer?.type}}</div>
 </div>
 <div *ngIf="offer?.awaiting" class="offer-buttons">

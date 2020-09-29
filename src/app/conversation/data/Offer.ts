@@ -1,4 +1,7 @@
-import {dtoStringToStatus as dtoStringToOfferType, OfferType, OfferTypeDto} from "@conversation/data/OfferType";
+import {
+    OfferType,
+    OfferTypeResponseDto, responseDtoToType
+} from "@conversation/data/OfferType";
 import {dtoStringToStatus as dtoStringToOfferStatus, OfferStatus, OfferStatusDto} from "@conversation/data/OfferStatus";
 
 export class Offer {
@@ -12,8 +15,10 @@ export class Offer {
     contractAddress: string | null;
 
     constructor(response: OfferResponse) {
+        console.log(response.type);
+
         this.id = response.id;
-        this.type = dtoStringToOfferType(response.type);
+        this.type = responseDtoToType(response.type);
         this.price = response.price;
         this.advance = response.advance;
         this.offerStatus = dtoStringToOfferStatus(response.offerStatus);
@@ -47,7 +52,7 @@ export class Offer {
 
 export interface OfferResponse {
     id: number;
-    type: OfferTypeDto;
+    type: OfferTypeResponseDto;
     price: number;
     advance: number;
     offerStatus: OfferStatusDto;

@@ -1,6 +1,7 @@
-import {Component, Input, Output, EventEmitter} from "@angular/core";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {Offer} from "@conversation/data/Offer";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import {OfferType} from "@conversation/data/OfferType";
 
 export interface AcceptedOfferPrices {
     offerId: number;
@@ -11,7 +12,7 @@ export interface AcceptedOfferPrices {
 export const STRINGS = {
     header: "New offer!",
     priceLabel: "price",
-    advanceLabel: "label",
+    advanceLabel: "advance",
     typeLabel: "offer type",
     buttons: {
         cancelLabel: "Cancel",
@@ -39,7 +40,7 @@ export class ConversationOfferComponent {
 
     @Output() cancelled = new EventEmitter<number>();
     @Output() declined = new EventEmitter<number>();
-    @Output() accepted = new EventEmitter<AcceptedOfferPrices>();
+    @Output() accepted = new EventEmitter<Offer>();
 
     constructor(private loggedInUserService: LoggedInUserService) {
     }
@@ -48,6 +49,15 @@ export class ConversationOfferComponent {
         return this.senderId !== undefined
             && this.loggedInUserService.authenticatedUser !== null
             && this.senderId === this.loggedInUserService.authenticatedUser.id;
+    }
+
+    get offerIsPlainAdvance(): boolean {
+        if (this.offer) {
+            return this.offer.type === OfferType.PLAIN_ADVANCE;
+        }
+        else {
+            return false;
+        }
     }
 
     emitCancelled() {
@@ -70,11 +80,7 @@ export class ConversationOfferComponent {
 
     emitAccepted() {
         if (this.offer) {
-            this.accepted.emit({
-                offerId: this.offer.id,
-                price: this.offer.price,
-                advance: this.offer.advance
-            });
+            this.accepted.emit(this.offer);
         }
         else {
             console.warn("offer is undefined!");

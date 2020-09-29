@@ -1,13 +1,11 @@
 import {Component, AfterViewChecked, Input, Output, EventEmitter, ViewChild, ElementRef} from "@angular/core";
 import {Conversation} from "@conversation/data/Conversation";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
-import {NewMessageRequest} from "@conversation/message-form/conversation-message-form.component";
-import {AcceptedOfferPrices} from "@conversation/offer/conversation-offer.component";
+import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
+import {Offer} from "@conversation/data/Offer";
 
 export interface AcceptedOfferData {
-    offerId: number;
-    price: number;
-    advance: number;
+    offer: Offer;
     sellerAddress: string;
     buyerAddress: string;
 }
@@ -70,15 +68,13 @@ export class ConversationMessagesComponent implements AfterViewChecked {
         this.offerDeclined.emit(offerId);
     }
 
-    emitOfferAccepted(offerPrices: AcceptedOfferPrices) {
+    emitOfferAccepted(offer: Offer) {
         if (this.conversation) {
             if (this.conversation.interestedUser.ethereumAddress && this.conversation.item.addedBy.ethereumAddress) {
                 this.offerAccepted.emit({
-                    offerId: offerPrices.offerId,
+                    offer,
                     sellerAddress: this.conversation.item.addedBy.ethereumAddress,
-                    buyerAddress: this.conversation.interestedUser.ethereumAddress,
-                    price: offerPrices.price,
-                    advance: offerPrices.advance
+                    buyerAddress: this.conversation.interestedUser.ethereumAddress
                 });
             }
             else {

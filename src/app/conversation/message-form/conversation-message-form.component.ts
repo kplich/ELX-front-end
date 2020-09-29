@@ -1,16 +1,13 @@
-import {Component, OnInit, Output, EventEmitter} from "@angular/core";
+import {Component, OnInit, Output, EventEmitter, Input} from "@angular/core";
 import {FormGroup, FormControl, Validators} from "@angular/forms";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
 import {DialogService} from "@shared/dialog/dialog.service";
-import {NewOfferRequest, OfferFormComponent} from "@conversation/offer-form/offer-form.component";
+import {OfferFormComponent} from "@conversation/offer-form/offer-form.component";
+import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
+import {NewOfferRequest} from "@conversation/data/NewOfferRequest";
 
 export const MESSAGE_LABEL = "Your message";
 export const MESSAGE_REQUIRED_MESSAGE = "Message is required if you're not sending an offer.";
-
-export interface NewMessageRequest {
-    content: string;
-    offer?: NewOfferRequest;
-}
 
 @Component({
     selector: "app-conversation-message-form",
@@ -27,6 +24,8 @@ export class ConversationMessageFormComponent implements OnInit {
     };
 
     offer: NewOfferRequest | null = null;
+
+    @Input() disableEditingOffers = false;
 
     @Output() messageSent = new EventEmitter<NewMessageRequest>();
 

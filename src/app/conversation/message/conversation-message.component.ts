@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter} from "@angular/core";
 import {Message} from "@conversation/data/Message";
-import {AcceptedOfferPrices} from "@conversation/offer/conversation-offer.component";
+import {Offer} from "@conversation/data/Offer";
 
 @Component({
     selector: "app-conversation-message",
@@ -13,7 +13,7 @@ export class ConversationMessageComponent {
 
     @Output() offerCancelled = new EventEmitter<number>();
     @Output() offerDeclined = new EventEmitter<number>();
-    @Output() offerAccepted = new EventEmitter<AcceptedOfferPrices>();
+    @Output() offerAccepted = new EventEmitter<Offer>();
 
     constructor() {
     }
@@ -26,7 +26,7 @@ export class ConversationMessageComponent {
         this.offerDeclined.emit(offerId);
     }
 
-    emitAccepted(offerPrices: AcceptedOfferPrices) {
-        this.offerAccepted.emit(offerPrices);
+    emitAccepted(offer: Offer) {
+        this.offerAccepted.emit(offer);
     }
 }

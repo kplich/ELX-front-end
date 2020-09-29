@@ -7,12 +7,13 @@ import {Conversation} from "@conversation/data/Conversation";
 import {ConversationService} from "@conversation/service/conversation/conversation.service";
 import {ItemsService} from "@items/service/items.service";
 import {Item} from "@items/data/Item";
-import {NewMessageRequest} from "@conversation/message-form/conversation-message-form.component";
 import {HttpResponse} from "@angular/common/http";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {OfferContractService} from "@conversation/service/offer-contract/offer-contract.service";
 import {AcceptedOfferData} from "@conversation/messages/conversation-messages.component";
+import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
+import {OfferType} from "@conversation/data/OfferType";
 
 export const STRINGS = {
     error: "An error occurred."
@@ -141,14 +142,33 @@ export class ConversationComponent implements OnInit {
 
     acceptOffer(acceptedOfferData: AcceptedOfferData) {
         console.log("accepting offer!", acceptedOfferData);
-        this.offerContractService.createPlainAdvanceContract(
-            acceptedOfferData.sellerAddress,
-            acceptedOfferData.buyerAddress,
-            acceptedOfferData.price,
-            acceptedOfferData.advance
-        ).then(contract => {
-            console.log("contract created!");
-            this.conversation$ = this.conversationService.acceptOffer(acceptedOfferData.offerId, contract.address);
-        });
+
+        switch (acceptedOfferData.offer.type) {
+            case OfferType.PLAIN_ADVANCE: {
+                this.offerContractService.createPlainAdvanceContract(
+                    acceptedOfferData.sellerAddress,
+                    acceptedOfferData.buyerAddress,
+                    acceptedOfferData.offer.price,
+                    acceptedOfferData.offer.advance
+                ).then(contract => {
+                    console.log("contract created!", contract);
+                    this.conversation$
+                        = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
+                });
+                break;
+            }
+            case OfferType.DOUBLE_ADVANCE: {
+                this.offerContractService.createDoubleAdvanceContract(
+                    acceptedOfferData.sellerAddress,
+                    acceptedOfferData.buyerAddress,
+                    acceptedOfferData.offer.price,
+                ).then(contract => {
+                    console.log("contract created!", contract);
+                    this.conversation$
+                        = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
+                });
+                break;
+            }
+        }
     }
 }

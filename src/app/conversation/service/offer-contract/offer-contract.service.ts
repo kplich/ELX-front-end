@@ -3,6 +3,7 @@ import {Web3Service} from "@shared/web3/web3.service";
 import PlainAdvance from "@contracts/PlainAdvance.json";
 import DoubleAdvance from "@contracts/DoubleAdvance.json";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 
 const contract = require("@truffle/contract");
 const ETH_TO_WEI = 10 ** 18;
@@ -13,7 +14,8 @@ const ETH_TO_WEI = 10 ** 18;
 export class OfferContractService {
 
     constructor(private web3Service: Web3Service,
-                private loggedInUserService: LoggedInUserService) {
+                private loggedInUserService: LoggedInUserService,
+                private snackBarService: SnackBarService) {
     }
 
     async createPlainAdvanceContract(
@@ -33,9 +35,8 @@ export class OfferContractService {
 
         // TODO: multiple accounts?
         if (this.web3Service.currentAccounts[0] !== loggedInUser.ethereumAddress) {
-            console.log(this.web3Service.currentAccounts);
-            console.log(loggedInUser.ethereumAddress);
-            throw new Error("User must be logged in to their Ethereum account to initiate the transaction!");
+            this.snackBarService.openSnackBar("Log in to your Ethereum account in order to initiate a transaction!");
+            return null;
         }
 
         if (loggedInUser.ethereumAddress !== sellerAddress
@@ -64,7 +65,7 @@ export class OfferContractService {
         return contractAbstraction.new(
             sellerAddress,
             buyerAddress,
-            priceInEth * ETH_TO_WEI,
+            (priceInEth * ETH_TO_WEI).toString(),
             {from: this.web3Service.currentAccounts[0]});
     }
 }

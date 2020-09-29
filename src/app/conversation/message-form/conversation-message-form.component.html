@@ -6,7 +6,7 @@
             {{strings.message.required}}
         </mat-error>
     </mat-form-field>
-    <button mat-raised-button (click)="openOfferForm()" [color]="offer === null ? 'accent' : 'warn'">
+    <button mat-raised-button [disabled]="disableEditingOffers" (click)="openOfferForm()" [color]="offer === null ? 'accent' : 'warn'">
         {{offer === null ? "Add offer" : "Edit offer"}}
     </button>
     <button mat-icon-button [disabled]="formCannotBeSent" (click)="emitMessageRequest()">
