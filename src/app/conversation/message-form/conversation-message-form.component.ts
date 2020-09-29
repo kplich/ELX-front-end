@@ -25,7 +25,7 @@ export class ConversationMessageFormComponent implements OnInit {
 
     offer: NewOfferRequest | null = null;
 
-    @Input() disableEditingOffers = false;
+    @Input() disableEditingOffers: boolean | undefined = false;
 
     @Output() messageSent = new EventEmitter<NewMessageRequest>();
 

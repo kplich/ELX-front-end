@@ -12,6 +12,6 @@
     No messages in this conversation! Send the first one!
 </div>
 <app-conversation-message-form
-    [disableEditingOffers]="conversation.item.isClosed"
+    [disableEditingOffers]="conversation?.item?.isClosed"
     (messageSent)="emitMessage($event)">
 </app-conversation-message-form>
