@@ -1,17 +1,6 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {
-    BUTTON_REGISTER_TEXT,
-    MINIMUM_PASSWORD_LENGTH_MESSAGE,
-    PASSWORD_HINT,
-    PASSWORD_LABEL,
-    PASSWORD_REQUIRED_MESSAGE,
-    RegistrationComponent,
-    USERNAME_HINT,
-    USERNAME_LABEL,
-    USERNAME_PATTERN_MESSAGE,
-    USERNAME_REQUIRED_MESSAGE
-} from "./registration.component";
+import {RegistrationComponent, STRINGS} from "./registration.component";
 import {AuthenticationService} from "../authentication-service/authentication.service";
 import {Router} from "@angular/router";
 import {SnackBarService} from "../../shared/snack-bar-service/snack-bar.service";
@@ -81,17 +70,17 @@ describe("RegistrationComponent", () => {
         expect(fixture.componentInstance).toBeTruthy();
 
         // should display a label and a hint
-        expect(await usernameFormField.getLabel()).toEqual(USERNAME_LABEL);
-        expect((await usernameFormField.getTextHints())[0]).toEqual(USERNAME_HINT);
+        expect(await usernameFormField.getLabel()).toEqual(STRINGS.username.label);
+        expect((await usernameFormField.getTextHints())[0]).toEqual(STRINGS.username.hint);
 
-        expect(await passwordFormField.getLabel()).toEqual(PASSWORD_LABEL);
-        expect((await passwordFormField.getTextHints())[0]).toEqual(PASSWORD_HINT);
+        expect(await passwordFormField.getLabel()).toEqual(STRINGS.password.label);
+        expect((await passwordFormField.getTextHints())[0]).toEqual(STRINGS.password.hint);
 
         // the form should be invalid
         expect(fixture.componentInstance.form.valid).toBeFalsy();
 
         // the registration button should be disabled
-        expect(await registrationButton.getText()).toEqual(BUTTON_REGISTER_TEXT);
+        expect(await registrationButton.getText()).toEqual(STRINGS.button.register);
         expect(await registrationButton.isDisabled()).toBeTruthy();
     }));
 
@@ -110,20 +99,20 @@ describe("RegistrationComponent", () => {
         await usernameInput.blur();
 
         expect(await usernameFormField.hasErrors()).toBeTruthy();
-        expect((await usernameFormField.getTextErrors())[0]).toEqual(USERNAME_REQUIRED_MESSAGE);
+        expect((await usernameFormField.getTextErrors())[0]).toEqual(STRINGS.username.required);
 
         await passwordInput.focus();
         await passwordInput.blur();
 
         expect(await passwordFormField.hasErrors()).toBeTruthy();
-        expect((await passwordFormField.getTextErrors())[0]).toEqual(PASSWORD_REQUIRED_MESSAGE);
+        expect((await passwordFormField.getTextErrors())[0]).toEqual(STRINGS.password.required);
     }));
 
     it("should show an error when incorrect username is provided", async(async () => {
         await usernameInput.setValue("kplich^^^");
         expect(fixture.componentInstance.controls.username.valid).toBeFalsy();
         expect(await usernameFormField.hasErrors()).toBeTruthy();
-        expect((await usernameFormField.getTextErrors())[0]).toEqual(USERNAME_PATTERN_MESSAGE);
+        expect((await usernameFormField.getTextErrors())[0]).toEqual(STRINGS.username.doesntMatchPattern);
     }));
 
     it("should show an error when password is too short", async(async () => {
@@ -131,7 +120,7 @@ describe("RegistrationComponent", () => {
         expect(fixture.componentInstance.controls.password.valid).toBeFalsy();
         expect(await passwordFormField.hasErrors()).toBeTruthy();
         expect((await passwordFormField.getTextErrors())[0])
-            .toEqual(MINIMUM_PASSWORD_LENGTH_MESSAGE);
+            .toEqual(STRINGS.password.tooShort);
     }));
 
     it("should allow to sign up when credentials are correct", async(async () => {

@@ -3,7 +3,6 @@ import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
 import {ItemBrowsingComponent} from "@items/browsing/item-browsing.component";
 import {MyAccountComponent} from "@my-account/my-account/my-account.component";
-import {OfferComponent} from "../offer/offer/offer.component";
 import {LoggingInComponent} from "@authentication/logging-in/logging-in.component";
 import {RegistrationComponent} from "@authentication/registration/registration.component";
 import {LoggedInGuard} from "@routing/logged-in-guard/logged-in.guard";
@@ -21,7 +20,6 @@ const routes: Routes = [
     {path: "items/:id", component: ItemComponent},
     {path: "items/:id/conversation", component: ConversationComponent, canActivate: [LoggedInGuard]},
     {path: "my-account", component: MyAccountComponent, canActivate: [LoggedInGuard]},
-    {path: "offer", component: OfferComponent, canActivate: [LoggedInGuard]},
     {path: "", component: ItemBrowsingComponent}
 ];
 

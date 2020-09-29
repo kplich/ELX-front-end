@@ -5,7 +5,6 @@ import {
     BUTTON_LOG_OUT_TEXT,
     BUTTON_MY_ACCOUNT_TEXT
 } from "./app.component";
-import {AuthenticationService} from "./authentication/authentication-service/authentication.service";
 import {MaterialModule} from "./material/material.module";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {HarnessLoader} from "@angular/cdk/testing";
@@ -13,12 +12,13 @@ import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {MatButtonHarness} from "@angular/material/button/testing";
 import {Router} from "@angular/router";
 import {RouterTestingModule} from "@angular/router/testing";
+import {LoggedInUserService} from "./shared/logged-in-user/logged-in-user.service";
 
 describe("AppComponent", () => {
     const routerSpy = jasmine.createSpyObj("Router", ["navigateByUrl"]);
     routerSpy.navigateByUrl.and.returnValue(Promise.resolve());
 
-    let authenticationService: AuthenticationService;
+    let loggedInUserService: LoggedInUserService;
     let fixture: ComponentFixture<AppComponent>;
     let loader: HarnessLoader;
 
@@ -29,14 +29,14 @@ describe("AppComponent", () => {
                 AppComponent
             ],
             providers: [
-                AuthenticationService,
+                LoggedInUserService,
                 {
                     provide: Router,
                     useValue: routerSpy
                 }
             ]
         }).compileComponents().then(() => {
-            authenticationService = TestBed.inject(AuthenticationService);
+            loggedInUserService = TestBed.inject(LoggedInUserService);
             fixture = TestBed.createComponent(AppComponent);
             loader = TestbedHarnessEnvironment.loader(fixture);
 
@@ -50,7 +50,7 @@ describe("AppComponent", () => {
 
     it("should display 'log in' button when no user is authenticated",
         async () => {
-            spyOnProperty(authenticationService, "authenticatedUser").and.returnValue(null);
+            spyOnProperty(loggedInUserService, "authenticatedUser").and.returnValue(null);
 
             expect(fixture.componentInstance.authenticatedUser).toBeNull();
             const logInButton =
@@ -67,7 +67,7 @@ describe("AppComponent", () => {
         async () => {
             const EXAMPLE_USERNAME = "username";
 
-            spyOnProperty(authenticationService, "authenticatedUser")
+            spyOnProperty(loggedInUserService, "authenticatedUser")
                 .and.returnValue(EXAMPLE_USERNAME);
 
             expect(fixture.componentInstance.authenticatedUser).toEqual(EXAMPLE_USERNAME);

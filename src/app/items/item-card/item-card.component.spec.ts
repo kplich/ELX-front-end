@@ -22,7 +22,7 @@ describe("ItemCardComponent", () => {
 
     let cardContainer: DebugElement;
     let title: HTMLDivElement;
-    let status: HTMLDivElement;
+    let status: HTMLDivElement | undefined;
     let addedBy: HTMLDivElement;
     let category: HTMLDivElement;
     let price: HTMLDivElement;
@@ -64,7 +64,7 @@ describe("ItemCardComponent", () => {
 
         const item = new Item({
             id: 10,
-            formTitle: "Item title",
+            title: "Item title",
             description: "Item description",
             price: 5.567,
             addedBy: {
@@ -83,17 +83,17 @@ describe("ItemCardComponent", () => {
 
         component.item = item;
         fixture.detectChanges();
-        status = findByCss(".item-card-details-status");
+        status = findByCss(".item-card-details-status") as HTMLDivElement;
         expect(status).toBeDefined();
 
 
         expect(title.textContent).toEqual(item.title);
         expect(status.textContent).toEqual(item.usedStatus);
-        expect(addedBy.textContent.trim())
+        expect(addedBy.textContent?.trim())
             .toEqual(`${component.strings.addedBy} ${item.addedBy.username} on ${formatDate(new Date(), "mediumDate", "en-US")}`);
-        expect(category.textContent.trim())
+        expect(category.textContent?.trim())
             .toEqual(`${component.strings.category}: ${item.category.name}`);
-        expect(price.textContent.trim())
+        expect(price.textContent?.trim())
             .toEqual(item.formattedPrice);
     });
 
@@ -103,7 +103,7 @@ describe("ItemCardComponent", () => {
 
         component.item = new Item({
             id: 10,
-            formTitle: "Item title",
+            title: "Item title",
             description: "Item description",
             price: 5.567,
             addedBy: {
@@ -130,7 +130,7 @@ describe("ItemCardComponent", () => {
         const itemId = 10;
         component.item = new Item({
             id: itemId,
-            formTitle: "Item title",
+            title: "Item title",
             description: "Item description",
             price: 5.567,
             addedBy: {

@@ -7,19 +7,20 @@ describe("JwtStorageService", () => {
     const EXAMPLE_USERNAME = "username";
     const EXAMPLE_JWT = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VybmFtZSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdfQ.PNeqCw9bx9sodhLtNMF8zw4zqeh7JoUrgyPjHxGif47hSK9n4H7ZGSQK5jZoYCR25zMxyv6TC6DHZNuvoI5x0g";
 
-    let store = {};
+    let localStorage = new Map<string, string>();
     const mockLocalStorage = {
-        getItem: (key: string): string => {
-            return key in store ? store[key] : null;
+        getItem: (key: string): string | null => {
+            const value = localStorage.get(key);
+            return value !== undefined ? value : null;
         },
         setItem: (key: string, value: string) => {
-            store[key] = `${value}`;
+            localStorage.set(key, value);
         },
         removeItem: (key: string) => {
-            delete store[key];
+            localStorage.delete(key);
         },
         clear: () => {
-            store = {};
+            localStorage = new Map<string, string>();
         }
     };
 

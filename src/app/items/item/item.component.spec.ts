@@ -31,7 +31,7 @@ const fakeActivatedRoute = {
 
 const usualItem = new Item({
     id: 10,
-    formTitle: "Item title",
+    title: "Item title",
     description: "Item description",
     price: 5.567,
     addedBy: {
@@ -50,7 +50,7 @@ const usualItem = new Item({
 
 const closedItem = new Item({
     id: 10,
-    formTitle: "Item title",
+    title: "Item title",
     description: "Item description",
     price: 5.567,
     addedBy: {
@@ -69,7 +69,7 @@ const closedItem = new Item({
 
 const notApplicableStatusItem = new Item({
     id: 10,
-    formTitle: "Item title",
+    title: "Item title",
     description: "Item description",
     price: 5.567,
     addedBy: {
@@ -167,10 +167,10 @@ describe("ItemComponent with no logged in user, open item and applicable status"
         expect(itemsServiceSpy.getItem).toHaveBeenCalledWith(usualItem.id);
         expect(component.item).toEqual(usualItem);
 
-        expect(title.textContent.trim()).toEqual(usualItem.title);
-        expect(price.textContent.trim()).toEqual(usualItem.formattedPrice);
-        expect(status.textContent.trim()).toEqual(usualItem.usedStatus);
-        expect(category.textContent.trim()).toEqual(
+        expect(title.textContent?.trim()).toEqual(usualItem.title);
+        expect(price.textContent?.trim()).toEqual(usualItem.formattedPrice);
+        expect(status.textContent?.trim()).toEqual(usualItem.usedStatus);
+        expect(category.textContent?.trim()).toEqual(
             `${component.strings.category}: ${usualItem.category.name}`
         );
         expect(sendMessage).toBeDefined();
@@ -178,13 +178,13 @@ describe("ItemComponent with no logged in user, open item and applicable status"
         expect(acceptOffer).toBeDefined();
         expect(editItem).toBeUndefined();
         expect(closeOffer).toBeUndefined();
-        expect(addedBy.textContent.trim()).toEqual(
+        expect(addedBy.textContent?.trim()).toEqual(
             `${component.strings.addedBy} ${usualItem.addedBy.username}`
         );
-        expect(addedOn.textContent.trim()).toEqual(
+        expect(addedOn.textContent?.trim()).toEqual(
             `${component.strings.addedOn} ${formatDate(new Date(), "mediumDate", "en-US")}`
         );
-        expect(description.textContent.trim()).toEqual(usualItem.description);
+        expect(description.textContent?.trim()).toEqual(usualItem.description);
     });
 });
 
@@ -238,7 +238,7 @@ describe("ItemComponent with no logged in user, closed item and applicable statu
         expect(component).toBeTruthy();
 
         const itemClosed = findByCss(fixture, "#item-closed") as HTMLDivElement;
-        expect(itemClosed.textContent.trim()).toEqual(
+        expect(itemClosed.textContent?.trim()).toEqual(
             `${component.strings.itemClosed} ${formatDate(new Date(), "mediumDate", "en-US")}`
         );
         expect(sendMessage).toBeUndefined();
@@ -361,10 +361,10 @@ describe("ItemComponent with logged in user, open item and applicable status", (
         expect(itemsServiceSpy.getItem).toHaveBeenCalledWith(usualItem.id);
         expect(component.item).toEqual(usualItem);
 
-        expect(title.textContent.trim()).toEqual(usualItem.title);
-        expect(price.textContent.trim()).toEqual(usualItem.formattedPrice);
-        expect(status.textContent.trim()).toEqual(usualItem.usedStatus);
-        expect(category.textContent.trim()).toEqual(
+        expect(title.textContent?.trim()).toEqual(usualItem.title);
+        expect(price.textContent?.trim()).toEqual(usualItem.formattedPrice);
+        expect(status.textContent?.trim()).toEqual(usualItem.usedStatus);
+        expect(category.textContent?.trim()).toEqual(
             `${component.strings.category}: ${usualItem.category.name}`
         );
         expect(sendMessage).toBeUndefined();
@@ -372,12 +372,12 @@ describe("ItemComponent with logged in user, open item and applicable status", (
         expect(acceptOffer).toBeUndefined();
         expect(editItem).toBeDefined();
         expect(closeOffer).toBeDefined();
-        expect(addedBy.textContent.trim()).toEqual(
+        expect(addedBy.textContent?.trim()).toEqual(
             `${component.strings.addedBy} ${usualItem.addedBy.username}`
         );
-        expect(addedOn.textContent.trim()).toEqual(
+        expect(addedOn.textContent?.trim()).toEqual(
             `${component.strings.addedOn} ${formatDate(new Date(), "mediumDate", "en-US")}`
         );
-        expect(description.textContent.trim()).toEqual(usualItem.description);
+        expect(description.textContent?.trim()).toEqual(usualItem.description);
     });
 });

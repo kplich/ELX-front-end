@@ -13,7 +13,6 @@ export const ITEM_ADDED_SUCCESSFULLY_MESSAGE = "Item added successfully!";
     styleUrls: ["../edit-base/edit-item-base.component.scss"]
 })
 export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
-
     constructor(
         itemsService: ItemsService,
         router: Router,

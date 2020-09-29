@@ -4,6 +4,7 @@ import {HttpClientTestingModule, HttpTestingController} from "@angular/common/ht
 import {HttpErrorResponse, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {JwtStorageService} from "../../shared/jwt-storage-service/jwt-storage.service";
 import {AUTHORIZATION, BEARER} from "../../routing/jwt-interceptor/jwt.interceptor";
+import {LoggedInUserService} from "../../shared/logged-in-user/logged-in-user.service";
 
 // adapted from
 // skryvets.com/blog/2018/02/18/unit-testing-angular-service-with-httpclient
@@ -38,7 +39,7 @@ describe("AuthenticationService signing up", () => {
     it("should sign up correctly with correct credentials", fakeAsync(() => {
         const expectedResponseBody = {};
         const expectedStatus = 200;
-        let response = null;
+        let response: any;
 
         authenticationService.signUp(userCredentials).subscribe(resp => {
             response = resp;
@@ -50,13 +51,13 @@ describe("AuthenticationService signing up", () => {
         tick();
 
         expect(testRequest.request.method).toEqual("POST");
-        expect(response.body).toEqual(expectedResponseBody);
-        expect(response.status).toBe(expectedStatus);
+        expect(response?.body).toEqual(expectedResponseBody);
+        expect(response?.status).toBe(expectedStatus);
     }));
 
     it("should return an error response for invalid login data", fakeAsync(() => {
         const expectedStatus = 400;
-        let response = null;
+        let response: any;
 
         authenticationService.signUp(userCredentials).subscribe({
             next: _ => {
@@ -72,7 +73,7 @@ describe("AuthenticationService signing up", () => {
         tick();
 
         expect(testRequest.request.method).toEqual("POST");
-        expect(response.status).toEqual(expectedStatus);
+        expect(response?.status).toEqual(expectedStatus);
     }));
 
 
@@ -89,16 +90,18 @@ describe("AuthenticationService logging in", () => {
     const USER_CREDENTIALS = {username: EXAMPLE_USERNAME, password: "password"};
 
     let authenticationService: AuthenticationService;
+    let loggedInUserService: LoggedInUserService;
     let jwtStorageService: JwtStorageService;
     let httpTestingController: HttpTestingController;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
-            providers: [AuthenticationService, JwtStorageService]
+            providers: [AuthenticationService, LoggedInUserService, JwtStorageService]
         });
 
         authenticationService = TestBed.inject(AuthenticationService);
+        loggedInUserService = TestBed.inject(LoggedInUserService);
         jwtStorageService = TestBed.inject(JwtStorageService);
         httpTestingController = TestBed.inject(HttpTestingController);
     });
@@ -116,7 +119,7 @@ describe("AuthenticationService logging in", () => {
             // can't read these guys later :/
             const expectedHeaders = new HttpHeaders();
             expectedHeaders.append(AUTHORIZATION, `${BEARER} ${EXAMPLE_JWT}`);
-            let response: HttpResponse<any> = null;
+            let response: HttpResponse<any> | undefined;
 
             authenticationService.logIn(USER_CREDENTIALS).subscribe(resp => {
                 response = resp;
@@ -128,21 +131,21 @@ describe("AuthenticationService logging in", () => {
             tick();
 
             expect(testRequest.request.method).toEqual("POST");
-            expect(response.headers).toEqual(expectedHeaders);
-            expect(response.body).toEqual(expectedResponseBody);
-            expect(response.status).toEqual(expectedStatus);
+            expect(response?.headers).toEqual(expectedHeaders);
+            expect(response?.body).toEqual(expectedResponseBody);
+            expect(response?.status).toEqual(expectedStatus);
 
-            expect(authenticationService.authenticatedUser).toEqual(EXAMPLE_USERNAME);
-            expect(authenticationService.authenticatedUser).not.toEqual(ANYTHING_ELSE);
+            expect(loggedInUserService.authenticatedUser).toEqual(EXAMPLE_USERNAME);
+            expect(loggedInUserService.authenticatedUser).not.toEqual(ANYTHING_ELSE);
 
             authenticationService.logOut();
 
-            expect(authenticationService.authenticatedUser).toBeNull();
+            expect(loggedInUserService.authenticatedUser).toBeNull();
         }));
 
     it("should not save token after unsuccessful login", fakeAsync(() => {
         const expectedStatus = 401;
-        let error: HttpErrorResponse = null;
+        let error: HttpErrorResponse | undefined;
 
         authenticationService.logIn(USER_CREDENTIALS).subscribe({
             next: _ => {
@@ -158,8 +161,8 @@ describe("AuthenticationService logging in", () => {
         tick();
 
         expect(testRequest.request.method).toEqual("POST");
-        expect(error.status).toEqual(expectedStatus);
+        expect(error?.status).toEqual(expectedStatus);
 
-        expect(authenticationService.authenticatedUser).toBeNull();
+        expect(loggedInUserService.authenticatedUser).toBeNull();
     }));
 });

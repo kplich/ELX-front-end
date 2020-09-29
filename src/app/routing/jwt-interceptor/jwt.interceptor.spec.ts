@@ -28,7 +28,7 @@ describe("JwtInterceptor", () => {
 
   it("should not add any header when user isn't authenticated", () => {
     spyOn(jwtStorageService, "getJwt").and.returnValue(null);
-    httpClient.get("/url").subscribe(_ => {});
+    httpClient.get("/url").subscribe(undefined);
 
     const testRequest = httpTestingController.expectOne("/url");
     expect(testRequest.request.headers.get(AUTHORIZATION_HEADER)).toBeNull();
@@ -40,8 +40,7 @@ describe("JwtInterceptor", () => {
     const EXPECTED_TOKEN = `Bearer ${EXAMPLE_TOKEN}`;
 
     spyOn(jwtStorageService, "getJwt").and.returnValue(EXAMPLE_TOKEN);
-    httpClient.get("/url").subscribe(_ => {
-    });
+    httpClient.get("/url").subscribe(undefined);
 
     const testRequest = httpTestingController.expectOne("/url");
     expect(testRequest.request.headers.get(AUTHORIZATION_HEADER)).toEqual(EXPECTED_TOKEN);

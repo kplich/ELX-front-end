@@ -65,7 +65,11 @@ export const BUTTON_UPDATE_ITEM_TEXT = "Save changes";
 
 export abstract class ItemEditBaseComponent {
 
-    public readonly strings = {
+    protected readonly snackBarService: SnackBarService;
+    protected readonly itemsService: ItemsService;
+    protected readonly router: Router;
+
+    readonly strings = {
         formHeader: ADD_ITEM_FORM_HEADER,
         title: {
             label: ITEM_TITLE_LABEL,
@@ -109,22 +113,21 @@ export abstract class ItemEditBaseComponent {
         buttonUpdateItem: BUTTON_UPDATE_ITEM_TEXT
     };
 
-    public readonly usedStatusValues = {
+    readonly usedStatusValues = {
         used: statusToDtoString(UsedStatus.USED),
         new: statusToDtoString(UsedStatus.NEW),
         notApplicable: statusToDtoString(UsedStatus.NOT_APPLICABLE)
     };
 
-    public readonly errorStateMatcher = new MyErrorStateMatcher();
-    public categories: ItemCategory[] = [];
-    protected readonly snackBarService: SnackBarService;
-    protected readonly itemsService: ItemsService;
-    protected readonly router: Router;
+    categories: ItemCategory[] = [];
+
+    readonly errorStateMatcher = new MyErrorStateMatcher();
+
     // language=JSRegexp
     protected readonly itemTitleSymbolsPattern = "^[^!@#$^*={}|\\\\<>?]+$";
 
     // tslint:disable-next-line:variable-name
-    public readonly controls = Object.freeze({
+    readonly controls = Object.freeze({
         title: new FormControl("", [
             Validators.required,
             Validators.minLength(ITEM_TITLE_MINIMUM_LENGTH),
@@ -146,7 +149,7 @@ export abstract class ItemEditBaseComponent {
         photoUrls: new FormControl([], Validators.maxLength(ITEM_PHOTOS_MAXIMUM_NUMBER))
     });
 
-    public readonly form: FormGroup = new FormGroup(this.controls);
+    readonly form: FormGroup = new FormGroup(this.controls);
 
     protected constructor(
         snackBarService: SnackBarService,
@@ -157,7 +160,7 @@ export abstract class ItemEditBaseComponent {
         this.router = router;
     }
 
-    public get errors() {
+    get errors() {
         return {
             title: {
                 notProvided: this.controls.title.hasError("required"),
@@ -188,7 +191,7 @@ export abstract class ItemEditBaseComponent {
         };
     }
 
-    public updatePhotoUrls(event: string[]) {
+    updatePhotoUrls(event: string[]) {
         this.controls.photoUrls.setValue(event);
     }
 
