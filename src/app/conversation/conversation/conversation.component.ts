@@ -7,7 +7,7 @@ import {Conversation} from "@conversation/data/Conversation";
 import {ConversationService} from "@conversation/service/conversation/conversation.service";
 import {ItemsService} from "@items/service/items.service";
 import {Item} from "@items/data/Item";
-import {HttpResponse} from "@angular/common/http";
+import {HttpResponse, HttpErrorResponse} from "@angular/common/http";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {OfferContractService} from "@conversation/service/offer-contract/offer-contract.service";
@@ -77,7 +77,7 @@ export class ConversationComponent implements OnInit {
     private getConversationWithSubject(itemId: number, subjectId: number) {
         return this.conversationService.getConversationWithSubject(itemId, subjectId)
             .pipe(
-                catchError(error => {
+                catchError((error: HttpErrorResponse) => {
                     // if this user hasn't started a conversation, owner cannot start it
                     if (error.status === 404) {
                         this.router.navigateByUrl(`/items/${this.itemId}`).then(() => {
@@ -92,9 +92,9 @@ export class ConversationComponent implements OnInit {
                         });
                     }
 
-                    return of(new HttpResponse());
+                    return of(new HttpResponse<Conversation | null>({body: null}));
                 }),
-                map(response => response.body ? response.body : undefined),
+                map((response: HttpResponse<Conversation | null>) => response.body ? response.body : undefined),
                 tap(console.log)
             );
     }
@@ -102,7 +102,7 @@ export class ConversationComponent implements OnInit {
     private getConversation(itemId: number) {
         return this.conversationService.getConversation(itemId)
             .pipe(
-                catchError(error => {
+                catchError((error: HttpErrorResponse) => {
                     // if there's no conversation about the item, other user can start it
 
                     // subject id is necessary
@@ -112,9 +112,9 @@ export class ConversationComponent implements OnInit {
                         });
                     }
 
-                    return of(new HttpResponse());
+                    return of(new HttpResponse<Conversation | null>({body: null}));
                 }),
-                map(response => response.body ? response.body : undefined),
+                map((response: HttpResponse<Conversation | null>) => response.body ? response.body : undefined),
                 tap(console.log)
             );
     }
@@ -150,7 +150,7 @@ export class ConversationComponent implements OnInit {
                     acceptedOfferData.buyerAddress,
                     acceptedOfferData.offer.price,
                     acceptedOfferData.offer.advance
-                ).then(contract => {
+                ).then((contract: any) => { // FIXME: type?
                     console.log("contract created!", contract);
                     this.conversation$
                         = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
@@ -162,7 +162,7 @@ export class ConversationComponent implements OnInit {
                     acceptedOfferData.sellerAddress,
                     acceptedOfferData.buyerAddress,
                     acceptedOfferData.offer.price,
-                ).then(contract => {
+                ).then((contract: any) => { // FIXME: type?
                     console.log("contract created!", contract);
                     this.conversation$
                         = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);

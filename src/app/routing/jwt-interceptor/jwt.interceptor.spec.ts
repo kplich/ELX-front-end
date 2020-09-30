@@ -1,7 +1,7 @@
 import {TestBed} from "@angular/core/testing";
 
-import {JwtInterceptor} from "./jwt.interceptor";
-import {JwtStorageService} from "../../shared/jwt-storage-service/jwt-storage.service";
+import {JwtInterceptor} from "@routing/jwt-interceptor/jwt.interceptor";
+import {JwtStorageService} from "@shared/jwt-storage-service/jwt-storage.service";
 import {HTTP_INTERCEPTORS, HttpClient} from "@angular/common/http";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 

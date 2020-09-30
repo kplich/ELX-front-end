@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {EthereumAddressComponent} from "./ethereum-address.component";
+import {EthereumAddressComponent} from "@my-account/my-account/settings/ethereum-address/ethereum-address.component";
 
 describe("EthereumAddressComponent", () => {
     let component: EthereumAddressComponent;

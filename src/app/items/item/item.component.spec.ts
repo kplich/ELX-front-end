@@ -1,23 +1,23 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {ItemComponent} from "./item.component";
+import {ItemComponent} from "@items/item/item.component";
 import {HarnessLoader} from "@angular/cdk/testing";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
-import {Item} from "../data/Item";
-import {statusToDtoString, UsedStatus} from "../data/UsedStatus";
+import {Item} from "@items/data/Item";
+import {statusToDtoString, UsedStatus} from "@items/data/UsedStatus";
 import {Observable} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ItemsService} from "../service/items.service";
-import {AuthenticationService} from "../../authentication/authentication-service/authentication.service";
-import {SnackBarService} from "../../shared/snack-bar-service/snack-bar.service";
+import {ItemsService} from "@items/service/items.service";
+import {AuthenticationService} from "@authentication/authentication-service/authentication.service";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {RouterTestingModule} from "@angular/router/testing";
-import {MaterialModule} from "../../material/material.module";
+import {MaterialModule} from "@material/material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MatCarouselModule} from "@ngmodule/material-carousel";
 import {formatDate} from "@angular/common";
-import {findByCss} from "../../shared/FindByCss";
+import {findByCss} from "@shared/FindByCss";
 
 const fakeActivatedRoute = {
     snapshot: {
@@ -36,7 +36,8 @@ const usualItem = new Item({
     price: 5.567,
     addedBy: {
         id: 1,
-        username: "kplich"
+        username: "kplich",
+        ethereumAddress: null
     },
     addedOn: (new Date()).toISOString(),
     category: {
@@ -55,7 +56,8 @@ const closedItem = new Item({
     price: 5.567,
     addedBy: {
         id: 1,
-        username: "kplich"
+        username: "kplich",
+        ethereumAddress: null
     },
     addedOn: (new Date()).toISOString(),
     category: {
@@ -74,7 +76,8 @@ const notApplicableStatusItem = new Item({
     price: 5.567,
     addedBy: {
         id: 1,
-        username: "kplich"
+        username: "kplich",
+        ethereumAddress: null
     },
     addedOn: (new Date()).toISOString(),
     category: {

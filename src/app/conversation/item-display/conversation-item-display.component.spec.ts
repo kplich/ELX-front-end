@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ConversationItemDisplayComponent } from "./conversation-item-display.component";
+import { ConversationItemDisplayComponent } from "@conversation/item-display/conversation-item-display.component";
 
-describe("ConversationItemDisplayComponent", () => {
+xdescribe("ConversationItemDisplayComponent", () => {
   let component: ConversationItemDisplayComponent;
   let fixture: ComponentFixture<ConversationItemDisplayComponent>;
 

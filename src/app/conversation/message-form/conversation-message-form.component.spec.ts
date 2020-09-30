@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ConversationMessageFormComponent } from "./conversation-message-form.component";
+import { ConversationMessageFormComponent } from "@conversation/message-form/conversation-message-form.component";
 
-describe("ConversationMessageFormComponent", () => {
+xdescribe("ConversationMessageFormComponent", () => {
   let component: ConversationMessageFormComponent;
   let fixture: ComponentFixture<ConversationMessageFormComponent>;
 

@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {FileUploaderComponent} from "./file-uploader.component";
+import {FileUploaderComponent} from "@shared/file-uploader/file-uploader.component";
 
 describe("FileUploaderComponent", () => {
     let component: FileUploaderComponent;

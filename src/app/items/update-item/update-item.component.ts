@@ -11,6 +11,7 @@ import {
 import {MatFormField} from "@angular/material/form-field";
 import {statusToDtoString} from "@items/data/UsedStatus";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import { HttpResponse, HttpErrorResponse } from "@angular/common/http";
 
 export const ITEM_UPDATED_SUCCESSFULLY_MESSAGE = "Item updated successfully!";
 export const COULD_NOT_LOAD_ITEM = "Could not load item.";
@@ -94,13 +95,13 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
 
     sendRequestToUpdateItem() {
         this.itemsService.updateItem(this.newItemRequest).subscribe({
-            next: response => {
+            next: (response: HttpResponse<Item>) => {
                 if (response.body === null) { throw new Error("Response with empty body!"); }
                 this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
                     this.snackBarService.openSnackBar(ITEM_UPDATED_SUCCESSFULLY_MESSAGE);
                 });
             },
-            error: error => this.openErrorSnackBar(error)
+            error: (error: HttpErrorResponse) => this.openErrorSnackBar(error)
         });
     }
 

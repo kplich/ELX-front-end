@@ -1,10 +1,10 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {RegistrationComponent, STRINGS} from "./registration.component";
-import {AuthenticationService} from "../authentication-service/authentication.service";
+import {RegistrationComponent, STRINGS} from "@authentication/registration/registration.component";
+import {AuthenticationService} from "@authentication/authentication-service/authentication.service";
 import {Router} from "@angular/router";
-import {SnackBarService} from "../../shared/snack-bar-service/snack-bar.service";
-import {MaterialModule} from "../../material/material.module";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
+import {MaterialModule} from "@material/material.module";
 import {HarnessLoader} from "@angular/cdk/testing";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {MatButtonHarness} from "@angular/material/button/testing";

@@ -1,16 +1,16 @@
 import {ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {ItemCardComponent} from "./item-card.component";
+import {ItemCardComponent} from "@items/item-card/item-card.component";
 import {By, DomSanitizer} from "@angular/platform-browser";
-import {MaterialModule} from "../../material/material.module";
+import {MaterialModule} from "@material/material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterTestingModule} from "@angular/router/testing";
 import {Router} from "@angular/router";
-import {Item} from "../data/Item";
-import {statusToDtoString, UsedStatus} from "../data/UsedStatus";
+import {Item} from "@items/data/Item";
+import {statusToDtoString, UsedStatus} from "@items/data/UsedStatus";
 import {formatDate} from "@angular/common";
 import {DebugElement} from "@angular/core";
-import {findByCss as _findByCss} from "../../shared/FindByCss";
+import {findByCss as _findByCss} from "@shared/FindByCss";
 
 describe("ItemCardComponent", () => {
     const routerSpy = jasmine.createSpyObj("router", ["navigateByUrl"]);
@@ -69,7 +69,8 @@ describe("ItemCardComponent", () => {
             price: 5.567,
             addedBy: {
                 id: 1,
-                username: "kplich"
+                username: "kplich",
+                ethereumAddress: null
             },
             addedOn: (new Date()).toISOString(),
             category: {
@@ -108,7 +109,8 @@ describe("ItemCardComponent", () => {
             price: 5.567,
             addedBy: {
                 id: 1,
-                username: "kplich"
+                username: "kplich",
+                ethereumAddress: null
             },
             addedOn: (new Date()).toISOString(),
             category: {
@@ -135,7 +137,8 @@ describe("ItemCardComponent", () => {
             price: 5.567,
             addedBy: {
                 id: 1,
-                username: "kplich"
+                username: "kplich",
+                ethereumAddress: null
             },
             addedOn: (new Date()).toISOString(),
             category: {

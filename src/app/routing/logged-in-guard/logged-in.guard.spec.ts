@@ -1,9 +1,9 @@
 import {TestBed} from "@angular/core/testing";
 
-import {LoggedInGuard} from "./logged-in.guard";
+import {LoggedInGuard} from "@routing/logged-in-guard/logged-in.guard";
 import {Router} from "@angular/router";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {LoggedInUserService} from "../../shared/logged-in-user/logged-in-user.service";
+import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 
 // as per
 // keepgrowing.in/angular/how-to-test-angular-authguard-examples-for-the-canactivate-interface/

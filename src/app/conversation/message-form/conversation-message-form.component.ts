@@ -77,7 +77,7 @@ export class ConversationMessageFormComponent implements OnInit {
 
     openOfferForm() {
         this.dialogService.openDialogForData<NewOfferRequest | null | undefined>(OfferFormComponent, this.offer)
-            .subscribe(offer => {
+            .subscribe((offer: NewOfferRequest | null | undefined) => {
                 console.log(offer);
                 if (offer !== undefined) {
                     this.offer = offer;

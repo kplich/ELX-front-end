@@ -1,10 +1,15 @@
 import {TestBed} from "@angular/core/testing";
 
-import {JwtStorageService} from "./jwt-storage.service";
+import {JwtStorageService} from "@shared/jwt-storage-service/jwt-storage.service";
+import {SimpleUser} from "@my-account/data/SimpleUser";
 
 describe("JwtStorageService", () => {
 
-    const EXAMPLE_USERNAME = "username";
+    const EXAMPLE_USER: SimpleUser = new SimpleUser({
+        id: 0,
+        username: "username",
+        ethereumAddress: null
+    });
     const EXAMPLE_JWT = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VybmFtZSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdfQ.PNeqCw9bx9sodhLtNMF8zw4zqeh7JoUrgyPjHxGif47hSK9n4H7ZGSQK5jZoYCR25zMxyv6TC6DHZNuvoI5x0g";
 
     let localStorage = new Map<string, string>();
@@ -52,7 +57,7 @@ describe("JwtStorageService", () => {
     it("should add and retrieve the token and username", () => {
         service.putJwt(EXAMPLE_JWT);
         expect(service.getJwt()).toEqual(EXAMPLE_JWT);
-        expect(service.getAuthenticatedUser()).toEqual(EXAMPLE_USERNAME);
+        expect(service.getAuthenticatedUser()).toEqual(EXAMPLE_USER);
     });
 
     it("should remove the token", () => {

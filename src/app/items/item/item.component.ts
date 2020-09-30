@@ -5,6 +5,7 @@ import {Item} from "@items/data/Item";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import { HttpResponse, HttpErrorResponse } from "@angular/common/http";
 
 export const BUTTON_SEND_MESSAGE_TEXT = "Send message";
 export const BUTTON_SEND_OFFER_TEXT = "Send offer";
@@ -72,11 +73,11 @@ export class ItemComponent implements OnInit {
         if (itemIdString !== null) {
             const id = parseInt(itemIdString, 10);
             this.itemsService.getItem(id).subscribe({
-                next: response => {
+                next: (response: HttpResponse<Item>) => {
                     if (response.body === null) { throw new Error("Empty response body"); }
                     this.item = response.body;
                 },
-                error: error => {
+                error: (error: HttpErrorResponse) => {
                     console.error(error);
                     this.snackBarService.openSnackBar(COULD_NOT_LOAD_ITEM_MESSAGE);
                 }
@@ -87,7 +88,7 @@ export class ItemComponent implements OnInit {
     closeOffer() {
         if (this.item) {
             this.itemsService.closeItem(this.item.id).subscribe({
-                next: response => {
+                next: (response: HttpResponse<Item>) => {
                     if (response.body === null) { throw new Error("Empty response body"); }
                     this.item = response.body;
                     this.snackBarService.openSnackBar(ITEM_CLOSED_MESSAGE);

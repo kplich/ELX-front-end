@@ -1,18 +1,50 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "./out-tsc/spec",
-    "types": [
-      "jasmine",
-      "node"
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "outDir": "./out-tsc/spec",
+        "types": [
+            "jasmine",
+            "node"
+        ],
+        "paths": {
+            "@environments/*": [
+                "src/environments/*"
+            ],
+            "@shared/*": [
+                "src/app/shared/*"
+            ],
+            "@routing/*": [
+                "src/app/routing/*"
+            ],
+            "@app/*": [
+                "src/app/*"
+            ],
+            "@authentication/*": [
+                "src/app/authentication/*"
+            ],
+            "@material/*": [
+                "src/app/material/*"
+            ],
+            "@conversation/*": [
+                "src/app/conversation/*"
+            ],
+            "@items/*": [
+                "src/app/items/*"
+            ],
+            "@my-account/*": [
+                "src/app/my-account/*"
+            ],
+            "@contracts/*": [
+                "blockchain/build/contracts/*"
+            ]
+        }
+    },
+    "files": [
+        "src/test.ts",
+        "src/polyfills.ts"
+    ],
+    "include": [
+        "src/**/*.spec.ts",
+        "src/**/*.d.ts"
     ]
-  },
-  "files": [
-    "src/test.ts",
-    "src/polyfills.ts"
-  ],
-  "include": [
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
-  ]
 }

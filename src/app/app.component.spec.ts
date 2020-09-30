@@ -4,15 +4,16 @@ import {
     BUTTON_LOG_IN_TEXT,
     BUTTON_LOG_OUT_TEXT,
     BUTTON_MY_ACCOUNT_TEXT
-} from "./app.component";
-import {MaterialModule} from "./material/material.module";
+} from "@app/app.component";
+import {MaterialModule} from "@material/material.module";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {HarnessLoader} from "@angular/cdk/testing";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {MatButtonHarness} from "@angular/material/button/testing";
 import {Router} from "@angular/router";
 import {RouterTestingModule} from "@angular/router/testing";
-import {LoggedInUserService} from "./shared/logged-in-user/logged-in-user.service";
+import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import {SimpleUser} from "@my-account/data/SimpleUser";
 
 describe("AppComponent", () => {
     const routerSpy = jasmine.createSpyObj("Router", ["navigateByUrl"]);
@@ -65,12 +66,16 @@ describe("AppComponent", () => {
 
     xit("should display 'log out' and 'my account' buttons when user is authenticated",
         async () => {
-            const EXAMPLE_USERNAME = "username";
+            const EXAMPLE_USER: SimpleUser = new SimpleUser({
+                id: 0,
+                username: "username",
+                ethereumAddress: null
+            });
 
             spyOnProperty(loggedInUserService, "authenticatedUser")
-                .and.returnValue(EXAMPLE_USERNAME);
+                .and.returnValue(EXAMPLE_USER);
 
-            expect(fixture.componentInstance.authenticatedUser).toEqual(EXAMPLE_USERNAME);
+            expect(fixture.componentInstance.authenticatedUser).toEqual(EXAMPLE_USER);
 
             const logOutButton = await loader
                 .getHarness(MatButtonHarness.with({text: BUTTON_LOG_OUT_TEXT}));

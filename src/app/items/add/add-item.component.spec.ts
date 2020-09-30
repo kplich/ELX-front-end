@@ -1,21 +1,21 @@
 import {ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {AddItemComponent} from "./add-item.component";
-import {MaterialModule} from "../../material/material.module";
+import {AddItemComponent} from "@items/add/add-item.component";
+import {MaterialModule} from "@material/material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ReactiveFormsModule} from "@angular/forms";
-import {ItemsService} from "../service/items.service";
+import {ItemsService} from "@items/service/items.service";
 import {Router} from "@angular/router";
-import {SnackBarService} from "../../shared/snack-bar-service/snack-bar.service";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {MatFormFieldHarness} from "@angular/material/form-field/testing";
 import {MatInputHarness} from "@angular/material/input/testing";
 import {MatSelectHarness} from "@angular/material/select/testing";
 import {MatButtonHarness} from "@angular/material/button/testing";
 import {HarnessLoader} from "@angular/cdk/testing";
-import {SharedModule} from "../../shared/shared.module";
+import {SharedModule} from "@shared/shared.module";
 import {Observable} from "rxjs";
-import {UsedStatus} from "../data/UsedStatus";
+import {UsedStatus} from "@items/data/UsedStatus";
 import {
     BUTTON_ADD_ITEM_TEXT,
     ITEM_TITLE_ILLEGAL_SYMBOLS_MESSAGE

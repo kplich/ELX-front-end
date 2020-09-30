@@ -55,8 +55,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.loggedInUser = loggedInUser;
 
         this.accountsSubscription = this.web3Service.accounts$.subscribe({
-            next: newAccounts => this.accounts = newAccounts,
-            error: err => console.error(err)
+            next: (newAccounts: string[]) => this.accounts = newAccounts,
+            error: (err: any) => console.error(err)
         });
     }
 

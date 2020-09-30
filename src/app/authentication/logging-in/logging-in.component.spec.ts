@@ -6,11 +6,11 @@ import {
     PASSWORD_REQUIRED_MESSAGE,
     USERNAME_LABEL,
     USERNAME_REQUIRED_MESSAGE
-} from "./logging-in.component";
-import {AuthenticationService} from "../authentication-service/authentication.service";
+} from "@authentication/logging-in/logging-in.component";
+import {AuthenticationService} from "@authentication/authentication-service/authentication.service";
 import {Router} from "@angular/router";
-import {SnackBarService} from "../../shared/snack-bar-service/snack-bar.service";
-import {MaterialModule} from "../../material/material.module";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
+import {MaterialModule} from "@material/material.module";
 import {HarnessLoader} from "@angular/cdk/testing";
 import {MatFormFieldHarness} from "@angular/material/form-field/testing";
 import {MatInputHarness} from "@angular/material/input/testing";

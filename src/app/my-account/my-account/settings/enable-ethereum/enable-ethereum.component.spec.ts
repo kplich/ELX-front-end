@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {EnableEthereumComponent} from "./enable-ethereum.component";
+import {EnableEthereumComponent} from "@my-account/my-account/settings/enable-ethereum/enable-ethereum.component";
 
 describe("EnableEthereumComponent", () => {
     let component: EnableEthereumComponent;

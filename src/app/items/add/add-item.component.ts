@@ -1,9 +1,10 @@
 import {Component, OnInit} from "@angular/core";
 import {ItemsService} from "@items/service/items.service";
-import {NewOrUpdatedItemRequest} from "@items/data/Item";
+import {ItemCategory, NewOrUpdatedItemRequest, Item} from "@items/data/Item";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {Router} from "@angular/router";
 import {COULD_NOT_LOAD_CATEGORIES_MESSAGE, ItemEditBaseComponent} from "@items/edit-base/ItemEditBase";
+import { HttpResponse, HttpErrorResponse } from "@angular/common/http";
 
 export const ITEM_ADDED_SUCCESSFULLY_MESSAGE = "Item added successfully!";
 
@@ -34,19 +35,19 @@ export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
 
     sendRequestToAddItem() {
         this.itemsService.addNewItem(this.newItemRequest).subscribe({
-            next: response => {
+            next: (response: HttpResponse<Item>) => {
                 if (response.body === null) { throw new Error("Empty response body"); }
                 this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
                     this.snackBarService.openSnackBar(ITEM_ADDED_SUCCESSFULLY_MESSAGE);
                 });
             },
-            error: error => this.openErrorSnackBar(error)
+            error: (error: HttpErrorResponse) => this.openErrorSnackBar(error)
         });
     }
 
     ngOnInit() {
         this.itemsService.getCategories().subscribe({
-            next: response => {
+            next: (response: HttpResponse<ItemCategory[]>) => {
                 if (response.body === null) {
                     this.categories = [];
                 } else {
