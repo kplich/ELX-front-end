@@ -1,29 +1,29 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {ItemComponent} from './item.component';
-import {HarnessLoader} from '@angular/cdk/testing';
-import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
-import {Item} from '../items-service/data/Item';
-import {statusToDtoString, UsedStatus} from '../items-service/data/UsedStatus';
-import {Observable} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ItemsService} from '../items-service/items.service';
-import {AuthenticationService} from '../../identity-management/authentication-service/authentication.service';
-import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
-import {DomSanitizer} from '@angular/platform-browser';
-import {RouterTestingModule} from '@angular/router/testing';
-import {MaterialModule} from '../../material/material.module';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {MatCarouselModule} from '@ngmodule/material-carousel';
-import {formatDate} from '@angular/common';
-import {findByCss} from '../../shared/FindByCss';
+import {ItemComponent} from "@items/item/item.component";
+import {HarnessLoader} from "@angular/cdk/testing";
+import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
+import {Item} from "@items/data/Item";
+import {statusToDtoString, UsedStatus} from "@items/data/UsedStatus";
+import {Observable} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ItemsService} from "@items/service/items.service";
+import {AuthenticationService} from "@authentication/authentication-service/authentication.service";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
+import {DomSanitizer} from "@angular/platform-browser";
+import {RouterTestingModule} from "@angular/router/testing";
+import {MaterialModule} from "@material/material.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {MatCarouselModule} from "@ngmodule/material-carousel";
+import {formatDate} from "@angular/common";
+import {findByCss} from "@shared/FindByCss";
 
 const fakeActivatedRoute = {
     snapshot: {
         paramMap: {
             get(_: string): string {
-                return '10';
+                return "10";
             }
         }
     }
@@ -31,17 +31,18 @@ const fakeActivatedRoute = {
 
 const usualItem = new Item({
     id: 10,
-    title: 'Item title',
-    description: 'Item description',
+    title: "Item title",
+    description: "Item description",
     price: 5.567,
     addedBy: {
         id: 1,
-        username: 'kplich'
+        username: "kplich",
+        ethereumAddress: null
     },
     addedOn: (new Date()).toISOString(),
     category: {
         id: 1,
-        name: 'Category'
+        name: "Category"
     },
     usedStatus: statusToDtoString(UsedStatus.NEW),
     photoUrls: [],
@@ -50,17 +51,18 @@ const usualItem = new Item({
 
 const closedItem = new Item({
     id: 10,
-    title: 'Item title',
-    description: 'Item description',
+    title: "Item title",
+    description: "Item description",
     price: 5.567,
     addedBy: {
         id: 1,
-        username: 'kplich'
+        username: "kplich",
+        ethereumAddress: null
     },
     addedOn: (new Date()).toISOString(),
     category: {
         id: 1,
-        name: 'Category'
+        name: "Category"
     },
     usedStatus: statusToDtoString(UsedStatus.NEW),
     photoUrls: [],
@@ -69,17 +71,18 @@ const closedItem = new Item({
 
 const notApplicableStatusItem = new Item({
     id: 10,
-    title: 'Item title',
-    description: 'Item description',
+    title: "Item title",
+    description: "Item description",
     price: 5.567,
     addedBy: {
         id: 1,
-        username: 'kplich'
+        username: "kplich",
+        ethereumAddress: null
     },
     addedOn: (new Date()).toISOString(),
     category: {
         id: 1,
-        name: 'Category'
+        name: "Category"
     },
     usedStatus: statusToDtoString(UsedStatus.NOT_APPLICABLE),
     photoUrls: [],
@@ -100,29 +103,29 @@ let addedOn: HTMLDivElement;
 let description: HTMLDivElement;
 
 function findElements(fixture: ComponentFixture<ItemComponent>) {
-    title = findByCss(fixture, '#item-title');
-    price = findByCss(fixture, '#item-price');
-    status = findByCss(fixture, '#item-status');
-    category = findByCss(fixture, '#item-category');
-    sendMessage = findByCss(fixture, '#item-send-message');
-    sendOffer = findByCss(fixture, '#item-send-offer');
-    acceptOffer = findByCss(fixture, '#item-accept-offer');
-    editItem = findByCss(fixture, '#item-edit-item');
-    closeOffer = findByCss(fixture, '#item-close-offer');
-    addedBy = findByCss(fixture, '#item-added-by');
-    addedOn = findByCss(fixture, '#item-added-on');
-    description = findByCss(fixture, '#item-description');
+    title = findByCss(fixture, "#item-title");
+    price = findByCss(fixture, "#item-price");
+    status = findByCss(fixture, "#item-status");
+    category = findByCss(fixture, "#item-category");
+    sendMessage = findByCss(fixture, "#item-send-message");
+    sendOffer = findByCss(fixture, "#item-send-offer");
+    acceptOffer = findByCss(fixture, "#item-accept-offer");
+    editItem = findByCss(fixture, "#item-edit-item");
+    closeOffer = findByCss(fixture, "#item-close-offer");
+    addedBy = findByCss(fixture, "#item-added-by");
+    addedOn = findByCss(fixture, "#item-added-on");
+    description = findByCss(fixture, "#item-description");
 }
 
-describe('ItemComponent with no logged in user, open item and applicable status', () => {
+describe("ItemComponent with no logged in user, open item and applicable status", () => {
 
-    const domSanitizerSpy = jasmine.createSpyObj('domSanitizer', ['bypassSecurityTrustUrl']);
-    const routerSpy = jasmine.createSpyObj('router', ['navigateByUrl']);
-    const snackBarServiceSpy = jasmine.createSpyObj('snackBarService', ['openSnackBar']);
-    const itemsServiceSpy = jasmine.createSpyObj('itemsService', ['getItem']);
+    const domSanitizerSpy = jasmine.createSpyObj("domSanitizer", ["bypassSecurityTrustUrl"]);
+    const routerSpy = jasmine.createSpyObj("router", ["navigateByUrl"]);
+    const snackBarServiceSpy = jasmine.createSpyObj("snackBarService", ["openSnackBar"]);
+    const itemsServiceSpy = jasmine.createSpyObj("itemsService", ["getItem"]);
     itemsServiceSpy.getItem.and
         .returnValue(new Observable(subscriber => subscriber.next({body: usualItem})));
-    const authenticationServiceSpy = jasmine.createSpyObj('authenticationService', ['any']);
+    const authenticationServiceSpy = jasmine.createSpyObj("authenticationService", ["any"]);
 
     let component: ItemComponent;
     let fixture: ComponentFixture<ItemComponent>;
@@ -160,17 +163,17 @@ describe('ItemComponent with no logged in user, open item and applicable status'
         findElements(fixture);
     });
 
-    it('should display correct data', () => {
+    it("should display correct data", () => {
         expect(component).toBeTruthy();
 
-        expect(component.addedByLoggedInUser).toBeFalsy();
+        expect(component.loggedInUserIsOwner).toBeFalsy();
         expect(itemsServiceSpy.getItem).toHaveBeenCalledWith(usualItem.id);
         expect(component.item).toEqual(usualItem);
 
-        expect(title.textContent.trim()).toEqual(usualItem.title);
-        expect(price.textContent.trim()).toEqual(usualItem.formattedPrice);
-        expect(status.textContent.trim()).toEqual(usualItem.usedStatus);
-        expect(category.textContent.trim()).toEqual(
+        expect(title.textContent?.trim()).toEqual(usualItem.title);
+        expect(price.textContent?.trim()).toEqual(usualItem.formattedPrice);
+        expect(status.textContent?.trim()).toEqual(usualItem.usedStatus);
+        expect(category.textContent?.trim()).toEqual(
             `${component.strings.category}: ${usualItem.category.name}`
         );
         expect(sendMessage).toBeDefined();
@@ -178,25 +181,25 @@ describe('ItemComponent with no logged in user, open item and applicable status'
         expect(acceptOffer).toBeDefined();
         expect(editItem).toBeUndefined();
         expect(closeOffer).toBeUndefined();
-        expect(addedBy.textContent.trim()).toEqual(
+        expect(addedBy.textContent?.trim()).toEqual(
             `${component.strings.addedBy} ${usualItem.addedBy.username}`
         );
-        expect(addedOn.textContent.trim()).toEqual(
-            `${component.strings.addedOn} ${formatDate(new Date(), 'mediumDate', 'en-US')}`
+        expect(addedOn.textContent?.trim()).toEqual(
+            `${component.strings.addedOn} ${formatDate(new Date(), "mediumDate", "en-US")}`
         );
-        expect(description.textContent.trim()).toEqual(usualItem.description);
+        expect(description.textContent?.trim()).toEqual(usualItem.description);
     });
 });
 
-describe('ItemComponent with no logged in user, closed item and applicable status', () => {
+describe("ItemComponent with no logged in user, closed item and applicable status", () => {
 
-    const domSanitizerSpy = jasmine.createSpyObj('domSanitizer', ['bypassSecurityTrustUrl']);
-    const routerSpy = jasmine.createSpyObj('router', ['navigateByUrl']);
-    const snackBarServiceSpy = jasmine.createSpyObj('snackBarService', ['openSnackBar']);
-    const itemsServiceSpy = jasmine.createSpyObj('itemsService', ['getItem']);
+    const domSanitizerSpy = jasmine.createSpyObj("domSanitizer", ["bypassSecurityTrustUrl"]);
+    const routerSpy = jasmine.createSpyObj("router", ["navigateByUrl"]);
+    const snackBarServiceSpy = jasmine.createSpyObj("snackBarService", ["openSnackBar"]);
+    const itemsServiceSpy = jasmine.createSpyObj("itemsService", ["getItem"]);
     itemsServiceSpy.getItem.and
         .returnValue(new Observable(subscriber => subscriber.next({body: closedItem})));
-    const authenticationServiceSpy = jasmine.createSpyObj('authenticationService', ['any']);
+    const authenticationServiceSpy = jasmine.createSpyObj("authenticationService", ["any"]);
 
     let component: ItemComponent;
     let fixture: ComponentFixture<ItemComponent>;
@@ -234,12 +237,12 @@ describe('ItemComponent with no logged in user, closed item and applicable statu
         findElements(fixture);
     });
 
-    it('should display closed item correctly', async () => {
+    it("should display closed item correctly", async () => {
         expect(component).toBeTruthy();
 
-        const itemClosed = findByCss(fixture, '#item-closed') as HTMLDivElement;
-        expect(itemClosed.textContent.trim()).toEqual(
-            `${component.strings.itemClosed} ${formatDate(new Date(), 'mediumDate', 'en-US')}`
+        const itemClosed = findByCss(fixture, "#item-closed") as HTMLDivElement;
+        expect(itemClosed.textContent?.trim()).toEqual(
+            `${component.strings.itemClosed} ${formatDate(new Date(), "mediumDate", "en-US")}`
         );
         expect(sendMessage).toBeUndefined();
         expect(sendOffer).toBeUndefined();
@@ -249,16 +252,16 @@ describe('ItemComponent with no logged in user, closed item and applicable statu
     });
 });
 
-describe('ItemComponent with no logged in user, open item and not-applicable status', () => {
+describe("ItemComponent with no logged in user, open item and not-applicable status", () => {
 
-    const domSanitizerSpy = jasmine.createSpyObj('domSanitizer', ['bypassSecurityTrustUrl']);
-    const routerSpy = jasmine.createSpyObj('router', ['navigateByUrl']);
-    const snackBarServiceSpy = jasmine.createSpyObj('snackBarService', ['openSnackBar']);
-    const itemsServiceSpy = jasmine.createSpyObj('itemsService', ['getItem']);
+    const domSanitizerSpy = jasmine.createSpyObj("domSanitizer", ["bypassSecurityTrustUrl"]);
+    const routerSpy = jasmine.createSpyObj("router", ["navigateByUrl"]);
+    const snackBarServiceSpy = jasmine.createSpyObj("snackBarService", ["openSnackBar"]);
+    const itemsServiceSpy = jasmine.createSpyObj("itemsService", ["getItem"]);
     itemsServiceSpy.getItem.and.returnValue(new Observable(subscriber => {
         subscriber.next({body: notApplicableStatusItem});
     }));
-    const authenticationServiceSpy = jasmine.createSpyObj('authenticationService', ['any']);
+    const authenticationServiceSpy = jasmine.createSpyObj("authenticationService", ["any"]);
 
     let component: ItemComponent;
     let fixture: ComponentFixture<ItemComponent>;
@@ -296,26 +299,26 @@ describe('ItemComponent with no logged in user, open item and not-applicable sta
         findElements(fixture);
     });
 
-    it('should display item with status \'not applicable\' correctly', () => {
+    it("should display item with status 'not applicable' correctly", () => {
         expect(component).toBeTruthy();
 
         // required because status has been initialized previously with incorrect data
-        status = findByCss(fixture, '#item-status');
+        status = findByCss(fixture, "#item-status");
         expect(status).toBeUndefined();
     });
 });
 
-describe('ItemComponent with logged in user, open item and applicable status', () => {
+describe("ItemComponent with logged in user, open item and applicable status", () => {
 
-    const domSanitizerSpy = jasmine.createSpyObj('domSanitizer', ['bypassSecurityTrustUrl']);
-    const routerSpy = jasmine.createSpyObj('router', ['navigateByUrl']);
-    const snackBarServiceSpy = jasmine.createSpyObj('snackBarService', ['openSnackBar']);
-    const itemsServiceSpy = jasmine.createSpyObj('itemsService', ['getItem']);
+    const domSanitizerSpy = jasmine.createSpyObj("domSanitizer", ["bypassSecurityTrustUrl"]);
+    const routerSpy = jasmine.createSpyObj("router", ["navigateByUrl"]);
+    const snackBarServiceSpy = jasmine.createSpyObj("snackBarService", ["openSnackBar"]);
+    const itemsServiceSpy = jasmine.createSpyObj("itemsService", ["getItem"]);
     itemsServiceSpy.getItem.and.returnValue(new Observable(subscriber => {
         subscriber.next({body: usualItem});
     }));
     const fakeAuthenticationService = {
-        authenticatedUser: 'kplich'
+        authenticatedUser: "kplich"
     };
 
     let component: ItemComponent;
@@ -354,17 +357,17 @@ describe('ItemComponent with logged in user, open item and applicable status', (
         findElements(fixture);
     });
 
-    it('should display item and applicable actions correctly', () => {
+    it("should display item and applicable actions correctly", () => {
         expect(component).toBeTruthy();
 
-        expect(component.addedByLoggedInUser).toBeTruthy();
+        expect(component.loggedInUserIsOwner).toBeTruthy();
         expect(itemsServiceSpy.getItem).toHaveBeenCalledWith(usualItem.id);
         expect(component.item).toEqual(usualItem);
 
-        expect(title.textContent.trim()).toEqual(usualItem.title);
-        expect(price.textContent.trim()).toEqual(usualItem.formattedPrice);
-        expect(status.textContent.trim()).toEqual(usualItem.usedStatus);
-        expect(category.textContent.trim()).toEqual(
+        expect(title.textContent?.trim()).toEqual(usualItem.title);
+        expect(price.textContent?.trim()).toEqual(usualItem.formattedPrice);
+        expect(status.textContent?.trim()).toEqual(usualItem.usedStatus);
+        expect(category.textContent?.trim()).toEqual(
             `${component.strings.category}: ${usualItem.category.name}`
         );
         expect(sendMessage).toBeUndefined();
@@ -372,12 +375,12 @@ describe('ItemComponent with logged in user, open item and applicable status', (
         expect(acceptOffer).toBeUndefined();
         expect(editItem).toBeDefined();
         expect(closeOffer).toBeDefined();
-        expect(addedBy.textContent.trim()).toEqual(
+        expect(addedBy.textContent?.trim()).toEqual(
             `${component.strings.addedBy} ${usualItem.addedBy.username}`
         );
-        expect(addedOn.textContent.trim()).toEqual(
-            `${component.strings.addedOn} ${formatDate(new Date(), 'mediumDate', 'en-US')}`
+        expect(addedOn.textContent?.trim()).toEqual(
+            `${component.strings.addedOn} ${formatDate(new Date(), "mediumDate", "en-US")}`
         );
-        expect(description.textContent.trim()).toEqual(usualItem.description);
+        expect(description.textContent?.trim()).toEqual(usualItem.description);
     });
 });

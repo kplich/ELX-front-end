@@ -1,20 +1,26 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {MyAccountComponent} from './my-account/my-account.component';
-import {MaterialModule} from '../material/material.module';
-import {ItemSoldComponent} from './item-sold/item-sold.component';
-import {ItemSoldDescriptionComponent} from './item-sold/item-sold-description/item-sold-description.component';
-import {ItemSoldOfferComponent} from './item-sold/item-sold-offer/item-sold-offer.component';
-import {SettingsComponent} from './settings/settings.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {NgModule} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {MyAccountComponent} from "@my-account/my-account/my-account.component";
+import {MaterialModule} from "@material/material.module";
+import {ItemSoldComponent} from "@my-account/item-sold/item-sold.component";
+import {ItemSoldDescriptionComponent} from "@my-account/item-sold-description/item-sold-description.component";
+import {ItemSoldOfferComponent} from "@my-account/item-sold-offer/item-sold-offer.component";
+import {SettingsComponent} from "@my-account/my-account/settings/settings.component";
+import {ReactiveFormsModule} from "@angular/forms";
+import {ChangePasswordComponent} from "@my-account/my-account/settings/change-password/change-password.component";
+import {EthereumAddressComponent} from "./my-account/settings/ethereum-address/ethereum-address.component";
+import {EnableEthereumComponent} from "./my-account/settings/enable-ethereum/enable-ethereum.component";
 
 @NgModule({
   declarations: [
-    MyAccountComponent,
-    ItemSoldComponent,
-    ItemSoldDescriptionComponent,
-    ItemSoldOfferComponent,
-    SettingsComponent
+      MyAccountComponent,
+      ItemSoldComponent,
+      ItemSoldDescriptionComponent,
+      ItemSoldOfferComponent,
+      SettingsComponent,
+      ChangePasswordComponent,
+      EthereumAddressComponent,
+      EnableEthereumComponent
   ],
   imports: [
     CommonModule,

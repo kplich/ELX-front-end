@@ -1,20 +1,20 @@
-import {TestBed} from '@angular/core/testing';
+import {TestBed} from "@angular/core/testing";
 
-import {SnackBarService} from './snack-bar.service';
-import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
+import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 
-describe('SnackBarService', () => {
-  let service: SnackBarService;
+describe("SnackBarService", () => {
+    let service: SnackBarService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [SnackBarService, MatSnackBar],
-      imports: [MatSnackBarModule]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            providers: [SnackBarService, MatSnackBar],
+            imports: [MatSnackBarModule]
+        });
+        service = TestBed.inject(SnackBarService);
     });
-    service = TestBed.inject(SnackBarService);
-  });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+    it("should be created", () => {
+        expect(service).toBeTruthy();
+    });
 });

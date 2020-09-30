@@ -97,7 +97,7 @@
 }
 
 .item-price {
-    @include header-2(true)
+    @include header-2($mono: true)
 }
 
 

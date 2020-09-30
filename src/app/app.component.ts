@@ -1,55 +1,58 @@
-import {Component} from '@angular/core';
-import {AuthenticationService} from './identity-management/authentication-service/authentication.service';
-import {Router} from '@angular/router';
+import {Component} from "@angular/core";
+import {AuthenticationService} from "@authentication/authentication-service/authentication.service";
+import {Router} from "@angular/router";
+import {SimpleUser} from "@my-account/data/SimpleUser";
+import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 
-export const ADD_ITEM = 'Add item';
-export const BUTTON_BROWSE_ITEMS_TEXT = 'Browse items';
-export const BUTTON_MY_ACCOUNT_TEXT = 'My account';
-export const BUTTON_LOG_OUT_TEXT = 'Log out';
-export const BUTTON_LOG_IN_TEXT = 'Log in';
+export const ADD_ITEM = "Add item";
+export const BUTTON_BROWSE_ITEMS_TEXT = "Browse items";
+export const BUTTON_MY_ACCOUNT_TEXT = "My account";
+export const BUTTON_LOG_OUT_TEXT = "Log out";
+export const BUTTON_LOG_IN_TEXT = "Log in";
 
 @Component({
-    selector: 'elx-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    selector: "elx-root",
+    templateUrl: "./app.component.html",
+    styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-    constructor(
-        private authenticationService: AuthenticationService,
-        private router: Router) {
-    }
-
     /**
      * All links that can be displayed in the toolbar.
      */
-        // tslint:disable-next-line:variable-name
+    // tslint:disable-next-line:variable-name
     private readonly _toolbarLinks: ToolbarLink[] = [
         {
             displayedName: ADD_ITEM,
-            function: 'navigateToAddItem',
+            function: () => this.navigateToAddItem(),
             authenticationRequired: true
         },
         {
             displayedName: BUTTON_BROWSE_ITEMS_TEXT,
-            function: 'navigateToItems',
+            function: () => this.navigateToItems(),
             authenticationRequired: null
         },
         {
             displayedName: BUTTON_MY_ACCOUNT_TEXT,
-            function: 'navigateToMyAccount',
+            function: () => this.navigateToMyAccount(),
             authenticationRequired: true
         },
         {
             displayedName: BUTTON_LOG_OUT_TEXT,
-            function: 'logOut',
+            function: () => this.logOut(),
             authenticationRequired: true
         },
         {
             displayedName: BUTTON_LOG_IN_TEXT,
-            function: 'navigateToLogIn',
+            function: () => this.navigateToLogIn(),
             authenticationRequired: false
         }
     ];
+
+    constructor(
+        private authenticationService: AuthenticationService,
+        private loggedInUserService: LoggedInUserService,
+        private router: Router) {
+    }
 
     /**
      * Toolbar links filtered depending on user's authentication.
@@ -64,43 +67,34 @@ export class AppComponent {
         });
     }
 
-    get authenticatedUser(): string | null {
-        return this.authenticationService.authenticatedUser;
+    get authenticatedUser(): SimpleUser | null {
+        return this.loggedInUserService.authenticatedUser;
     }
 
-    /**
-     * Calls one of the functions below.
-     */
-    callFunction(functionName: string) {
-        this[functionName]();
-    }
-
-    // noinspection JSUnusedLocalSymbols - called from template using callFunction
     private logOut() {
-        this.authenticationService.logOut().then(_ => window.location.reload());
+        this.authenticationService.logOut();
+        window.location.reload();
     }
 
-    // noinspection JSUnusedLocalSymbols - called from template using callFunction
     private navigateToLogIn() {
-        this.router.navigateByUrl('/log-in').then(_ => {
+        console.log("navigating to log-in");
+        this.router.navigateByUrl("/log-in").then(_ => {
+            console.log("navigated!");
         });
     }
 
-    // noinspection JSUnusedLocalSymbols - called from template using callFunction
     private navigateToMyAccount() {
-        this.router.navigateByUrl('/my-account').then(_ => {
+        this.router.navigateByUrl("/my-account").then(_ => {
         });
     }
 
-    // noinspection JSUnusedLocalSymbols - called from template using callFunction
     private navigateToItems() {
-        this.router.navigateByUrl('/items').then(_ => {
+        this.router.navigateByUrl("/items").then(_ => {
         });
     }
 
-    // noinspection JSUnusedLocalSymbols - called from template using callFunction
     private navigateToAddItem() {
-        this.router.navigateByUrl('/items/add').then(_ => {
+        this.router.navigateByUrl("/items/add").then(_ => {
         });
     }
 }
@@ -114,7 +108,7 @@ interface ToolbarLink {
     /**
      * Function name from AppComponent that should be called on clicking the link.
      */
-    function: string;
+    function: () => void;
 
     /**
      * Indicates if authentication is necessary to display the link. True means authentication

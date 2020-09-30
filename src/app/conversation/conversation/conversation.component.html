@@ -1,0 +1,10 @@
+<app-conversation-item-display
+    [item]="(item$ | async)">
+</app-conversation-item-display>
+<app-conversation-messages
+    [conversation]="(conversation$ | async)"
+    (messageSent)="sendMessage($event)"
+    (offerCancelled)="cancelOffer($event)"
+    (offerDeclined)="declineOffer($event)"
+    (offerAccepted)="acceptOffer($event)">
+</app-conversation-messages>

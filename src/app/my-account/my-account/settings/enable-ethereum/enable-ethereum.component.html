@@ -1,0 +1,13 @@
+<ng-template
+        *ngIf="noEthereumAddressIsLoggedIn then noEthereumAddresses; else ethereumAddressFound"></ng-template>
+<ng-template #noEthereumAddresses>
+    <div>
+        You're not connected to the blockchain. Click the button to enable our website to interact with blockchain.
+        <button (click)="connectToBlockchain()" color="accent" mat-raised-button>Connect to blockchain</button>
+    </div>
+</ng-template>
+<ng-template #ethereumAddressFound>
+    <div>
+        You're connected to the blockchain. There's nothing more you need to do.
+    </div>
+</ng-template>

@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {JwtStorageService} from '../../shared/jwt-storage-service/jwt-storage.service';
+import {Injectable} from "@angular/core";
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {JwtStorageService} from "@shared/jwt-storage-service/jwt-storage.service";
 
-export const AUTHORIZATION = 'Authorization';
-export const BEARER = 'Bearer';
+export const AUTHORIZATION = "Authorization";
+export const BEARER = "Bearer";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {

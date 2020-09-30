@@ -1,0 +1,21 @@
+<div class="offer-header">{{strings.header}}</div>
+<mat-divider></mat-divider>
+<div class="offer-info">
+    <div>{{strings.priceLabel}}: {{offer?.formattedPrice}}</div>
+    <div *ngIf="offerIsPlainAdvance">{{strings.advanceLabel}}: {{offer?.formattedAdvance}}</div>
+    <div>{{strings.typeLabel}}: {{offer?.type}}</div>
+</div>
+<div *ngIf="offer?.awaiting" class="offer-buttons">
+    <button mat-raised-button color="primary" *ngIf="loggedInIsSender" (click)="emitCancelled()">{{strings.buttons.cancelLabel}}</button>
+    <button mat-raised-button color="primary" *ngIf="!loggedInIsSender" (click)="emitDeclined()">{{strings.buttons.declineLabel}}</button>
+    <button mat-raised-button color="accent" *ngIf="!loggedInIsSender" (click)="emitAccepted()">{{strings.buttons.acceptLabel}}</button>
+</div>
+<div *ngIf="offer?.accepted" class="offer-finalized">
+    {{strings.notices.accepted}}
+</div>
+<div *ngIf="offer?.cancelled" class="offer-finalized">
+    {{strings.notices.cancelled}}
+</div>
+<div *ngIf="offer?.declined" class="offer-finalized">
+    {{strings.notices.declined}}
+</div>

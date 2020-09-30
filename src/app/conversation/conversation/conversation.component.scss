@@ -1,0 +1,20 @@
+@import 'src/dimens';
+
+:host {
+    height: 100%;
+
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+app-conversation-item-display {
+    flex: 1 1 30%;
+
+    margin: $dimen-xs;
+}
+
+app-conversation-messages {
+    flex: 1 1 70%;
+
+    margin: $dimen-xs;
+}

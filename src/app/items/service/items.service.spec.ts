@@ -1,0 +1,12 @@
+import {TestBed} from "@angular/core/testing";
+
+import {ItemsService} from "@items/service/items.service";
+
+describe("ItemsService", () => {
+    let service: ItemsService;
+
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(ItemsService);
+    });
+});

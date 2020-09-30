@@ -1,0 +1,39 @@
+@import 'src/typography';
+@import 'src/dimens';
+
+:host {
+    background: white;
+}
+
+.offer-header {
+    @include header-3;
+}
+
+.offer-info {
+    @include body-accent;
+
+    margin: 0 $dimen-xxs;
+
+    > * {
+        margin: $dimen-xxs 0;
+    }
+}
+
+.offer-buttons {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-top: $dimen-xs;
+
+    button {
+        flex: 1 1 auto;
+        margin: 0 $dimen-xxs;
+    }
+}
+
+.offer-finalized {
+    margin-top: $dimen-xs;
+
+    @include detail;
+
+    text-align: center;
+}

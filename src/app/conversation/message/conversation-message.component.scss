@@ -1,0 +1,20 @@
+@import 'src/dimens';
+@import 'src/typography';
+
+:host {
+    display: block;
+    margin: $dimen-xxs;
+    padding: $dimen-xs;
+    border-radius: $dimen-xxs;
+    max-width: 60%;
+    clear: both;
+}
+
+.message-time {
+    @include detail($mono: true);
+    margin-bottom: $dimen-xxs;
+}
+
+app-conversation-offer {
+    margin-top: $dimen-xxs;
+}

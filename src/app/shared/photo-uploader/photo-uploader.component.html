@@ -1,20 +1,21 @@
 <app-file-uploader
-  [disableUpload]="uploadShouldBeDisabled"
-  (fileUploaded)="fileUploaded($event)"></app-file-uploader>
-<div cdkDropList cdkDropListOrientation="horizontal" *ngIf="photosWereUploaded" class="photo-list" (cdkDropListDropped)="drop($event)">
-  <div cdkDrag cdkDragLockAxis="x" class="photo" *ngFor="let photo of photosList; let myIndex=index;" >
-    <img alt="Uploaded photo" src="{{photo}}">
-    <button mat-mini-fab color="primary" class="delete-button" (click)="deletePhoto(myIndex)">
-      <mat-icon>clear</mat-icon>
-    </button>
-  </div>
+        (fileUploaded)="fileUploaded($event)"
+        [disableUpload]="uploadShouldBeDisabled"></app-file-uploader>
+<div (cdkDropListDropped)="drop($event)" *ngIf="photosWereUploaded" cdkDropList cdkDropListOrientation="horizontal"
+     class="photo-list">
+    <div *ngFor="let photo of photosList; let myIndex=index;" cdkDrag cdkDragLockAxis="x" class="photo">
+        <img alt="Uploaded photo" src="{{photo}}">
+        <button (click)="deletePhoto(myIndex)" class="delete-button" color="primary" mat-mini-fab>
+            <mat-icon>clear</mat-icon>
+        </button>
+    </div>
 </div>
 <div *ngIf="!photosWereUploaded && noPhotosPrompt !== null" class="prompt">
-  {{noPhotosPrompt}}
+    {{noPhotosPrompt}}
 </div>
 <div *ngIf="enoughPhotosUploaded" class="prompt">
-  {{strings.enoughPhotos}}
+    {{strings.enoughPhotos}}
 </div>
 <div *ngIf="tooManyPhotosUploaded" class="error">
-  {{strings.tooManyPhotos}}
+    {{strings.tooManyPhotos}}
 </div>

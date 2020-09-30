@@ -2,11 +2,12 @@
     <img alt="ELX application logo" class="toolbar-logo" src="../assets/ELX-dummy-logo.png">
     <div class="toolbar-menu">
 
-        <a (click)="callFunction(link.function)" *ngFor="let link of toolbarLinks"
+        <a (click)="link.function()" *ngFor="let link of toolbarLinks"
            mat-button>{{link.displayedName}}</a>
     </div>
 </mat-toolbar>
 <div class="app-content">
     <router-outlet></router-outlet>
+
 </div>
 

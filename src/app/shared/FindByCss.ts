@@ -1,5 +1,5 @@
-import {ComponentFixture} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
+import {ComponentFixture} from "@angular/core/testing";
+import {By} from "@angular/platform-browser";
 
 export function findByCss<T, EL extends HTMLElement>(
     fixture: ComponentFixture<T>, selector: string): EL {

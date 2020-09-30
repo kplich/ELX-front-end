@@ -1,0 +1,15 @@
+@import 'src/dimens';
+
+.message-form {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: baseline;
+
+    mat-form-field {
+        flex-grow: 3;
+    }
+
+    button {
+        margin-left: $dimen-xs;
+    }
+}
