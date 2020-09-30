@@ -7,7 +7,6 @@ import {AppRoutingModule} from "@routing/app-routing.module";
 import {MaterialModule} from "@material/material.module";
 import {ItemsModule} from "@items/items.module";
 import {MyAccountModule} from "@my-account/my-account.module";
-import {OfferModule} from "./offer/offer.module";
 import {AuthenticationModule} from "@authentication/authentication.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {JwtInterceptor} from "@routing/jwt-interceptor/jwt.interceptor";
@@ -27,7 +26,6 @@ import {OfferFormComponent} from "@conversation/offer-form/offer-form.component"
         ConversationModule,
         ItemsModule,
         MyAccountModule,
-        OfferModule,
         HttpClientModule
     ],
     providers: [

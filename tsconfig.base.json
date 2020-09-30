@@ -20,7 +20,39 @@
         "lib": [
             "es2018",
             "dom"
-        ]
+        ],
+        "paths": {
+            "@environments/*": [
+                "src/environments/*"
+            ],
+            "@shared/*": [
+                "src/app/shared/*"
+            ],
+            "@routing/*": [
+                "src/app/routing/*"
+            ],
+            "@app/*": [
+                "src/app/*"
+            ],
+            "@authentication/*": [
+                "src/app/authentication/*"
+            ],
+            "@material/*": [
+                "src/app/material/*"
+            ],
+            "@conversation/*": [
+                "src/app/conversation/*"
+            ],
+            "@items/*": [
+                "src/app/items/*"
+            ],
+            "@my-account/*": [
+                "src/app/my-account/*"
+            ],
+            "@contracts/*": [
+                "blockchain/build/contracts/*"
+            ]
+        }
     },
     "angularCompilerOptions": {
         "fullTemplateTypeCheck": true,
