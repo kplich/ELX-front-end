@@ -1,10 +1,10 @@
 import {Component, Inject} from "@angular/core";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {OFFER_TYPES, OfferTypeRequestDto, OfferTypePair} from "@conversation/data/OfferType";
+import {OFFER_TYPES, OfferTypePair, OfferTypeRequestDto} from "@conversation/data/OfferType";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
 import {Item} from "@items/data/Item";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {NewOfferRequest} from "@conversation/data/NewOfferRequest";
+import {NewDoubleAdvanceOfferRequest, NewPlainAdvanceOfferRequest} from "@conversation/data/NewOfferRequest";
 
 export function advanceRequiredIfPlainAdvance(formGroup: AbstractControl): ValidationErrors | null {
     const typeInput = formGroup.get("type");
@@ -127,28 +127,30 @@ export class OfferFormComponent {
         advanceRequiredIfPlainAdvance: this.form.hasError("advanceRequired")
     };
 
-    constructor(@Inject(MAT_DIALOG_DATA) data: NewOfferRequest | null) {
+    constructor(@Inject(MAT_DIALOG_DATA) data: NewPlainAdvanceOfferRequest | NewDoubleAdvanceOfferRequest | null) {
         if (data !== null) {
-            this.controls.advance.setValue(data.advance);
+            this.controls.advance
+                .setValue(data.requestType === OfferTypeRequestDto.PLAIN_ADVANCE ? data.advance : null);
             this.controls.price.setValue(data.price);
             this.controls.type.setValue(data.requestType);
         }
     }
 
-    get request(): NewOfferRequest {
-        if (this.typeIsPlainAdvance) {
-            return {
-                requestType: this.controls.type.value,
-                price: parseFloat(this.controls.price.value),
-                advance: parseFloat(this.controls.advance.value)
-            };
-        }
-        else {
-            return {
-                requestType: this.controls.type.value,
-                price: parseFloat(this.controls.price.value),
-                advance: parseFloat(this.controls.price.value)
-            };
+    get request(): NewPlainAdvanceOfferRequest | NewDoubleAdvanceOfferRequest {
+        switch (this.controls.type.value as OfferTypeRequestDto) {
+            case OfferTypeRequestDto.PLAIN_ADVANCE: {
+                return {
+                    requestType: OfferTypeRequestDto.PLAIN_ADVANCE,
+                    price: parseFloat(this.controls.price.value),
+                    advance: parseFloat(this.controls.advance.value)
+                };
+            }
+            case OfferTypeRequestDto.DOUBLE_ADVANCE: {
+                return {
+                    requestType: OfferTypeRequestDto.DOUBLE_ADVANCE,
+                    price: parseFloat(this.controls.price.value),
+                };
+            }
         }
     }
 

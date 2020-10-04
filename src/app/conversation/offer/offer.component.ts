@@ -1,48 +1,43 @@
-import {Component, EventEmitter, Input, Output} from "@angular/core";
-import {Offer} from "@conversation/data/Offer";
+import { EventEmitter, Input, Output, Component} from "@angular/core";
+import {Offer} from "@conversation/data/offer/Offer";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import {PlainAdvanceOffer} from "@conversation/data/offer/PlainAdvanceOffer";
 import {OfferType} from "@conversation/data/OfferType";
-
-export interface AcceptedOfferPrices {
-    offerId: number;
-    price: number;
-    advance: number;
-}
 
 export const STRINGS = {
     header: "New offer!",
     priceLabel: "price",
     advanceLabel: "advance",
     typeLabel: "offer type",
+    types: {
+        plainAdvance: OfferType.PLAIN_ADVANCE,
+        doubleAdvance: OfferType.DOUBLE_ADVANCE
+    },
     buttons: {
         cancelLabel: "Cancel",
         declineLabel: "Decline",
         acceptLabel: "Accept"
     },
-    notices: {
+    messages: {
         cancelled: "Offer has been cancelled.",
         declined: "Offer has been declined.",
         accepted: "Offer has been accepted!"
     }
 };
 
-@Component({
-    selector: "app-conversation-offer",
-    templateUrl: "./conversation-offer.component.html",
-    styleUrls: ["./conversation-offer.component.scss"]
-})
-export class ConversationOfferComponent {
+@Component({ template: "" })
+export abstract class OfferComponent<O extends Offer> {
 
     readonly strings = STRINGS;
 
-    @Input() offer: Offer | undefined;
+    @Input() offer: O | undefined;
     @Input() senderId!: number | undefined;
 
     @Output() cancelled = new EventEmitter<number>();
     @Output() declined = new EventEmitter<number>();
-    @Output() accepted = new EventEmitter<Offer>();
+    @Output() accepted = new EventEmitter<O>();
 
-    constructor(private loggedInUserService: LoggedInUserService) {
+    protected constructor(protected loggedInUserService: LoggedInUserService) {
     }
 
     get loggedInIsSender(): boolean {
@@ -53,7 +48,7 @@ export class ConversationOfferComponent {
 
     get offerIsPlainAdvance(): boolean {
         if (this.offer) {
-            return this.offer.type === OfferType.PLAIN_ADVANCE;
+            return this.offer instanceof PlainAdvanceOffer;
         }
         else {
             return false;

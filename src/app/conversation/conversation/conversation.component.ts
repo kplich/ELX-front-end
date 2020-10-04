@@ -1,21 +1,28 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, of} from "rxjs";
-import {catchError, map, tap} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 
 import {Conversation} from "@conversation/data/Conversation";
 import {ConversationService} from "@conversation/service/conversation/conversation.service";
 import {ItemsService} from "@items/service/items.service";
 import {Item} from "@items/data/Item";
-import {HttpResponse, HttpErrorResponse} from "@angular/common/http";
+import {HttpErrorResponse} from "@angular/common/http";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {OfferContractService} from "@conversation/service/offer-contract/offer-contract.service";
 import {AcceptedOfferData} from "@conversation/messages/conversation-messages.component";
 import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
-import {OfferType} from "@conversation/data/OfferType";
+import {PlainAdvanceOffer} from "@conversation/data/offer/PlainAdvanceOffer";
+import {DoubleAdvanceOffer} from "@conversation/data/offer/DoubleAdvanceOffer";
 
 export const STRINGS = {
+    errors: {
+        conversationWithSelf: "You cannot have a conversation with yourself!",
+        conversationSubjectRequired: "You need to provide conversation subject ID!",
+        conversationNotFound: "There are no messages in this conversation!",
+        unauthorizedConversationAccess: "You're not authorized to view this conversation!"
+    },
     error: "An error occurred."
 };
 
@@ -27,7 +34,7 @@ export const STRINGS = {
 export class ConversationComponent implements OnInit {
 
     item$!: Observable<Item | undefined>;
-    conversation$!: Observable<Conversation | undefined>;
+    conversation$: Observable<Conversation | undefined> = of(undefined);
 
     private itemId!: number;
     private subjectId!: number | null;
@@ -78,24 +85,28 @@ export class ConversationComponent implements OnInit {
         return this.conversationService.getConversationWithSubject(itemId, subjectId)
             .pipe(
                 catchError((error: HttpErrorResponse) => {
-                    // if this user hasn't started a conversation, owner cannot start it
-                    if (error.status === 404) {
-                        this.router.navigateByUrl(`/items/${this.itemId}`).then(() => {
-                            this.snackBarService.openSnackBar(STRINGS.error);
-                        });
-                    }
-
                     // owner cannot have a conversation with self
                     if (error.status === 400) {
                         this.router.navigateByUrl(`/items/${this.itemId}`).then(() => {
-                            this.snackBarService.openSnackBar(STRINGS.error);
+                            this.snackBarService.openSnackBar(STRINGS.errors.conversationWithSelf);
                         });
                     }
 
-                    return of(new HttpResponse<Conversation | null>({body: null}));
-                }),
-                map((response: HttpResponse<Conversation | null>) => response.body ? response.body : undefined),
-                tap(console.log)
+                    if (error.status === 401) {
+                        this.router.navigateByUrl(`items/${this.itemId}`).then(() => {
+                            this.snackBarService.openSnackBar(STRINGS.errors.unauthorizedConversationAccess);
+                        });
+                    }
+
+                    // if this user hasn't started a conversation, owner cannot start it
+                    if (error.status === 404) {
+                        this.router.navigateByUrl(`/items/${this.itemId}`).then(() => {
+                            this.snackBarService.openSnackBar(STRINGS.errors.conversationNotFound);
+                        });
+                    }
+
+                    return of(undefined);
+                })
             );
     }
 
@@ -103,71 +114,103 @@ export class ConversationComponent implements OnInit {
         return this.conversationService.getConversation(itemId)
             .pipe(
                 catchError((error: HttpErrorResponse) => {
-                    // if there's no conversation about the item, other user can start it
-
-                    // subject id is necessary
+                    // owner cannot have a conversation with self
                     if (error.status === 400) {
                         this.router.navigateByUrl(`/items/${this.itemId}`).then(() => {
-                            this.snackBarService.openSnackBar(STRINGS.error);
+                            this.snackBarService.openSnackBar(STRINGS.errors.conversationSubjectRequired);
                         });
                     }
 
-                    return of(new HttpResponse<Conversation | null>({body: null}));
-                }),
-                map((response: HttpResponse<Conversation | null>) => response.body ? response.body : undefined),
-                tap(console.log)
+                    if (error.status === 401) {
+                        this.router.navigateByUrl(`items/${this.itemId}`).then(() => {
+                            this.snackBarService.openSnackBar(STRINGS.errors.unauthorizedConversationAccess);
+                        });
+                    }
+
+                    return of(undefined);
+                })
             );
     }
 
     sendMessage(message: NewMessageRequest): void {
-        this.conversation$ = this.conversationService.sendMessage(
-            this.itemId,
-            message
-        );
+        const tempConversation = this.conversation$;
+
+        if (this.subjectId !== null) {
+            this.conversation$ = this.conversationService.sendMessageWithSubject(
+                this.itemId,
+                message,
+                this.subjectId
+            ).pipe(
+                catchError((error: HttpErrorResponse) => {
+                    this.snackBarService.openSnackBar(error.message);
+                    return tempConversation;
+                })
+            );
+        }
+        else {
+            this.conversation$ = this.conversationService.sendMessage(
+                this.itemId,
+                message
+            ).pipe(
+                catchError((error: HttpErrorResponse) => {
+                    this.snackBarService.openSnackBar(error.message);
+                    return tempConversation;
+                })
+            );
+        }
     }
 
     cancelOffer(offerId: number) {
+        const tempConversation = this.conversation$;
         this.conversation$ = this.conversationService.cancelOffer(offerId).pipe(
-            catchError(_ => of(undefined)),
-            tap(console.log)
+            catchError((error: HttpErrorResponse) => {
+                this.snackBarService.openSnackBar(error.message);
+                return tempConversation;
+            })
         );
     }
 
     declineOffer(offerId: number) {
+        const tempConversation = this.conversation$;
         this.conversation$ = this.conversationService.declineOffer(offerId).pipe(
-            catchError(_ => of(undefined)),
-            tap(console.log)
+            catchError((error: HttpErrorResponse) => {
+                this.snackBarService.openSnackBar(error.message);
+                return tempConversation;
+            })
         );
     }
 
-    acceptOffer(acceptedOfferData: AcceptedOfferData) {
-        console.log("accepting offer!", acceptedOfferData);
-
-        switch (acceptedOfferData.offer.type) {
-            case OfferType.PLAIN_ADVANCE: {
-                this.offerContractService.createPlainAdvanceContract(
+    async acceptOffer(acceptedOfferData: AcceptedOfferData) {
+        console.log(acceptedOfferData);
+        if (acceptedOfferData.offer instanceof PlainAdvanceOffer) {
+            try {
+                const contract = await this.offerContractService.createPlainAdvanceContract(
                     acceptedOfferData.sellerAddress,
                     acceptedOfferData.buyerAddress,
                     acceptedOfferData.offer.price,
                     acceptedOfferData.offer.advance
-                ).then((contract: any) => { // FIXME: type?
-                    console.log("contract created!", contract);
-                    this.conversation$
-                        = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
-                });
-                break;
+                );
+
+                console.log("contract created!", contract);
+                this.conversation$
+                    = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
+            } catch (e) {
+                this.snackBarService.openSnackBar(e.message);
             }
-            case OfferType.DOUBLE_ADVANCE: {
-                this.offerContractService.createDoubleAdvanceContract(
+        }
+        else if (acceptedOfferData.offer instanceof DoubleAdvanceOffer) {
+            try {
+                const contract = await this.offerContractService.createDoubleAdvanceContract(
                     acceptedOfferData.sellerAddress,
                     acceptedOfferData.buyerAddress,
                     acceptedOfferData.offer.price,
-                ).then((contract: any) => { // FIXME: type?
-                    console.log("contract created!", contract);
-                    this.conversation$
-                        = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
-                });
-                break;
+                );
+
+                console.log("contract created!", contract);
+                this.conversation$
+                    = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
+            } catch (e) {
+                this.snackBarService.openSnackBar(e.message);
             }
         }
     }

@@ -2,7 +2,7 @@ import {Component, AfterViewChecked, Input, Output, EventEmitter, ViewChild, Ele
 import {Conversation} from "@conversation/data/Conversation";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
-import {Offer} from "@conversation/data/Offer";
+import {Offer} from "@conversation/data/offer/Offer";
 
 export interface AcceptedOfferData {
     offer: Offer;

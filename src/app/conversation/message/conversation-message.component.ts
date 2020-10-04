@@ -1,6 +1,8 @@
 import {Component, Input, Output, EventEmitter} from "@angular/core";
 import {Message} from "@conversation/data/Message";
-import {Offer} from "@conversation/data/Offer";
+import {Offer} from "@conversation/data/offer/Offer";
+import {PlainAdvanceOffer} from "@conversation/data/offer/PlainAdvanceOffer";
+import {DoubleAdvanceOffer} from "@conversation/data/offer/DoubleAdvanceOffer";
 
 @Component({
     selector: "app-conversation-message",
@@ -28,5 +30,23 @@ export class ConversationMessageComponent {
 
     emitAccepted(offer: Offer) {
         this.offerAccepted.emit(offer);
+    }
+
+    get offerIsPlainAdvance(): boolean {
+        if (this.message?.offer) {
+            return this.message.offer instanceof PlainAdvanceOffer;
+        }
+        else {
+            return false;
+        }
+    }
+
+    get offerIsDoubleAdvance(): boolean {
+        if (this.message?.offer) {
+            return this.message.offer instanceof DoubleAdvanceOffer;
+        }
+        else {
+            return false;
+        }
     }
 }

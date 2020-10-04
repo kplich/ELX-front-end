@@ -1,11 +1,20 @@
 <div class="message-time">{{ message?.sentOn | date: 'HH:mm d.MM.y' }}</div>
 <div>{{message?.textContent}}</div>
-<app-conversation-offer
+<app-plain-advance-offer
     class="simple-card"
-    *ngIf="message?.hasOffer"
+    *ngIf="offerIsPlainAdvance"
     [offer]="message?.offer"
     [senderId]="message?.senderId"
     (cancelled)="emitCancelled($event)"
     (declined)="emitDeclined($event)"
     (accepted)="emitAccepted($event)">
-</app-conversation-offer>
+</app-plain-advance-offer>
+<app-double-advance-offer
+    class="simple-card"
+    *ngIf="offerIsDoubleAdvance"
+    [offer]="message?.offer"
+    [senderId]="message?.senderId"
+    (cancelled)="emitCancelled($event)"
+    (declined)="emitDeclined($event)"
+    (accepted)="emitAccepted($event)">
+</app-double-advance-offer>

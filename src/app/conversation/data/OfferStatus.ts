@@ -12,7 +12,7 @@ export enum OfferStatusDto {
     DECLINED = "DECLINED"
 }
 
-export function statusToDtoString(status: OfferStatus): OfferStatusDto {
+export function offerStatusToDto(status: OfferStatus): OfferStatusDto {
     switch (status) {
         case OfferStatus.AWAITING: return OfferStatusDto.AWAITING;
         case OfferStatus.CANCELLED: return OfferStatusDto.CANCELLED;
@@ -21,7 +21,7 @@ export function statusToDtoString(status: OfferStatus): OfferStatusDto {
     }
 }
 
-export function dtoStringToStatus(str: OfferStatusDto): OfferStatus {
+export function dtoToOfferStatus(str: OfferStatusDto): OfferStatus {
     switch (str) {
         case OfferStatusDto.AWAITING: return OfferStatus.AWAITING;
         case OfferStatusDto.CANCELLED: return OfferStatus.CANCELLED;

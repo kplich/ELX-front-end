@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {Conversation, ConversationResponse} from "@conversation/data/Conversation";
@@ -16,33 +16,37 @@ export class ConversationService {
     constructor(private http: HttpClient) {
     }
 
-    private static transformToResponseWithEntity(
-        response: HttpResponse<ConversationResponse>): HttpResponse<Conversation> {
-        if (response.body === null) {
-            throw new Error("Empty response body!");
-        }
-        return response.clone({body: new Conversation(response.body)});
-    }
-
-    getConversation(itemId: number): Observable<HttpResponse<Conversation>> {
+    getConversation(itemId: number): Observable<Conversation> {
         return this.http.get<ConversationResponse>(
-            `${ITEMS_API_URL}/${itemId}/conversation`,
-            {observe: "response"}).pipe(
-            map(ConversationService.transformToResponseWithEntity)
+            `${ITEMS_API_URL}/${itemId}/conversation`
+        ).pipe(
+            map(response => new Conversation(response))
         );
     }
 
-    getConversationWithSubject(itemId: number, subjectId: number): Observable<HttpResponse<Conversation>> {
+    getConversationWithSubject(itemId: number, subjectId: number): Observable<Conversation> {
         return this.http.get<ConversationResponse>(
-            `${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`,
-            {observe: "response"}).pipe(
-            map(ConversationService.transformToResponseWithEntity)
+            `${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`
+        ).pipe(
+            map(response => new Conversation(response))
         );
     }
 
     sendMessage(itemId: number, messageRequest: NewMessageRequest): Observable<Conversation> {
         return this.http.post<ConversationResponse>(
             `${ITEMS_API_URL}/${itemId}/conversation`,
+            messageRequest
+        ).pipe(
+            map(response => new Conversation(response))
+        );
+    }
+
+    sendMessageWithSubject(
+            itemId: number,
+            messageRequest: NewMessageRequest,
+            subjectId: number): Observable<Conversation> {
+        return this.http.post<ConversationResponse>(
+            `${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`,
             messageRequest
         ).pipe(
             map(response => new Conversation(response))

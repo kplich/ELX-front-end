@@ -5,10 +5,11 @@ import {ConversationComponent} from "@conversation/conversation/conversation.com
 import {ConversationItemDisplayComponent} from "@conversation/item-display/conversation-item-display.component";
 import {ConversationMessagesComponent} from "@conversation/messages/conversation-messages.component";
 import {ConversationMessageComponent} from "@conversation/message/conversation-message.component";
-import {ConversationOfferComponent} from "@conversation/offer/conversation-offer.component";
 import {ConversationMessageFormComponent} from "@conversation/message-form/conversation-message-form.component";
 import {ReactiveFormsModule} from "@angular/forms";
-import {OfferFormComponent} from "./offer-form/offer-form.component";
+import {OfferFormComponent} from "@conversation/offer-form/offer-form.component";
+import { PlainAdvanceOfferComponent } from "@conversation/offer/plain-advance-offer/plain-advance-offer.component";
+import { DoubleAdvanceOfferComponent } from "@conversation/offer/double-advance-offer/double-advance-offer.component";
 
 @NgModule({
     declarations: [
@@ -16,9 +17,10 @@ import {OfferFormComponent} from "./offer-form/offer-form.component";
         ConversationItemDisplayComponent,
         ConversationMessagesComponent,
         ConversationMessageComponent,
-        ConversationOfferComponent,
+        PlainAdvanceOfferComponent,
+        DoubleAdvanceOfferComponent,
         ConversationMessageFormComponent,
-        OfferFormComponent
+        OfferFormComponent,
     ],
     imports: [
         CommonModule,
