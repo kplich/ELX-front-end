@@ -1,9 +1,9 @@
-import {Item, ItemCategory} from "@items/data/Item";
+import {Item, CategoryResponse} from "@items/data/Item";
 import {UsedStatus} from "@items/data/UsedStatus";
 
 interface ItemFilteringProperties {
     readonly query: string;
-    readonly category: ItemCategory;
+    readonly category: CategoryResponse;
     readonly statuses: UsedStatus[];
     readonly minimalPrice: number;
     readonly maximalPrice: number;
@@ -11,7 +11,7 @@ interface ItemFilteringProperties {
 
 export class ItemFilteringCriteria {
     private readonly query: string;
-    private readonly category: ItemCategory;
+    private readonly category: CategoryResponse;
     private readonly statuses: UsedStatus[];
     private readonly minimalPrice: number;
     private readonly maximalPrice: number;

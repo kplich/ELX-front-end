@@ -3,7 +3,6 @@
 @import '~@angular/material/theming';
 @import 'src/dimens';
 @import 'src/typography';
-@import 'src/app/my-account/item-sold-description/item-sold-description.component.theme';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -22,8 +21,6 @@ $theme: mat-light-theme($primary, $accent, $warn);
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($theme);
-
-@include sold-by-me-description-typography(mat-typography-config());
 
 // reset box-sizing
 html {

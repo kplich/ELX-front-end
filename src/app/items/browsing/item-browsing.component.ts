@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {Item, ItemCategory} from "@items/data/Item";
+import {Item, CategoryResponse} from "@items/data/Item";
 import {ItemsService} from "@items/service/items.service";
 import {ItemFilteringCriteria} from "@items/browsing-criteria/ItemFilteringCriteria";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
@@ -20,7 +20,7 @@ export class ItemBrowsingComponent implements OnInit {
     };
 
     displayedItems!: Item[];
-    categories!: ItemCategory[];
+    categories!: CategoryResponse[];
     private allItems!: Item[];
 
     constructor(private itemService: ItemsService,

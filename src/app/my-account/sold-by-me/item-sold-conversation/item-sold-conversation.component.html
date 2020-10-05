@@ -1,0 +1,9 @@
+<mat-card class="item-offer" (click)="navigateToOffer()">
+  <mat-icon>person</mat-icon>
+  <div class="item-offer-message">
+    <div class="item-offer-sender">{{conversation.interestedUser.username}}</div>
+    <div class="item-offer-message-text">{{conversation.lastMessage.textContent}}</div>
+  </div>
+  <div *ngIf="conversation.lastOffer">{{conversation.lastOffer.formattedPrice}}</div>
+</mat-card>
+

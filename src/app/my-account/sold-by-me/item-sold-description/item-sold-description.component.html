@@ -1,6 +1,6 @@
-<div (click)="navigateToItem()" class="simple-card">
+<div class="simple-card" (click)="navigateToItem()">
     <div class="item-card-img-container">
-        <img (error)="item?.fixPhotoUrl(0)" [src]="itemPhotoUrl" alt="Main item photo">
+        <img alt="Photo of an item sold" [src]="photoUrl" (error)="item?.fixPhotoUrl()">
     </div>
     <div class="item-card-details-container">
         <div class="item-card-details-header">
@@ -8,7 +8,7 @@
             <div *ngIf="item?.usedStatusIsApplicable" class="item-card-details-status">{{item?.usedStatus}}</div>
         </div>
         <div class="item-card-details-added-by">
-            {{strings.addedBy}} <a>{{item?.addedBy?.username}}</a> on {{item?.addedOn | date}}
+            {{strings.addedBy}} <a>{{strings.you}}</a> on {{item?.addedOn | date}}
         </div>
         <div class="item-card-details-category">
             {{strings.category}}: <a>{{item?.category?.name}}</a>
@@ -16,4 +16,3 @@
         <div class="item-card-details-price">{{item?.formattedPrice}}</div>
     </div>
 </div>
-

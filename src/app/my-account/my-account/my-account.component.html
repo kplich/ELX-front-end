@@ -1,28 +1,22 @@
 <mat-tab-group animationDuration="0ms">
-  <mat-tab>
-    <ng-template matTabLabel>
-      Sold by me
-    </ng-template>
-    <div class="tab-content">
-      <item-sold></item-sold>
-      <item-sold></item-sold>
-      <item-sold></item-sold>
-      <item-sold></item-sold>
-      <item-sold></item-sold>
-    </div>
-  </mat-tab>
-  <mat-tab>
-    <ng-template matTabLabel>
-      I want to buy
-    </ng-template>
-    <div class="tab-content">
-      I want to buy content goes here
-    </div>
-  </mat-tab>
-  <mat-tab>
-    <ng-template matTabLabel>
-      Settings
-    </ng-template>
-    <my-account-settings class="tab-content"></my-account-settings>
-  </mat-tab>
+    <mat-tab>
+        <ng-template matTabLabel>
+            Sold by me
+        </ng-template>
+        <app-sold-by-me [userProfile]="(user$ | async)"></app-sold-by-me>
+    </mat-tab>
+    <mat-tab>
+        <ng-template matTabLabel>
+            I want to buy
+        </ng-template>
+        <div class="tab-content">
+            I want to buy content goes here
+        </div>
+    </mat-tab>
+    <mat-tab>
+        <ng-template matTabLabel>
+            Settings
+        </ng-template>
+        <my-account-settings class="tab-content"></my-account-settings>
+    </mat-tab>
 </mat-tab-group>

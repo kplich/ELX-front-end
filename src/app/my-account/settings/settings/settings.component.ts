@@ -1,9 +1,9 @@
 import {HttpErrorResponse} from "@angular/common/http";
 import {Component, OnInit, OnDestroy} from "@angular/core";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "src/app/authentication/authentication-service/authentication.service";
-import {PasswordChangeRequest} from "src/app/authentication/data/PasswordChangeRequest";
-import {SnackBarService} from "src/app/shared/snack-bar-service/snack-bar.service";
+import {AuthenticationService} from "@authentication/authentication-service/authentication.service";
+import {PasswordChangeRequest} from "@authentication/data/PasswordChangeRequest";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {SimpleUser} from "@my-account/data/SimpleUser";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {Web3Service} from "@shared/web3/web3.service";

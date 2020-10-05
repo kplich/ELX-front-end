@@ -1,5 +1,5 @@
 import {Component, Input} from "@angular/core";
-import {SimpleUser} from "@my-account/data/SimpleUser";
+import {SimpleUser} from "../../data/SimpleUser";
 
 @Component({
     selector: "app-ethereum-address",

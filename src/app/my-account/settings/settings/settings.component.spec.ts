@@ -11,7 +11,7 @@ import {MatFormFieldHarness} from "@angular/material/form-field/testing";
 import {MatInputHarness} from "@angular/material/input/testing";
 import {MatButtonHarness} from "@angular/material/button/testing";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
-import {SettingsComponent} from "@my-account/my-account/settings/settings.component";
+import {SettingsComponent} from "@my-account/settings/settings/settings.component";
 
 describe("SettingsComponent", () => {
     const authenticationServiceSpy = jasmine.createSpyObj(

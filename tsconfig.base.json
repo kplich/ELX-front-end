@@ -49,6 +49,12 @@
             "@my-account/*": [
                 "src/app/my-account/*"
             ],
+            "@sold-by-me/*": [
+                "src/app/my-account/sold-by-me/*"
+            ],
+            "@settings/*": [
+                "src/app/my-account/settings/*"
+            ],
             "@contracts/*": [
                 "blockchain/build/contracts/*"
             ]
