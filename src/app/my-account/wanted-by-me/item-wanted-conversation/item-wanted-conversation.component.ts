@@ -3,11 +3,11 @@ import {SimpleConversation} from "@my-account/data/SimpleConversation";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 
 @Component({
-    selector: "item-sold-conversation",
-    templateUrl: "./item-sold-conversation.component.html",
-    styleUrls: ["./item-sold-conversation.component.scss"]
+    selector: "item-wanted-conversation",
+    templateUrl: "./item-wanted-conversation.component.html",
+    styleUrls: ["./item-wanted-conversation.component.scss"]
 })
-export class ItemSoldConversationComponent {
+export class ItemWantedConversationComponent {
 
     strings = {
         you: "You"

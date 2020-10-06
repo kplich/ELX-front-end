@@ -9,9 +9,7 @@
         <ng-template matTabLabel>
             I want to buy
         </ng-template>
-        <div class="tab-content">
-            I want to buy content goes here
-        </div>
+        <app-wanted-by-me [userProfile]="user$ | async"></app-wanted-by-me>
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>

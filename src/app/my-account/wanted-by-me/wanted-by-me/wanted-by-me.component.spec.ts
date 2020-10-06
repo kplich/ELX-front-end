@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {SoldByMeComponent} from "@sold-by-me/sold-by-me/sold-by-me.component";
+import {WantedByMeComponent} from "@wanted-by-me/wanted-by-me/wanted-by-me.component";
 
-describe("SoldByMeComponent", () => {
-    let component: SoldByMeComponent;
-    let fixture: ComponentFixture<SoldByMeComponent>;
+describe("WantedByMeComponent", () => {
+    let component: WantedByMeComponent;
+    let fixture: ComponentFixture<WantedByMeComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [SoldByMeComponent]
+            declarations: [WantedByMeComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(SoldByMeComponent);
+        fixture = TestBed.createComponent(WantedByMeComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

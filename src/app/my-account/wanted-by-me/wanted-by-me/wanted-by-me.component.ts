@@ -2,11 +2,11 @@ import {Component, Input} from "@angular/core";
 import {FullUser} from "@my-account/data/FullUser";
 
 @Component({
-    selector: "app-sold-by-me",
-    templateUrl: "./sold-by-me.component.html",
-    styleUrls: ["./sold-by-me.component.scss"]
+    selector: "app-wanted-by-me",
+    templateUrl: "./wanted-by-me.component.html",
+    styleUrls: ["./wanted-by-me.component.scss"]
 })
-export class SoldByMeComponent {
+export class WantedByMeComponent {
 
     @Input() userProfile: FullUser | undefined;
 

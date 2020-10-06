@@ -52,6 +52,9 @@
             "@sold-by-me/*": [
                 "src/app/my-account/sold-by-me/*"
             ],
+            "@wanted-by-me/*": [
+                "src/app/my-account/wanted-by-me/*"
+            ],
             "@settings/*": [
                 "src/app/my-account/settings/*"
             ],

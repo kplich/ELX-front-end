@@ -4,6 +4,8 @@ import {UsedStatusDto, UsedStatus, dtoStringToStatus} from "@items/data/UsedStat
 import {SimpleConversation, SimpleConversationResponse} from "@my-account/data/SimpleConversation";
 
 export class ItemWantedByMe {
+    public static readonly ETH_SYMBOL = "Ξ";
+
     id: number;
     title: string;
     description: string;
@@ -26,6 +28,18 @@ export class ItemWantedByMe {
         this.usedStatus = dtoStringToStatus(response.usedStatus);
         this.photoUrl = response.photoUrl;
         this.conversation = new SimpleConversation(response.conversation);
+    }
+
+    get formattedPrice(): string {
+        return `${this.price} ${ItemWantedByMe.ETH_SYMBOL}`;
+    }
+
+    public fixPhotoUrl() {
+        this.photoUrl = "assets/error-photo.png";
+    }
+
+    public get usedStatusIsApplicable(): boolean {
+        return this.usedStatus !== UsedStatus.NOT_APPLICABLE;
     }
 }
 

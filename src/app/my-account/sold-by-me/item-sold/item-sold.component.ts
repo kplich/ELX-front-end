@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {ItemSoldByMe} from "@my-account/data/ItemSoldByMe";
-import { Router } from "@angular/router";
+import {Router} from "@angular/router";
 import {SimpleConversation} from "@my-account/data/SimpleConversation";
 
 @Component({
@@ -8,14 +8,15 @@ import {SimpleConversation} from "@my-account/data/SimpleConversation";
     templateUrl: "./item-sold.component.html",
     styleUrls: ["./item-sold.component.scss"]
 })
-export class ItemSoldComponent implements OnInit {
+export class ItemSoldComponent {
 
     @Input() item!: ItemSoldByMe;
 
     constructor(private router: Router) {
     }
 
-    ngOnInit() {
+    get thereAreConversations(): boolean {
+        return this.item.conversations.length > 0;
     }
 
     navigateToItem() {
@@ -26,10 +27,7 @@ export class ItemSoldComponent implements OnInit {
     navigateToConversation(conversation: SimpleConversation) {
         this.router
             .navigateByUrl(`/items/${this.item?.id}/conversation?subjectId=${conversation.interestedUserId}`)
-            .then(() => {});
-    }
-
-    get thereAreConversations(): boolean {
-        return this.item.conversations.length > 0;
+            .then(() => {
+            });
     }
 }

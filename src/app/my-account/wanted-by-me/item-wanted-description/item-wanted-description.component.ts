@@ -1,24 +1,23 @@
 import {Component, Input} from "@angular/core";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
-import {ItemSoldByMe} from "@my-account/data/ItemSoldByMe";
 import {Item} from "@items/data/Item";
+import {ItemWantedByMe} from "@my-account/data/ItemWantedByMe";
 
 @Component({
-    selector: "item-sold-description",
-    templateUrl: "./item-sold-description.component.html",
-    styleUrls: ["./item-sold-description.component.scss"]
+    selector: "item-wanted-description",
+    templateUrl: "./item-wanted-description.component.html",
+    styleUrls: ["./item-wanted-description.component.scss"]
 })
-export class ItemSoldDescriptionComponent {
+export class ItemWantedDescriptionComponent {
 
     strings = {
-        you: "You",
         category: Item.CATEGORY_LABEL,
         itemClosed: Item.CLOSED_ON_LABEL,
         addedBy: Item.ADDED_BY,
         addedOn: Item.ADDED_ON_LABEL
     };
 
-    @Input() item: ItemSoldByMe | undefined;
+    @Input() item: ItemWantedByMe | undefined;
 
     constructor(private domSanitizer: DomSanitizer) {
     }
