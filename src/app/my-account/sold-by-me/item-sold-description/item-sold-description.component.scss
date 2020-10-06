@@ -1,7 +1,7 @@
 @import 'src/dimens';
 @import 'src/typography';
 
-.simple-card {
+:host {
     display: flex;
     flex-flow: row;
     justify-content: space-between;
@@ -9,7 +9,7 @@
     @include body;
 
     .item-card-img-container {
-        width: 20%;
+        width: 15%;
         border: 1px solid lightgrey;
         border-radius: $dimen-xxs;
 
@@ -18,7 +18,7 @@
         text-align: center;
 
         img {
-            height: $dimen-xxl;
+            height: $dimen-xl;
             width: 100%;
             object-fit: contain;
             margin-bottom: -$dimen-xxs; // HACK: don't know why is this required, but aligns photos nicely enough
@@ -26,7 +26,7 @@
     }
 
     .item-card-details-container {
-        width: 80%;
+        width: 85%;
         position: relative;
 
         .item-card-details-header {

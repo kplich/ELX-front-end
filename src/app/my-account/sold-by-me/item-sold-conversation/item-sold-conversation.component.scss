@@ -1,21 +1,22 @@
-.item-offer {
-  z-index: 2;
+@import "src/typography";
+@import "src/dimens";
 
-  margin: 0 150px;
-
-  display: flex;
-  flex-flow: row nowrap;
+:host {
+    display: block;
+    padding: $dimen-xxs 0;
 }
 
-.item-offer-message {
-  margin: 0 15px;
-  flex-grow: 3;
+.last-offer-price {
+    float: right;
+
+    @include body-accent;
 }
 
-.item-offer-sender {
-  font-size: large;
+.interested-user {
+    @include header-3;
 }
 
-.item-offer-message-text {
-  font-size: small;
+.user-message {
+    @include body;
 }
+

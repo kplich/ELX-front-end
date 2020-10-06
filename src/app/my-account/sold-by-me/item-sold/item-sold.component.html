@@ -1,7 +1,16 @@
 <item-sold-description
+    class="simple-card"
+    (click)="navigateToItem()"
     [item]="item">
 </item-sold-description>
-<item-sold-conversation
-    *ngFor="let conversation of item.conversations"
-    [conversation]="conversation">
-</item-sold-conversation>
+<div class="simple-card conversation-container" *ngIf="thereAreConversations">
+    <ng-template ngFor let-conversation [ngForOf]="item.conversations" let-isLast="last">
+        <item-sold-conversation
+            (click)="navigateToConversation(conversation)"
+            [conversation]="conversation">
+        </item-sold-conversation>
+        <mat-divider *ngIf="!isLast"></mat-divider>
+    </ng-template>
+
+</div>
+

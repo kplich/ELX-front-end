@@ -31,6 +31,10 @@ export class SimpleConversation {
         }
     }
 
+    get interestedUserId(): number {
+        return this.interestedUser.id;
+    }
+
 }
 
 export interface SimpleConversationResponse {
