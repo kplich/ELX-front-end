@@ -13,6 +13,12 @@
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
+            Bought by me
+        </ng-template>
+        <app-bought-by-me [userProfile]="user$ | async"></app-bought-by-me>
+    </mat-tab>
+    <mat-tab>
+        <ng-template matTabLabel>
             Settings
         </ng-template>
         <my-account-settings class="tab-content"></my-account-settings>

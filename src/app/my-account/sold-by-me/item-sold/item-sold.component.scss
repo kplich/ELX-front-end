@@ -12,6 +12,9 @@ item-sold-description {
 .conversation-container {
     margin: 0 $dimen-xxl;
 
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+
     mat-divider {
         margin: $dimen-xxs 0;
     }

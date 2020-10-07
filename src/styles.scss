@@ -55,7 +55,7 @@ mat-form-field {
 }
 
 // TODO: extract this to a proper theme mixin?
-.simple-card {
+.simple-card-3 {
 
     display: block;
     @include mat-elevation(3);
@@ -63,6 +63,16 @@ mat-form-field {
     border-radius: $dimen-xxs;
     padding: $dimen-xs;
 }
+
+.simple-card-1 {
+
+    display: block;
+    @include mat-elevation(1);
+    z-index: 1;
+    border-radius: $dimen-xxs;
+    padding: $dimen-xs;
+}
+
 
 form {
     // disable arrows in <input type="number">

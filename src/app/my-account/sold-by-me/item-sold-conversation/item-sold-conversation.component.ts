@@ -22,6 +22,6 @@ export class ItemSoldConversationComponent {
         const loggedInUser = this.loggedInUserService.authenticatedUser;
 
         return loggedInUser !== null
-            && this.conversation.interestedUser.id === loggedInUser.id;
+            && this.conversation.lastMessage.sendingUser.id === loggedInUser.id;
     }
 }

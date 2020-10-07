@@ -5,6 +5,7 @@ import {MaterialModule} from "@material/material.module";
 import {SoldByMeModule} from "@my-account/sold-by-me/sold-by-me.module";
 import {SettingsModule} from "@my-account/settings/settings.module";
 import {WantedByMeModule} from "@wanted-by-me/wanted-by-me.module";
+import {BoughtByMeModule} from "@my-account/bought-by-me/bought-by-me.module";
 
 @NgModule({
     declarations: [
@@ -15,6 +16,7 @@ import {WantedByMeModule} from "@wanted-by-me/wanted-by-me.module";
         MaterialModule,
         SoldByMeModule,
         WantedByMeModule,
+        BoughtByMeModule,
         SettingsModule
     ],
     exports: [
