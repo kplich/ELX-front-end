@@ -1,0 +1,19 @@
+<div class="offer-data">
+    <div>
+        <span class="label">{{strings.labels.offerType}}: </span>
+        <span class="value">{{strings.offerTypes.doubleAdvance}}</span>
+    </div>
+    <div>
+        <span class="label">{{strings.labels.price}}: </span>
+        <span class="value">{{offer?.formattedPrice}}</span>
+    </div>
+</div>
+<div class="contract-data">
+    <div>
+        <span class="label">{{strings.labels.contractStatus}}: </span>
+        <span class="value">AWAITING</span>
+    </div>
+    <button color="accent" mat-raised-button>
+        {{strings.labels.seeDetails}}
+    </button>
+</div>

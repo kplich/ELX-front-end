@@ -3,21 +3,23 @@ import {CommonModule} from "@angular/common";
 import {BoughtByMeComponent} from "@bought-by-me/bought-by-me/bought-by-me.component";
 import {ItemBoughtComponent} from "@bought-by-me/item-bought/item-bought.component";
 import {ItemBoughtDescriptionComponent} from "@bought-by-me/item-bought-description/item-bought-description.component";
-import {ItemBoughtOfferPlainAdvanceComponent} from "@bought-by-me/item-bought-offer/item-bought-offer-plain-advance/item-bought-offer-plain-advance.component";
-import {ItemBoughtOfferDoubleAdvanceComponent} from "@bought-by-me/item-bought-offer/item-bought-offer-double-advance/item-bought-offer-double-advance.component";
+import {ItemBoughtContractPlainAdvanceComponent} from "@bought-by-me/item-bought-offer/item-bought-contract-plain-advance/item-bought-contract-plain-advance.component";
+import {ItemBoughtContractDoubleAdvanceComponent} from "@bought-by-me/item-bought-offer/item-bought-contract-double-advance/item-bought-contract-double-advance.component";
+import {MaterialModule} from "@material/material.module";
 
 @NgModule({
     declarations: [
         BoughtByMeComponent,
         ItemBoughtComponent,
         ItemBoughtDescriptionComponent,
-        ItemBoughtOfferPlainAdvanceComponent,
-        ItemBoughtOfferDoubleAdvanceComponent],
+        ItemBoughtContractPlainAdvanceComponent,
+        ItemBoughtContractDoubleAdvanceComponent],
     exports: [
         BoughtByMeComponent
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        MaterialModule
     ]
 })
 export class BoughtByMeModule {

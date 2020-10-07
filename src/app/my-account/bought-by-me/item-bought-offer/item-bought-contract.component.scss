@@ -1,0 +1,36 @@
+@import "src/typography";
+@import "src/dimens";
+
+:host {
+    display: flex;
+    flex-flow: row nowrap;
+
+    > div {
+        flex-grow: 1;
+    }
+}
+
+.offer-data {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+
+.contract-data {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+
+    border: solid 1px lightgrey;
+    border-radius: $dimen-xxs;
+    padding: $dimen-xxs;
+}
+
+.label {
+    @include body($bold: true);
+}
+
+.value {
+    @include body-accent;
+}

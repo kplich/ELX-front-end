@@ -1,8 +1,8 @@
 import {Component} from "@angular/core";
-import {AuthenticationService} from "@authentication/authentication-service/authentication.service";
 import {Router} from "@angular/router";
 import {SimpleUser} from "@my-account/data/SimpleUser";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import { AuthenticationService } from "@authentication/authentication-service/authentication.service";
 
 export const ADD_ITEM = "Add item";
 export const BUTTON_BROWSE_ITEMS_TEXT = "Browse items";
@@ -32,7 +32,9 @@ export class AppComponent {
             authenticationRequired: null
         },
         {
-            displayedName: BUTTON_MY_ACCOUNT_TEXT,
+            displayedName: this.authenticatedUser ?
+                `${BUTTON_MY_ACCOUNT_TEXT} (${this.authenticatedUser.username})`
+                : `${BUTTON_MY_ACCOUNT_TEXT}`,
             function: () => this.navigateToMyAccount(),
             authenticationRequired: true
         },

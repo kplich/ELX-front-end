@@ -10,7 +10,8 @@ import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service
 export class ItemWantedConversationComponent {
 
     strings = {
-        you: "You"
+        you: "You",
+        sentAnOffer: "sent an offer."
     };
 
     @Input() conversation!: SimpleConversation;
@@ -23,5 +24,15 @@ export class ItemWantedConversationComponent {
 
         return loggedInUser !== null
             && this.conversation.interestedUser.id === loggedInUser.id;
+    }
+
+    get lastMessageHasText(): boolean {
+        if (this.conversation) {
+            return this.conversation.lastMessage.textContent !== undefined
+                && this.conversation.lastMessage.textContent.trim().length > 0;
+        }
+        else {
+            return false;
+        }
     }
 }

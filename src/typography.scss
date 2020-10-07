@@ -1,4 +1,4 @@
-@import './dimens';
+@import "src/dimens";
 
 @mixin sansFont {
     font-family: Roboto, sans-serif;
@@ -53,9 +53,13 @@
     @include fontSizeInPts(18);
 }
 
-@mixin body {
+@mixin body($bold: false) {
     @include sansFont;
     @include fontSizeInPts(14);
+
+    @if $bold {
+        font-weight: 500;
+    }
 }
 
 @mixin body-accent {

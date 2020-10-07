@@ -11,11 +11,14 @@
     @include header-3;
 }
 
-.user-message {
-
-    .user-message-sender {
-        @include body-accent;
+.message {
+    .message-sender {
+        @include body($bold: true);
     }
 
-    @include body-accent;
+    .message-text {
+        @include body-accent;
+    }
 }
+
+
