@@ -10,7 +10,7 @@ import {Item} from "@items/data/Item";
 import {HttpErrorResponse} from "@angular/common/http";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
-import {OfferContractService} from "@conversation/service/offer-contract/offer-contract.service";
+import {OfferContractService} from "@shared/offer-contract/offer-contract.service";
 import {AcceptedOfferData} from "@conversation/messages/conversation-messages.component";
 import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
 import {PlainAdvanceOffer} from "@conversation/data/offer/PlainAdvanceOffer";

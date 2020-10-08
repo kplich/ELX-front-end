@@ -27,6 +27,15 @@
     padding: $dimen-xxs;
 }
 
+.no-contract {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    @include detail;
+}
+
 .label {
     @include body($bold: true);
 }

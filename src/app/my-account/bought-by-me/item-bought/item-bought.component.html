@@ -5,10 +5,12 @@
 <app-item-bought-contract-plain-advance
     class="simple-card-1"
     *ngIf="offerIsPlainAdvance"
-    [offer]="offerAsPlainAdvance">
+    [offer]="offerAsPlainAdvance"
+    [contract]="contract">
 </app-item-bought-contract-plain-advance>
 <app-item-bought-contract-double-advance
     class="simple-card-1"
     *ngIf="offerIsDoubleAdvance"
-    [offer]="offerAsDoubleAdvance">
+    [offer]="offerAsDoubleAdvance"
+    [contract]="contract">
 </app-item-bought-contract-double-advance>

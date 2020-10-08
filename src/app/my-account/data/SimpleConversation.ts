@@ -12,7 +12,6 @@ export class SimpleConversation {
     lastOffer: Offer | undefined;
 
     constructor(response: SimpleConversationResponse) {
-        console.log(response);
         this.id = response.id;
         this.interestedUser = new SimpleUser(response.interestedUser);
         this.lastMessage = new SimpleMessage(response.lastMessage);

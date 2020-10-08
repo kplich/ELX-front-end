@@ -4,6 +4,7 @@ import PlainAdvance from "@contracts/PlainAdvance.json";
 import DoubleAdvance from "@contracts/DoubleAdvance.json";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {SimpleUser} from "@my-account/data/SimpleUser";
+import {OfferType} from "@conversation/data/OfferType";
 
 const contract = require("@truffle/contract");
 const ETH_TO_WEI = 10 ** 18;
@@ -51,6 +52,22 @@ export class OfferContractService {
             buyerAddress,
             (priceInEth * ETH_TO_WEI).toString(),
             {from: loggedInUser.ethereumAddress});
+    }
+
+    async getContractAtAddress(offerType: OfferType, address: string) {
+        let contractAbstraction;
+        switch (offerType) {
+            case OfferType.PLAIN_ADVANCE: {
+                contractAbstraction = contract(PlainAdvance);
+                break;
+            }
+            case OfferType.DOUBLE_ADVANCE: {
+                contractAbstraction = contract(DoubleAdvance);
+            }
+        }
+
+        contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
+        return await contractAbstraction.at(address);
     }
 
     private checkUserConditions(

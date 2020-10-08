@@ -15,7 +15,7 @@ export abstract class Offer {
         this.id = response.id;
         this.price = response.price;
         this.offerStatus = dtoToOfferStatus(response.offerStatus);
-        this.contractAddress = null;
+        this.contractAddress = response.contractAddress;
     }
 
     get formattedPrice(): string {
