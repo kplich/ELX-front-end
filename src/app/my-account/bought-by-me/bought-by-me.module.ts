@@ -6,6 +6,7 @@ import {ItemBoughtDescriptionComponent} from "@bought-by-me/item-bought-descript
 import {ItemBoughtContractPlainAdvanceComponent} from "@bought-by-me/item-bought-offer/item-bought-contract-plain-advance/item-bought-contract-plain-advance.component";
 import {ItemBoughtContractDoubleAdvanceComponent} from "@bought-by-me/item-bought-offer/item-bought-contract-double-advance/item-bought-contract-double-advance.component";
 import {MaterialModule} from "@material/material.module";
+import { ItemBoughtContractDetailsComponent } from "@bought-by-me/item-bought-offer/item-bought-contract-details/item-bought-contract-details.component";
 
 @NgModule({
     declarations: [
@@ -13,7 +14,9 @@ import {MaterialModule} from "@material/material.module";
         ItemBoughtComponent,
         ItemBoughtDescriptionComponent,
         ItemBoughtContractPlainAdvanceComponent,
-        ItemBoughtContractDoubleAdvanceComponent],
+        ItemBoughtContractDoubleAdvanceComponent,
+        ItemBoughtContractDetailsComponent,
+    ],
     exports: [
         BoughtByMeComponent
     ],

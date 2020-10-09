@@ -8,12 +8,11 @@
         <span class="value">{{offer?.formattedPrice}}</span>
     </div>
 </div>
-<div class="contract-data">
-    <div>
-        <span class="label">{{strings.labels.contractStatus}}: </span>
-        <span class="value">AWAITING</span>
-    </div>
-    <button color="accent" mat-raised-button>
-        {{strings.labels.seeDetails}}
-    </button>
+<app-item-bought-contract-details
+    class="contract-data"
+    *ngIf="contract !== undefined"
+    [contract]="contract">
+</app-item-bought-contract-details>
+<div class="no-contract" *ngIf="contract === undefined">
+    Could not load data about the contract. Connect to blockchain to load the data.
 </div>

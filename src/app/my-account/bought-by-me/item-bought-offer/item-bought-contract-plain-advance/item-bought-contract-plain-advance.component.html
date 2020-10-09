@@ -12,15 +12,12 @@
         <span class="value">{{offer?.formattedAdvance}}</span>
     </div>
 </div>
-<div class="contract-data" *ngIf="contract !== undefined">
-    <div>
-        <span class="label">{{strings.labels.contractStatus}}: </span>
-        <span class="value">{{state}}</span>
-    </div>
-    <button color="accent" mat-raised-button>
-        {{strings.labels.seeDetails}}
-    </button>
-</div>
+<app-item-bought-contract-details
+    class="contract-data"
+    *ngIf="contract !== undefined"
+    [contractAddress]="offer?.contractAddress"
+    [contract]="contract">
+</app-item-bought-contract-details>
 <div class="no-contract" *ngIf="contract === undefined">
     Could not load data about the contract. Connect to blockchain to load the data.
 </div>
