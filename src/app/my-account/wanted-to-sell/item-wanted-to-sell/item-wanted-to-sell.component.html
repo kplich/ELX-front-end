@@ -1,0 +1,15 @@
+<item-wanted-to-sell-description
+    class="simple-card-3"
+    (click)="navigateToItem()"
+    [item]="item">
+</item-wanted-to-sell-description>
+<div class="simple-card-1 conversation-container" *ngIf="thereAreConversations">
+    <!-- fancier version of an *ngFor directive, allows me to squeeze in mat-dividers -->
+    <ng-template ngFor let-conversation [ngForOf]="item.conversations" let-isLast="last">
+        <item-wanted-to-sell-conversation
+            (click)="navigateToConversation(conversation)"
+            [conversation]="conversation">
+        </item-wanted-to-sell-conversation>
+        <mat-divider *ngIf="!isLast"></mat-divider>
+    </ng-template>
+</div>

@@ -2,10 +2,11 @@ import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {MyAccountComponent} from "@my-account/my-account/my-account.component";
 import {MaterialModule} from "@material/material.module";
-import {SoldByMeModule} from "@my-account/sold-by-me/sold-by-me.module";
+import {WantedToSellModule} from "@wanted-to-sell/wanted-to-sell.module";
 import {SettingsModule} from "@my-account/settings/settings.module";
-import {WantedByMeModule} from "@wanted-by-me/wanted-by-me.module";
-import {BoughtByMeModule} from "@my-account/bought-by-me/bought-by-me.module";
+import {WantedToBuyModule} from "@wanted-to-buy/wanted-to-buy.module";
+import {BoughtModule} from "@bought/bought.module";
+import {SoldModule} from "@my-account/sold/sold.module";
 
 @NgModule({
     declarations: [
@@ -14,10 +15,11 @@ import {BoughtByMeModule} from "@my-account/bought-by-me/bought-by-me.module";
     imports: [
         CommonModule,
         MaterialModule,
-        SoldByMeModule,
-        WantedByMeModule,
-        BoughtByMeModule,
-        SettingsModule
+        WantedToSellModule,
+        WantedToBuyModule,
+        BoughtModule,
+        SettingsModule,
+        SoldModule
     ],
     exports: [
         MyAccountComponent,

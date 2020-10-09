@@ -1,0 +1,16 @@
+<item-sold-description
+    class="simple-card-3"
+    [item]="item">
+</item-sold-description>
+<item-sold-contract-plain-advance
+    class="simple-card-1"
+    *ngIf="offerIsPlainAdvance"
+    [offer]="offerAsPlainAdvance"
+    [contract]="contract">
+</item-sold-contract-plain-advance>
+<app-item-sold-contract-double-advance
+    class="simple-card-1"
+    *ngIf="offerIsDoubleAdvance"
+    [offer]="offerAsDoubleAdvance"
+    [contract]="contract">
+</app-item-sold-contract-double-advance>

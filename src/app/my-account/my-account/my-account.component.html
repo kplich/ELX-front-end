@@ -1,21 +1,27 @@
-<mat-tab-group animationDuration="0ms">
+<mat-tab-group animationDuration="250ms">
+    <mat-tab>
+        <ng-template matTabLabel>
+            I want to sell
+        </ng-template>
+        <wanted-to-sell [userProfile]="(user$ | async)"></wanted-to-sell>
+    </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
             Sold by me
         </ng-template>
-        <app-sold-by-me [userProfile]="(user$ | async)"></app-sold-by-me>
+        <items-sold [userProfile]="(user$ | async)"></items-sold>
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
             I want to buy
         </ng-template>
-        <app-wanted-by-me [userProfile]="user$ | async"></app-wanted-by-me>
+        <wanted-by-me [userProfile]="user$ | async"></wanted-by-me>
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
             Bought by me
         </ng-template>
-        <app-bought-by-me [userProfile]="user$ | async"></app-bought-by-me>
+        <items-bought [userProfile]="user$ | async"></items-bought>
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
