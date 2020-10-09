@@ -49,14 +49,17 @@
             "@my-account/*": [
                 "src/app/my-account/*"
             ],
-            "@sold-by-me/*": [
-                "src/app/my-account/sold-by-me/*"
+            "@wanted-to-sell/*": [
+                "src/app/my-account/wanted-to-sell/*"
             ],
-            "@wanted-by-me/*": [
-                "src/app/my-account/wanted-by-me/*"
+            "@wanted-to-buy/*": [
+                "src/app/my-account/wanted-to-buy/*"
             ],
-            "@bought-by-me/*": [
-                "src/app/my-account/bought-by-me/*"
+            "@bought/*": [
+                "src/app/my-account/bought/*"
+            ],
+            "@sold/*": [
+                "src/app/my-account/sold/*"
             ],
             "@settings/*": [
                 "src/app/my-account/settings/*"

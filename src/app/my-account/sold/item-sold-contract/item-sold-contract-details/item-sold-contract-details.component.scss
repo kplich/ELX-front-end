@@ -1,0 +1,27 @@
+@import "src/dimens";
+@import "src/typography";
+
+:host {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+
+    border: solid 1px lightgrey;
+    border-radius: $dimen-xxs;
+    padding: $dimen-xxs;
+}
+
+.label {
+    @include body($bold: true);
+}
+
+.value {
+    @include body-accent;
+}
+
+mat-divider {
+    margin: $dimen-xxs 0;
+
+    width: 100%;
+}
