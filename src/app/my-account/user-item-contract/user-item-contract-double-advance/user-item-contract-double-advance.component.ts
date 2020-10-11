@@ -3,8 +3,8 @@ import {UserItemContractComponent} from "@my-account/user-item-contract/user-ite
 import {DoubleAdvanceOffer} from "@conversation/data/offer/DoubleAdvanceOffer";
 import {Web3Service} from "@shared/web3/web3.service";
 import {OfferType} from "@conversation/data/OfferType";
-import {contractStateToString} from "@my-account/data/ContractState";
 import {OfferContractService} from "@shared/offer-contract/offer-contract.service";
+import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 
 @Component({
     selector: "user-item-contract-double-advance",
@@ -17,8 +17,9 @@ export class UserItemContractDoubleAdvanceComponent
 
     constructor(
         private offerContractService: OfferContractService,
-        private web3Service: Web3Service) {
-        super();
+        private web3Service: Web3Service,
+        loggedInUserService: LoggedInUserService) {
+        super(loggedInUserService);
     }
 
     async ngOnInit() {
@@ -26,8 +27,7 @@ export class UserItemContractDoubleAdvanceComponent
             this.contract = await this.offerContractService
                 .getContractAtAddress(OfferType.DOUBLE_ADVANCE, this.offer.contractAddress);
 
-            this.state = contractStateToString((await this.contract.state()).toNumber());
-            this.balance = await this.web3Service.getBalance(this.offer.contractAddress);
+            await this.loadDataFromBlockchain();
         }
         else {
             console.warn("no contract address!");

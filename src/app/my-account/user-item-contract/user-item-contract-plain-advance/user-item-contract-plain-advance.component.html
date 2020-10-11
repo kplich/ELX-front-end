@@ -17,8 +17,8 @@
     <div>
         <span class="label">{{strings.labels.contract.address}}: </span>
         <span class="value">{{offer.contractAddress}}</span>
-        <mat-divider></mat-divider>
     </div>
+    <mat-divider></mat-divider>
     <div>
         <span class="label">{{strings.labels.contract.status}}: </span>
         <span class="value">{{state}}</span>
@@ -26,6 +26,21 @@
     <div>
         <span class="label">{{strings.labels.contract.balance}}: </span>
         <span class="value">{{balance}} {{strings.labels.contract.ethereumSymbol}}</span>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="actions">
+        <button mat-raised-button (click)="refreshState()">
+            Refresh data
+        </button>
+        <button mat-raised-button color="accent" [disabled]="moneyCannotBeSent" (click)="sendMoney()">
+            Send money
+        </button>
+        <button mat-raised-button color="accent" [disabled]="moneyCannotBeWithdrawn" (click)="withdrawMoney()">
+            Withdraw money
+        </button>
+        <button mat-raised-button color="primary" [disabled]="" (click)="releaseFunds()">
+            Release funds
+        </button>
     </div>
 </div>
 <div class="no-contract" *ngIf="contract === undefined">

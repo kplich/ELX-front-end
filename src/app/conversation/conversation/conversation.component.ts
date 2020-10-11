@@ -185,8 +185,8 @@ export class ConversationComponent implements OnInit {
         if (acceptedOfferData.offer instanceof PlainAdvanceOffer) {
             try {
                 const contract = await this.offerContractService.createPlainAdvanceContract(
-                    acceptedOfferData.sellerAddress,
                     acceptedOfferData.buyerAddress,
+                    acceptedOfferData.sellerAddress,
                     acceptedOfferData.offer.price,
                     acceptedOfferData.offer.advance
                 );
@@ -201,8 +201,8 @@ export class ConversationComponent implements OnInit {
         else if (acceptedOfferData.offer instanceof DoubleAdvanceOffer) {
             try {
                 const contract = await this.offerContractService.createDoubleAdvanceContract(
-                    acceptedOfferData.sellerAddress,
                     acceptedOfferData.buyerAddress,
+                    acceptedOfferData.sellerAddress,
                     acceptedOfferData.offer.price,
                 );
 
