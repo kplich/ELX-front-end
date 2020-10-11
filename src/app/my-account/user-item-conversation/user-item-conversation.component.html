@@ -1,0 +1,10 @@
+<div class="last-offer-price" *ngIf="conversation.lastOffer">{{conversation.lastOffer.formattedPrice}}</div>
+<div class="interested-user">{{viewerIsInterestedUser ? strings.you : conversation.interestedUser.username}}</div>
+<div class="message" *ngIf="lastMessageHasText">
+    <span class="message-sender">{{lastMessageIsFromViewer ? strings.you : conversation.interestedUser.username}}: </span>
+    <span class="message-text">{{conversation.lastMessage.textContent}}</span>
+</div>
+<div class="message" *ngIf="!lastMessageHasText">
+    <span class="message-sender">{{lastMessageIsFromViewer ? strings.you : conversation.interestedUser.username}} </span>
+    <span class="message-text">{{strings.sentAnOffer}}</span>
+</div>

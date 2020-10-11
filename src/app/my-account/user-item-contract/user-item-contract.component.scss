@@ -1,0 +1,53 @@
+@import "src/typography";
+@import "src/dimens";
+
+:host {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.offer-data {
+    flex-grow: 1;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+
+.contract-data {
+    flex-grow: 2;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+
+    border: solid 1px lightgrey;
+    border-radius: $dimen-xxs;
+    padding: $dimen-xxs;
+
+    mat-divider {
+        margin: $dimen-xxs 0;
+
+        width: 100%;
+    }
+}
+
+.no-contract {
+    flex-grow: 1;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    @include detail;
+}
+
+.label {
+    @include body($bold: true);
+}
+
+.value {
+    @include body-accent;
+}

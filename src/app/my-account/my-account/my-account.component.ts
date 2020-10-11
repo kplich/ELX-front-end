@@ -1,7 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import {FullUser} from "@my-account/data/FullUser";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import {UserService} from "@my-account/user-service/user.service";
+import {ItemWantedToSell} from "@my-account/data/items/ItemWantedToSell";
+import {ItemWantedToBuy} from "@my-account/data/items/ItemWantedToBuy";
+import {ItemBought} from "@my-account/data/items/ItemBought";
+import {ItemSold} from "@my-account/data/items/ItemSold";
 
 @Component({
     selector: "my-account",
@@ -10,13 +13,18 @@ import {UserService} from "@my-account/user-service/user.service";
 })
 export class MyAccountComponent implements OnInit {
 
-    user$: Observable<FullUser | undefined> = of(undefined);
+    itemsWantedToSell$!: Observable<ItemWantedToSell[]>;
+    itemsSold$!: Observable<ItemSold[]>;
+    itemsWantedToBuy$!: Observable<ItemWantedToBuy[]>;
+    itemsBought$!: Observable<ItemBought[]>;
 
     constructor(private userService: UserService) {
     }
 
     ngOnInit() {
-        this.user$ = this.userService.getFullUser();
+        this.itemsWantedToSell$ = this.userService.getItemsWantedToSell();
+        this.itemsSold$ = this.userService.getItemsSold();
+        this.itemsWantedToBuy$ = this.userService.getItemsWantedToBuy();
+        this.itemsBought$ = this.userService.getItemsBought();
     }
-
 }

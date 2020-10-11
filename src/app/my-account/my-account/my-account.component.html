@@ -3,25 +3,25 @@
         <ng-template matTabLabel>
             I want to sell
         </ng-template>
-        <wanted-to-sell [userProfile]="(user$ | async)"></wanted-to-sell>
+        <items-wanted-to-sell [items]="itemsWantedToSell$ | async"></items-wanted-to-sell>
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
             Sold by me
         </ng-template>
-        <items-sold [userProfile]="(user$ | async)"></items-sold>
+        <items-sold [items]="itemsSold$ | async"></items-sold>
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
             I want to buy
         </ng-template>
-        <wanted-by-me [userProfile]="user$ | async"></wanted-by-me>
+        <items-wanted-to-buy [items]="itemsWantedToBuy$ | async"></items-wanted-to-buy>
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
             Bought by me
         </ng-template>
-        <items-bought [userProfile]="user$ | async"></items-bought>
+        <items-bought [items]="itemsBought$ | async"></items-bought>
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>

@@ -49,18 +49,6 @@
             "@my-account/*": [
                 "src/app/my-account/*"
             ],
-            "@wanted-to-sell/*": [
-                "src/app/my-account/wanted-to-sell/*"
-            ],
-            "@wanted-to-buy/*": [
-                "src/app/my-account/wanted-to-buy/*"
-            ],
-            "@bought/*": [
-                "src/app/my-account/bought/*"
-            ],
-            "@sold/*": [
-                "src/app/my-account/sold/*"
-            ],
             "@settings/*": [
                 "src/app/my-account/settings/*"
             ],
