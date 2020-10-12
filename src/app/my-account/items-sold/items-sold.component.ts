@@ -3,8 +3,7 @@ import {ItemSold} from "@my-account/data/items/ItemSold";
 import {AbstractUserItemListComponent} from "@my-account/abstract-user-item-list/abstract-user-item-list.component";
 
 export const STRINGS = {
-    noItemsForSale: "You haven't sold any items yet.",
-    addItem: "You might if you add one."
+    noItemsSold: "You haven't sold any items yet.",
 };
 
 @Component({

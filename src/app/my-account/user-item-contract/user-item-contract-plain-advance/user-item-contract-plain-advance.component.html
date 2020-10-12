@@ -33,7 +33,7 @@
             Refresh data
         </button>
         <button mat-raised-button color="accent"
-                *ngIf="loggedInUserIsSeller"
+                *ngIf="loggedInUserIsBuyer"
                 [disabled]="moneyCannotBeSent"
                 (click)="sendMoney()">
             Send money
