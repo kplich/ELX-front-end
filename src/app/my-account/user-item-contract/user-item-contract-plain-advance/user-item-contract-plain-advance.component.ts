@@ -6,6 +6,7 @@ import {ContractStateString} from "@my-account/data/ContractState";
 import {OfferContractService} from "@shared/offer-contract/offer-contract.service";
 import {OfferType} from "@conversation/data/OfferType";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 
 @Component({
     selector: "user-item-contract-plain-advance",
@@ -19,8 +20,9 @@ export class UserItemContractPlainAdvanceComponent
     constructor(
         private offerContractService: OfferContractService,
         web3Service: Web3Service,
-        loggedInUserService: LoggedInUserService) {
-        super(loggedInUserService, web3Service);
+        loggedInUserService: LoggedInUserService,
+        snackBarService: SnackBarService) {
+        super(loggedInUserService, web3Service, snackBarService);
     }
 
     async ngOnInit() {
@@ -38,6 +40,11 @@ export class UserItemContractPlainAdvanceComponent
     }
 
     async sendMoney() {
+        if (this.web3Service.currentAccounts[0] !== this.buyerAddress) {
+            this.snackBarService.openSnackBar("Log in to your Ethereum account to send money!");
+            return;
+        }
+
         const result = await this.contract.sendMoney({
             from: this.buyerAddress,
             value: this.offer.price * UserItemContractPlainAdvanceComponent.ETH_TO_WEI
@@ -48,6 +55,11 @@ export class UserItemContractPlainAdvanceComponent
     }
 
     async withdrawMoney() {
+        if (this.web3Service.currentAccounts[0] !== this.sellerAddress) {
+            this.snackBarService.openSnackBar("Log in to your Ethereum account to withdraw money!");
+            return;
+        }
+
         const result = await this.contract.withdrawMoney({from: this.sellerAddress});
         console.log(result);
 

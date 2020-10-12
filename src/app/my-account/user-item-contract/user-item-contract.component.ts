@@ -5,6 +5,7 @@ import {ContractStateString, contractStateToString} from "@my-account/data/Contr
 import {Item} from "@items/data/Item";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {Web3Service} from "@shared/web3/web3.service";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 
 export const STRINGS = {
     labels: {
@@ -44,8 +45,57 @@ export abstract class UserItemContractComponent<O extends Offer> {
     buyerAddress!: string;
 
     protected constructor(
-        private loggedInUserService: LoggedInUserService,
-        protected web3Service: Web3Service) {
+        protected loggedInUserService: LoggedInUserService,
+        protected web3Service: Web3Service,
+        protected snackBarService: SnackBarService) {
+    }
+
+    get fundsCannotBeReleased(): boolean {
+        return !this.loggedInUserIsBuyer || this.state !== ContractStateString.LOCKED;
+    }
+
+    get contractIsCompleted(): boolean {
+        return this.state === ContractStateString.COMPLETED;
+    }
+
+    get loggedInUserIsSeller(): boolean {
+        const loggedInUser = this.loggedInUserService.authenticatedUser;
+
+        if (loggedInUser) {
+            if (loggedInUser.ethereumAddress) {
+                return loggedInUser.ethereumAddress === this.sellerAddress;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    get loggedInUserIsBuyer(): boolean {
+        const loggedInUser = this.loggedInUserService.authenticatedUser;
+
+        if (loggedInUser) {
+            if (loggedInUser.ethereumAddress) {
+                return loggedInUser.ethereumAddress === this.buyerAddress;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    async releaseFunds() {
+        if (this.web3Service.currentAccounts[0] !== this.buyerAddress) {
+            this.snackBarService.openSnackBar("Log in as a buyer to release the funds!");
+            return;
+        }
+
+        const result = await this.contract.release({from: this.buyerAddress});
+        console.log(result);
+
+        await this.loadStateFromBlockchain();
     }
 
     protected async loadDataFromBlockchain() {
@@ -60,48 +110,10 @@ export abstract class UserItemContractComponent<O extends Offer> {
             this.state = contractStateToString((await this.contract.state()).toNumber());
             const balance = await this.web3Service.getBalance(this.offer.contractAddress);
             this.balance = balance / UserItemContractComponent.ETH_TO_WEI;
-        }
-        else {
+
+            console.log(await this.contract.getPastEvents());
+        } else {
             console.warn("no contract address!");
-        }
-    }
-
-    async releaseFunds() {
-        const result = await this.contract.release({from: this.sellerAddress});
-        console.log(result);
-
-        await this.loadStateFromBlockchain();
-    }
-
-    protected get loggedInUserIsSeller(): boolean {
-        const loggedInUser = this.loggedInUserService.authenticatedUser;
-
-        if (loggedInUser) {
-            if (loggedInUser.ethereumAddress) {
-                return loggedInUser.ethereumAddress === this.sellerAddress;
-            }
-            else {
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
-    }
-
-    protected get loggedInUserIsBuyer(): boolean {
-        const loggedInUser = this.loggedInUserService.authenticatedUser;
-
-        if (loggedInUser) {
-            if (loggedInUser.ethereumAddress) {
-                return loggedInUser.ethereumAddress === this.buyerAddress;
-            }
-            else {
-                return false;
-            }
-        }
-        else {
-            return false;
         }
     }
 }
