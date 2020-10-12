@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {ItemsService} from "@items/service/items.service";
-import {ItemCategory, NewOrUpdatedItemRequest, Item} from "@items/data/Item";
+import {CategoryResponse, NewOrUpdatedItemRequest, Item} from "@items/data/Item";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {Router} from "@angular/router";
 import {COULD_NOT_LOAD_CATEGORIES_MESSAGE, ItemEditBaseComponent} from "@items/edit-base/ItemEditBase";
@@ -47,7 +47,7 @@ export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
 
     ngOnInit() {
         this.itemsService.getCategories().subscribe({
-            next: (response: HttpResponse<ItemCategory[]>) => {
+            next: (response: HttpResponse<CategoryResponse[]>) => {
                 if (response.body === null) {
                     this.categories = [];
                 } else {

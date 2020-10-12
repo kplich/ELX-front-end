@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Item, ItemCategory, ItemResponse, NewOrUpdatedItemRequest} from "@items/data/Item";
+import {Item, CategoryResponse, ItemResponse, NewOrUpdatedItemRequest} from "@items/data/Item";
 import {environment} from "@environments/environment";
 import {map} from "rxjs/operators";
 
@@ -42,8 +42,8 @@ export class ItemsService {
         );
     }
 
-    getCategories(): Observable<HttpResponse<ItemCategory[]>> {
-        return this.http.get<ItemCategory[]>(CATEGORIES_API_URL, {observe: "response"});
+    getCategories(): Observable<HttpResponse<CategoryResponse[]>> {
+        return this.http.get<CategoryResponse[]>(CATEGORIES_API_URL, {observe: "response"});
     }
 
     addNewItem(requestData: NewOrUpdatedItemRequest): Observable<HttpResponse<Item>> {

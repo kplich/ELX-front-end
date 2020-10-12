@@ -1,11 +1,11 @@
 export class SimpleUser {
     id: number;
-    ethereumAddress: string | null;
+    ethereumAddress: string | undefined;
     username: string;
 
     constructor(response: SimpleUserResponse) {
         this.id = response.id;
-        this.ethereumAddress = response.ethereumAddress;
+        this.ethereumAddress = response.ethereumAddress !== null ? response.ethereumAddress : undefined;
         this.username = response.username;
     }
 }

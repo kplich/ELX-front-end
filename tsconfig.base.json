@@ -49,6 +49,9 @@
             "@my-account/*": [
                 "src/app/my-account/*"
             ],
+            "@settings/*": [
+                "src/app/my-account/settings/*"
+            ],
             "@contracts/*": [
                 "blockchain/build/contracts/*"
             ]

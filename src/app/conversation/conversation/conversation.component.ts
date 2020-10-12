@@ -10,7 +10,7 @@ import {Item} from "@items/data/Item";
 import {HttpErrorResponse} from "@angular/common/http";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
-import {OfferContractService} from "@conversation/service/offer-contract/offer-contract.service";
+import {OfferContractService} from "@shared/offer-contract/offer-contract.service";
 import {AcceptedOfferData} from "@conversation/messages/conversation-messages.component";
 import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
 import {PlainAdvanceOffer} from "@conversation/data/offer/PlainAdvanceOffer";
@@ -185,8 +185,8 @@ export class ConversationComponent implements OnInit {
         if (acceptedOfferData.offer instanceof PlainAdvanceOffer) {
             try {
                 const contract = await this.offerContractService.createPlainAdvanceContract(
-                    acceptedOfferData.sellerAddress,
                     acceptedOfferData.buyerAddress,
+                    acceptedOfferData.sellerAddress,
                     acceptedOfferData.offer.price,
                     acceptedOfferData.offer.advance
                 );
@@ -201,8 +201,8 @@ export class ConversationComponent implements OnInit {
         else if (acceptedOfferData.offer instanceof DoubleAdvanceOffer) {
             try {
                 const contract = await this.offerContractService.createDoubleAdvanceContract(
-                    acceptedOfferData.sellerAddress,
                     acceptedOfferData.buyerAddress,
+                    acceptedOfferData.sellerAddress,
                     acceptedOfferData.offer.price,
                 );
 

@@ -4,7 +4,7 @@ import {SimpleUser, SimpleUserResponse} from "@my-account/data/SimpleUser";
 
 export class Item {
     public static readonly ETH_SYMBOL = "Ξ";
-    public static readonly ADDED_BY = "Added by";
+    public static readonly ADDED_BY = "added by";
     public static readonly ADDED_ON_LABEL = "Item added";
     public static readonly CLOSED_ON_LABEL = "Item closed";
     public static readonly CATEGORY_LABEL = "Category";
@@ -15,7 +15,7 @@ export class Item {
     public readonly price: number;
     public readonly addedBy: SimpleUser;
     public readonly addedOn: Date;
-    public readonly category: ItemCategory;
+    public readonly category: CategoryResponse;
     public readonly usedStatus: UsedStatus;
     public readonly photoUrls: string[];
     public readonly closedOn: Date | null;
@@ -72,12 +72,13 @@ export interface ItemResponse {
     readonly price: number;
     readonly addedBy: SimpleUserResponse;
     readonly addedOn: string;
-    readonly category: ItemCategory;
+    readonly category: CategoryResponse;
     readonly usedStatus: UsedStatusDto;
     readonly photoUrls: string[];
     readonly closedOn: string | null;
 }
-export interface ItemCategory {
+
+export interface CategoryResponse {
     readonly id: number;
     readonly name: string;
 }

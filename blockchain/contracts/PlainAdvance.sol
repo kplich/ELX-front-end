@@ -20,18 +20,17 @@ contract PlainAdvance is AbstractEscrow {
 
         state = ContractState.LOCKED;
         emit Locked();
-
         emit Transfer(Party.BUYER, msg.value);
-        seller.transfer(advance);
 
-        assert(getBalance() == advance);
+        seller.transfer(advance);
     }
 
     function withdrawMoney() override public
             onlySeller inState(ContractState.RELEASED) {
         emit Withdrawal(Party.SELLER, getBalance());
-        seller.transfer(getBalance());
+        state = ContractState.COMPLETED;
+        emit Completed();
 
-        assert(getBalance() == 0);
+        seller.transfer(getBalance());
     }
 }

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {Item, ItemCategory} from "@items/data/Item";
+import {Item, CategoryResponse} from "@items/data/Item";
 import {UsedStatus} from "@items/data/UsedStatus";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
 import {ItemFilteringCriteria} from "@items/browsing-criteria/ItemFilteringCriteria";
@@ -91,7 +91,7 @@ export class ItemBrowsingCriteriaComponent {
 
     readonly errorStateMatcher = new MyErrorStateMatcher();
 
-    @Input() categories!: ItemCategory[];
+    @Input() categories!: CategoryResponse[];
 
     @Output() filteringCriteria = new EventEmitter<ItemFilteringCriteria>();
 

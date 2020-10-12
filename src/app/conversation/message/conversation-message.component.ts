@@ -41,6 +41,10 @@ export class ConversationMessageComponent {
         }
     }
 
+    get offerAsPlainAdvance(): PlainAdvanceOffer | undefined {
+        return this.message ? this.message.offer as PlainAdvanceOffer : undefined;
+    }
+
     get offerIsDoubleAdvance(): boolean {
         if (this.message?.offer) {
             return this.message.offer instanceof DoubleAdvanceOffer;
@@ -48,5 +52,9 @@ export class ConversationMessageComponent {
         else {
             return false;
         }
+    }
+
+    get offerAsDoubleAdvance(): DoubleAdvanceOffer | undefined {
+        return this.message ? this.message.offer as DoubleAdvanceOffer : undefined;
     }
 }

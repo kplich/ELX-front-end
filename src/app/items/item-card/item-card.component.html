@@ -1,4 +1,4 @@
-<div (click)="navigateToItem()" class="simple-card">
+<div (click)="navigateToItem()" class="simple-card-3">
     <div class="item-card-img-container">
         <img (error)="item?.fixPhotoUrl(0)" [src]="itemPhotoUrl" alt="Main item photo">
     </div>
@@ -13,7 +13,6 @@
         <div class="item-card-details-category">
             {{strings.category}}: <a>{{item?.category?.name}}</a>
         </div>
-
         <div class="item-card-details-price">{{item?.formattedPrice}}</div>
     </div>
 </div>

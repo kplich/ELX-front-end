@@ -1,0 +1,47 @@
+<div class="offer-data">
+    <div>
+        <span class="label">{{strings.labels.offer.offerType}}: </span>
+        <span class="value">{{strings.offerTypes.doubleAdvance}}</span>
+    </div>
+    <div>
+        <span class="label">{{strings.labels.offer.price}}: </span>
+        <span class="value">{{offer?.formattedPrice}}</span>
+    </div>
+</div>
+<div class="contract-data"
+     *ngIf="contract !== undefined">
+    <div>
+        <span class="label">{{strings.labels.contract.address}}: </span>
+        <span class="value">{{offer.contractAddress}}</span>
+    </div>
+    <mat-divider></mat-divider>
+    <div>
+        <span class="label">{{strings.labels.contract.status}}: </span>
+        <span class="value">{{state}}</span>
+    </div>
+    <div *ngIf="!contractIsCompleted">
+        <span class="label">{{strings.labels.contract.balance}}: </span>
+        <span class="value">{{balance}} {{strings.labels.contract.ethereumSymbol}}</span>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="actions" *ngIf="!contractIsCompleted">
+        <button mat-raised-button (click)="refreshState()">
+            Refresh data
+        </button>
+        <button mat-raised-button color="accent" [disabled]="moneyCannotBeSent" (click)="sendMoney()">
+            Send money
+        </button>
+        <button mat-raised-button color="accent" [disabled]="moneyCannotBeWithdrawn" (click)="withdrawMoney()">
+            Withdraw money
+        </button>
+        <button mat-raised-button color="primary"
+                *ngIf="loggedInUserIsBuyer"
+                [disabled]="fundsCannotBeReleased"
+                (click)="releaseFunds()">
+            Release funds
+        </button>
+    </div>
+</div>
+<div class="no-contract" *ngIf="contract === undefined">
+    Could not load data about the contract. Connect to blockchain to load the data.
+</div>

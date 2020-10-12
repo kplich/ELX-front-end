@@ -18,8 +18,13 @@ contract DoubleAdvance is AbstractEscrow {
             AbstractEscrow(_seller, _buyer, _price) {}
 
     function sendMoney() override public
-            payable onlyBuyerOrSeller inState(ContractState.CREATED) {
-        require(msg.value == 2 * price, "Amount sent must be equal to price.");
+            payable
+            onlyBuyerOrSeller {
+        require(
+            state == ContractState.CREATED || state == ContractState.AWAITING_OTHER,
+            "Contract is in invalid state."
+        );
+        require(msg.value == 2 * price, "Amount sent must be equal to double the price.");
 
         if(msg.sender == buyer) { // buyer sent
             if (buyerPaid) { revert("Buyer has already transferred funds for the item!"); }
@@ -39,7 +44,11 @@ contract DoubleAdvance is AbstractEscrow {
             if (sellerPaid) { revert("Seller has already transferred funds for the item!"); }
 
             if (buyerPaid) {
+                state = ContractState.LOCKED;
                 emit Locked();
+            }
+            else {
+                state = ContractState.AWAITING_OTHER;
             }
 
             sellerPaid = true;
@@ -55,6 +64,11 @@ contract DoubleAdvance is AbstractEscrow {
 
             buyerWithdrew = true;
             emit Withdrawal(Party.BUYER, price);
+            if(sellerWithdrew) {
+                state = ContractState.COMPLETED;
+                emit Completed();
+            }
+
             buyer.transfer(price);
         }
         else if(msg.sender == seller) {
@@ -62,6 +76,11 @@ contract DoubleAdvance is AbstractEscrow {
 
             sellerWithdrew = true;
             emit Withdrawal(Party.SELLER, 3 * price);
+            if(buyerWithdrew) {
+                state = ContractState.COMPLETED;
+                emit Completed();
+            }
+
             seller.transfer(3 * price);
         }
         else { revert("Error - unauthorized caller"); }

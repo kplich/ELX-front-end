@@ -1,6 +1,6 @@
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
-import {ItemCategory} from "@items/data/Item";
+import {CategoryResponse} from "@items/data/Item";
 import {statusToDtoString, UsedStatus} from "@items/data/UsedStatus";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
@@ -119,7 +119,7 @@ export abstract class ItemEditBaseComponent {
         notApplicable: statusToDtoString(UsedStatus.NOT_APPLICABLE)
     };
 
-    categories: ItemCategory[] = [];
+    categories: CategoryResponse[] = [];
 
     readonly errorStateMatcher = new MyErrorStateMatcher();
 

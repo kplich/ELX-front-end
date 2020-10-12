@@ -3,6 +3,7 @@ import {Offer} from "@conversation/data/offer/Offer";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {PlainAdvanceOffer} from "@conversation/data/offer/PlainAdvanceOffer";
 import {OfferType} from "@conversation/data/OfferType";
+import {DoubleAdvanceOffer} from "@conversation/data/offer/DoubleAdvanceOffer";
 
 export const STRINGS = {
     header: "New offer!",
@@ -49,6 +50,15 @@ export abstract class OfferComponent<O extends Offer> {
     get offerIsPlainAdvance(): boolean {
         if (this.offer) {
             return this.offer instanceof PlainAdvanceOffer;
+        }
+        else {
+            return false;
+        }
+    }
+
+    get offerIsDoubleAdvance(): boolean {
+        if (this.offer) {
+            return this.offer instanceof DoubleAdvanceOffer;
         }
         else {
             return false;

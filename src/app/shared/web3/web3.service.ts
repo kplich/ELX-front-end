@@ -37,4 +37,9 @@ export class Web3Service {
     get currentAccounts(): string[] {
         return this.accounts;
     }
+
+    async getBalance(address: string): Promise<number> {
+        const balanceString = await this.web3.eth.getBalance(address);
+        return Number(balanceString);
+    }
 }
