@@ -13,7 +13,7 @@
             {{strings.itemClosed}} {{item?.closedOn | date}}
         </div>
         <ng-template #itemNotClosedActions>
-            <div class="item-actions">
+            <div class="item-actions" *ngIf="userIsLoggedIn">
                 <button *ngIf="!loggedInUserIsOwner" id="item-send-message" mat-raised-button (click)="goToConversation()">
                     {{strings.buttons.sendMessage}}
                 </button>

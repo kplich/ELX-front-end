@@ -53,6 +53,10 @@ export class ItemComponent implements OnInit {
         return this.item?.getSafePhotoUrls(this.domSanitizer);
     }
 
+    get userIsLoggedIn(): boolean {
+        return this.loggedInUserService.authenticatedUser !== null;
+    }
+
     get canBeClosed(): boolean {
         return this.loggedInUserIsOwner && !this.item?.isClosed;
     }

@@ -1,0 +1,28 @@
+@import "src/dimens";
+@import "src/typography";
+
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0 $dimen-xl;
+}
+
+.no-items {
+    padding-top: $dimen-xl;
+
+    width: 100%;
+    text-align: center;
+
+    @include body-accent;
+
+    a {
+        @include body($bold: true);
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    a:hover {
+        background-color: lightblue;
+    }
+}

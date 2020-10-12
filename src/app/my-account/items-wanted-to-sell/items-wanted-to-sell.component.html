@@ -1,1 +1,6 @@
-<item-wanted-to-sell *ngFor="let item of items" [item]="item"></item-wanted-to-sell>
+<ng-container *ngIf="!itemListIsEmpty">
+    <item-wanted-to-sell *ngFor="let item of items" [item]="item"></item-wanted-to-sell>
+</ng-container>
+<div class="no-items" *ngIf="itemListIsEmpty">
+    {{strings.noItemsForSale}} <a (click)="navigateToAdding()">{{strings.addItem}}</a>
+</div>

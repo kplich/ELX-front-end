@@ -1,1 +1,6 @@
-<item-wanted-to-buy *ngFor="let item of items" [item]="item"></item-wanted-to-buy>
+<ng-container *ngIf="!itemListIsEmpty">
+    <item-wanted-to-buy *ngFor="let item of items" [item]="item"></item-wanted-to-buy>
+</ng-container>
+<div class="no-items" *ngIf="itemListIsEmpty">
+    {{strings.noItemsWantedToBuy}} <a (click)="navigateToBrowsing()">{{strings.browseSome}}</a>
+</div>
