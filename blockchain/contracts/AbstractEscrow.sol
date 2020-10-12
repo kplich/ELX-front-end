@@ -41,6 +41,7 @@ abstract contract AbstractEscrow {
         AWAITING_OTHER,
         LOCKED,
         RELEASED,
+        COMPLETED,
         REPORTED, // reserved for future use
         RESOLVED // reserved for future use
     }
@@ -54,6 +55,7 @@ abstract contract AbstractEscrow {
     event Locked();
     event Released();
     event Withdrawal(Party party, uint amount);
+    event Completed();
     event Reported(); // reserved for future use
     event Cancelled(address cancelledBy); // reserved for future use
     event Resolved(address resolvedBy); // reserved for future use
