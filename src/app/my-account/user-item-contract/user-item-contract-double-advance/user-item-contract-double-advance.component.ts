@@ -17,9 +17,9 @@ export class UserItemContractDoubleAdvanceComponent
 
     constructor(
         private offerContractService: OfferContractService,
-        private web3Service: Web3Service,
+        web3Service: Web3Service,
         loggedInUserService: LoggedInUserService) {
-        super(loggedInUserService);
+        super(loggedInUserService, web3Service);
     }
 
     async ngOnInit() {

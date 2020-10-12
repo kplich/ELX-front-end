@@ -4,6 +4,7 @@ import {Offer} from "@conversation/data/offer/Offer";
 import {ContractStateString, contractStateToString} from "@my-account/data/ContractState";
 import {Item} from "@items/data/Item";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import {Web3Service} from "@shared/web3/web3.service";
 
 export const STRINGS = {
     labels: {
@@ -42,7 +43,9 @@ export abstract class UserItemContractComponent<O extends Offer> {
     sellerAddress!: string;
     buyerAddress!: string;
 
-    protected constructor(private loggedInUserService: LoggedInUserService) {
+    protected constructor(
+        private loggedInUserService: LoggedInUserService,
+        protected web3Service: Web3Service) {
     }
 
     protected async loadDataFromBlockchain() {
@@ -55,7 +58,8 @@ export abstract class UserItemContractComponent<O extends Offer> {
     protected async loadStateFromBlockchain() {
         if (this.offer.contractAddress) {
             this.state = contractStateToString((await this.contract.state()).toNumber());
-            this.balance = await this.web3Service.getBalance(this.offer.contractAddress);
+            const balance = await this.web3Service.getBalance(this.offer.contractAddress);
+            this.balance = balance / UserItemContractComponent.ETH_TO_WEI;
         }
         else {
             console.warn("no contract address!");
