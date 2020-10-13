@@ -7,6 +7,7 @@ import {JwtStorageService} from "@shared/jwt-storage-service/jwt-storage.service
 import {Credentials} from "@authentication/data/Credentials";
 import {PasswordChangeRequest} from "@authentication/data/PasswordChangeRequest";
 import {AUTHORIZATION, BEARER} from "@routing/jwt-interceptor/jwt.interceptor";
+import {SetEthereumAddressRequest} from "@my-account/data/SetEthereumAddressRequest";
 
 export const API_URL = `${environment.apiUrl}/auth`;
 
@@ -48,6 +49,10 @@ export class AuthenticationService {
         return this.httpClient.post(`${API_URL}/change-password`, passwordChangeRequest, {observe: "response"}).pipe(
             shareReplay()
         );
+    }
+
+    setEthereumAddress(setEthereumAddressRequest: SetEthereumAddressRequest): Observable<void> {
+        return this.httpClient.put<void>(`${API_URL}/set-ethereum-address`, setEthereumAddressRequest);
     }
 
     signUp(credentials: Credentials): Observable<HttpResponse<any>> {

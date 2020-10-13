@@ -20,6 +20,7 @@
             <div class="settings-section-header">{{ strings.accountSettings.ethereumAddressHeader}}</div>
             <app-ethereum-address [loggedInUser]="loggedInUser"
                                   [accounts]="accounts"
+                                  (setEthereumAddressRequest)="sendEthereumAddressSettingRequest($event)"
                                   class="settings-section-content"></app-ethereum-address>
         </div>
         <mat-divider></mat-divider>

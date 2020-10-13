@@ -8,6 +8,7 @@ import {SimpleUser} from "@my-account/data/SimpleUser";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {Web3Service} from "@shared/web3/web3.service";
 import { Subscription } from "rxjs";
+import {SetEthereumAddressRequest} from "@my-account/data/SetEthereumAddressRequest";
 
 export const INVALID_DATA_MESSAGE = "Invalid request data!";
 export const SERVER_ERROR_MESSAGE = "Server error, try again!";
@@ -78,6 +79,24 @@ export class SettingsComponent implements OnInit, OnDestroy {
                 },
                 error: (error) => this.openSnackBarOnError(error),
             });
+    }
+
+    sendEthereumAddressSettingRequest(request: SetEthereumAddressRequest) {
+        this.authenticationService.setEthereumAddress(request).subscribe({
+            next: () => {
+                const loggedInUser = this.loggedInUserService.authenticatedUser;
+                if (loggedInUser === null) {
+                    throw new Error("Logged in user must exist!");
+                }
+                this.loggedInUser = loggedInUser;
+
+                this.authenticationService.logOut();
+                this.router.navigateByUrl("/log-in").then(() => {
+                    this.snackBarService.openSnackBar("Log in once again to apply your changes!");
+                });
+            },
+            error: (error: HttpErrorResponse) => console.error(error)
+        });
     }
 
     private openSnackBarOnError(errorResponse: HttpErrorResponse) {

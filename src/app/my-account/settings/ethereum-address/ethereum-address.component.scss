@@ -1,3 +1,4 @@
+@import "src/dimens";
 @import "src/typography";
 
 .ethereum-address {
@@ -6,4 +7,21 @@
 
 .ethereum-address-message {
     @include detail;
+}
+
+form {
+    display: flex;
+    flex-flow: row wrap;
+
+    mat-form-field {
+        flex-grow: 3;
+        padding: 0 $dimen-xs;
+    }
+
+    .form-button {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: flex-start;
+        padding-top: $dimen-xs;
+    }
 }

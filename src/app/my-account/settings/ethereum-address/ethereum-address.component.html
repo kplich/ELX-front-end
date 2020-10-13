@@ -1,12 +1,38 @@
-<div *ngIf="loggedInUser.ethereumAddress !== null">
+<div *ngIf="userHasEthereumAddress">
     Your Ethereum address: <span class="ethereum-address">{{ loggedInUser.ethereumAddress }}</span>
+    <div class="ethereum-address-message">
+        <div *ngIf="userIsLoggedInWithDeclaredAccount()">
+            You're logged in with your Ethereum address. Happy shopping!
+        </div>
+        <div *ngIf="!userIsLoggedInWithDeclaredAccount()">
+            You're not logged in with your Ethereum address. Log in to be able to accept or send offers.
+        </div>
+    </div>
+</div>
+<div *ngIf="!userHasEthereumAddress">
+    <form [formGroup]="form" (submit)="emitSetEthereumAddressRequest()">
+        <mat-form-field appearance="outline">
+            <mat-label>{{strings.labels.yourEthereumAddress}}</mat-label>
+            <input matInput type="text"
+                   [errorStateMatcher]="errorStateMatcher"
+                   [formControl]="controls.ethereumAddress">
+            <mat-error *ngIf="errors.ethereumAddress.required">
+                {{strings.errors.required}}
+            </mat-error>
+            <mat-error *ngIf="errors.ethereumAddress.tooShort">
+                {{strings.errors.tooShort}}
+            </mat-error>
+            <mat-error *ngIf="errors.ethereumAddress.tooLong">
+                {{strings.errors.tooLong}}
+            </mat-error>
+        </mat-form-field>
+        <div class="form-button">
+            <button mat-raised-button color="accent" type="submit"
+                    [disabled]="errors.formIsInvalid">
+                {{strings.labels.save}}
+            </button>
+        </div>
+    </form>
 </div>
 
-<div class="ethereum-address-message">
-    <div *ngIf="userIsLoggedInWithDeclaredAccount()">
-        You're logged in with your Ethereum address. Happy shopping!
-    </div>
-    <div *ngIf="!userIsLoggedInWithDeclaredAccount()">
-        You're not logged in with your Ethereum address. Log in to be able to accept or send offers.
-    </div>
-</div>
+
