@@ -1,14 +1,14 @@
 import {Component, OnInit} from "@angular/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
-import {AuthenticationService} from "../authentication-service/authentication.service";
-import {Credentials} from "../data/Credentials";
+import {AuthenticationService} from "@authentication/authentication-service/authentication.service";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
-import {LOGGED_IN_SUCCESSFULLY_MESSAGE} from "../logging-in/logging-in.component";
+import {LOGGED_IN_SUCCESSFULLY_MESSAGE} from "@authentication/logging-in/logging-in.component";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import {RegistrationRequest} from "@authentication/data/RegistrationRequest";
 
 export const MINIMUM_USERNAME_LENGTH = 3;
 export const MAXIMUM_USERNAME_LENGTH = 20;
@@ -19,7 +19,6 @@ export const MAXIMUM_PASSWORD_LENGTH = 40;
 export const ETHEREUM_ADDRESS_LENGTH = 42;
 
 export const INVALID_DATA_MESSAGE = "Invalid request data!";
-export const USER_ALREADY_EXISTS_MESSAGE = "User with such username already exists!";
 export const SERVER_ERROR_MESSAGE = "Server error, try again!";
 export const SIGNED_UP_SUCCESSFULLY_MESSAGE = "Signed up successfully!";
 
@@ -136,10 +135,12 @@ export class RegistrationComponent implements OnInit {
         };
     }
 
-    private get credentials(): Credentials {
+    private get registrationRequest(): RegistrationRequest {
         return {
             username: this.controls.username.value,
-            password: this.controls.password.value
+            password: this.controls.password.value,
+            ethereumAddress:
+                this.controls.ethereumAddress.value === "" ? undefined : this.controls.ethereumAddress.value
         };
     }
 
@@ -156,7 +157,7 @@ export class RegistrationComponent implements OnInit {
     }
 
     register() {
-        this.authenticationService.signUp(this.credentials).subscribe({
+        this.authenticationService.signUp(this.registrationRequest).subscribe({
             next: () => {
                 this.router.navigateByUrl("/log-in").then(() => {
                     this.snackBarService.openSnackBar(SIGNED_UP_SUCCESSFULLY_MESSAGE);
@@ -169,11 +170,11 @@ export class RegistrationComponent implements OnInit {
     private openSnackBarOnError(errorResponse: HttpErrorResponse) {
         switch (errorResponse.status) {
             case 400: {
-                this.snackBarService.openSnackBar(INVALID_DATA_MESSAGE);
+                this.snackBarService.openSnackBar(errorResponse.error.userMessage);
                 break;
             }
             case 409: {
-                this.snackBarService.openSnackBar(USER_ALREADY_EXISTS_MESSAGE);
+                this.snackBarService.openSnackBar(errorResponse.error.message);
                 break;
             }
             case 500: {
@@ -182,5 +183,4 @@ export class RegistrationComponent implements OnInit {
             }
         }
     }
-
 }

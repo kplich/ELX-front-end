@@ -8,6 +8,7 @@ import {Credentials} from "@authentication/data/Credentials";
 import {PasswordChangeRequest} from "@authentication/data/PasswordChangeRequest";
 import {AUTHORIZATION, BEARER} from "@routing/jwt-interceptor/jwt.interceptor";
 import {SetEthereumAddressRequest} from "@my-account/data/SetEthereumAddressRequest";
+import {RegistrationRequest} from "@authentication/data/RegistrationRequest";
 
 export const API_URL = `${environment.apiUrl}/auth`;
 
@@ -55,8 +56,8 @@ export class AuthenticationService {
         return this.httpClient.put<void>(`${API_URL}/set-ethereum-address`, setEthereumAddressRequest);
     }
 
-    signUp(credentials: Credentials): Observable<HttpResponse<any>> {
-        return this.httpClient.post(`${API_URL}/sign-up`, credentials, {observe: "response"}).pipe(
+    signUp(registrationRequest: RegistrationRequest): Observable<HttpResponse<any>> {
+        return this.httpClient.post(`${API_URL}/sign-up`, registrationRequest, {observe: "response"}).pipe(
             shareReplay()
         );
     }
