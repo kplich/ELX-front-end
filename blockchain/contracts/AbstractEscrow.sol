@@ -45,27 +45,20 @@ abstract contract AbstractEscrow {
         REPORTED, // reserved for future use
         RESOLVED // reserved for future use
     }
-    enum Party {
-        BUYER,
-        SELLER,
-        MEDIATOR // reserved for future use
-    }
 
-    event Transfer(Party party, uint amount);
+    event Transfer(address from, uint amount);
     event Locked();
     event Released();
-    event Withdrawal(Party party, uint amount);
+    event Withdrawal(address to, uint amount);
     event Completed();
     event Reported(); // reserved for future use
-    event Cancelled(address cancelledBy); // reserved for future use
-    event Resolved(address resolvedBy); // reserved for future use
+    event Resolved(address by); // reserved for future use
 
-    address payable public seller;
-    address payable public buyer;
-
-    uint public price;
-
-    ContractState public state = ContractState.CREATED;
+    address payable immutable public seller;
+    address payable immutable public buyer;
+    uint immutable public price;
+    uint internal amountDeposited;
+    ContractState internal state = ContractState.CREATED;
 
     receive() external payable {
         revert("Sending ether directly to the contract is not allowed. Use sendMoney() instead.");
@@ -85,6 +78,10 @@ abstract contract AbstractEscrow {
             onlyBuyer inState(ContractState.LOCKED) {
         state = ContractState.RELEASED;
         emit Released();
+    }
+
+    function getState() public view returns(ContractState) {
+        return state;
     }
 
     function sendMoney() public

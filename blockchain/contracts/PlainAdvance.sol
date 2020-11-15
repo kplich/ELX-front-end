@@ -6,7 +6,7 @@ import "./AbstractEscrow.sol";
 // SPDX-License-Identifier: UNLICENSED
 contract PlainAdvance is AbstractEscrow {
 
-    uint public advance;
+    uint public immutable advance;
 
     constructor(address payable _seller, address payable _buyer, uint _price, uint _advance)
         AbstractEscrow(_seller, _buyer, _price) {
@@ -20,17 +20,21 @@ contract PlainAdvance is AbstractEscrow {
 
         state = ContractState.LOCKED;
         emit Locked();
-        emit Transfer(Party.BUYER, msg.value);
+        emit Transfer(msg.sender, msg.value);
 
+        amountDeposited += msg.value - advance;
         seller.transfer(advance);
     }
 
     function withdrawMoney() override public
             onlySeller inState(ContractState.RELEASED) {
-        emit Withdrawal(Party.SELLER, getBalance());
-        state = ContractState.COMPLETED;
+        emit Withdrawal(msg.sender, getBalance());
         emit Completed();
 
-        seller.transfer(getBalance());
+        state = ContractState.COMPLETED;
+
+        uint tempAmountDeposited = amountDeposited;
+        amountDeposited = 0;
+        seller.transfer(tempAmountDeposited);
     }
 }

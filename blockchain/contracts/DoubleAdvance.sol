@@ -8,11 +8,11 @@ import "./AbstractEscrow.sol";
 // SPDX-License-Identifier: UNLICENSED
 contract DoubleAdvance is AbstractEscrow {
 
-    bool public buyerPaid = false;
-    bool public sellerPaid = false;
+    bool private buyerPaid = false;
+    bool private sellerPaid = false;
 
-    bool public buyerWithdrew = false;
-    bool public sellerWithdrew = false;
+    bool private buyerWithdrew = false;
+    bool private sellerWithdrew = false;
 
     constructor(address payable _seller, address payable _buyer, uint _price)
             AbstractEscrow(_seller, _buyer, _price) {}
@@ -38,9 +38,11 @@ contract DoubleAdvance is AbstractEscrow {
             }
 
             buyerPaid = true;
-            emit Transfer(Party.BUYER, msg.value);
+            amountDeposited += msg.value;
+            emit Transfer(msg.sender, msg.value);
         }
-        else if (msg.sender == seller) { // seller sent
+
+        if (msg.sender == seller) { // seller sent
             if (sellerPaid) { revert("Seller has already transferred funds for the item!"); }
 
             if (buyerPaid) {
@@ -52,37 +54,69 @@ contract DoubleAdvance is AbstractEscrow {
             }
 
             sellerPaid = true;
-            emit Transfer(Party.SELLER, msg.value);
+            amountDeposited += msg.value;
+            emit Transfer(msg.sender, msg.value);
         }
-        else { revert("Error - unauthorized caller"); }
     }
 
     function withdrawMoney() override public
             onlyBuyerOrSeller inState(ContractState.RELEASED) {
+
         if(msg.sender == buyer) {
             if(buyerWithdrew) { revert("Buyer already withdrew money!"); }
 
             buyerWithdrew = true;
-            emit Withdrawal(Party.BUYER, price);
+            emit Withdrawal(msg.sender, price);
             if(sellerWithdrew) {
+                amountDeposited = 0;
                 state = ContractState.COMPLETED;
                 emit Completed();
             }
 
+            amountDeposited -= price;
             buyer.transfer(price);
         }
-        else if(msg.sender == seller) {
+
+        if(msg.sender == seller) {
             if(sellerWithdrew) { revert("Seller already withdrew money!"); }
 
             sellerWithdrew = true;
-            emit Withdrawal(Party.SELLER, 3 * price);
+            emit Withdrawal(msg.sender, 3 * price);
             if(buyerWithdrew) {
+                amountDeposited = 0;
                 state = ContractState.COMPLETED;
                 emit Completed();
             }
 
+            amountDeposited -= 3 * price;
             seller.transfer(3 * price);
         }
-        else { revert("Error - unauthorized caller"); }
+    }
+
+    // function meant to return the money deposited
+    // before the other party commits to the agreement
+    function backOut() public
+        onlyBuyerOrSeller inState(ContractState.AWAITING_OTHER) {
+
+        if(msg.sender == seller) {
+            if(sellerPaid) {
+                sellerPaid = false;
+                amountDeposited = 0;
+                state = ContractState.CREATED;
+                emit Withdrawal(msg.sender, 2 * price);
+                msg.sender.transfer(2 * price);
+            }
+            else { revert("Seller hasn't paid yet!"); }
+        }
+
+        if(msg.sender == buyer) {
+            if(buyerPaid) {
+                buyerPaid = false;
+                amountDeposited = 0;
+                state = ContractState.CREATED;
+                emit Withdrawal(msg.sender, 2 * price);
+                msg.sender.transfer(2 * price);
+            }
+        }
     }
 }

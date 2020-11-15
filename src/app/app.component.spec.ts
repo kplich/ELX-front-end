@@ -1,3 +1,4 @@
+import "zone.js/dist/zone-testing";
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 import {
     AppComponent,
@@ -15,7 +16,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {SimpleUser} from "@my-account/data/SimpleUser";
 
-describe("AppComponent", () => {
+fdescribe("AppComponent", () => {
     const routerSpy = jasmine.createSpyObj("Router", ["navigateByUrl"]);
     routerSpy.navigateByUrl.and.returnValue(Promise.resolve());
 
@@ -64,7 +65,7 @@ describe("AppComponent", () => {
             expect(routerSpy.navigateByUrl).toHaveBeenCalled();
         });
 
-    xit("should display 'log out' and 'my account' buttons when user is authenticated",
+    it("should display 'log out' and 'my account' buttons when user is authenticated",
         async () => {
             const EXAMPLE_USER: SimpleUser = new SimpleUser({
                 id: 0,
