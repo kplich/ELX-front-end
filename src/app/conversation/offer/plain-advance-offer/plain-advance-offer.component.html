@@ -6,9 +6,12 @@
     <div>{{strings.typeLabel}}: {{strings.types.plainAdvance}}</div>
 </div>
 <div *ngIf="offer?.awaiting" class="offer-buttons">
-    <button mat-raised-button color="primary" *ngIf="loggedInIsSender" (click)="emitCancelled()">{{strings.buttons.cancelLabel}}</button>
-    <button mat-raised-button color="primary" *ngIf="!loggedInIsSender" (click)="emitDeclined()">{{strings.buttons.declineLabel}}</button>
-    <button mat-raised-button color="accent" *ngIf="!loggedInIsSender" (click)="emitAccepted()">{{strings.buttons.acceptLabel}}</button>
+    <button mat-raised-button color="primary" *ngIf="loggedInIsSender"
+            (click)="emitCancelled()">{{strings.buttons.cancelLabel}}</button>
+    <button mat-raised-button color="primary" *ngIf="!loggedInIsSender"
+            (click)="emitDeclined()">{{strings.buttons.declineLabel}}</button>
+    <button mat-raised-button color="accent" *ngIf="!loggedInIsSender"
+            (click)="emitAccepted()">{{strings.buttons.acceptLabel}}</button>
 </div>
 <div *ngIf="offer?.accepted" class="offer-finalized">
     {{strings.messages.accepted}}

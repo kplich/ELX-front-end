@@ -84,9 +84,6 @@ export class ChangePasswordComponent {
 
     readonly errorStateMatcher: ErrorStateMatcher = new MyErrorStateMatcher();
 
-    constructor() {
-    }
-
     public get errors() {
         return {
             oldPassword: {
@@ -105,7 +102,8 @@ export class ChangePasswordComponent {
                 !this.controls.newPassword.hasError("minlength") &&
                 !this.controls.newPassword.hasError("maxlength") &&
                 !this.controls.newPassword.hasError("pattern") &&
-                this.form.hasError("passwordsmatch")
+                this.form.hasError("passwordsmatch"),
+            formIsInvalid: this.form.invalid
         };
     }
 

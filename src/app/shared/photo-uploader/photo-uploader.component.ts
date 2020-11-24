@@ -18,18 +18,13 @@ export class PhotoUploaderComponent {
     strings = STRINGS;
 
     @Input() noPhotosPrompt: string | null = null;
-
     @Input() minimumPhotos = 0;
-
     @Input() maximumPhotos = Number.MAX_SAFE_INTEGER;
-
     @Output() photoListChanged = new EventEmitter<string[]>();
 
-    photosList: string[] = [];
     @ViewChild(FileUploaderComponent) private fileUploader!: FileUploaderComponent;
 
-    constructor() {
-    }
+    photosList: string[] = [];
 
     get photosWereUploaded(): boolean {
         return this.photosList.length !== 0;

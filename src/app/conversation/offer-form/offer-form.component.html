@@ -5,7 +5,8 @@
             <mat-label>{{strings.type.label}}</mat-label>
             <mat-select [formControl]="controls.type" [errorStateMatcher]="errorStateMatcher">
                 <mat-option [value]="null">None</mat-option>
-                <mat-option *ngFor="let offerType of offerTypes" [value]="offerType.requestDto">{{offerType.type}}</mat-option>
+                <mat-option *ngFor="let offerType of
+                offerTypes" [value]="offerType.requestDto">{{offerType.type}}</mat-option>
             </mat-select>
             <mat-error *ngIf="errors.type.notProvided">
                 {{strings.type.errors.notProvided}}

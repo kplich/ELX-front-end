@@ -1,11 +1,13 @@
-<app-file-uploader
-        (fileUploaded)="fileUploaded($event)"
-        [disableUpload]="uploadShouldBeDisabled"></app-file-uploader>
-<div (cdkDropListDropped)="drop($event)" *ngIf="photosWereUploaded" cdkDropList cdkDropListOrientation="horizontal"
-     class="photo-list">
+<app-file-uploader (fileUploaded)="fileUploaded($event)"
+                   [disableUpload]="uploadShouldBeDisabled">
+</app-file-uploader>
+<div *ngIf="photosWereUploaded" class="photo-list"
+     (cdkDropListDropped)="drop($event)"
+     cdkDropList cdkDropListOrientation="horizontal">
     <div *ngFor="let photo of photosList; let myIndex=index;" cdkDrag cdkDragLockAxis="x" class="photo">
         <img alt="Uploaded photo" src="{{photo}}">
-        <button (click)="deletePhoto(myIndex)" class="delete-button" color="primary" mat-mini-fab>
+        <button class="delete-button"  color="primary"
+                (click)="deletePhoto(myIndex)" mat-mini-fab>
             <mat-icon>clear</mat-icon>
         </button>
     </div>

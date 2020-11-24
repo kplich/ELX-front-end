@@ -2,7 +2,6 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, of} from "rxjs";
 import {catchError, map} from "rxjs/operators";
-
 import {Conversation} from "@conversation/data/Conversation";
 import {ConversationService} from "@conversation/service/conversation/conversation.service";
 import {ItemsService} from "@items/service/items.service";
@@ -47,12 +46,13 @@ export class ConversationComponent implements OnInit {
         private conversationService: ConversationService,
         private offerContractService: OfferContractService,
         private snackBarService: SnackBarService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         const loggedInUser = this.loggedInUserService.authenticatedUser;
         if (loggedInUser === null) {
-            this.router.navigateByUrl("/log-in").then(() => {});
+            this.router.navigateByUrl("/log-in").then(() => {
+            });
         }
 
         const itemIdString = this.activatedRoute.snapshot.paramMap.get("id");
@@ -70,6 +70,82 @@ export class ConversationComponent implements OnInit {
             this.loadConversation();
         } else {
             console.warn("no id for item!");
+        }
+    }
+
+    sendMessage(message: NewMessageRequest) {
+        const tempConversation = this.conversation$;
+
+        if (this.subjectId !== null) {
+            this.conversation$ = this.conversationService.sendMessageWithSubject(
+                this.itemId,
+                message,
+                this.subjectId
+            ).pipe(
+                catchError((error: HttpErrorResponse) => {
+                    this.snackBarService.openSnackBar(error.message);
+                    return tempConversation;
+                })
+            );
+        } else {
+            this.conversation$ = this.conversationService.sendMessage(
+                this.itemId,
+                message
+            ).pipe(
+                catchError((error: HttpErrorResponse) => {
+                    this.snackBarService.openSnackBar(error.message);
+                    return tempConversation;
+                })
+            );
+        }
+    }
+
+    cancelOffer(offerId: number) {
+        const tempConversation = this.conversation$;
+        this.conversation$ = this.conversationService.cancelOffer(offerId).pipe(
+            catchError((error: HttpErrorResponse) => {
+                this.snackBarService.openSnackBar(error.message);
+                return tempConversation;
+            })
+        );
+    }
+
+    declineOffer(offerId: number) {
+        const tempConversation = this.conversation$;
+        this.conversation$ = this.conversationService.declineOffer(offerId).pipe(
+            catchError((error: HttpErrorResponse) => {
+                this.snackBarService.openSnackBar(error.message);
+                return tempConversation;
+            })
+        );
+    }
+
+    async acceptOffer(acceptedOfferData: AcceptedOfferData) {
+        if (acceptedOfferData.offer instanceof PlainAdvanceOffer) {
+            try {
+                const contract = await this.offerContractService.createPlainAdvanceContract(
+                    acceptedOfferData.buyerAddress,
+                    acceptedOfferData.sellerAddress,
+                    acceptedOfferData.offer.price,
+                    acceptedOfferData.offer.advance
+                );
+                this.conversation$
+                    = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
+            } catch (e) {
+                this.snackBarService.openSnackBar(e.message);
+            }
+        } else if (acceptedOfferData.offer instanceof DoubleAdvanceOffer) {
+            try {
+                const contract = await this.offerContractService.createDoubleAdvanceContract(
+                    acceptedOfferData.buyerAddress,
+                    acceptedOfferData.sellerAddress,
+                    acceptedOfferData.offer.price,
+                );
+                this.conversation$
+                    = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
+            } catch (e) {
+                this.snackBarService.openSnackBar(e.message);
+            }
         }
     }
 
@@ -130,88 +206,5 @@ export class ConversationComponent implements OnInit {
                     return of(undefined);
                 })
             );
-    }
-
-    sendMessage(message: NewMessageRequest): void {
-        const tempConversation = this.conversation$;
-
-        if (this.subjectId !== null) {
-            this.conversation$ = this.conversationService.sendMessageWithSubject(
-                this.itemId,
-                message,
-                this.subjectId
-            ).pipe(
-                catchError((error: HttpErrorResponse) => {
-                    this.snackBarService.openSnackBar(error.message);
-                    return tempConversation;
-                })
-            );
-        }
-        else {
-            this.conversation$ = this.conversationService.sendMessage(
-                this.itemId,
-                message
-            ).pipe(
-                catchError((error: HttpErrorResponse) => {
-                    this.snackBarService.openSnackBar(error.message);
-                    return tempConversation;
-                })
-            );
-        }
-    }
-
-    cancelOffer(offerId: number) {
-        const tempConversation = this.conversation$;
-        this.conversation$ = this.conversationService.cancelOffer(offerId).pipe(
-            catchError((error: HttpErrorResponse) => {
-                this.snackBarService.openSnackBar(error.message);
-                return tempConversation;
-            })
-        );
-    }
-
-    declineOffer(offerId: number) {
-        const tempConversation = this.conversation$;
-        this.conversation$ = this.conversationService.declineOffer(offerId).pipe(
-            catchError((error: HttpErrorResponse) => {
-                this.snackBarService.openSnackBar(error.message);
-                return tempConversation;
-            })
-        );
-    }
-
-    async acceptOffer(acceptedOfferData: AcceptedOfferData) {
-        console.log(acceptedOfferData);
-        if (acceptedOfferData.offer instanceof PlainAdvanceOffer) {
-            try {
-                const contract = await this.offerContractService.createPlainAdvanceContract(
-                    acceptedOfferData.buyerAddress,
-                    acceptedOfferData.sellerAddress,
-                    acceptedOfferData.offer.price,
-                    acceptedOfferData.offer.advance
-                );
-
-                console.log("contract created!", contract);
-                this.conversation$
-                    = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
-            } catch (e) {
-                this.snackBarService.openSnackBar(e.message);
-            }
-        }
-        else if (acceptedOfferData.offer instanceof DoubleAdvanceOffer) {
-            try {
-                const contract = await this.offerContractService.createDoubleAdvanceContract(
-                    acceptedOfferData.buyerAddress,
-                    acceptedOfferData.sellerAddress,
-                    acceptedOfferData.offer.price,
-                );
-
-                console.log("contract created!", contract);
-                this.conversation$
-                    = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
-            } catch (e) {
-                this.snackBarService.openSnackBar(e.message);
-            }
-        }
     }
 }

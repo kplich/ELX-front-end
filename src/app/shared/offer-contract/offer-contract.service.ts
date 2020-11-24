@@ -24,7 +24,7 @@ export class OfferContractService {
             priceInEth: number,
             advanceInEth: number) {
         const loggedInUser =
-            this.checkUserConditions(this.loggedInUserService.authenticatedUser, buyerAddress, sellerAddress);
+            this.getUserWithConditions(this.loggedInUserService.authenticatedUser, buyerAddress, sellerAddress);
 
         const contractAbstraction = contract(PlainAdvance);
         contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
@@ -42,7 +42,7 @@ export class OfferContractService {
             sellerAddress: string,
             priceInEth: number) {
         const loggedInUser
-            = this.checkUserConditions(this.loggedInUserService.authenticatedUser, buyerAddress, sellerAddress);
+            = this.getUserWithConditions(this.loggedInUserService.authenticatedUser, buyerAddress, sellerAddress);
 
         const contractAbstraction = contract(DoubleAdvance);
         contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
@@ -63,6 +63,7 @@ export class OfferContractService {
             }
             case OfferType.DOUBLE_ADVANCE: {
                 contractAbstraction = contract(DoubleAdvance);
+                break;
             }
         }
 
@@ -70,7 +71,7 @@ export class OfferContractService {
         return await contractAbstraction.at(address);
     }
 
-    private checkUserConditions(
+    private getUserWithConditions(
             loggedInUser: SimpleUser | null,
             buyerAddress: string,
             sellerAddress: string): SimpleUser {

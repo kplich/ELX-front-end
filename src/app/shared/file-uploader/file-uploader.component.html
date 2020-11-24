@@ -1,16 +1,12 @@
 <div>
     <input #fileUploaderInput
+           id="fileUploaderInput" name="fileUploader"
+           hidden multiple type="file" autocomplete="off"
            (change)="onFileSelected($event)"
-           accept="{{acceptedTypes}}"
-           autocomplete="off"
-           hidden
-           id="fileUploaderInput"
-           multiple
-           name="fileUploader"
-           type="file"/>
-    <button (click)="fileUploaderInput.click()" [disabled]="disableUpload"
-            color="primary"
-            mat-raised-button>
+           accept="{{acceptedTypes}}" />
+    <button mat-raised-button color="primary"
+            (click)="fileUploaderInput.click()"
+            [disabled]="disableUpload">
         {{buttonText}}
         <mat-icon>publish</mat-icon>
     </button>

@@ -119,15 +119,12 @@ export abstract class ItemEditBaseComponent {
         notApplicable: statusToDtoString(UsedStatus.NOT_APPLICABLE)
     };
 
-    categories: CategoryResponse[] = [];
-
     readonly errorStateMatcher = new MyErrorStateMatcher();
 
     // language=JSRegexp
     protected readonly itemTitleSymbolsPattern = "^[^!@#$^*={}|\\\\<>?]+$";
 
-    // tslint:disable-next-line:variable-name
-    readonly controls = Object.freeze({
+    readonly controls = {
         title: new FormControl("", [
             Validators.required,
             Validators.minLength(ITEM_TITLE_MINIMUM_LENGTH),
@@ -147,9 +144,11 @@ export abstract class ItemEditBaseComponent {
             Validators.maxLength(ITEM_DESCRIPTION_MAXIMUM_LENGTH)
         ]),
         photoUrls: new FormControl([], Validators.maxLength(ITEM_PHOTOS_MAXIMUM_NUMBER))
-    });
+    };
 
     readonly form: FormGroup = new FormGroup(this.controls);
+
+    categories: CategoryResponse[] = [];
 
     protected constructor(
         snackBarService: SnackBarService,

@@ -1,8 +1,9 @@
-import {Component, AfterViewChecked, Input, Output, EventEmitter, ViewChild, ElementRef} from "@angular/core";
+import {AfterContentChecked, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from "@angular/core";
 import {Conversation} from "@conversation/data/Conversation";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
 import {Offer} from "@conversation/data/offer/Offer";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 
 export interface AcceptedOfferData {
     offer: Offer;
@@ -15,7 +16,7 @@ export interface AcceptedOfferData {
     templateUrl: "./conversation-messages.component.html",
     styleUrls: ["./conversation-messages.component.scss"]
 })
-export class ConversationMessagesComponent implements AfterViewChecked {
+export class ConversationMessagesComponent implements AfterContentChecked {
 
     @Input() conversation: Conversation | undefined;
 
@@ -25,9 +26,10 @@ export class ConversationMessagesComponent implements AfterViewChecked {
     @Output() offerAccepted = new EventEmitter<AcceptedOfferData>();
 
     @ViewChild("messagesContainer")
-    private messagesContainer!: ElementRef;
+    private messagesContainer!: ElementRef<HTMLElement>;
 
-    constructor(private loggedInUserService: LoggedInUserService) {
+    constructor(private loggedInUserService: LoggedInUserService,
+                private snackBarService: SnackBarService) {
     }
 
     get loggedInUserId(): number | null {
@@ -44,20 +46,8 @@ export class ConversationMessagesComponent implements AfterViewChecked {
         this.messageSent.emit(message);
     }
 
-    ngAfterViewChecked(): void {
+    ngAfterContentChecked(): void {
         this.scrollMessagesToBottom();
-    }
-
-    private scrollMessagesToBottom(): void {
-        if (this.messagesContainer) {
-            (this.messagesContainer.nativeElement as HTMLElement).scrollBy({
-                top: (this.messagesContainer.nativeElement as HTMLElement).scrollHeight,
-                behavior: "smooth"
-            });
-        }
-        else {
-            console.warn("messages container is not defined");
-        }
     }
 
     emitOfferCancelled(offerId: number) {
@@ -76,15 +66,24 @@ export class ConversationMessagesComponent implements AfterViewChecked {
                     sellerAddress: this.conversation.item.addedBy.ethereumAddress,
                     buyerAddress: this.conversation.interestedUser.ethereumAddress
                 });
+            } else {
+                this.snackBarService.openSnackBar("Either you or the sender does not have an Ethereum address.");
             }
-            else {
-                // TODO: let the user know
-                console.warn("users need to have ethereum addresses!");
-            }
-        }
-        else {
+        } else {
             console.warn("conversation is undefined!");
         }
 
+    }
+
+    private scrollMessagesToBottom(): void {
+        if (this.messagesContainer) {
+            this.messagesContainer.nativeElement.scrollBy({
+                top: (this.messagesContainer.nativeElement as HTMLElement).scrollHeight,
+                behavior: "smooth"
+            });
+        } else {
+            // HACK: if the container is not defined, simply wait for it
+            setTimeout(() => this.scrollMessagesToBottom(), 500);
+        }
     }
 }

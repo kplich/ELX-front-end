@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component } from "@angular/core";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {PlainAdvanceOffer} from "@conversation/data/offer/PlainAdvanceOffer";
 import {OfferComponent} from "@conversation/offer/offer.component";

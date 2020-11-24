@@ -8,8 +8,8 @@ import {ConversationMessageComponent} from "@conversation/message/conversation-m
 import {ConversationMessageFormComponent} from "@conversation/message-form/conversation-message-form.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {OfferFormComponent} from "@conversation/offer-form/offer-form.component";
-import { PlainAdvanceOfferComponent } from "@conversation/offer/plain-advance-offer/plain-advance-offer.component";
-import { DoubleAdvanceOfferComponent } from "@conversation/offer/double-advance-offer/double-advance-offer.component";
+import {PlainAdvanceOfferComponent} from "@conversation/offer/plain-advance-offer/plain-advance-offer.component";
+import {DoubleAdvanceOfferComponent} from "@conversation/offer/double-advance-offer/double-advance-offer.component";
 
 @NgModule({
     declarations: [

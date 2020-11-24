@@ -14,14 +14,12 @@ export class Web3Service {
     accounts$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(this.accounts);
 
     constructor() {
-        console.log("Creating Web3Service");
         try {
             const provider = (window.ethereum) ? window.ethereum : Web3.givenProvider || "ws://localhost:8545";
             this.web3 = new Web3(provider);
         } catch (err) {
             throw new Error("Non-Ethereum browser detected. You should consider trying Mist or MetaMask!");
         }
-
         setInterval(async () => {
             const newAccounts = await this.web3.eth.getAccounts();
 

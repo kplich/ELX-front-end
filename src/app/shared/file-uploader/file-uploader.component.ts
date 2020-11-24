@@ -19,17 +19,10 @@ export const STRINGS = {
 })
 export class FileUploaderComponent {
 
-    @Input()
-    acceptedTypes = "image/*";
-
-    @Input()
-    buttonText = BUTTON_TEXT;
-
-    @Input()
-    disableUpload = false;
-
-    @Output()
-    fileUploaded = new EventEmitter<string>();
+    @Input() acceptedTypes = "image/*";
+    @Input() buttonText = BUTTON_TEXT;
+    @Input() disableUpload = false;
+    @Output() fileUploaded = new EventEmitter<string>();
 
     isUploading = false;
     numberOfFilesToUpload!: number;
@@ -37,11 +30,11 @@ export class FileUploaderComponent {
 
     constructor(
         private storage: AngularFireStorage,
-        private snackBarService: SnackBarService) {
+        private snackBarService: SnackBarService
+    ) {
     }
 
     onFileSelected(event: Event) {
-
         if (event.target == null) {
             return;
         }
@@ -63,22 +56,20 @@ export class FileUploaderComponent {
             const timestamp = Date.now();
             const fileRef = this.storage.ref(`items/${timestamp}`);
 
-            fileRef.put(file, metadata)
-                .then(snapshot => {
-                    snapshot.ref.getDownloadURL().then(url => {
-                        this.fileUploaded.emit(url);
-                        this.snackBarService.openSnackBar(this.strings.uploadSuccess);
+            fileRef.put(file, metadata).then(snapshot => {
+                snapshot.ref.getDownloadURL().then(url => {
+                    this.fileUploaded.emit(url);
+                    this.snackBarService.openSnackBar(this.strings.uploadSuccess);
 
-                        this.numberOfFilesToUpload--;
+                    this.numberOfFilesToUpload--;
 
-                        if (this.numberOfFilesToUpload === 0) {
-                            this.isUploading = false;
-                        }
-                    });
-                })
-                .catch(() => {
-                    this.snackBarService.openSnackBar(this.strings.uploadError);
+                    if (this.numberOfFilesToUpload === 0) {
+                        this.isUploading = false;
+                    }
                 });
+            }).catch(() => {
+                this.snackBarService.openSnackBar(this.strings.uploadError);
+            });
         }
     }
 
