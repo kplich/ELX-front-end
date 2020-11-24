@@ -8,6 +8,9 @@ import {ItemSold, ItemSoldResponse} from "@my-account/data/items/ItemSold";
 import {ItemWantedToBuy, ItemWantedToBuyResponse} from "@my-account/data/items/ItemWantedToBuy";
 import {ItemBought} from "@my-account/data/items/ItemBought";
 
+/**
+ * API URL used for reading data about the users.
+ */
 export const USER_API_URL = `${environment.apiUrl}/user`;
 
 @Injectable({

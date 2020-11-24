@@ -5,16 +5,19 @@ import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PhotoUploaderComponent} from "@shared/photo-uploader/photo-uploader.component";
 import {
-    COULD_NOT_LOAD_CATEGORIES_MESSAGE,
-    ItemEditBaseComponent
+    ItemEditBaseComponent, STRINGS as STRINGS_BASE
 } from "@items/edit-base/ItemEditBase";
 import {MatFormField} from "@angular/material/form-field";
 import {statusToDtoString} from "@items/data/UsedStatus";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import { HttpResponse, HttpErrorResponse } from "@angular/common/http";
 
-export const ITEM_UPDATED_SUCCESSFULLY_MESSAGE = "Item updated successfully!";
-export const COULD_NOT_LOAD_ITEM = "Could not load item.";
+export const STRINGS = {
+    messages: {
+        itemUpdatedSuccessfully: "Item updated successfully!",
+        couldNotLoadItem: "Could not load item."
+    }
+};
 
 @Component({
     selector: "item-update",
@@ -59,7 +62,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
                 this.categories = categories;
             }
         } catch (err) {
-            this.snackBarService.openSnackBar(COULD_NOT_LOAD_CATEGORIES_MESSAGE);
+            this.snackBarService.openSnackBar(STRINGS_BASE.messages.couldNotLoadCategories);
             return;
         }
 
@@ -74,7 +77,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
             const item = (await this.itemsService.getItem(this.id).toPromise()).body;
             if (item === null) {
                 console.warn("empty response body");
-                this.snackBarService.openSnackBar(COULD_NOT_LOAD_ITEM);
+                this.snackBarService.openSnackBar(STRINGS.messages.couldNotLoadItem);
                 return;
             }
 
@@ -98,7 +101,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
             next: (response: HttpResponse<Item>) => {
                 if (response.body === null) { throw new Error("Response with empty body!"); }
                 this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
-                    this.snackBarService.openSnackBar(ITEM_UPDATED_SUCCESSFULLY_MESSAGE);
+                    this.snackBarService.openSnackBar(STRINGS.messages.itemUpdatedSuccessfully);
                 });
             },
             error: (error: HttpErrorResponse) => this.openErrorSnackBar(error)

@@ -4,11 +4,11 @@
 </div>
 <ng-template #noItemsWereFoundTemplate>
     <div *ngIf="itemsWereLoaded else noItemsWereLoadedTemplate" class="item-cards-error">
-        {{strings.noItemsFoundMessage}}
+        {{strings.messages.noItemsFound}}
     </div>
     <ng-template #noItemsWereLoadedTemplate>
         <div class="item-cards-error">
-            {{strings.couldNotLoadItemsMessage}}
+            {{strings.messages.couldNotLoadItems}}
         </div>
     </ng-template>
 </ng-template>

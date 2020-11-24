@@ -6,7 +6,7 @@ import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
-import {LOGGED_IN_SUCCESSFULLY_MESSAGE} from "@authentication/logging-in/logging-in.component";
+import {STRINGS as STRINGS_LOG_IN} from "@authentication/logging-in/logging-in.component";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {RegistrationRequest} from "@authentication/data/RegistrationRequest";
 
@@ -17,10 +17,6 @@ export const MINIMUM_PASSWORD_LENGTH = 8;
 export const MAXIMUM_PASSWORD_LENGTH = 40;
 
 export const ETHEREUM_ADDRESS_LENGTH = 42;
-
-export const INVALID_DATA_MESSAGE = "Invalid request data!";
-export const SERVER_ERROR_MESSAGE = "Server error, try again!";
-export const SIGNED_UP_SUCCESSFULLY_MESSAGE = "Signed up successfully!";
 
 export const STRINGS = {
     username: {
@@ -46,6 +42,11 @@ export const STRINGS = {
     },
     button: {
         register: "Register"
+    },
+    messages: {
+        invalidData: "Invalid request data!",
+        serverError: "Server error, try again!",
+        signedUpSuccessfully: "Signed up successfully!"
     }
 };
 
@@ -149,8 +150,8 @@ export class RegistrationComponent implements OnInit {
             this.router.navigateByUrl("/items").then(() => {
                 if (this.loggedInUserService.authenticatedUser !== null) {
                     this.snackBarService.openSnackBar(
-                        LOGGED_IN_SUCCESSFULLY_MESSAGE(this.loggedInUserService.authenticatedUser.username)
-                    );
+                        STRINGS_LOG_IN.messages.loggedInSuccessfully(
+                            this.loggedInUserService.authenticatedUser.username));
                 }
             });
         }
@@ -160,7 +161,7 @@ export class RegistrationComponent implements OnInit {
         this.authenticationService.signUp(this.registrationRequest).subscribe({
             next: () => {
                 this.router.navigateByUrl("/log-in").then(() => {
-                    this.snackBarService.openSnackBar(SIGNED_UP_SUCCESSFULLY_MESSAGE);
+                    this.snackBarService.openSnackBar(STRINGS.messages.signedUpSuccessfully);
                 });
             },
             error: error => this.openSnackBarOnError(error)
@@ -178,7 +179,7 @@ export class RegistrationComponent implements OnInit {
                 break;
             }
             case 500: {
-                this.snackBarService.openSnackBar(SERVER_ERROR_MESSAGE);
+                this.snackBarService.openSnackBar(STRINGS.messages.serverError);
                 break;
             }
         }

@@ -3,7 +3,7 @@ import {ItemsService} from "@items/service/items.service";
 import {CategoryResponse, NewOrUpdatedItemRequest, Item} from "@items/data/Item";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {Router} from "@angular/router";
-import {COULD_NOT_LOAD_CATEGORIES_MESSAGE, ItemEditBaseComponent} from "@items/edit-base/ItemEditBase";
+import {STRINGS as STRINGS_BASE, ItemEditBaseComponent} from "@items/edit-base/ItemEditBase";
 import { HttpResponse, HttpErrorResponse } from "@angular/common/http";
 
 export const ITEM_ADDED_SUCCESSFULLY_MESSAGE = "Item added successfully!";
@@ -54,7 +54,7 @@ export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
                     this.categories = response.body;
                 }
             },
-            error: () => this.snackBarService.openSnackBar(COULD_NOT_LOAD_CATEGORIES_MESSAGE)
+            error: () => this.snackBarService.openSnackBar(STRINGS_BASE.messages.couldNotLoadCategories)
         });
     }
 }

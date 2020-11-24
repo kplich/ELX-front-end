@@ -6,8 +6,12 @@ import {OfferFormComponent} from "@conversation/offer-form/offer-form.component"
 import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
 import {NewOfferRequest} from "@conversation/data/NewOfferRequest";
 
-export const MESSAGE_LABEL = "Your message";
-export const MESSAGE_REQUIRED_MESSAGE = "Message is required if you're not sending an offer.";
+export const STRINGS = {
+    message: {
+        label: "Your message",
+        required: "Message is required if you're not sending an offer."
+    }
+};
 
 @Component({
     selector: "app-conversation-message-form",
@@ -16,12 +20,7 @@ export const MESSAGE_REQUIRED_MESSAGE = "Message is required if you're not sendi
 })
 export class ConversationMessageFormComponent implements OnInit {
 
-    readonly strings = {
-        message: {
-            label: MESSAGE_LABEL,
-            required: MESSAGE_REQUIRED_MESSAGE
-        }
-    };
+    readonly strings = STRINGS;
 
     offer: NewOfferRequest | null = null;
 

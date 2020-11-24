@@ -4,8 +4,12 @@ import {ItemsService} from "@items/service/items.service";
 import {ItemFilteringCriteria} from "@items/browsing-criteria/ItemFilteringCriteria";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 
-export const COULD_NOT_LOAD_ITEMS_MESSAGE = "Could not load items :/.";
-export const NO_ITEMS_FOUND_MESSAGE = "No items matching given criteria were found.";
+export const STRINGS = {
+    messages: {
+        couldNotLoadItems: "Could not load items.",
+        noItemsFound: "No items matching given criteria were found."
+    }
+};
 
 @Component({
     selector: "item-browsing",
@@ -14,11 +18,7 @@ export const NO_ITEMS_FOUND_MESSAGE = "No items matching given criteria were fou
 })
 export class ItemBrowsingComponent implements OnInit {
 
-    strings = {
-        couldNotLoadItemsMessage: COULD_NOT_LOAD_ITEMS_MESSAGE,
-        noItemsFoundMessage: NO_ITEMS_FOUND_MESSAGE
-    };
-
+    strings = STRINGS;
     displayedItems!: Item[];
     categories!: CategoryResponse[];
     private allItems!: Item[];
@@ -50,7 +50,7 @@ export class ItemBrowsingComponent implements OnInit {
                 });
             },
             error: () => {
-                this.snackBarService.openSnackBar(this.strings.couldNotLoadItemsMessage);
+                this.snackBarService.openSnackBar(STRINGS.messages.couldNotLoadItems);
             }
         });
     }
