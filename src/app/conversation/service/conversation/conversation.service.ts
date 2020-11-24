@@ -6,8 +6,16 @@ import {Conversation, ConversationResponse} from "@conversation/data/Conversatio
 import {environment} from "@environments/environment";
 import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
 
+/**
+ * API URL used to read and store data about items (and about conversations
+ * about those items, too.)
+ */
 export const ITEMS_API_URL = `${environment.apiUrl}/items`;
 
+/**
+ * Service used in the Conversation Module. Used to read conversation, send
+ * messages and accept/decline offers.
+ */
 @Injectable({
     providedIn: "root"
 })

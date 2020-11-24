@@ -3,6 +3,9 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTre
 import {Observable} from "rxjs";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 
+/**
+ * A guard that only allows further navigation if the user is logged in.
+ */
 @Injectable({
     providedIn: "root"
 })
@@ -10,7 +13,10 @@ export class LoggedInGuard implements CanActivate {
     constructor(private loggedInUserService: LoggedInUserService, private router: Router) {
     }
 
-    // noinspection JSUnusedLocalSymbols
+    /**
+     * Implementation of CanActivate interface. Only allows navigation if the user
+     * is logged in.
+     */
     canActivate(
         next: ActivatedRouteSnapshot, state: RouterStateSnapshot):
         Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {

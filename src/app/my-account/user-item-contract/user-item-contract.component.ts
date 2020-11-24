@@ -7,6 +7,9 @@ import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service
 import {Web3Service} from "@shared/web3/web3.service";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 
+/**
+ * Labels used in the component.
+ */
 export const STRINGS = {
     labels: {
         offer: {
@@ -87,7 +90,7 @@ export abstract class UserItemContractComponent<O extends Offer> {
     }
 
     async releaseFunds() {
-        if (this.web3Service.currentAccounts[0] !== this.buyerAddress) {
+        if (this.web3Service.accounts[0] !== this.buyerAddress) {
             this.snackBarService.openSnackBar("Log in as a buyer to release the funds!");
             return;
         }

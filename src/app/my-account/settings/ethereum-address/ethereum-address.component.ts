@@ -4,8 +4,14 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
 import {SetEthereumAddressRequest} from "@my-account/data/SetEthereumAddressRequest";
 
+/**
+ * Length of Ethereum address.
+ */
 export const ETHEREUM_ADDRESS_LENGTH = 42;
 
+/**
+ * Labels and messages used in the component.
+ */
 export const STRINGS = {
     labels: {
         yourEthereumAddress: "Your Ethereum address",

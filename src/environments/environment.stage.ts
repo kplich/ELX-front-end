@@ -1,4 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
+/**
+ * Staging environment configuration.
+ */
 export const environment = {
   production: true,
   apiUrl: "https://elx-back-end-staging.herokuapp.com",

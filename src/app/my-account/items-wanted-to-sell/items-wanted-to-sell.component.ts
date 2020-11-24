@@ -2,6 +2,9 @@ import {Component} from "@angular/core";
 import {ItemWantedToSell} from "@my-account/data/items/ItemWantedToSell";
 import {AbstractUserItemListComponent} from "@my-account/abstract-user-item-list/abstract-user-item-list.component";
 
+/**
+ * Labels used in this component.
+ */
 export const STRINGS = {
     noItemsForSale: "You don't have any items for sale.",
     addItem: "Add one now!"

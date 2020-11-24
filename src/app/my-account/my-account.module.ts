@@ -16,6 +16,9 @@ import {UserItemConversationComponent} from "@my-account/user-item-conversation/
 import {UserItemContractPlainAdvanceComponent} from "@my-account/user-item-contract/user-item-contract-plain-advance/user-item-contract-plain-advance.component";
 import {UserItemContractDoubleAdvanceComponent} from "@my-account/user-item-contract/user-item-contract-double-advance/user-item-contract-double-advance.component";
 
+/**
+ * Module for the page with information about the user.
+ */
 @NgModule({
     declarations: [
         MyAccountComponent,

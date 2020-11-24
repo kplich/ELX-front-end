@@ -10,8 +10,15 @@ import {AUTHORIZATION, BEARER} from "@routing/jwt-interceptor/jwt.interceptor";
 import {SetEthereumAddressRequest} from "@my-account/data/SetEthereumAddressRequest";
 import {RegistrationRequest} from "@authentication/data/RegistrationRequest";
 
+/**
+ * API URL for authentication purposes.
+ */
 export const API_URL = `${environment.apiUrl}/auth`;
 
+/**
+ * Service used in Authentication Module for authentication purposes - logging in,
+ * signing up and setting your Ethereum address.
+ */
 @Injectable({
     providedIn: "root"
 })

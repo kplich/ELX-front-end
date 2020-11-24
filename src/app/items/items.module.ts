@@ -12,6 +12,9 @@ import {ItemBrowsingCriteriaComponent} from "@items/browsing-criteria/item-brows
 import {RouterModule} from "@angular/router";
 import {UpdateItemComponent} from "./update-item/update-item.component";
 
+/**
+ * Module for browsing and editing items.
+ */
 @NgModule({
     declarations: [
         ItemComponent,

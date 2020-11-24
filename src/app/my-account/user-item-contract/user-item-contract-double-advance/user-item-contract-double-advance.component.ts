@@ -38,14 +38,14 @@ export class UserItemContractDoubleAdvanceComponent
     }
 
     async sendMoney() {
-        if (this.web3Service.currentAccounts[0] !== this.buyerAddress
-                && this.web3Service.currentAccounts[0] !== this.sellerAddress) {
+        if (this.web3Service.accounts[0] !== this.buyerAddress
+                && this.web3Service.accounts[0] !== this.sellerAddress) {
             this.snackBarService.openSnackBar("Log in to your Ethereum account to send money!");
             return;
         }
 
         const result = await this.contract.sendMoney({
-            from: this.web3Service.currentAccounts[0],
+            from: this.web3Service.accounts[0],
             value: this.offer.price * 2 * UserItemContractComponent.ETH_TO_WEI
         });
         console.log(result);
@@ -54,13 +54,13 @@ export class UserItemContractDoubleAdvanceComponent
     }
 
     async withdrawMoney() {
-        if (this.web3Service.currentAccounts[0] !== this.buyerAddress
-                && this.web3Service.currentAccounts[0] !== this.sellerAddress) {
+        if (this.web3Service.accounts[0] !== this.buyerAddress
+                && this.web3Service.accounts[0] !== this.sellerAddress) {
             this.snackBarService.openSnackBar("Log in to your Ethereum account to send money!");
             return;
         }
 
-        const result = await this.contract.withdrawMoney({from: this.web3Service.currentAccounts[0]});
+        const result = await this.contract.withdrawMoney({from: this.web3Service.accounts[0]});
         console.log(result);
 
         await this.loadDataFromBlockchain();

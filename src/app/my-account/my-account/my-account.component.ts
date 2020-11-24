@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import { Observable } from "rxjs";
+import {Observable} from "rxjs";
 import {UserService} from "@my-account/user-service/user.service";
 import {ItemWantedToSell} from "@my-account/data/items/ItemWantedToSell";
 import {ItemWantedToBuy} from "@my-account/data/items/ItemWantedToBuy";

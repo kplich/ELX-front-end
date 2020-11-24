@@ -11,6 +11,9 @@ import {AddItemComponent} from "@items/add/add-item.component";
 import {UpdateItemComponent} from "@items/update-item/update-item.component";
 import {ConversationComponent} from "@conversation/conversation/conversation.component";
 
+/**
+ * Routes for the application.
+ */
 const routes: Routes = [
     {path: "log-in", component: LoggingInComponent},
     {path: "register", component: RegistrationComponent},
@@ -23,6 +26,9 @@ const routes: Routes = [
     {path: "", component: ItemBrowsingComponent}
 ];
 
+/**
+ * Module for routing configuration.
+ */
 @NgModule({
   declarations: [],
   imports: [

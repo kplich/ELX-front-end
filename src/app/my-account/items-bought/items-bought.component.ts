@@ -2,6 +2,9 @@ import {Component} from "@angular/core";
 import {ItemBought} from "@my-account/data/items/ItemBought";
 import {AbstractUserItemListComponent} from "@my-account/abstract-user-item-list/abstract-user-item-list.component";
 
+/**
+ * Labels used in this component.
+ */
 export const STRINGS = {
     noItemsWantedToBuy: "You haven't bought any items yet.",
     browseSome: "Look for some that may interest you."

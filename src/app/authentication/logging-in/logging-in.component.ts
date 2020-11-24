@@ -8,19 +8,29 @@ import {Credentials} from "@authentication/data/Credentials";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 
-export const USERNAME_LABEL = "Username";
-export const USERNAME_REQUIRED_MESSAGE = "A username is required!";
-
-export const PASSWORD_LABEL = "Password";
-export const PASSWORD_REQUIRED_MESSAGE = "A password is required!";
-
-export const INCORRECT_USERNAME_OR_PASSWORD_MESSAGE = "Incorrect username or password!";
-export const SERVER_ERROR_MESSAGE = "Server error, try again!";
-export const LOGGED_IN_SUCCESSFULLY_MESSAGE = (username: string) => `Welcome, ${username}!`;
-
-export const BUTTON_FORGOT_PASSWORD_TEXT = "Forgot password";
-export const BUTTON_LOG_IN_TEXT = "Log in";
-export const BUTTON_REGISTER_TEXT = "Register";
+/**
+ * Labels and messages used in the component.
+ */
+export const STRINGS = {
+    username: {
+        label: "Username",
+        requiredMessage: "A username is required!"
+    },
+    password: {
+        label: "Password",
+        requiredMessage: "A password is required!",
+    },
+    buttons: {
+        forgotPasswordText: "Forgot password",
+        logInText: "Log in",
+        registerText: "Register"
+    },
+    messages: {
+        incorrectUsernameOrPassword: "Incorrect username or password!",
+        serverError: "Server error, try again!",
+        loggedInSuccessfully: (username: string) => `Welcome, ${username}!`
+    }
+};
 
 @Component({
     selector: "identity-logging-in",
@@ -29,26 +39,12 @@ export const BUTTON_REGISTER_TEXT = "Register";
 })
 export class LoggingInComponent implements OnInit {
 
-    readonly strings = {
-        username: {
-            label: USERNAME_LABEL,
-            requiredMessage: USERNAME_REQUIRED_MESSAGE
-        },
-        password: {
-            label: PASSWORD_LABEL,
-            requiredMessage: PASSWORD_REQUIRED_MESSAGE,
-        },
-        buttons: {
-            forgotPasswordText: BUTTON_FORGOT_PASSWORD_TEXT,
-            logInText: BUTTON_LOG_IN_TEXT,
-            registerText: BUTTON_REGISTER_TEXT
-        }
-    };
+    readonly strings = STRINGS;
 
-    readonly controls = Object.freeze({
+    readonly controls = {
         username: new FormControl("", [Validators.required]),
         password: new FormControl("", [Validators.required])
-    });
+    };
 
     readonly errorStateMatcher = new MyErrorStateMatcher();
     readonly form = new FormGroup(this.controls);
@@ -80,7 +76,7 @@ export class LoggingInComponent implements OnInit {
             this.router.navigateByUrl("/items").then(() => {
                 if (this.loggedInUserService.authenticatedUser !== null) {
                     this.snackBarService.openSnackBar(
-                        LOGGED_IN_SUCCESSFULLY_MESSAGE(this.loggedInUserService.authenticatedUser.username)
+                        STRINGS.messages.loggedInSuccessfully(this.loggedInUserService.authenticatedUser.username)
                     );
                 }
             });
@@ -92,7 +88,7 @@ export class LoggingInComponent implements OnInit {
             next: () => {
                 this.router.navigateByUrl("/items").then(() => {
                     this.snackBarService.openSnackBar(
-                        LOGGED_IN_SUCCESSFULLY_MESSAGE(this.controls.username.value)
+                        STRINGS.messages.loggedInSuccessfully(this.controls.username.value)
                     );
                 });
             },
@@ -107,9 +103,9 @@ export class LoggingInComponent implements OnInit {
 
     private openErrorSnackBar(errorResponse: HttpErrorResponse) {
         if (errorResponse.status === 403) {
-            this.snackBarService.openSnackBar(INCORRECT_USERNAME_OR_PASSWORD_MESSAGE);
+            this.snackBarService.openSnackBar(STRINGS.messages.incorrectUsernameOrPassword);
         } else {
-            this.snackBarService.openSnackBar(SERVER_ERROR_MESSAGE);
+            this.snackBarService.openSnackBar(STRINGS.messages.serverError);
         }
     }
 }

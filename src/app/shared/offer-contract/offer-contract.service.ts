@@ -7,8 +7,15 @@ import {SimpleUser} from "@my-account/data/SimpleUser";
 import {OfferType} from "@conversation/data/OfferType";
 
 const contract = require("@truffle/contract");
-const ETH_TO_WEI = 10 ** 18;
 
+/**
+ * Conversion rate from Ethers to Wei (1 Ether = 10^18 Wei.)
+ */
+export const ETH_TO_WEI = 10 ** 18;
+
+/**
+ * A service for creating new and fetching the existing smart contracts.
+ */
 @Injectable({
     providedIn: "root"
 })
@@ -84,7 +91,7 @@ export class OfferContractService {
         }
 
         // TODO: multiple accounts?
-        if (this.web3Service.currentAccounts[0] !== loggedInUser.ethereumAddress) {
+        if (this.web3Service.accounts[0] !== loggedInUser.ethereumAddress) {
             throw new Error("Log in to your Ethereum account in order to initiate a transaction!");
         }
 

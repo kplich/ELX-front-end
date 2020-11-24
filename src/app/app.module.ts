@@ -13,6 +13,9 @@ import {JwtInterceptor} from "@routing/jwt-interceptor/jwt.interceptor";
 import {ConversationModule} from "@conversation/conversation.module";
 import {OfferFormComponent} from "@conversation/offer-form/offer-form.component";
 
+/**
+ * Main module of the application.
+ */
 @NgModule({
     declarations: [
         AppComponent,

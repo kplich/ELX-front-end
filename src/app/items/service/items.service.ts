@@ -5,7 +5,14 @@ import {Item, CategoryResponse, ItemResponse, NewOrUpdatedItemRequest} from "@it
 import {environment} from "@environments/environment";
 import {map} from "rxjs/operators";
 
+/**
+ * API URL used to read and store information about items.
+ */
 export const ITEMS_API_URL = `${environment.apiUrl}/items`;
+
+/**
+ * API URL used to read information about categories.
+ */
 export const CATEGORIES_API_URL = `${environment.apiUrl}/categories`;
 
 @Injectable({

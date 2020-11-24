@@ -11,6 +11,9 @@ import {OfferFormComponent} from "@conversation/offer-form/offer-form.component"
 import {PlainAdvanceOfferComponent} from "@conversation/offer/plain-advance-offer/plain-advance-offer.component";
 import {DoubleAdvanceOfferComponent} from "@conversation/offer/double-advance-offer/double-advance-offer.component";
 
+/**
+ * Module for handling conversations.
+ */
 @NgModule({
     declarations: [
         ConversationComponent,

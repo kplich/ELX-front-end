@@ -1,18 +1,22 @@
 import {Component, EventEmitter, Output} from "@angular/core";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
-import {
-    AbstractControl,
-    FormControl,
-    FormGroup,
-    ValidationErrors,
-    Validators
-} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {PasswordChangeRequest} from "@authentication/data/PasswordChangeRequest";
 
+/**
+ * Minimal length of a password.
+ */
 export const MINIMUM_PASSWORD_LENGTH = 8;
+
+/**
+ * Maximal length of a password.
+ */
 export const MAXIMUM_PASSWORD_LENGTH = 40;
 
+/**
+ * Labels and messages used in the component.
+ */
 export const STRINGS = {
     title: "Change password",
     oldPassword: {
@@ -33,6 +37,13 @@ and different from the old password.`,
     button: "Change password"
 };
 
+/**
+ * Validator function that checks if the passwords are equal
+ * @param form FormGroup that contains the form inputs with the old
+ *          and the new password.
+ * @return a ValidationError with code 'passwordsmatch' if the passwords are equal
+ *          and null otherwise
+ */
 export function passwordsNotEqualValidator(form: AbstractControl): ValidationErrors | null {
     const oldPassword = form.get("oldPassword");
     const newPassword = form.get("newPassword");

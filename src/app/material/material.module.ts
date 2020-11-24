@@ -18,6 +18,9 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatDialogModule} from "@angular/material/dialog";
 
+/**
+ * Module for Angular Material imports.
+ */
 @NgModule({
     declarations: [],
     imports: [

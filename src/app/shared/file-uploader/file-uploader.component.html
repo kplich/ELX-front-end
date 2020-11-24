@@ -7,7 +7,7 @@
     <button mat-raised-button color="primary"
             (click)="fileUploaderInput.click()"
             [disabled]="disableUpload">
-        {{buttonText}}
+        {{strings.uploadButton}}
         <mat-icon>publish</mat-icon>
     </button>
     <mat-progress-bar *ngIf="isUploading" mode="indeterminate"></mat-progress-bar>

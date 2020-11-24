@@ -10,10 +10,9 @@ import {Web3Service} from "@shared/web3/web3.service";
 import { Subscription } from "rxjs";
 import {SetEthereumAddressRequest} from "@my-account/data/SetEthereumAddressRequest";
 
-export const INVALID_DATA_MESSAGE = "Invalid request data!";
-export const SERVER_ERROR_MESSAGE = "Server error, try again!";
-export const PASSWORD_CHANGED_SUCCESSFULLY_MESSAGE = "Changed password successfully!";
-
+/**
+ * Labels and messages used in the component.
+ */
 export const STRINGS = {
     accountSettings: {
         title: "Account settings",
@@ -21,6 +20,11 @@ export const STRINGS = {
         changePasswordHeader: "Change password",
         ethereumAddressHeader: "Your Ethereum address",
         enableEthereumHeader: "Enable Ethereum"
+    },
+    messages: {
+        invalidData: "Invalid request data!",
+        serverError: "Server error, try again!",
+        passwordChangedSuccessfully: "Changed password successfully!"
     }
 };
 
@@ -73,7 +77,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
                     this.authenticationService.logOut();
                     this.router.navigateByUrl("/items").then(() => {
                         this.snackBarService.openSnackBar(
-                            PASSWORD_CHANGED_SUCCESSFULLY_MESSAGE
+                            STRINGS.messages.passwordChangedSuccessfully
                         );
                     });
                 },
@@ -102,11 +106,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
     private openSnackBarOnError(errorResponse: HttpErrorResponse) {
         switch (errorResponse.status) {
             case 400: {
-                this.snackBarService.openSnackBar(INVALID_DATA_MESSAGE);
+                this.snackBarService.openSnackBar(STRINGS.messages.invalidData);
                 break;
             }
             case 500: {
-                this.snackBarService.openSnackBar(SERVER_ERROR_MESSAGE);
+                this.snackBarService.openSnackBar(STRINGS.messages.serverError);
                 break;
             }
         }

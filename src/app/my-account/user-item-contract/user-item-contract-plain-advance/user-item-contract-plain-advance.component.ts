@@ -40,7 +40,7 @@ export class UserItemContractPlainAdvanceComponent
     }
 
     async sendMoney() {
-        if (this.web3Service.currentAccounts[0] !== this.buyerAddress) {
+        if (this.web3Service.accounts[0] !== this.buyerAddress) {
             this.snackBarService.openSnackBar("Log in to your Ethereum account to send money!");
             return;
         }
@@ -55,7 +55,7 @@ export class UserItemContractPlainAdvanceComponent
     }
 
     async withdrawMoney() {
-        if (this.web3Service.currentAccounts[0] !== this.sellerAddress) {
+        if (this.web3Service.accounts[0] !== this.sellerAddress) {
             this.snackBarService.openSnackBar("Log in to your Ethereum account to withdraw money!");
             return;
         }

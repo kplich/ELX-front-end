@@ -1,3 +1,6 @@
+/**
+ * State of the contract as an integer. (for integration with data read from blockchain)
+ */
 export enum ContractState {
     CREATED,
     AWAITING_OTHER,
@@ -8,16 +11,22 @@ export enum ContractState {
     RESOLVED // reserved for future use
 }
 
+/**
+ * State of the contract as a string. (for display in the application)
+ */
 export enum ContractStateString {
     CREATED = "Created",
     AWAITING_OTHER = "Awaiting the other party",
     LOCKED = "Locked",
     RELEASED = "Released",
     COMPLETED = "Completed",
-    REPORTED = "Reported",
-    RESOLVED = "Resolved"
+    REPORTED = "Reported", // reserved for future use
+    RESOLVED = "Resolved" // reserved for future use
 }
 
+/**
+ * Convert the contract state to a corresponding string.
+ */
 export function contractStateToString(state: ContractState): ContractStateString {
     switch (state) {
         case ContractState.CREATED: return ContractStateString.CREATED;
@@ -30,6 +39,9 @@ export function contractStateToString(state: ContractState): ContractStateString
     }
 }
 
+/**
+ * Convert the contract state to a corresponding integer.
+ */
 export function stringToContractState(contractString: ContractStateString): ContractState {
     switch (contractString) {
         case ContractStateString.CREATED: return ContractState.CREATED;

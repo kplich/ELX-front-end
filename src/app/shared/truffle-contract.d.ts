@@ -1,1 +1,4 @@
+/**
+ *
+ */
 declare module "truffle-contract";

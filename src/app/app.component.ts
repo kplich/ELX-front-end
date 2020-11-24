@@ -4,12 +4,22 @@ import {SimpleUser} from "@my-account/data/SimpleUser";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import { AuthenticationService } from "@authentication/authentication-service/authentication.service";
 
-export const ADD_ITEM = "Add item";
-export const BUTTON_BROWSE_ITEMS_TEXT = "Browse items";
-export const BUTTON_MY_ACCOUNT_TEXT = "My account";
-export const BUTTON_LOG_OUT_TEXT = "Log out";
-export const BUTTON_LOG_IN_TEXT = "Log in";
+/**
+ * Labels and error messages used in the component.
+ */
+export const STRINGS = {
+    links: {
+        addItem: "Add item",
+        browseItems: "Browse items",
+        myAccount: "My account",
+        logOut: "Log out",
+        logIn: "Log in"
+    }
+};
 
+/**
+ * Root component of the application.
+ */
 @Component({
     selector: "elx-root",
     templateUrl: "./app.component.html",
@@ -22,29 +32,29 @@ export class AppComponent {
     // tslint:disable-next-line:variable-name
     private readonly _toolbarLinks: ToolbarLink[] = [
         {
-            displayedName: ADD_ITEM,
+            displayedName: STRINGS.links.addItem,
             function: () => this.navigateToAddItem(),
             authenticationRequired: true
         },
         {
-            displayedName: BUTTON_BROWSE_ITEMS_TEXT,
+            displayedName: STRINGS.links.browseItems,
             function: () => this.navigateToItems(),
             authenticationRequired: null
         },
         {
             displayedName: this.authenticatedUser ?
-                `${BUTTON_MY_ACCOUNT_TEXT} (${this.authenticatedUser.username})`
-                : `${BUTTON_MY_ACCOUNT_TEXT}`,
+                `${STRINGS.links.myAccount} (${this.authenticatedUser.username})`
+                : `${STRINGS.links.myAccount}`,
             function: () => this.navigateToMyAccount(),
             authenticationRequired: true
         },
         {
-            displayedName: BUTTON_LOG_OUT_TEXT,
+            displayedName: STRINGS.links.logOut,
             function: () => this.logOut(),
             authenticationRequired: true
         },
         {
-            displayedName: BUTTON_LOG_IN_TEXT,
+            displayedName: STRINGS.links.logIn,
             function: () => this.navigateToLogIn(),
             authenticationRequired: false
         }
@@ -69,6 +79,9 @@ export class AppComponent {
         });
     }
 
+    /**
+     * Returns a currently logged in user or null if there isn't any.
+     */
     get authenticatedUser(): SimpleUser | null {
         return this.loggedInUserService.authenticatedUser;
     }
@@ -105,6 +118,9 @@ export class AppComponent {
  * Used to hold data about sections to which user can navigate from toolbar.
  */
 interface ToolbarLink {
+    /**
+     * The name of the link that will be displayed in the page.
+     */
     displayedName: string;
 
     /**

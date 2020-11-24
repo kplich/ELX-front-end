@@ -7,6 +7,9 @@ import {EnableEthereumComponent} from "@settings/enable-ethereum/enable-ethereum
 import {ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "@material/material.module";
 
+/**
+ * Module specifically for managing user settings, such as password or Ethereum address.
+ */
 @NgModule({
     declarations: [
         SettingsComponent,

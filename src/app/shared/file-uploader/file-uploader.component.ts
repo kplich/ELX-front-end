@@ -2,16 +2,24 @@ import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 
-export const BUTTON_TEXT = "Upload photos";
-
+/**
+ * Labels and messages used in the component.
+ */
 export const STRINGS = {
-    uploadSuccess: "File uploaded successfully!",
-    uploadAllSuccess: "Uploaded all files!",
-    uploadError: "Could not upload file!",
-    deleteSuccess: "File deleted successfully!",
-    deleteError: "Could not delete file!"
+    messages: {
+        uploadSuccess: "File uploaded successfully!",
+        uploadAllSuccess: "Uploaded all files!",
+        uploadError: "Could not upload file!",
+        deleteSuccess: "File deleted successfully!",
+        deleteError: "Could not delete file!"
+    },
+    uploadButton: "Upload photos"
 };
 
+/**
+ * A component for uploading files to Firebase. Works by hiding a usual file input
+ * and delegating some of its functionality to a more visually appealing button.
+ */
 @Component({
     selector: "app-file-uploader",
     templateUrl: "./file-uploader.component.html",
@@ -19,8 +27,19 @@ export const STRINGS = {
 })
 export class FileUploaderComponent {
 
+    /**
+     * Input types accepted by the uploader.
+     */
     @Input() acceptedTypes = "image/*";
-    @Input() buttonText = BUTTON_TEXT;
+
+    /**
+     * Text displayed on the upload button.
+     */
+    @Input() buttonText = STRINGS.uploadButton;
+
+    /**
+     * Disables the upload by disabling the button.
+     */
     @Input() disableUpload = false;
     @Output() fileUploaded = new EventEmitter<string>();
 
@@ -59,7 +78,7 @@ export class FileUploaderComponent {
             fileRef.put(file, metadata).then(snapshot => {
                 snapshot.ref.getDownloadURL().then(url => {
                     this.fileUploaded.emit(url);
-                    this.snackBarService.openSnackBar(this.strings.uploadSuccess);
+                    this.snackBarService.openSnackBar(STRINGS.messages.uploadSuccess);
 
                     this.numberOfFilesToUpload--;
 
@@ -68,14 +87,14 @@ export class FileUploaderComponent {
                     }
                 });
             }).catch(() => {
-                this.snackBarService.openSnackBar(this.strings.uploadError);
+                this.snackBarService.openSnackBar(STRINGS.messages.uploadError);
             });
         }
     }
 
     deleteFile(fileUrl: string) {
         this.storage.storage.refFromURL(fileUrl).delete()
-            .then(() => this.snackBarService.openSnackBar(this.strings.deleteSuccess))
-            .catch(() => this.snackBarService.openSnackBar(this.strings.deleteError));
+            .then(() => this.snackBarService.openSnackBar(STRINGS.messages.deleteSuccess))
+            .catch(() => this.snackBarService.openSnackBar(STRINGS.messages.deleteError));
     }
 }

@@ -2,6 +2,9 @@ import {Component, Input} from "@angular/core";
 import {SimpleConversation} from "@my-account/data/SimpleConversation";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 
+/**
+ * Labels used in the component.
+ */
 export const STRINGS = {
     you: "You",
     sentAnOffer: "sent an offer."

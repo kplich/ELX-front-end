@@ -2,12 +2,18 @@ import {Component, EventEmitter, Input, Output, ViewChild} from "@angular/core";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {FileUploaderComponent} from "@shared/file-uploader/file-uploader.component";
 
+/**
+ * Labels and error messages.
+ */
 export const STRINGS = {
     tooFewPhotos: "More photos are necessary!",
     enoughPhotos: "You can't upload more photos.",
     tooManyPhotos: "You uploaded too many photos!"
 };
 
+/**
+ * Component for uploading photos. Uses Angular Material's drag-and-drop directives for reordering of photos.
+ */
 @Component({
     selector: "app-photo-uploader",
     templateUrl: "./photo-uploader.component.html",
@@ -17,9 +23,19 @@ export class PhotoUploaderComponent {
 
     strings = STRINGS;
 
+    /**
+     * The message to be shown when no photos are added.
+     */
     @Input() noPhotosPrompt: string | null = null;
-    @Input() minimumPhotos = 0;
+
+    /**
+     * Maximal number of photos to be allowed in the uploader
+     */
     @Input() maximumPhotos = Number.MAX_SAFE_INTEGER;
+
+    /**
+     * Emits list of photos every time a photo is uploaded, deleted or reordered.
+     */
     @Output() photoListChanged = new EventEmitter<string[]>();
 
     @ViewChild(FileUploaderComponent) private fileUploader!: FileUploaderComponent;
@@ -53,7 +69,6 @@ export class PhotoUploaderComponent {
 
     fileUploaded(uploadedFileURL: string) {
         this.photosList.push(uploadedFileURL);
-        console.log(this.photosList);
         this.photoListChanged.emit(this.photosList);
     }
 
