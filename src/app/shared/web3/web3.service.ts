@@ -15,29 +15,31 @@ export class Web3Service {
      * Instance of the Web3 API, available publicly.
      */
     web3: Web3;
+    private updatedEveryMs = 1000;
+
+    constructor() {
+        const provider = (window.ethereum) ? window.ethereum : Web3.givenProvider;
+        this.web3 = new Web3(provider);
+
+        if (provider) {
+            setInterval(async () => {
+                const newAccounts = await this.web3.eth.getAccounts();
+
+                if (!primitiveArrayEquals(this._accounts, newAccounts)) {
+                    this.accountsSubject.next(newAccounts);
+                }
+
+                this._accounts = newAccounts;
+            }, this.updatedEveryMs);
+        } else {
+            console.warn("No Web3 provider found!");
+        }
+    }
 
     // tslint:disable-next-line:variable-name
     private _accounts: string[] = [];
-    private updatedEveryMs = 1000;
+
     private accountsSubject: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(this._accounts);
-
-    constructor() {
-        try {
-            const provider = (window.ethereum) ? window.ethereum : Web3.givenProvider;
-            this.web3 = new Web3(provider);
-        } catch (err) {
-            throw new Error("Non-Ethereum browser detected. You should consider trying Mist or MetaMask!");
-        }
-        setInterval(async () => {
-            const newAccounts = await this.web3.eth.getAccounts();
-
-            if (!primitiveArrayEquals(this._accounts, newAccounts)) {
-                this.accountsSubject.next(newAccounts);
-            }
-
-            this._accounts = newAccounts;
-        }, this.updatedEveryMs);
-    }
 
     /**
      * Returns accounts logged in an the moment as a primitive array.
