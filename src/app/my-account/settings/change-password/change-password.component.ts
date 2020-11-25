@@ -34,7 +34,7 @@ and different from the old password.`,
         doesntMatchPattern: "The password needs to have a lowercase and an uppercase letter, a digit and a special character."
     },
     passwordsEqual: "Passwords can't be equal.",
-    button: "Change password"
+    changePasswordButton: "Change password"
 };
 
 /**
