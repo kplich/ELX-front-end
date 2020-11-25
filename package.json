@@ -6,7 +6,7 @@
     "start": "node server.js",
     "local": "ng serve",
     "build": "ng build --prod",
-    "postinstall": "cd blockchain; truffle compile; cd ..;",
+    "postinstall": "cd blockchain && truffle compile && cd ..",
     "heroku-postbuild": "ng build --prod --configuration=\"$NG_CONFIG\"",
     "test": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI",
     "test:watch": "ng test",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@angular-devkit/architect": "^0.1000.8",
-    "@angular-devkit/build-angular": "^0.1100.2",
+    "@angular-devkit/build-angular": "^0.1000.8",
     "@angular/cli": "^10.0.8",
     "@angular/compiler-cli": "^10.0.14",
     "@angular/language-service": "^10.0.14",
