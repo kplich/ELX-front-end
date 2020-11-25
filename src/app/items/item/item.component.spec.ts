@@ -18,6 +18,7 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MatCarouselModule} from "@ngmodule/material-carousel";
 import {formatDate} from "@angular/common";
 import {findByCss} from "@shared/FindByCss";
+import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 
 const fakeActivatedRoute = {
     snapshot: {
@@ -176,9 +177,9 @@ describe("ItemComponent with no logged in user, open item and applicable status"
         expect(category.textContent?.trim()).toEqual(
             `${component.strings.category}: ${usualItem.category.name}`
         );
-        expect(sendMessage).toBeDefined();
-        expect(sendOffer).toBeDefined();
-        expect(acceptOffer).toBeDefined();
+        expect(sendMessage).toBeUndefined();
+        expect(sendOffer).toBeUndefined();
+        expect(acceptOffer).toBeUndefined();
         expect(editItem).toBeUndefined();
         expect(closeOffer).toBeUndefined();
         expect(addedBy.textContent?.trim()).toEqual(
@@ -317,8 +318,12 @@ describe("ItemComponent with logged in user, open item and applicable status", (
     itemsServiceSpy.getItem.and.returnValue(new Observable(subscriber => {
         subscriber.next({body: usualItem});
     }));
-    const fakeAuthenticationService = {
-        authenticatedUser: "kplich"
+    const fakeLoggedInUserService = {
+        authenticatedUser: {
+            id: 1,
+            username: "kplich",
+            ethereumAddress: null
+        }
     };
 
     let component: ItemComponent;
@@ -337,7 +342,7 @@ describe("ItemComponent with logged in user, open item and applicable status", (
             declarations: [ItemComponent],
             providers: [
                 {provide: ItemsService, useValue: itemsServiceSpy},
-                {provide: AuthenticationService, useValue: fakeAuthenticationService},
+                {provide: LoggedInUserService, useValue: fakeLoggedInUserService},
                 {provide: ActivatedRoute, useValue: fakeActivatedRoute},
                 {provide: SnackBarService, useValue: snackBarServiceSpy},
                 {provide: DomSanitizer, useValue: domSanitizerSpy},
@@ -358,11 +363,11 @@ describe("ItemComponent with logged in user, open item and applicable status", (
     });
 
     it("should display item and applicable actions correctly", () => {
-        expect(component).toBeTruthy();
+        expect(component).toBeDefined("Component is undefined");
 
-        expect(component.loggedInUserIsOwner).toBeTruthy();
+        expect(component.loggedInUserIsOwner).toBeTruthy("Logged in user should be owner");
         expect(itemsServiceSpy.getItem).toHaveBeenCalledWith(usualItem.id);
-        expect(component.item).toEqual(usualItem);
+        expect(component.item).toEqual(usualItem, "The item in the component should be equal to the provided one");
 
         expect(title.textContent?.trim()).toEqual(usualItem.title);
         expect(price.textContent?.trim()).toEqual(usualItem.formattedPrice);
@@ -370,17 +375,15 @@ describe("ItemComponent with logged in user, open item and applicable status", (
         expect(category.textContent?.trim()).toEqual(
             `${component.strings.category}: ${usualItem.category.name}`
         );
-        expect(sendMessage).toBeUndefined();
-        expect(sendOffer).toBeUndefined();
-        expect(acceptOffer).toBeUndefined();
-        expect(editItem).toBeDefined();
-        expect(closeOffer).toBeDefined();
+        expect(sendMessage).toBeUndefined("'Send message' button should be undefined");
+        expect(sendOffer).toBeUndefined("'Send offer' button should be undefined");
+        expect(acceptOffer).toBeUndefined("'Accept offer' button should be undefined");
+        expect(editItem).toBeDefined("'Edit item' button should be defined");
+        expect(closeOffer).toBeDefined("'Close offer' button should be defined");
         expect(addedBy.textContent?.trim()).toEqual(
-            `${component.strings.addedBy} ${usualItem.addedBy.username}`
-        );
+            `${component.strings.addedBy} ${usualItem.addedBy.username}`);
         expect(addedOn.textContent?.trim()).toEqual(
-            `${component.strings.addedOn} ${formatDate(new Date(), "mediumDate", "en-US")}`
-        );
+            `${component.strings.addedOn} ${formatDate(new Date(), "mediumDate", "en-US")}`);
         expect(description.textContent?.trim()).toEqual(usualItem.description);
     });
 });

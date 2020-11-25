@@ -61,7 +61,7 @@ describe("AppComponent", () => {
         });
 
     it("should display 'log out' and 'my account' buttons when user is authenticated",
-        async () => {
+        async(async () => {
             const EXAMPLE_USER: SimpleUser = new SimpleUser({
                 id: 0,
                 username: "username",
@@ -83,5 +83,5 @@ describe("AppComponent", () => {
             expect(await myAccountButton.isDisabled()).toBeFalsy();
             await myAccountButton.click();
             expect(routerSpy.navigateByUrl).toHaveBeenCalled();
-        });
+        }));
 });
