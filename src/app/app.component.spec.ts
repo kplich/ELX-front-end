@@ -1,11 +1,6 @@
 import "zone.js/dist/zone-testing";
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
-import {
-    AppComponent,
-    BUTTON_LOG_IN_TEXT,
-    BUTTON_LOG_OUT_TEXT,
-    BUTTON_MY_ACCOUNT_TEXT
-} from "@app/app.component";
+import {AppComponent, STRINGS} from "@app/app.component";
 import {MaterialModule} from "@material/material.module";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {HarnessLoader} from "@angular/cdk/testing";
@@ -16,7 +11,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
 import {SimpleUser} from "@my-account/data/SimpleUser";
 
-fdescribe("AppComponent", () => {
+describe("AppComponent", () => {
     const routerSpy = jasmine.createSpyObj("Router", ["navigateByUrl"]);
     routerSpy.navigateByUrl.and.returnValue(Promise.resolve());
 
@@ -56,7 +51,7 @@ fdescribe("AppComponent", () => {
 
             expect(fixture.componentInstance.authenticatedUser).toBeNull();
             const logInButton =
-                await loader.getHarness(MatButtonHarness.with({text: BUTTON_LOG_IN_TEXT}));
+                await loader.getHarness(MatButtonHarness.with({text: STRINGS.links.logIn}));
 
             expect(logInButton).toBeTruthy();
             expect(await logInButton.isDisabled()).toBeFalsy();
@@ -79,12 +74,12 @@ fdescribe("AppComponent", () => {
             expect(fixture.componentInstance.authenticatedUser).toEqual(EXAMPLE_USER);
 
             const logOutButton = await loader
-                .getHarness(MatButtonHarness.with({text: BUTTON_LOG_OUT_TEXT}));
+                .getHarness(MatButtonHarness.with({text: STRINGS.links.logOut}));
             expect(await logOutButton.isDisabled()).toBeFalsy();
 
             // this breaks the test :(
             const myAccountButton = await loader
-                .getHarness(MatButtonHarness.with({text: BUTTON_MY_ACCOUNT_TEXT}));
+                .getHarness(MatButtonHarness.with({text: STRINGS.links.myAccount}));
             expect(await myAccountButton.isDisabled()).toBeFalsy();
             await myAccountButton.click();
             expect(routerSpy.navigateByUrl).toHaveBeenCalled();

@@ -1,12 +1,5 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
-import {
-    BUTTON_LOG_IN_TEXT,
-    LoggingInComponent,
-    PASSWORD_LABEL,
-    PASSWORD_REQUIRED_MESSAGE,
-    USERNAME_LABEL,
-    USERNAME_REQUIRED_MESSAGE
-} from "@authentication/logging-in/logging-in.component";
+import {LoggingInComponent, STRINGS} from "@authentication/logging-in/logging-in.component";
 import {AuthenticationService} from "@authentication/authentication-service/authentication.service";
 import {Router} from "@angular/router";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
@@ -72,7 +65,7 @@ describe("LoggingInComponent", () => {
                     .then(harness => {
                         passwordInput = harness;
                     });
-                loader.getHarness(MatButtonHarness.with({text: BUTTON_LOG_IN_TEXT}))
+                loader.getHarness(MatButtonHarness.with({text: STRINGS.buttons.logInText}))
                     .then(harness => {
                         loggingInButton = harness;
                     });
@@ -83,14 +76,14 @@ describe("LoggingInComponent", () => {
         expect(fixture.componentInstance).toBeTruthy();
 
         // should display labels on fields
-        expect(await usernameFormField.getLabel()).toEqual(USERNAME_LABEL);
-        expect(await passwordFormField.getLabel()).toEqual(PASSWORD_LABEL);
+        expect(await usernameFormField.getLabel()).toEqual(STRINGS.username.label);
+        expect(await passwordFormField.getLabel()).toEqual(STRINGS.password.label);
 
         // the form should be invalid
         expect(fixture.componentInstance.form.valid).toBeFalsy();
 
         // the registration button should be disabled
-        expect(await loggingInButton.getText()).toEqual(BUTTON_LOG_IN_TEXT);
+        expect(await loggingInButton.getText()).toEqual(STRINGS.buttons.logInText);
         expect(await loggingInButton.isDisabled()).toBeTruthy();
     }));
 
@@ -100,13 +93,13 @@ describe("LoggingInComponent", () => {
         await usernameInput.blur();
 
         expect(await usernameFormField.hasErrors()).toBeTruthy();
-        expect((await usernameFormField.getTextErrors())[0]).toEqual(USERNAME_REQUIRED_MESSAGE);
+        expect((await usernameFormField.getTextErrors())[0]).toEqual(STRINGS.username.requiredMessage);
 
         await passwordInput.focus();
         await passwordInput.blur();
 
         expect(await passwordFormField.hasErrors()).toBeTruthy();
-        expect((await passwordFormField.getTextErrors())[0]).toEqual(PASSWORD_REQUIRED_MESSAGE);
+        expect((await passwordFormField.getTextErrors())[0]).toEqual(STRINGS.password.requiredMessage);
 
         await loggingInButton.click();
         expect(authenticationServiceSpy.logIn).not.toHaveBeenCalled();

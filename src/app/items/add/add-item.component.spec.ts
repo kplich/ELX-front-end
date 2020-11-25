@@ -16,10 +16,7 @@ import {HarnessLoader} from "@angular/cdk/testing";
 import {SharedModule} from "@shared/shared.module";
 import {Observable} from "rxjs";
 import {UsedStatus} from "@items/data/UsedStatus";
-import {
-    BUTTON_ADD_ITEM_TEXT,
-    ITEM_TITLE_ILLEGAL_SYMBOLS_MESSAGE
-} from "../edit-base/ItemEditBase";
+import {STRINGS} from "@items/edit-base/ItemEditBase";
 
 // ZONE? BREAKS? EVERYTHING?
 xdescribe("AddItemComponent", () => {
@@ -103,7 +100,7 @@ xdescribe("AddItemComponent", () => {
 
         photoUploaderComponent = fixture.nativeElement.querySelector("app-photo-uploader");
 
-        loader.getHarness(MatButtonHarness.with({text: BUTTON_ADD_ITEM_TEXT}))
+        loader.getHarness(MatButtonHarness.with({text: STRINGS.buttonAddItem}))
             .then(harness => addItemButton = harness);
 
         fixture.detectChanges();
@@ -136,7 +133,7 @@ xdescribe("AddItemComponent", () => {
         await titleInput.setValue("long enough value, but doesn't match the pattern!");
 
         expect((await titleFormField.getTextErrors())[0])
-            .toEqual(ITEM_TITLE_ILLEGAL_SYMBOLS_MESSAGE);
+            .toEqual(STRINGS.title.illegalSymbols);
 
         await priceInput.setValue("15.543");
 
@@ -146,7 +143,7 @@ xdescribe("AddItemComponent", () => {
         await descriptionInput.setValue("long enough description for the form to be happy");
 
         expect((await titleFormField.getTextErrors())[0])
-            .toEqual(ITEM_TITLE_ILLEGAL_SYMBOLS_MESSAGE);
+            .toEqual(STRINGS.title.illegalSymbols);
 
         expect(component.form.valid).toBeFalsy();
         expect(await addItemButton.isDisabled()).toBeTruthy();
@@ -165,7 +162,7 @@ xdescribe("AddItemComponent", () => {
 
         await titleInput.setValue("long enough value and matches the pattern");
         expect((await titleFormField.getTextErrors())[0])
-            .toEqual(ITEM_TITLE_ILLEGAL_SYMBOLS_MESSAGE);
+            .toEqual(STRINGS.title.illegalSymbols);
         expect(await titleFormField.hasErrors()).toBeFalsy();
 
         await priceInput.setValue("15.543");
@@ -176,7 +173,7 @@ xdescribe("AddItemComponent", () => {
         await descriptionInput.setValue("long enough description for the form to be happy");
 
         expect((await titleFormField.getTextErrors())[0])
-            .toEqual(ITEM_TITLE_ILLEGAL_SYMBOLS_MESSAGE);
+            .toEqual(STRINGS.title.illegalSymbols);
 
         expect(component.form.valid).toBeTruthy();
         expect(await addItemButton.isDisabled()).toBeFalsy();
