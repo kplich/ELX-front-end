@@ -18,6 +18,7 @@ describe("EnableEthereumComponent", () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(EnableEthereumComponent);
         component = fixture.componentInstance;
+        component.accounts = ["this is not an address"];
         fixture.detectChanges();
     });
 

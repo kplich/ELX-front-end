@@ -44,7 +44,7 @@ describe("ItemCardComponent", () => {
         fixture = TestBed.createComponent(ItemCardComponent);
         component = fixture.componentInstance;
 
-        cardContainer = fixture.debugElement.query(By.css(".simple-card"));
+        cardContainer = fixture.debugElement.query(By.css(".simple-card-3"));
         title = findByCss(".item-card-details-title");
         status = undefined; // at the beginning, component isn't defined, so the status doesn't show
         addedBy = findByCss(".item-card-details-added-by");
@@ -151,6 +151,7 @@ describe("ItemCardComponent", () => {
         });
         fixture.detectChanges();
 
+        expect(cardContainer).toBeDefined("Card container is not defined!");
         cardContainer.triggerEventHandler("click", null);
         expect(routerSpy.navigateByUrl).toHaveBeenCalledWith(`/items/${itemId}`);
     });

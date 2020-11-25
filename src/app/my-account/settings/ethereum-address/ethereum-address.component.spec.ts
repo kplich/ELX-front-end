@@ -16,6 +16,12 @@ describe("EthereumAddressComponent", () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(EthereumAddressComponent);
         component = fixture.componentInstance;
+        component.loggedInUser = {
+            id: 0,
+            ethereumAddress: "this is not an address",
+            username: "username",
+        };
+        component.accounts = ["not an address either"];
         fixture.detectChanges();
     });
 
