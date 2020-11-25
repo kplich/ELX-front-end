@@ -10,7 +10,13 @@ describe("JwtStorageService", () => {
         username: "username",
         ethereumAddress: null
     });
-    const EXAMPLE_JWT = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VybmFtZSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdfQ.PNeqCw9bx9sodhLtNMF8zw4zqeh7JoUrgyPjHxGif47hSK9n4H7ZGSQK5jZoYCR25zMxyv6TC6DHZNuvoI5x0g";
+    // {
+    //  "sub": "0",
+    //  "eth_address": null,
+    //  "username": "username"
+    // }
+    // this payload encoded as JWT
+    const EXAMPLE_JWT = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwIiwiZXRoX2FkZHJlc3MiOm51bGwsInVzZXJuYW1lIjoidXNlcm5hbWUiLCJqdGkiOiJhMzE2NDQ3Yi04Nzg5LTQ4NTItOTJmYi1iYjFkYTY5NzY1MWQiLCJpYXQiOjE2MDYzMjA2MzgsImV4cCI6MTYwNjMyNDIzOH0.j4mWgwkdfhqFH1GBe9jtGS5eG4Ysley2EEoSZR3r_NI";
 
     let localStorage = new Map<string, string>();
     const mockLocalStorage = {
