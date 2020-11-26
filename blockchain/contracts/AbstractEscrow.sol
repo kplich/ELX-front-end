@@ -1,4 +1,4 @@
-pragma solidity ^0.7.0;
+pragma solidity ^0.6.0;
 
 // TODO: license?
 // SPDX-License-Identifier: UNLICENSED
@@ -68,7 +68,7 @@ abstract contract AbstractEscrow {
         return amountDeposited;
     }
 
-    constructor(address payable _seller, address payable _buyer, uint _price) {
+    constructor(address payable _seller, address payable _buyer, uint _price) public {
         seller = _seller;
         buyer = _buyer;
         price = _price;

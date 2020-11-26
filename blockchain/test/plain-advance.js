@@ -10,8 +10,8 @@ contract("PlainAdvance", accounts => {
     let buyer = accounts[1];
 
     it("should be created with correct price and advance", async () => {
-        const price = new BN(toWei("1"));
-        const advance = new BN(toWei("0.5"));
+        const price = new BN(toWei("100000000", "ether"));
+        const advance = new BN(toWei("30000000", "ether"));
         const contract = await PlainAdvance.new(seller, buyer, price, advance);
 
         expect(contract).to.be.ok;
@@ -25,14 +25,14 @@ contract("PlainAdvance", accounts => {
     });
 
     it("should not be created with advance greater than price", async () => {
-        const price = new BN(toWei("0.5"));
-        const advance = new BN(toWei("1"));
+        const price = new BN(toWei("30000000", "ether"));
+        const advance = new BN(toWei("100000000", "ether"));
         await truffleAssert.reverts(PlainAdvance.new(accounts[0], accounts[1], toWei(price), toWei(advance)));
     });
 
     it("should not be able to receive Ethers through payable function", async () => {
-        const price = new BN(toWei("1"));
-        const advance = new BN(toWei("0.5"));
+        const price = new BN(toWei("100000000", "ether"));
+        const advance = new BN(toWei("30000000", "ether"));
         const contract = await PlainAdvance.new(seller, buyer, price, advance);
         await truffleAssert.reverts(contract.send(price));
     });
@@ -47,8 +47,8 @@ contract("PlainAdvance in state CREATED", accounts => {
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("1"));
-        advance = new BN(toWei("0.30"));
+        price = new BN(toWei("100000000", "ether"));
+        advance = new BN(toWei("30000000", "ether"));
         instance = await PlainAdvance.new(seller, buyer, price, advance);
     });
 
@@ -111,8 +111,8 @@ contract("PlainAdvance in state LOCKED", accounts => {
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("1"));
-        advance = new BN(toWei("0.30"));
+        price = new BN(toWei("100000000", "ether"));
+        advance = new BN(toWei("30000000", "ether"));
         instance = await PlainAdvance.new(seller, buyer, price, advance);
         await instance.sendMoney({value: price, from: buyer});
     });
@@ -172,8 +172,8 @@ contract("PlainAdvance in state RELEASED", accounts => {
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("1"));
-        advance = new BN(toWei("0.30"));
+        price = new BN(toWei("100000000", "ether"));
+        advance = new BN(toWei("30000000", "ether"));
         instance = await PlainAdvance.new(seller, buyer, price, advance);
         await instance.sendMoney({value: price, from: buyer});
         await instance.release({from: buyer});
@@ -236,8 +236,8 @@ contract("PlainAdvance in state COMPLETED", accounts => {
     let contract;
 
     beforeEach(async () => {
-        price = new BN(toWei("1"));
-        advance = new BN(toWei("0.30"));
+        price = new BN(toWei("100000000", "ether"));
+        advance = new BN(toWei("30000000", "ether"));
         contract = await PlainAdvance.new(seller, buyer, price, advance);
         await contract.sendMoney({value: price, from: buyer});
         await contract.release({from: buyer});

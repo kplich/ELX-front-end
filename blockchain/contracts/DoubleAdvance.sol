@@ -1,6 +1,7 @@
-pragma solidity ^0.7.0;
+pragma solidity ^0.6.0;
 
 import "./AbstractEscrow.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 
 // inspired by
 // https://solidity.readthedocs.io/en/v0.7.1/solidity-by-example.html#safe-remote-purchase
@@ -8,13 +9,15 @@ import "./AbstractEscrow.sol";
 // SPDX-License-Identifier: UNLICENSED
 contract DoubleAdvance is AbstractEscrow {
 
+    using SafeMath for uint256;
+
     bool private buyerPaid = false;
     bool private sellerPaid = false;
 
     bool private buyerWithdrew = false;
     bool private sellerWithdrew = false;
 
-    constructor(address payable _seller, address payable _buyer, uint _price)
+    constructor(address payable _seller, address payable _buyer, uint _price) public
             AbstractEscrow(_seller, _buyer, _price) {}
 
     function sendMoney() override public
@@ -24,7 +27,7 @@ contract DoubleAdvance is AbstractEscrow {
             state == ContractState.CREATED || state == ContractState.AWAITING_OTHER,
             "Contract is in invalid state."
         );
-        require(msg.value == 2 * price, "Amount sent must be equal to double the price.");
+        require(msg.value == price.mul(2), "Amount sent must be equal to double the price.");
 
         if(msg.sender == buyer) { // buyer sent
             if (buyerPaid) { revert("Buyer has already transferred funds for the item!"); }
@@ -38,8 +41,6 @@ contract DoubleAdvance is AbstractEscrow {
             }
 
             buyerPaid = true;
-            amountDeposited += msg.value;
-            emit Transfer(msg.sender, msg.value);
         }
 
         if (msg.sender == seller) { // seller sent
@@ -54,9 +55,10 @@ contract DoubleAdvance is AbstractEscrow {
             }
 
             sellerPaid = true;
-            amountDeposited += msg.value;
-            emit Transfer(msg.sender, msg.value);
         }
+
+        amountDeposited = amountDeposited.add(msg.value);
+        emit Transfer(msg.sender, msg.value);
     }
 
     function withdrawMoney() override public
@@ -72,7 +74,7 @@ contract DoubleAdvance is AbstractEscrow {
                 emit Completed();
             }
 
-            amountDeposited -= price;
+            amountDeposited = amountDeposited.sub(price);
             buyer.transfer(price);
         }
 
@@ -80,41 +82,14 @@ contract DoubleAdvance is AbstractEscrow {
             if(sellerWithdrew) { revert("Seller already withdrew money!"); }
 
             sellerWithdrew = true;
-            emit Withdrawal(msg.sender, 3 * price);
+            emit Withdrawal(msg.sender, price.mul(3));
             if(buyerWithdrew) {
                 state = ContractState.COMPLETED;
                 emit Completed();
             }
 
-            amountDeposited -= 3 * price;
-            seller.transfer(3 * price);
-        }
-    }
-
-    // function meant to return the money deposited
-    // before the other party commits to the agreement
-    function backOut() public
-        onlyBuyerOrSeller inState(ContractState.AWAITING_OTHER) {
-
-        if(msg.sender == seller) {
-            if(sellerPaid) {
-                sellerPaid = false;
-                amountDeposited = 0;
-                state = ContractState.CREATED;
-                emit Withdrawal(msg.sender, 2 * price);
-                msg.sender.transfer(2 * price);
-            }
-            else { revert("Seller hasn't paid yet!"); }
-        }
-
-        if(msg.sender == buyer) {
-            if(buyerPaid) {
-                buyerPaid = false;
-                amountDeposited = 0;
-                state = ContractState.CREATED;
-                emit Withdrawal(msg.sender, 2 * price);
-                msg.sender.transfer(2 * price);
-            }
+            amountDeposited = amountDeposited.sub(price.mul(3));
+            seller.transfer(price.mul(3));
         }
     }
 }
