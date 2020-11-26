@@ -10,7 +10,7 @@ contract PlainAdvance is AbstractEscrow {
 
     constructor(address payable _seller, address payable _buyer, uint _price, uint _advance)
         AbstractEscrow(_seller, _buyer, _price) {
-        require(_price >= _advance, "Price must be greater than or equal to price.");
+        require(_price >= _advance, "Price greater than/equal advance");
         advance = _advance;
     }
 
@@ -28,13 +28,12 @@ contract PlainAdvance is AbstractEscrow {
 
     function withdrawMoney() override public
             onlySeller inState(ContractState.RELEASED) {
-        emit Withdrawal(msg.sender, getBalance());
+        emit Withdrawal(msg.sender, price - advance);
         emit Completed();
 
         state = ContractState.COMPLETED;
 
-        uint tempAmountDeposited = amountDeposited;
-        amountDeposited = 0;
-        seller.transfer(tempAmountDeposited);
+        amountDeposited -= (price - advance);
+        seller.transfer(price - advance);
     }
 }

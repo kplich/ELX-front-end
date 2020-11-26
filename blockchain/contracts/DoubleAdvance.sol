@@ -68,7 +68,6 @@ contract DoubleAdvance is AbstractEscrow {
             buyerWithdrew = true;
             emit Withdrawal(msg.sender, price);
             if(sellerWithdrew) {
-                amountDeposited = 0;
                 state = ContractState.COMPLETED;
                 emit Completed();
             }
@@ -83,7 +82,6 @@ contract DoubleAdvance is AbstractEscrow {
             sellerWithdrew = true;
             emit Withdrawal(msg.sender, 3 * price);
             if(buyerWithdrew) {
-                amountDeposited = 0;
                 state = ContractState.COMPLETED;
                 emit Completed();
             }

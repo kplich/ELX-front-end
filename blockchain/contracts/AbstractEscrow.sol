@@ -15,7 +15,7 @@ abstract contract AbstractEscrow {
     modifier onlyBuyer() {
         require(
             msg.sender == buyer,
-            "Only buyer can call this."
+            "Only buyer can call this"
         );
         _;
     }
@@ -64,8 +64,8 @@ abstract contract AbstractEscrow {
         revert("Sending ether directly to the contract is not allowed. Use sendMoney() instead.");
     }
 
-    function getBalance() internal view returns(uint) {
-        return address(this).balance;
+    function getBalance() public view returns(uint) {
+        return amountDeposited;
     }
 
     constructor(address payable _seller, address payable _buyer, uint _price) {
