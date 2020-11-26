@@ -7,7 +7,7 @@ Supported by smart contracts in Solidity and Firebase.
 
 Requirements: npm 6+ (more or less), an Ethereum client and a Firebase project (optional).
 
-### Truffle/compiling the contracts
+### Compiling the contracts
 
 To compile contracts, [Truffle](https://www.trufflesuite.com/docs/truffle/overview) is required.
 Install it globally using npm:
@@ -81,7 +81,7 @@ To keep the tests running and watching for changes, run:
 npm run test:watch
 ```
 
-To test the contracts run:
+To test the contracts, you also need a blockchain network available at the address 127.0.0.1:8080. When it's running, execute:
 ```shell script
 cd blockchain
 truffle test
