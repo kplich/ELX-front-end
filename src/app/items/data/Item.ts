@@ -60,6 +60,20 @@ export class Item {
     public fixPhotoUrl(index: number) {
         this.photoUrls[index] = "assets/error-photo.png";
     }
+
+    equals(other: Item): boolean {
+        return this.id === other.id
+            && this.title === other.title
+            && this.description === other.description
+            && this.price === other.price
+            && this.addedBy.equals(other.addedBy)
+            && this.addedOn.getTime() === other.addedOn.getTime()
+            && this.category === other.category
+            && this.usedStatus === other.usedStatus
+            && this.photoUrls.forEach((url, i) => url === other.photoUrls[i])
+            && this.closedOn ? (this.closedOn.getTime() === other.closedOn?.getTime()) : other.closedOn === null;
+
+    }
 }
 
 /**

@@ -12,6 +12,11 @@ export class PlainAdvanceOffer extends Offer {
     get formattedAdvance(): string {
         return `${this.advance} ${Offer.ETH_SYMBOL}`;
     }
+
+    equals(other: PlainAdvanceOffer): boolean {
+        return super.equals(other)
+            && this.advance === other.advance;
+    }
 }
 
 export interface PlainAdvanceOfferResponse extends OfferResponse {

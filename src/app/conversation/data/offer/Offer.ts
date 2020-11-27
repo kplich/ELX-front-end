@@ -37,6 +37,13 @@ export abstract class Offer {
     get awaiting(): boolean {
         return this.offerStatus === OfferStatus.AWAITING;
     }
+
+    equals(other: Offer): boolean {
+        return this.id === other.id
+            && this.price === other.price
+            && this.offerStatus === other.offerStatus
+            && this.contractAddress === other.contractAddress;
+    }
 }
 
 export interface OfferResponse {
