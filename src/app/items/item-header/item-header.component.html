@@ -1,0 +1,35 @@
+<div class="item-header-row">
+    <span class="item-title" id="item-title">{{item?.title}}</span>
+    <span class="item-price" id="item-price">{{item?.formattedPrice}}</span>
+</div>
+<div class="item-header-row">
+    <div id="item-status"
+         *ngIf="item?.usedStatusIsApplicable"
+         class="item-detail">{{item?.usedStatus?.toString()}}</div>
+    <div class="item-detail" id="item-category">{{strings.category}}: {{item?.category?.name}}</div>
+    <div *ngIf="item?.isClosed else itemNotClosedActions" class="item-closed"
+         id="item-closed">
+        {{strings.itemClosed}} {{item?.closedOn | date}}
+    </div>
+    <ng-template #itemNotClosedActions>
+        <div class="item-actions" *ngIf="userIsLoggedIn">
+            <button *ngIf="!loggedInUserIsOwner" id="item-send-message" mat-raised-button (click)="goToConversation()">
+                {{strings.buttons.sendMessage}}
+            </button>
+            <button *ngIf="!loggedInUserIsOwner" color="primary" id="item-send-offer" mat-raised-button>
+                {{strings.buttons.sendOffer}}
+            </button>
+            <button *ngIf="!loggedInUserIsOwner" color="accent" id="item-accept-offer" mat-raised-button>
+                {{strings.buttons.acceptOffer}}
+            </button>
+            <button (click)="navigateToUpdatingItem()" *ngIf="loggedInUserIsOwner" color="accent"
+                    id="item-edit-item" mat-raised-button>
+                {{strings.buttons.editItem}}
+            </button>
+            <button (click)="emitCloseItem()" *ngIf="canBeClosed" color="warn" id="item-close-offer" mat-raised-button>
+                {{strings.buttons.closeOffer}}
+            </button>
+        </div>
+    </ng-template>
+
+</div>

@@ -1,0 +1,11 @@
+<div class="item-seller">
+    <div id="item-added-by">
+        {{strings.addedBy}} <a>{{item.addedBy.username}}</a>
+    </div>
+    <div id="item-added-on">
+        {{strings.addedOn}} {{item.addedOn | date}}
+    </div>
+</div>
+<div id="item-description">
+    {{item?.description}}
+</div>

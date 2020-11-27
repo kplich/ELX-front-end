@@ -1,16 +1,15 @@
-import {Component, OnInit, ViewChild, ViewChildren} from "@angular/core";
+import {Component, OnInit, ViewChild, ViewChildren, OnDestroy} from "@angular/core";
 import {ItemsService} from "@items/service/items.service";
 import {Item, NewOrUpdatedItemRequest} from "@items/data/Item";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PhotoUploaderComponent} from "@shared/photo-uploader/photo-uploader.component";
-import {
-    ItemEditBaseComponent, STRINGS as STRINGS_BASE
-} from "@items/edit-base/ItemEditBase";
+import {ItemEditBaseComponent} from "@items/edit-base/ItemEditBase";
 import {MatFormField} from "@angular/material/form-field";
 import {statusToDtoString} from "@items/data/UsedStatus";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
-import { HttpResponse, HttpErrorResponse } from "@angular/common/http";
+import {HttpErrorResponse} from "@angular/common/http";
+import {Subscription} from "rxjs";
 
 export const STRINGS = {
     messages: {
@@ -24,8 +23,9 @@ export const STRINGS = {
     templateUrl: "./update-item.component.html",
     styleUrls: ["../edit-base/edit-item-base.component.scss"]
 })
-export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit {
+export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit, OnDestroy {
 
+    itemSubscription!: Subscription;
     @ViewChild(PhotoUploaderComponent) private photoUploader!: PhotoUploaderComponent;
     @ViewChildren(MatFormField) private formFields!: MatFormField[];
     private id!: number;
@@ -53,18 +53,7 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
     }
 
     async ngOnInit() {
-        try {
-            const categories = (await this.itemsService.getCategories().toPromise()).body;
-            if (categories === null) {
-                this.categories = [];
-            }
-            else {
-                this.categories = categories;
-            }
-        } catch (err) {
-            this.snackBarService.openSnackBar(STRINGS_BASE.messages.couldNotLoadCategories);
-            return;
-        }
+        this.categories$ = this.itemsService.getCategories();
 
         const itemIdString = this.activatedRoute.snapshot.paramMap.get("id");
         if (itemIdString === null) {
@@ -73,39 +62,24 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
         }
 
         this.id = parseInt(itemIdString, 10);
-        try {
-            const item = (await this.itemsService.getItem(this.id).toPromise()).body;
-            if (item === null) {
-                console.warn("empty response body");
-                this.snackBarService.openSnackBar(STRINGS.messages.couldNotLoadItem);
-                return;
-            }
-
-            console.log(item);
-            if (item.isClosed
-                || item.addedBy.username !== this.loggedInUserService.authenticatedUser?.username) {
-                this.router.navigateByUrl("/items").then(() => {
-                    // HACK: router doesn't seem to be navigating as expected;
-                    window.location.reload();
-                });
-            } else {
-                this.initializeFormWithItem(item);
-            }
-        } catch (err) {
-
-        }
+        this.itemSubscription = this.itemsService.getItem(this.id).subscribe(item => {
+            this.initializeFormWithItem(item);
+        });
     }
 
     sendRequestToUpdateItem() {
         this.itemsService.updateItem(this.newItemRequest).subscribe({
-            next: (response: HttpResponse<Item>) => {
-                if (response.body === null) { throw new Error("Response with empty body!"); }
-                this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
+            next: (item: Item) => {
+                this.router.navigateByUrl(`/items/${item.id}`).then(() => {
                     this.snackBarService.openSnackBar(STRINGS.messages.itemUpdatedSuccessfully);
                 });
             },
             error: (error: HttpErrorResponse) => this.openErrorSnackBar(error)
         });
+    }
+
+    ngOnDestroy() {
+        this.itemSubscription.unsubscribe();
     }
 
     private initializeFormWithItem(item: Item) {

@@ -1,11 +1,11 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {ItemsService} from "@items/service/items.service";
 import {Item} from "@items/data/Item";
-import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
-import { HttpResponse, HttpErrorResponse } from "@angular/common/http";
+import {Observable} from "rxjs";
+import {SimpleUser} from "@my-account/data/SimpleUser";
 
 /**
  * Labels and messages used in this component.
@@ -38,37 +38,18 @@ export class ItemComponent implements OnInit {
 
     strings = STRINGS;
 
-    item: Item | undefined;
+    item$: Observable<Item> | undefined;
 
     constructor(
         private activatedRoute: ActivatedRoute,
         private itemsService: ItemsService,
         private snackBarService: SnackBarService,
-        private domSanitizer: DomSanitizer,
         private loggedInUserService: LoggedInUserService,
-        private router: Router
-    ) {}
-
-    get itemPhotoUrls(): SafeUrl[] | undefined {
-        return this.item?.getSafePhotoUrls(this.domSanitizer);
+    ) {
     }
 
-    get userIsLoggedIn(): boolean {
-        return this.loggedInUserService.authenticatedUser !== null;
-    }
-
-    get canBeClosed(): boolean {
-        return this.loggedInUserIsOwner && !this.item?.isClosed;
-    }
-
-    get loggedInUserIsOwner(): boolean {
-        const loggedInUser = this.loggedInUserService.authenticatedUser;
-
-        if (loggedInUser === null) {
-            return false;
-        } else {
-            return loggedInUser.username === this.item?.addedBy.username;
-        }
+    get loggedInUser(): SimpleUser | null {
+        return this.loggedInUserService.authenticatedUser;
     }
 
     ngOnInit(): void {
@@ -76,47 +57,11 @@ export class ItemComponent implements OnInit {
 
         if (itemIdString !== null) {
             const id = parseInt(itemIdString, 10);
-            this.itemsService.getItem(id).subscribe({
-                next: (response: HttpResponse<Item>) => {
-                    if (response.body === null) { throw new Error("Empty response body"); }
-                    this.item = response.body;
-                },
-                error: (error: HttpErrorResponse) => {
-                    console.error(error);
-                    this.snackBarService.openSnackBar(STRINGS.messages.couldNotLoadItem);
-                }
-            });
+            this.item$ = this.itemsService.getItem(id);
         }
     }
 
-    closeOffer() {
-        if (this.item) {
-            this.itemsService.closeItem(this.item.id).subscribe({
-                next: (response: HttpResponse<Item>) => {
-                    if (response.body === null) { throw new Error("Empty response body"); }
-                    this.item = response.body;
-                    this.snackBarService.openSnackBar(STRINGS.messages.closedItem);
-                },
-                error: () => {
-                    this.snackBarService.openSnackBar(STRINGS.messages.couldNotCloseItem);
-                }
-            });
-        } else {
-            this.snackBarService.openSnackBar(STRINGS.messages.couldNotCloseItem);
-        }
-    }
-
-    navigateToUpdatingItem() {
-        if (this.item) {
-            this.router.navigateByUrl(`items/${this.item.id}/edit`).then(() => {
-            });
-        }
-    }
-
-    goToConversation() {
-        if (this.item) {
-            this.router.navigateByUrl(`items/${this.item.id}/conversation`).then(() => {
-            });
-        }
+    closeOffer(itemId: number) {
+        this.item$ = this.itemsService.closeItem(itemId);
     }
 }

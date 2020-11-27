@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, of} from "rxjs";
-import {catchError, map} from "rxjs/operators";
+import {catchError} from "rxjs/operators";
 import {Conversation} from "@conversation/data/Conversation";
 import {ConversationService} from "@conversation/service/conversation/conversation.service";
 import {ItemsService} from "@items/service/items.service";
@@ -32,7 +32,7 @@ export const STRINGS = {
 })
 export class ConversationComponent implements OnInit {
 
-    item$!: Observable<Item | undefined>;
+    item$!: Observable<Item>;
     conversation$: Observable<Conversation | undefined> = of(undefined);
 
     private itemId!: number;
@@ -59,10 +59,7 @@ export class ConversationComponent implements OnInit {
         if (itemIdString) {
             this.itemId = parseInt(itemIdString, 10);
 
-            this.item$ = this.itemsService.getItem(this.itemId)
-                .pipe(
-                    map(response => response.body ? response.body : undefined)
-                );
+            this.item$ = this.itemsService.getItem(this.itemId);
 
             const subjectIdString = this.activatedRoute.snapshot.queryParamMap.get("subjectId");
             this.subjectId = subjectIdString ? parseInt(subjectIdString, 10) : null;

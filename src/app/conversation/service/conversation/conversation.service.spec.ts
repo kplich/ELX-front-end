@@ -7,10 +7,10 @@ import {UsedStatusDto} from "@items/data/UsedStatus";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
 
-fdescribe("ConversationService", () => {
+describe("ConversationService", () => {
 
     let service: ConversationService;
-    let httpTestingController: HttpTestingController;
+    let httpController: HttpTestingController;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -18,12 +18,12 @@ fdescribe("ConversationService", () => {
             providers: [ConversationService]
         });
         service = TestBed.inject(ConversationService);
-        httpTestingController = TestBed.inject(HttpTestingController);
+        httpController = TestBed.inject(HttpTestingController);
     });
 
     afterEach(() => {
         // After every test, assert that there are no more pending requests.
-        httpTestingController.verify();
+        httpController.verify();
     });
 
     describe("getConversation()", () => {
@@ -88,7 +88,7 @@ fdescribe("ConversationService", () => {
                 expect(conversation.equals(expectedConversation)).toBeTruthy();
             }, fail);
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation`);
             expect(testRequest.request.method).toEqual("GET");
             testRequest.flush(mockConversationResponse);
         }));
@@ -104,7 +104,7 @@ fdescribe("ConversationService", () => {
                 }
             });
 
-            const req = httpTestingController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation`);
+            const req = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation`);
 
             req.flush(expectedMessage, {status: 404, statusText: "Not Found"});
         }));
@@ -173,7 +173,7 @@ fdescribe("ConversationService", () => {
                 expect(conversation.equals(expectedConversation)).toBeTruthy();
             }, fail);
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation?subjectId=${interestedUserId}`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation?subjectId=${interestedUserId}`);
             expect(testRequest.request.method).toEqual("GET");
             testRequest.flush(mockConversationResponse);
         }));
@@ -189,7 +189,7 @@ fdescribe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation?subjectId=${interestedUserId}`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation?subjectId=${interestedUserId}`);
             expect(testRequest.request.method).toEqual("GET");
             testRequest.flush(expectedMessage, {status: 404, statusText: "Not Found"});
         }));
@@ -265,7 +265,7 @@ fdescribe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation`);
             expect(testRequest.request.method).toEqual("POST");
             expect(testRequest.request.body).toEqual(messageRequest);
             testRequest.flush(mockConversationResponse);
@@ -283,7 +283,7 @@ fdescribe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation`);
             expect(testRequest.request.method).toEqual("POST");
             expect(testRequest.request.body).toEqual(messageRequest);
             testRequest.flush(expectedMessage, {status: expectedStatus, statusText: "Error"});
@@ -361,7 +361,7 @@ fdescribe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`);
             expect(testRequest.request.method).toEqual("POST");
             expect(testRequest.request.body).toEqual(messageRequest);
             testRequest.flush(mockConversationResponse);
@@ -379,7 +379,7 @@ fdescribe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`);
             expect(testRequest.request.method).toEqual("POST");
             expect(testRequest.request.body).toEqual(messageRequest);
             testRequest.flush(expectedMessage, {status: expectedStatus, statusText: "Error"});
@@ -448,7 +448,7 @@ fdescribe("ConversationService", () => {
                 expect(conversation.equals(expectedConversation));
             });
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${offerId}/accept`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${offerId}/accept`);
             expect(testRequest.request.method).toEqual("PUT");
             expect(testRequest.request.body).toEqual({contractAddress});
             testRequest.flush(mockConversationResponse);
@@ -466,7 +466,7 @@ fdescribe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${offerId}/accept`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${offerId}/accept`);
             expect(testRequest.request.method).toEqual("PUT");
             expect(testRequest.request.body).toEqual({contractAddress});
             testRequest.flush(expectedMessage, {status: expectedStatus, statusText: "Error!"});
@@ -534,7 +534,7 @@ fdescribe("ConversationService", () => {
                 expect(conversation.equals(expectedConversation));
             });
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${offerId}/decline`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${offerId}/decline`);
             expect(testRequest.request.method).toEqual("PUT");
             expect(testRequest.request.body).toBeNull();
             testRequest.flush(mockConversationResponse);
@@ -552,7 +552,7 @@ fdescribe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${offerId}/decline`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${offerId}/decline`);
             expect(testRequest.request.method).toEqual("PUT");
             expect(testRequest.request.body).toBeNull();
             testRequest.flush(expectedMessage, {status: expectedStatus, statusText: "Error!"});
@@ -620,7 +620,7 @@ fdescribe("ConversationService", () => {
                 expect(conversation.equals(expectedConversation));
             });
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${offerId}/cancel`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${offerId}/cancel`);
             expect(testRequest.request.method).toEqual("PUT");
             expect(testRequest.request.body).toBeNull();
             testRequest.flush(mockConversationResponse);
@@ -638,7 +638,7 @@ fdescribe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpTestingController.expectOne(`${ITEMS_API_URL}/${offerId}/cancel`);
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${offerId}/cancel`);
             expect(testRequest.request.method).toEqual("PUT");
             expect(testRequest.request.body).toBeNull();
             testRequest.flush(expectedMessage, {status: expectedStatus, statusText: "Error!"});

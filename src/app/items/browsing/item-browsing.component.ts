@@ -2,14 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {Item, CategoryResponse} from "@items/data/Item";
 import {ItemsService} from "@items/service/items.service";
 import {ItemFilteringCriteria} from "@items/browsing-criteria/ItemFilteringCriteria";
-import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
-
-export const STRINGS = {
-    messages: {
-        couldNotLoadItems: "Could not load items.",
-        noItemsFound: "No items matching given criteria were found."
-    }
-};
+import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Component({
     selector: "item-browsing",
@@ -18,45 +12,25 @@ export const STRINGS = {
 })
 export class ItemBrowsingComponent implements OnInit {
 
-    strings = STRINGS;
-    displayedItems!: Item[];
-    categories!: CategoryResponse[];
-    private allItems!: Item[];
+    displayedItems$!: Observable<Item[]>;
+    categories$: Observable<CategoryResponse[]> | undefined;
+    private items$: Observable<Item[]> | undefined;
 
-    constructor(private itemService: ItemsService,
-                private snackBarService: SnackBarService) {
-    }
-
-    get itemsWereLoaded(): boolean {
-        return this.allItems === undefined || this.allItems?.length !== 0;
-    }
-
-    get itemsWereFound(): boolean {
-        return this.displayedItems?.length !== 0;
+    constructor(private itemService: ItemsService) {
     }
 
     ngOnInit() {
-        this.itemService.getCategories().subscribe({
-            next: categoriesResponse => {
-                if (categoriesResponse.body === null) { throw new Error("Empty categories response body"); }
-                this.categories = categoriesResponse.body;
-
-                this.itemService.getAllItems().subscribe({
-                    next: itemsResponse => {
-                        if (itemsResponse.body === null) { throw new Error("Empty items Response body"); }
-                        this.allItems = itemsResponse.body;
-                        this.displayedItems = this.allItems;
-                    }
-                });
-            },
-            error: () => {
-                this.snackBarService.openSnackBar(STRINGS.messages.couldNotLoadItems);
-            }
-        });
+        this.categories$ = this.itemService.getCategories();
+        this.items$ = this.itemService.getAllItems();
+        this.displayedItems$ = this.items$;
     }
 
     filterItems(filteringCriteria: ItemFilteringCriteria) {
         // TODO: don't filter when criteria haven't changed (simple === comparison doesn't suffice!)
-        this.displayedItems = this.allItems.filter(item => filteringCriteria.acceptItem(item));
+        if (this.items$) {
+            this.displayedItems$ = this.items$.pipe(
+                map(items => items.filter(item => filteringCriteria.acceptItem(item)))
+            );
+        }
     }
 }

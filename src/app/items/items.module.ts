@@ -11,6 +11,10 @@ import {ItemCardComponent} from "@items/item-card/item-card.component";
 import {ItemBrowsingCriteriaComponent} from "@items/browsing-criteria/item-browsing-criteria.component";
 import {RouterModule} from "@angular/router";
 import {UpdateItemComponent} from "./update-item/update-item.component";
+import {ItemHeaderComponent} from "./item-header/item-header.component";
+import {ItemPhotosComponent} from "./item-photos/item-photos.component";
+import {ItemDescriptionComponent} from "./item-description/item-description.component";
+import {ItemListComponent} from "./item-list/item-list.component";
 
 /**
  * Module for browsing and editing items.
@@ -22,7 +26,11 @@ import {UpdateItemComponent} from "./update-item/update-item.component";
         ItemBrowsingCriteriaComponent,
         AddItemComponent,
         ItemCardComponent,
-        UpdateItemComponent
+        UpdateItemComponent,
+        ItemHeaderComponent,
+        ItemPhotosComponent,
+        ItemDescriptionComponent,
+        ItemListComponent
     ],
     imports: [
         CommonModule,

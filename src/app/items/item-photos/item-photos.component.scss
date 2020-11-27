@@ -1,0 +1,20 @@
+@import 'src/dimens';
+@import 'src/typography';
+
+:host {
+    flex-basis: 70%;
+    margin-right: $dimen-xxs;
+    border-radius: $dimen-xxs;
+    border: lightgray 1px solid;
+}
+
+.item-photo {
+    height: 100%;
+    width: 100%;
+
+    img {
+        object-fit: contain;
+        height: 100%;
+        width: 100%;
+    }
+}

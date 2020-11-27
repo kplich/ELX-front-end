@@ -1,10 +1,10 @@
 import {Component, OnInit} from "@angular/core";
 import {ItemsService} from "@items/service/items.service";
-import {CategoryResponse, NewOrUpdatedItemRequest, Item} from "@items/data/Item";
+import {NewOrUpdatedItemRequest, Item} from "@items/data/Item";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {Router} from "@angular/router";
-import {STRINGS as STRINGS_BASE, ItemEditBaseComponent} from "@items/edit-base/ItemEditBase";
-import { HttpResponse, HttpErrorResponse } from "@angular/common/http";
+import {ItemEditBaseComponent} from "@items/edit-base/ItemEditBase";
+import {HttpErrorResponse } from "@angular/common/http";
 
 export const ITEM_ADDED_SUCCESSFULLY_MESSAGE = "Item added successfully!";
 
@@ -35,26 +35,16 @@ export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
 
     sendRequestToAddItem() {
         this.itemsService.addNewItem(this.newItemRequest).subscribe({
-            next: (response: HttpResponse<Item>) => {
-                if (response.body === null) { throw new Error("Empty response body"); }
-                this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
+            next: (item: Item) => {
+                this.router.navigateByUrl(`/items/${item.id}`).then(() => {
                     this.snackBarService.openSnackBar(ITEM_ADDED_SUCCESSFULLY_MESSAGE);
                 });
             },
             error: (error: HttpErrorResponse) => this.openErrorSnackBar(error)
-        });
+        }).unsubscribe();
     }
 
     ngOnInit() {
-        this.itemsService.getCategories().subscribe({
-            next: (response: HttpResponse<CategoryResponse[]>) => {
-                if (response.body === null) {
-                    this.categories = [];
-                } else {
-                    this.categories = response.body;
-                }
-            },
-            error: () => this.snackBarService.openSnackBar(STRINGS_BASE.messages.couldNotLoadCategories)
-        });
+        this.categories$ = this.itemsService.getCategories();
     }
 }
