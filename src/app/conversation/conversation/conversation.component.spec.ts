@@ -189,8 +189,10 @@ fdescribe("ConversationComponent", () => {
 
         describe("and no item id has been provided in URL path", () => {
             const activatedRouteMock = {
-                paramMap: {get: () => null},
-                queryParamMap: {get: () => null}
+                snapshot: {
+                    paramMap: {get: () => null},
+                    queryParamMap: {get: () => null}
+                }
             };
 
             beforeEach(async(() => {
@@ -211,8 +213,10 @@ fdescribe("ConversationComponent", () => {
 
         describe("and wrong item id has been provided in URL path params", () => {
             const activatedRouteMock = {
-                paramMap: {get: () => "not a param"},
-                queryParamMap: {get: () => null}
+                snapshot: {
+                    paramMap: {get: () => "not a param"},
+                    queryParamMap: {get: () => null}
+                }
             };
 
             beforeEach(async(() => {
@@ -233,8 +237,10 @@ fdescribe("ConversationComponent", () => {
 
         describe("and wrong user id has been provided in URL query params", () => {
             const activatedRouteMock = {
-                paramMap: {get: () => "10"},
-                queryParamMap: {get: () => "not a param"}
+                snapshot: {
+                    paramMap: {get: () => "10"},
+                    queryParamMap: {get: () => "not a param"}
+                }
             };
 
             beforeEach(async(() => {
@@ -256,8 +262,10 @@ fdescribe("ConversationComponent", () => {
         describe("and no user id has been provided in URL query params", () => {
             const itemId = 10;
             const activatedRouteMock = {
-                paramMap: {get: () => itemId.toString()},
-                queryParamMap: {get: () => null}
+                snapshot: {
+                    paramMap: {get: () => itemId.toString()},
+                    queryParamMap: {get: () => null}
+                }
             };
 
             beforeEach(async(() => {
@@ -289,8 +297,10 @@ fdescribe("ConversationComponent", () => {
             const itemId = 10;
             const interestedUserId = 11;
             const activatedRouteMock = {
-                paramMap: {get: () => itemId.toString()},
-                queryParamMap: {get: () => interestedUserId.toString()}
+                snapshot: {
+                    paramMap: {get: () => itemId.toString()},
+                    queryParamMap: {get: () => interestedUserId.toString()}
+                }
             };
 
             beforeEach(async(() => {

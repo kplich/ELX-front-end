@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {Router, ActivatedRouteSnapshot} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import {Observable, of} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {Conversation} from "@conversation/data/Conversation";
@@ -41,7 +41,7 @@ export class ConversationComponent implements OnInit {
     constructor(
         private loggedInUserService: LoggedInUserService,
         private router: Router,
-        private activatedRoute: ActivatedRouteSnapshot,
+        private activatedRoute: ActivatedRoute,
         private itemsService: ItemsService,
         private conversationService: ConversationService,
         private offerContractService: OfferContractService,
@@ -55,33 +55,27 @@ export class ConversationComponent implements OnInit {
             return;
         }
 
-        const itemIdString = this.activatedRoute.paramMap.get("id");
+        const itemIdString = this.activatedRoute.snapshot.paramMap.get("id");
         if (itemIdString === null) {
-            this.router.navigateByUrl("/error").then(() => {
-                // TODO: snack bar?
-            });
+            this.router.navigateByUrl("/error").then(() => {});
             return;
         }
 
         this.itemId = parseInt(itemIdString, 10);
         if (isNaN(this.itemId)) {
-            this.router.navigateByUrl("/error").then(() => {
-                // TODO: snack bar?
-            });
+            this.router.navigateByUrl("/error").then(() => {});
             return;
         }
 
         this.item$ = this.itemsService.getItem(this.itemId);
 
-        const subjectIdString = this.activatedRoute.queryParamMap.get("subjectId");
+        const subjectIdString = this.activatedRoute.snapshot.queryParamMap.get("subjectId");
 
         this.subjectId = null;
         if (subjectIdString) {
             const subjectId = parseInt(subjectIdString, 10);
             if (isNaN(subjectId)) {
-                this.router.navigateByUrl("/error").then(() => {
-                    // TODO: snack bar?
-                });
+                this.router.navigateByUrl("/error").then(() => {});
             }
             else {
                 this.subjectId = subjectId;
