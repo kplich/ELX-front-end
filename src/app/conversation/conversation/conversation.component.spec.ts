@@ -141,7 +141,7 @@ function resetMockCalls() {
     snackBarServiceMock.openSnackBar.calls.reset();
 }
 
-fdescribe("ConversationComponent", () => {
+describe("ConversationComponent", () => {
 
     beforeEach(() => {
         resetMockCalls();
@@ -156,7 +156,7 @@ fdescribe("ConversationComponent", () => {
         };
 
         beforeEach(async(() => {
-            configureTestingModule(loggedInUserServiceMock, undefined).compileComponents();
+            configureTestingModule(loggedInUserServiceMock, {}).compileComponents();
         }));
 
         beforeEach(() => {

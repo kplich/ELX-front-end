@@ -1,7 +1,7 @@
 <item-header class="simple-card-3"
              [item]="item$ | async"
              [loggedInUser]="loggedInUser"
-             (closeItem)="closeOffer($event)">
+             (closeItem)="closeItem($event)">
 </item-header>
 <div class="item-content">
     <item-photos [item]="item$ | async"></item-photos>

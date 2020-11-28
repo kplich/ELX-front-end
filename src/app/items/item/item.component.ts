@@ -7,10 +7,9 @@ import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service
 import {Observable, of} from "rxjs";
 import {SimpleUser} from "@my-account/data/SimpleUser";
 import {catchError} from "rxjs/operators";
-import {HttpErrorResponse} from "@angular/common/http";
 import {UsedStatusDto} from "@items/data/UsedStatus";
 
-export const itemNotFound = new Item({
+export const ITEM_NOT_FOUND = new Item({
     id: 0,
     title: "Item not found!",
     description: "You must have got something wrong.",
@@ -65,11 +64,11 @@ export class ItemComponent implements OnInit {
     item$!: Observable<Item>;
 
     constructor(
+        private loggedInUserService: LoggedInUserService,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private itemsService: ItemsService,
         private snackBarService: SnackBarService,
-        private loggedInUserService: LoggedInUserService,
+        private itemsService: ItemsService,
     ) {
     }
 
@@ -80,35 +79,50 @@ export class ItemComponent implements OnInit {
     ngOnInit(): void {
         const itemIdString = this.activatedRoute.snapshot.paramMap.get("id");
 
-        if (itemIdString !== null) {
-            const id = parseInt(itemIdString, 10);
-
-            if (isNaN(id)) {
-                this.router.navigateByUrl("/error").then(() => {
-                    this.snackBarService.openSnackBar(STRINGS.messages.couldNotLoadItem);
-                });
-            }
-
-            this.item$ = this.itemsService.getItem(id).pipe(
-                catchError((error: HttpErrorResponse) => {
-                    if (error.status === 404) {
-                        this.router.navigateByUrl("/not-found").then(() => {
-                            this.snackBarService.openSnackBar(STRINGS.messages.itemNotFound);
-                        });
-                    }
-                    else {
-                        this.router.navigateByUrl("/error").then(() => {
-                            this.snackBarService.openSnackBar(STRINGS.messages.couldNotLoadItem);
-                        });
-                    }
-
-                    return of(itemNotFound);
-                })
-            );
+        if (itemIdString === null) {
+            this.router.navigateByUrl("/error").then(() => {
+                this.snackBarService.openSnackBar(STRINGS.messages.couldNotLoadItem);
+            });
+            return;
         }
+
+        const id = parseInt(itemIdString, 10);
+        if (isNaN(id)) {
+            this.router.navigateByUrl("/error").then(() => {
+                this.snackBarService.openSnackBar(STRINGS.messages.couldNotLoadItem);
+            });
+            return;
+        }
+
+        this.item$ = this.getItem(id);
     }
 
-    closeOffer(itemId: number) {
-        this.item$ = this.itemsService.closeItem(itemId);
+    closeItem(itemId: number) {
+        const tempItem = this.item$;
+
+        this.item$ = this.itemsService.closeItem(itemId).pipe(
+            catchError(_ => {
+                this.snackBarService.openSnackBar(STRINGS.messages.couldNotCloseItem);
+                return tempItem;
+            })
+        );
+    }
+
+    private getItem(id: number): Observable<Item> {
+        return this.itemsService.getItem(id).pipe(
+            catchError((error) => {
+                if (error.status === 404) {
+                    this.router.navigateByUrl("/not-found").then(() => {
+                        this.snackBarService.openSnackBar(STRINGS.messages.itemNotFound);
+                    });
+                } else {
+                    this.router.navigateByUrl("/error").then(() => {
+                        this.snackBarService.openSnackBar(STRINGS.messages.couldNotLoadItem);
+                    });
+                }
+
+                return of(ITEM_NOT_FOUND);
+            })
+        );
     }
 }
