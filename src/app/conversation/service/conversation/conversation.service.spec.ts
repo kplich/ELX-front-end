@@ -7,7 +7,7 @@ import {UsedStatusDto} from "@items/data/UsedStatus";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
 
-fdescribe("ConversationService", () => {
+describe("ConversationService", () => {
 
     let service: ConversationService;
     let httpController: HttpTestingController;
