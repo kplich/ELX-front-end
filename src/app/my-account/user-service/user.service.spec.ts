@@ -11,7 +11,7 @@ import {ItemSoldResponse, ItemSold} from "@my-account/data/items/ItemSold";
 import {ItemWantedToBuy, ItemWantedToBuyResponse} from "@my-account/data/items/ItemWantedToBuy";
 import {ItemBought, ItemBoughtResponse} from "@my-account/data/items/ItemBought";
 
-fdescribe("UserService", () => {
+describe("UserService", () => {
     let service: UserService;
     let httpController: HttpTestingController;
 

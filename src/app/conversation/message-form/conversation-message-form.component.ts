@@ -1,7 +1,7 @@
 import {Component, OnInit, Output, EventEmitter, Input} from "@angular/core";
 import {FormGroup, FormControl, Validators} from "@angular/forms";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
-import {DialogService} from "@shared/dialog/dialog.service";
+import {DialogService} from "@shared/dialog-service/dialog.service";
 import {OfferFormComponent} from "@conversation/offer-form/offer-form.component";
 import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
 import {NewOfferRequest} from "@conversation/data/NewOfferRequest";

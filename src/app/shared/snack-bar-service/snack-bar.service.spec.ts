@@ -6,9 +6,13 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 describe("SnackBarService", () => {
     let service: SnackBarService;
 
+    const snackBarMock = jasmine.createSpyObj("snackBar", ["open"]);
+
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [SnackBarService, MatSnackBar],
+            providers: [SnackBarService, {
+                provide: MatSnackBar, useValue: snackBarMock
+            }],
             imports: [MatSnackBarModule]
         });
         service = TestBed.inject(SnackBarService);
@@ -16,5 +20,10 @@ describe("SnackBarService", () => {
 
     it("should be created", () => {
         expect(service).toBeTruthy();
+    });
+
+    it("should execute open method of MatSnackBar spy", () => {
+        service.openSnackBar("any");
+        expect(snackBarMock.open).toHaveBeenCalled();
     });
 });

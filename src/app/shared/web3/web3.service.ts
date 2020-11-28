@@ -1,7 +1,8 @@
-import {Injectable} from "@angular/core";
+import {Injectable, Inject} from "@angular/core";
 import Web3 from "web3";
 import {BehaviorSubject, Observable} from "rxjs";
 import {primitiveArrayEquals} from "@shared/primitive-array-equals";
+import {WEB3} from "@shared/web3-injection-token";
 
 /**
  * A service that publishes a web3 object and various blockchain related functionalities.
@@ -11,29 +12,18 @@ import {primitiveArrayEquals} from "@shared/primitive-array-equals";
 })
 export class Web3Service {
 
-    /**
-     * Instance of the Web3 API, available publicly.
-     */
-    web3: Web3;
     private updatedEveryMs = 1000;
 
-    constructor() {
-        const provider = (window.ethereum) ? window.ethereum : Web3.givenProvider;
-        this.web3 = new Web3(provider);
+    constructor(@Inject(WEB3) public web3: Web3) {
+        setInterval(async () => {
+            const newAccounts = await this.web3.eth.getAccounts();
 
-        if (provider) {
-            setInterval(async () => {
-                const newAccounts = await this.web3.eth.getAccounts();
+            if (!primitiveArrayEquals(this._accounts, newAccounts)) {
+                this.accountsSubject.next(newAccounts);
+            }
 
-                if (!primitiveArrayEquals(this._accounts, newAccounts)) {
-                    this.accountsSubject.next(newAccounts);
-                }
-
-                this._accounts = newAccounts;
-            }, this.updatedEveryMs);
-        } else {
-            console.warn("No Web3 provider found!");
-        }
+            this._accounts = newAccounts;
+        }, this.updatedEveryMs);
     }
 
     // tslint:disable-next-line:variable-name
