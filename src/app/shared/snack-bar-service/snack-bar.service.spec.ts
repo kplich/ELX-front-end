@@ -1,19 +1,20 @@
 import {TestBed} from "@angular/core/testing";
 
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
-import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {MaterialModule} from "@material/material.module";
 
 describe("SnackBarService", () => {
     let service: SnackBarService;
-
     const snackBarMock = jasmine.createSpyObj("snackBar", ["open"]);
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [SnackBarService, {
-                provide: MatSnackBar, useValue: snackBarMock
-            }],
-            imports: [MatSnackBarModule]
+            providers: [
+                SnackBarService,
+                {provide: MatSnackBar, useValue: snackBarMock}
+            ],
+            imports: [ MaterialModule ]
         });
         service = TestBed.inject(SnackBarService);
     });
