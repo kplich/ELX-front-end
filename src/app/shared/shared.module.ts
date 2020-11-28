@@ -6,12 +6,14 @@ import {FileUploaderComponent} from "@shared/file-uploader/file-uploader.compone
 import {AngularFireModule} from "@angular/fire";
 import {environment} from "@environments/environment";
 import {AngularFireStorageModule} from "@angular/fire/storage";
+import {NotFoundComponent} from "./not-found/not-found.component";
+import {ErrorComponent} from "./error/error.component";
 
 /**
  * Module for shared services and components.
  */
 @NgModule({
-    declarations: [PhotoUploaderComponent, FileUploaderComponent],
+    declarations: [PhotoUploaderComponent, FileUploaderComponent, NotFoundComponent, ErrorComponent],
     exports: [
         PhotoUploaderComponent,
     ],
@@ -22,5 +24,4 @@ import {AngularFireStorageModule} from "@angular/fire/storage";
         MaterialModule
     ]
 })
-export class SharedModule {
-}
+export class SharedModule {}
