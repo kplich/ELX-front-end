@@ -73,7 +73,7 @@ describe("ItemsBoughtComponent", () => {
                     contractAddress: null
                 }
             })
-    ];
+        ];
         fixture.detectChanges();
     });
 
