@@ -44,7 +44,7 @@ export class ItemsService {
     }
 
     addNewItem(requestData: NewOrUpdatedItemRequest): Observable<Item> {
-        return this.http.post<ItemResponse>(`${ITEMS_API_URL}/`, requestData).pipe(
+        return this.http.post<ItemResponse>(ITEMS_API_URL, requestData).pipe(
             map(response => new Item(response)),
             shareReplay(1)
         );
@@ -58,7 +58,7 @@ export class ItemsService {
     }
 
     updateItem(requestData: NewOrUpdatedItemRequest): Observable<Item> {
-        return this.http.put<ItemResponse>(`${ITEMS_API_URL}/`, requestData).pipe(
+        return this.http.put<ItemResponse>(ITEMS_API_URL, requestData).pipe(
             map(response => new Item(response)),
             shareReplay(1)
         );

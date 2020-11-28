@@ -7,7 +7,7 @@ import {UsedStatusDto} from "@items/data/UsedStatus";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NewMessageRequest} from "@conversation/data/NewMessageRequest";
 
-describe("ConversationService", () => {
+fdescribe("ConversationService", () => {
 
     let service: ConversationService;
     let httpController: HttpTestingController;
@@ -93,6 +93,18 @@ describe("ConversationService", () => {
             testRequest.flush(mockConversationResponse);
         }));
 
+        it("should throw an error when presented with a malformed response", fakeAsync(() => {
+            service.getConversation(itemId).subscribe(_ => {
+                fail("should execute error callback");
+            }, error => {
+                expect(error).toBeDefined();
+            });
+
+            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation`);
+            expect(testRequest.request.method).toEqual("GET");
+            testRequest.flush({key: "value"});
+        }));
+
         it("should return a HttpErrorResponse on error", fakeAsync(() => {
             const expectedMessage = "expected message";
 
@@ -113,6 +125,7 @@ describe("ConversationService", () => {
     describe("getConversationWithSubject()", () => {
         const itemId = 10;
         const interestedUserId = 100;
+        const expectedApiUrl = `${ITEMS_API_URL}/${itemId}/conversation?subjectId=${interestedUserId}`;
 
         const mockConversationResponse: ConversationResponse = {
             id: 10,
@@ -173,9 +186,21 @@ describe("ConversationService", () => {
                 expect(conversation.equals(expectedConversation)).toBeTruthy();
             }, fail);
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation?subjectId=${interestedUserId}`);
+            const testRequest = httpController.expectOne(expectedApiUrl);
             expect(testRequest.request.method).toEqual("GET");
             testRequest.flush(mockConversationResponse);
+        }));
+
+        it("should throw an error when presented with a malformed response", fakeAsync(() => {
+            service.getConversationWithSubject(itemId, interestedUserId).subscribe(_ => {
+                fail("should execute error callback");
+            }, error => {
+                expect(error).toBeDefined();
+            });
+
+            const testRequest = httpController.expectOne(expectedApiUrl);
+            expect(testRequest.request.method).toEqual("GET");
+            testRequest.flush({key: "value"});
         }));
 
         it("should return a HttpErrorResponse on 404", fakeAsync(() => {
@@ -189,7 +214,7 @@ describe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation?subjectId=${interestedUserId}`);
+            const testRequest = httpController.expectOne(expectedApiUrl);
             expect(testRequest.request.method).toEqual("GET");
             testRequest.flush(expectedMessage, {status: 404, statusText: "Not Found"});
         }));
@@ -248,6 +273,7 @@ describe("ConversationService", () => {
                 }
             ]
         };
+        const expectedApiUrl = `${ITEMS_API_URL}/${itemId}/conversation`;
 
         const messageRequest: NewMessageRequest = {
             content: "message"
@@ -265,10 +291,23 @@ describe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation`);
+            const testRequest = httpController.expectOne(expectedApiUrl);
             expect(testRequest.request.method).toEqual("POST");
             expect(testRequest.request.body).toEqual(messageRequest);
             testRequest.flush(mockConversationResponse);
+        }));
+
+        it("should throw an error when presented with a malformed response", fakeAsync(() => {
+            service.sendMessage(itemId, messageRequest).subscribe(_ => {
+                fail("should execute error callback");
+            }, error => {
+                expect(error).toBeDefined();
+            });
+
+            const testRequest = httpController.expectOne(expectedApiUrl);
+            expect(testRequest.request.method).toEqual("POST");
+            expect(testRequest.request.body).toEqual(messageRequest);
+            testRequest.flush({key: "value"});
         }));
 
         it("should return a HttpErrorResponse on an error", fakeAsync(() => {
@@ -283,7 +322,7 @@ describe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation`);
+            const testRequest = httpController.expectOne(expectedApiUrl);
             expect(testRequest.request.method).toEqual("POST");
             expect(testRequest.request.body).toEqual(messageRequest);
             testRequest.flush(expectedMessage, {status: expectedStatus, statusText: "Error"});
@@ -293,6 +332,7 @@ describe("ConversationService", () => {
     describe("sendMessageWithSubject()", () => {
         const itemId = 10;
         const subjectId = 11;
+        const expectedApiUrl = `${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`;
         const mockConversationResponse: ConversationResponse = {
             id: 10,
             item: {
@@ -361,10 +401,23 @@ describe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`);
+            const testRequest = httpController.expectOne(expectedApiUrl);
             expect(testRequest.request.method).toEqual("POST");
             expect(testRequest.request.body).toEqual(messageRequest);
             testRequest.flush(mockConversationResponse);
+        }));
+
+        it("should throw an error when presented with a malformed response", fakeAsync(() => {
+            service.sendMessageWithSubject(itemId, messageRequest, subjectId).subscribe(_ => {
+                fail("should execute error callback");
+            }, error => {
+                expect(error).toBeDefined();
+            });
+
+            const testRequest = httpController.expectOne(expectedApiUrl);
+            expect(testRequest.request.method).toEqual("POST");
+            expect(testRequest.request.body).toEqual(messageRequest);
+            testRequest.flush({key: "value"});
         }));
 
         it("should return a HttpErrorResponse on an error", fakeAsync(() => {
@@ -379,7 +432,7 @@ describe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`);
+            const testRequest = httpController.expectOne(expectedApiUrl);
             expect(testRequest.request.method).toEqual("POST");
             expect(testRequest.request.body).toEqual(messageRequest);
             testRequest.flush(expectedMessage, {status: expectedStatus, statusText: "Error"});
@@ -389,6 +442,7 @@ describe("ConversationService", () => {
     describe("acceptOffer()", () => {
         const offerId = 10;
         const contractAddress = "address";
+        const expectedApiUrl = `${ITEMS_API_URL}/${offerId}/accept`;
         const mockConversationResponse: ConversationResponse = {
             id: 10,
             item: {
@@ -448,10 +502,23 @@ describe("ConversationService", () => {
                 expect(conversation.equals(expectedConversation));
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${offerId}/accept`);
+            const testRequest = httpController.expectOne(expectedApiUrl);
             expect(testRequest.request.method).toEqual("PUT");
             expect(testRequest.request.body).toEqual({contractAddress});
             testRequest.flush(mockConversationResponse);
+        }));
+
+        it("should throw an error when presented with a malformed response", fakeAsync(() => {
+            service.acceptOffer(offerId, contractAddress).subscribe(_ => {
+                fail("should execute error callback");
+            }, error => {
+                expect(error).toBeDefined();
+            });
+
+            const testRequest = httpController.expectOne(expectedApiUrl);
+            expect(testRequest.request.method).toEqual("PUT");
+            expect(testRequest.request.body).toEqual({contractAddress});
+            testRequest.flush({key: "value"});
         }));
 
         it("should return a HttpErrorResponse on error", fakeAsync(() => {
@@ -526,6 +593,7 @@ describe("ConversationService", () => {
                 }
             ]
         };
+        const expectedApiUrl = `${ITEMS_API_URL}/${offerId}/decline`;
 
         it("should return a conversation", fakeAsync(() => {
             const expectedConversation = new Conversation(mockConversationResponse);
@@ -534,10 +602,23 @@ describe("ConversationService", () => {
                 expect(conversation.equals(expectedConversation));
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${offerId}/decline`);
+            const testRequest = httpController.expectOne(expectedApiUrl);
             expect(testRequest.request.method).toEqual("PUT");
             expect(testRequest.request.body).toBeNull();
             testRequest.flush(mockConversationResponse);
+        }));
+
+        it("should throw an error when presented with a malformed response", fakeAsync(() => {
+            service.declineOffer(offerId).subscribe(_ => {
+                fail("should execute error callback");
+            }, error => {
+                expect(error).toBeDefined();
+            });
+
+            const testRequest = httpController.expectOne(expectedApiUrl);
+            expect(testRequest.request.method).toEqual("PUT");
+            expect(testRequest.request.body).toBeNull();
+            testRequest.flush({key: "value"});
         }));
 
         it("should return a HttpErrorResponse on error", fakeAsync(() => {
@@ -552,7 +633,7 @@ describe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${offerId}/decline`);
+            const testRequest = httpController.expectOne(expectedApiUrl);
             expect(testRequest.request.method).toEqual("PUT");
             expect(testRequest.request.body).toBeNull();
             testRequest.flush(expectedMessage, {status: expectedStatus, statusText: "Error!"});
@@ -612,6 +693,7 @@ describe("ConversationService", () => {
                 }
             ]
         };
+        const expectedApiUrl = `${ITEMS_API_URL}/${offerId}/cancel`;
 
         it("should return a conversation", fakeAsync(() => {
             const expectedConversation = new Conversation(mockConversationResponse);
@@ -620,10 +702,23 @@ describe("ConversationService", () => {
                 expect(conversation.equals(expectedConversation));
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${offerId}/cancel`);
+            const testRequest = httpController.expectOne(expectedApiUrl);
             expect(testRequest.request.method).toEqual("PUT");
             expect(testRequest.request.body).toBeNull();
             testRequest.flush(mockConversationResponse);
+        }));
+
+        it("should throw an error when presented with a malformed response", fakeAsync(() => {
+            service.cancelOffer(offerId).subscribe(_ => {
+                fail("should execute error callback");
+            }, error => {
+                expect(error).toBeDefined();
+            });
+
+            const testRequest = httpController.expectOne(expectedApiUrl);
+            expect(testRequest.request.method).toEqual("PUT");
+            expect(testRequest.request.body).toBeNull();
+            testRequest.flush({key: "value"});
         }));
 
         it("should return a HttpErrorResponse on error", fakeAsync(() => {
@@ -638,7 +733,7 @@ describe("ConversationService", () => {
                 }
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${offerId}/cancel`);
+            const testRequest = httpController.expectOne(expectedApiUrl);
             expect(testRequest.request.method).toEqual("PUT");
             expect(testRequest.request.body).toBeNull();
             testRequest.flush(expectedMessage, {status: expectedStatus, statusText: "Error!"});
