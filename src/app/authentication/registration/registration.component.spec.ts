@@ -12,15 +12,17 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldHarness} from "@angular/material/form-field/testing";
 import {MatInputHarness} from "@angular/material/input/testing";
-import {Observable} from "rxjs";
+import {of} from "rxjs";
 
 describe("RegistrationComponent", () => {
-    const authenticationServiceSpy = jasmine.createSpyObj("AuthenticationService", ["signUp"]);
-    authenticationServiceSpy.signUp.and.returnValue(new Observable(() => {
-    }));
+    const authenticationServiceSpy = jasmine.createSpyObj("AuthenticationService", {
+        signUp: of({})
+    });
 
-    const routerSpy = jasmine.createSpyObj("Router", ["navigateByUrl"]);
-    routerSpy.navigateByUrl.and.returnValue(Promise.resolve());
+    const routerSpy = jasmine.createSpyObj("Router", {
+        navigateByUrl: Promise.resolve()
+    });
+
     const snackBarServiceSpy = jasmine.createSpyObj("SnackBarService", ["openSnackBar"]);
 
     let fixture: ComponentFixture<RegistrationComponent>;

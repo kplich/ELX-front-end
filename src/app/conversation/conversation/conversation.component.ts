@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router, ActivatedRouteSnapshot} from "@angular/router";
 import {Observable, of} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {Conversation} from "@conversation/data/Conversation";
@@ -41,7 +41,7 @@ export class ConversationComponent implements OnInit {
     constructor(
         private loggedInUserService: LoggedInUserService,
         private router: Router,
-        private activatedRoute: ActivatedRoute,
+        private activatedRoute: ActivatedRouteSnapshot,
         private itemsService: ItemsService,
         private conversationService: ConversationService,
         private offerContractService: OfferContractService,
@@ -51,23 +51,44 @@ export class ConversationComponent implements OnInit {
     ngOnInit(): void {
         const loggedInUser = this.loggedInUserService.authenticatedUser;
         if (loggedInUser === null) {
-            this.router.navigateByUrl("/log-in").then(() => {
+            this.router.navigateByUrl("/log-in").then(() => {});
+            return;
+        }
+
+        const itemIdString = this.activatedRoute.paramMap.get("id");
+        if (itemIdString === null) {
+            this.router.navigateByUrl("/error").then(() => {
+                // TODO: snack bar?
             });
+            return;
         }
 
-        const itemIdString = this.activatedRoute.snapshot.paramMap.get("id");
-        if (itemIdString) {
-            this.itemId = parseInt(itemIdString, 10);
-
-            this.item$ = this.itemsService.getItem(this.itemId);
-
-            const subjectIdString = this.activatedRoute.snapshot.queryParamMap.get("subjectId");
-            this.subjectId = subjectIdString ? parseInt(subjectIdString, 10) : null;
-
-            this.loadConversation();
-        } else {
-            console.warn("no id for item!");
+        this.itemId = parseInt(itemIdString, 10);
+        if (isNaN(this.itemId)) {
+            this.router.navigateByUrl("/error").then(() => {
+                // TODO: snack bar?
+            });
+            return;
         }
+
+        this.item$ = this.itemsService.getItem(this.itemId);
+
+        const subjectIdString = this.activatedRoute.queryParamMap.get("subjectId");
+
+        this.subjectId = null;
+        if (subjectIdString) {
+            const subjectId = parseInt(subjectIdString, 10);
+            if (isNaN(subjectId)) {
+                this.router.navigateByUrl("/error").then(() => {
+                    // TODO: snack bar?
+                });
+            }
+            else {
+                this.subjectId = subjectId;
+            }
+        }
+
+        this.loadConversation();
     }
 
     sendMessage(message: NewMessageRequest) {
