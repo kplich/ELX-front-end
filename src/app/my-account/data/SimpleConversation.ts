@@ -24,8 +24,7 @@ export class SimpleConversation {
             } else {
                 throw new Error("Unknown offer type!");
             }
-        }
-        else {
+        } else {
             this.lastOffer = undefined;
         }
     }
@@ -34,6 +33,24 @@ export class SimpleConversation {
         return this.interestedUser.id;
     }
 
+    equals(other: SimpleConversation): boolean {
+        const simpleConditions = this.id === other.id
+            && this.interestedUser.equals(other.interestedUser)
+            && this.lastMessage.equals(other.lastMessage);
+        if (simpleConditions) {
+            if (this.lastOffer !== undefined) {
+                if (other.lastOffer !== undefined) {
+                    return this.lastOffer.equals(other.lastOffer);
+                } else {
+                    return false;
+                }
+            } else {
+                return other.lastOffer === undefined;
+            }
+        } else {
+            return false;
+        }
+    }
 }
 
 export interface SimpleConversationResponse {

@@ -21,6 +21,11 @@ export class ItemBought extends AbstractUserItem {
             }
         }
     }
+
+    equals(other: ItemBought): boolean {
+        return super.equals(other)
+            && this.offer.equals(other.offer);
+    }
 }
 
 export interface ItemBoughtResponse extends AbstractUserItemResponse {

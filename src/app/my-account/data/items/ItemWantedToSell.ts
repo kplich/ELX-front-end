@@ -8,6 +8,13 @@ export class ItemWantedToSell extends AbstractUserItem {
         super(response);
         this.conversations = response.conversations.map(conv => new SimpleConversation(conv));
     }
+
+    equals(other: ItemWantedToSell): boolean {
+        return super.equals(other)
+            && this.conversations.every((conversation, index) => {
+                conversation.equals(other.conversations[index]);
+            });
+    }
 }
 
 export interface ItemWantedToSellResponse extends AbstractUserItemResponse {

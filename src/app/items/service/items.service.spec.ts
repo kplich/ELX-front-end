@@ -44,6 +44,7 @@ describe("ItemsService", () => {
             photoUrls: ["url1", "url2"],
             closedOn: null
         };
+        const expectedUrl = `${ITEMS_API_URL}/${itemId}`;
 
         it("should return an item", fakeAsync(() => {
             const expectedItem = new Item(mockItemResponse);
@@ -52,7 +53,7 @@ describe("ItemsService", () => {
                 expect(item.equals(expectedItem)).toBeTruthy();
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}`);
+            const testRequest = httpController.expectOne(expectedUrl);
             expect(testRequest.request.method).toEqual("GET");
             testRequest.flush(mockItemResponse);
         }));
@@ -64,7 +65,7 @@ describe("ItemsService", () => {
                 expect(error).toBeDefined();
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}`);
+            const testRequest = httpController.expectOne(expectedUrl);
             expect(testRequest.request.method).toEqual("GET");
             testRequest.flush({key: "value", another: "value too"});
         }));
@@ -81,7 +82,7 @@ describe("ItemsService", () => {
                 expect(error.error).toEqual(expectedErrorObject);
             });
 
-            const testRequest = httpController.expectOne(`${ITEMS_API_URL}/${itemId}`);
+            const testRequest = httpController.expectOne(expectedUrl);
             expect(testRequest.request.method).toEqual("GET");
             testRequest.flush(expectedErrorObject, {status: expectedStatus, statusText: "Internal Server Error"});
         }));
