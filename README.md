@@ -93,5 +93,3 @@ Once this or other blockchain is running, in another session of the terminal run
 cd blockchain
 truffle test
 ```
-
-
