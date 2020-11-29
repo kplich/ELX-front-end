@@ -30,8 +30,6 @@ export class UserItemContractPlainAdvanceComponent
             this.contract = await this.offerContractService
                 .getContractAtAddress(OfferType.PLAIN_ADVANCE, this.offer.contractAddress);
 
-            console.log(this.contract);
-
             await this.loadDataFromBlockchain();
         }
         else {
