@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {Router, ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, of} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {Conversation} from "@conversation/data/Conversation";
@@ -20,9 +20,13 @@ export const STRINGS = {
         conversationWithSelf: "You cannot have a conversation with yourself!",
         conversationSubjectRequired: "You need to provide conversation subject ID!",
         conversationNotFound: "There are no messages in this conversation!",
-        unauthorizedConversationAccess: "You're not authorized to view this conversation!"
-    },
-    error: "An error occurred."
+        unauthorizedConversationAccess: "You're not authorized to view this conversation!",
+        couldNotSendMessage: "Could not send message",
+        couldNotCancelOffer: "Could not cancel offer.",
+        couldNotDeclineOffer: "Could not decline offer",
+        couldNotCreateContract: "Could not create contract.",
+        couldNotAcceptOffer: "The contract has been created, but the offer has not been accepted. You'll have to try again."
+    }
 };
 
 @Component({
@@ -46,24 +50,28 @@ export class ConversationComponent implements OnInit {
         private conversationService: ConversationService,
         private offerContractService: OfferContractService,
         private snackBarService: SnackBarService
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         const loggedInUser = this.loggedInUserService.authenticatedUser;
         if (loggedInUser === null) {
-            this.router.navigateByUrl("/log-in").then(() => {});
+            this.router.navigateByUrl("/log-in").then(() => {
+            });
             return;
         }
 
         const itemIdString = this.activatedRoute.snapshot.paramMap.get("id");
         if (itemIdString === null) {
-            this.router.navigateByUrl("/error").then(() => {});
+            this.router.navigateByUrl("/error").then(() => {
+            });
             return;
         }
 
         this.itemId = parseInt(itemIdString, 10);
         if (isNaN(this.itemId)) {
-            this.router.navigateByUrl("/error").then(() => {});
+            this.router.navigateByUrl("/error").then(() => {
+            });
             return;
         }
 
@@ -75,9 +83,9 @@ export class ConversationComponent implements OnInit {
         if (subjectIdString) {
             const subjectId = parseInt(subjectIdString, 10);
             if (isNaN(subjectId)) {
-                this.router.navigateByUrl("/error").then(() => {});
-            }
-            else {
+                this.router.navigateByUrl("/error").then(() => {
+                });
+            } else {
                 this.subjectId = subjectId;
             }
         }
@@ -94,8 +102,8 @@ export class ConversationComponent implements OnInit {
                 message,
                 this.subjectId
             ).pipe(
-                catchError((error: HttpErrorResponse) => {
-                    this.snackBarService.openSnackBar(error.message);
+                catchError(_ => {
+                    this.snackBarService.openSnackBar(STRINGS.errors.couldNotSendMessage);
                     return tempConversation;
                 })
             );
@@ -104,8 +112,8 @@ export class ConversationComponent implements OnInit {
                 this.itemId,
                 message
             ).pipe(
-                catchError((error: HttpErrorResponse) => {
-                    this.snackBarService.openSnackBar(error.message);
+                catchError(_ => {
+                    this.snackBarService.openSnackBar(STRINGS.errors.couldNotSendMessage);
                     return tempConversation;
                 })
             );
@@ -115,8 +123,8 @@ export class ConversationComponent implements OnInit {
     cancelOffer(offerId: number) {
         const tempConversation = this.conversation$;
         this.conversation$ = this.conversationService.cancelOffer(offerId).pipe(
-            catchError((error: HttpErrorResponse) => {
-                this.snackBarService.openSnackBar(error.message);
+            catchError(_ => {
+                this.snackBarService.openSnackBar(STRINGS.errors.couldNotCancelOffer);
                 return tempConversation;
             })
         );
@@ -125,40 +133,47 @@ export class ConversationComponent implements OnInit {
     declineOffer(offerId: number) {
         const tempConversation = this.conversation$;
         this.conversation$ = this.conversationService.declineOffer(offerId).pipe(
-            catchError((error: HttpErrorResponse) => {
-                this.snackBarService.openSnackBar(error.message);
+            catchError(_ => {
+                this.snackBarService.openSnackBar(STRINGS.errors.couldNotDeclineOffer);
                 return tempConversation;
             })
         );
     }
 
     async acceptOffer(acceptedOfferData: AcceptedOfferData) {
-        if (acceptedOfferData.offer instanceof PlainAdvanceOffer) {
-            try {
-                const contract = await this.offerContractService.createPlainAdvanceContract(
+        let contract;
+        try {
+            if (acceptedOfferData.offer instanceof PlainAdvanceOffer) {
+                contract = await this.offerContractService.createPlainAdvanceContract(
                     acceptedOfferData.buyerAddress,
                     acceptedOfferData.sellerAddress,
                     acceptedOfferData.offer.price,
                     acceptedOfferData.offer.advance
                 );
-                this.conversation$
-                    = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
-            } catch (e) {
-                this.snackBarService.openSnackBar(e.message);
-            }
-        } else if (acceptedOfferData.offer instanceof DoubleAdvanceOffer) {
-            try {
-                const contract = await this.offerContractService.createDoubleAdvanceContract(
+            } else if (acceptedOfferData.offer instanceof DoubleAdvanceOffer) {
+                contract = await this.offerContractService.createDoubleAdvanceContract(
                     acceptedOfferData.buyerAddress,
                     acceptedOfferData.sellerAddress,
                     acceptedOfferData.offer.price,
                 );
-                this.conversation$
-                    = this.conversationService.acceptOffer(acceptedOfferData.offer.id, contract.address);
-            } catch (e) {
-                this.snackBarService.openSnackBar(e.message);
+            } else {
+                console.warn("wrong contract type!");
             }
+        } catch (error) {
+            this.snackBarService.openSnackBar(STRINGS.errors.couldNotCreateContract);
         }
+
+        if (contract) {
+            const tempConversation = this.conversation$;
+            this.conversation$ = this.conversationService
+                .acceptOffer(acceptedOfferData.offer.id, contract.address).pipe(
+                    catchError(_ => {
+                        this.snackBarService.openSnackBar(STRINGS.errors.couldNotAcceptOffer);
+                        return tempConversation;
+                    })
+                );
+        }
+
     }
 
     private loadConversation() {
