@@ -1,6 +1,9 @@
 import {fakeAsync, TestBed} from "@angular/core/testing";
 
-import {ConversationService, ITEMS_API_URL} from "@conversation/service/conversation/conversation.service";
+import {
+    ConversationService,
+    ITEMS_API_URL
+} from "@conversation/service/conversation/conversation.service";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {Conversation, ConversationResponse} from "@conversation/data/Conversation";
 import {UsedStatusDto} from "@items/data/UsedStatus";
@@ -125,7 +128,7 @@ describe("ConversationService", () => {
     describe("getConversationWithSubject()", () => {
         const itemId = 10;
         const interestedUserId = 100;
-        const expectedApiUrl = `${ITEMS_API_URL}/${itemId}/conversation?subjectId=${interestedUserId}`;
+        const expectedApiUrl = `${ITEMS_API_URL}/${itemId}/conversation?receipientId=${interestedUserId}`;
 
         const mockConversationResponse: ConversationResponse = {
             id: 10,
@@ -332,7 +335,7 @@ describe("ConversationService", () => {
     describe("sendMessageWithSubject()", () => {
         const itemId = 10;
         const subjectId = 11;
-        const expectedApiUrl = `${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`;
+        const expectedApiUrl = `${ITEMS_API_URL}/${itemId}/conversation?receipientId=${subjectId}`;
         const mockConversationResponse: ConversationResponse = {
             id: 10,
             item: {
