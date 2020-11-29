@@ -34,7 +34,7 @@ export class ConversationService {
 
     getConversationWithSubject(itemId: number, subjectId: number): Observable<Conversation> {
         return this.http.get<ConversationResponse>(
-            `${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`
+            `${ITEMS_API_URL}/${itemId}/conversation?receipientId=${subjectId}`
         ).pipe(
             map(response => new Conversation(response))
         );
@@ -54,7 +54,7 @@ export class ConversationService {
             messageRequest: NewMessageRequest,
             subjectId: number): Observable<Conversation> {
         return this.http.post<ConversationResponse>(
-            `${ITEMS_API_URL}/${itemId}/conversation?subjectId=${subjectId}`,
+            `${ITEMS_API_URL}/${itemId}/conversation?receipientId=${subjectId}`,
             messageRequest
         ).pipe(
             map(response => new Conversation(response))

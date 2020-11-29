@@ -47,7 +47,7 @@ export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
                 });
             },
             error: (error: HttpErrorResponse) => this.openErrorSnackBar(error)
-        }).unsubscribe();
+        });
     }
 
     ngOnInit() {
