@@ -4,14 +4,14 @@ const BN = require('bn.js');
 const truffleAssert = require('truffle-assertions');
 const {toWei} = web3.utils;
 
+const price = new BN(toWei("100000000", "ether"));
+const advance = new BN(toWei("30000000", "ether"));
 
 contract("PlainAdvance", accounts => {
     let seller = accounts[0];
     let buyer = accounts[1];
 
     it("should be created with correct price and advance", async () => {
-        const price = new BN(toWei("100000000", "ether"));
-        const advance = new BN(toWei("30000000", "ether"));
         const contract = await PlainAdvance.new(seller, buyer, price, advance);
 
         expect(contract).to.be.ok;
@@ -25,14 +25,10 @@ contract("PlainAdvance", accounts => {
     });
 
     it("should not be created with advance greater than price", async () => {
-        const price = new BN(toWei("30000000", "ether"));
-        const advance = new BN(toWei("100000000", "ether"));
-        await truffleAssert.reverts(PlainAdvance.new(accounts[0], accounts[1], toWei(price), toWei(advance)));
+        await truffleAssert.reverts(PlainAdvance.new(accounts[0], accounts[1], advance, price));
     });
 
     it("should not be able to receive Ethers through payable function", async () => {
-        const price = new BN(toWei("100000000", "ether"));
-        const advance = new BN(toWei("30000000", "ether"));
         const contract = await PlainAdvance.new(seller, buyer, price, advance);
         await truffleAssert.reverts(contract.send(price));
     });
@@ -42,13 +38,9 @@ contract("PlainAdvance in state CREATED", accounts => {
     let seller = accounts[0];
     let buyer = accounts[1];
     let other = accounts[2];
-    let price;
-    let advance;
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("100000000", "ether"));
-        advance = new BN(toWei("30000000", "ether"));
         instance = await PlainAdvance.new(seller, buyer, price, advance);
     });
 
@@ -106,13 +98,9 @@ contract("PlainAdvance in state LOCKED", accounts => {
     let seller = accounts[0];
     let buyer = accounts[1];
     let other = accounts[2];
-    let price;
-    let advance;
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("100000000", "ether"));
-        advance = new BN(toWei("30000000", "ether"));
         instance = await PlainAdvance.new(seller, buyer, price, advance);
         await instance.sendMoney({value: price, from: buyer});
     });
@@ -167,13 +155,9 @@ contract("PlainAdvance in state RELEASED", accounts => {
     let seller = accounts[0];
     let buyer = accounts[1];
     let other = accounts[2];
-    let price;
-    let advance;
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("100000000", "ether"));
-        advance = new BN(toWei("30000000", "ether"));
         instance = await PlainAdvance.new(seller, buyer, price, advance);
         await instance.sendMoney({value: price, from: buyer});
         await instance.release({from: buyer});
@@ -231,28 +215,24 @@ contract("PlainAdvance in state COMPLETED", accounts => {
     let seller = accounts[0];
     let buyer = accounts[1];
     let other = accounts[2];
-    let price;
-    let advance;
-    let contract;
+    let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("100000000", "ether"));
-        advance = new BN(toWei("30000000", "ether"));
-        contract = await PlainAdvance.new(seller, buyer, price, advance);
-        await contract.sendMoney({value: price, from: buyer});
-        await contract.release({from: buyer});
-        await contract.withdrawMoney({from: seller});
+        instance = await PlainAdvance.new(seller, buyer, price, advance);
+        await instance.sendMoney({value: price, from: buyer});
+        await instance.release({from: buyer});
+        await instance.withdrawMoney({from: seller});
     });
 
     it("should not allow any methods to be executed", async () => {
-        await truffleAssert.reverts(contract.sendMoney({value: price, from: buyer}));
-        await truffleAssert.reverts(contract.sendMoney({value: price, from: seller}));
-        await truffleAssert.reverts(contract.sendMoney({value: price, from: other}));
-        await truffleAssert.reverts(contract.release({from: buyer}));
-        await truffleAssert.reverts(contract.release({from: seller}));
-        await truffleAssert.reverts(contract.release({from: other}));
-        await truffleAssert.reverts(contract.withdrawMoney({from: buyer}));
-        await truffleAssert.reverts(contract.withdrawMoney({from: seller}));
-        await truffleAssert.reverts(contract.withdrawMoney({from: other}));
+        await truffleAssert.reverts(instance.sendMoney({value: price, from: buyer}));
+        await truffleAssert.reverts(instance.sendMoney({value: price, from: seller}));
+        await truffleAssert.reverts(instance.sendMoney({value: price, from: other}));
+        await truffleAssert.reverts(instance.release({from: buyer}));
+        await truffleAssert.reverts(instance.release({from: seller}));
+        await truffleAssert.reverts(instance.release({from: other}));
+        await truffleAssert.reverts(instance.withdrawMoney({from: buyer}));
+        await truffleAssert.reverts(instance.withdrawMoney({from: seller}));
+        await truffleAssert.reverts(instance.withdrawMoney({from: other}));
     });
 });

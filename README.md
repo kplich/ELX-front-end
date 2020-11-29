@@ -53,6 +53,8 @@ In the 'New RPC URL' enter the 'RPC server' from Ganache.
 
 ![Ganache](readme-images/ganache-1.png)
 
+You can also use a CLI version, installable using `npm install ganache-cli -g`.
+
 ### Install and run the application locally
 
 This application uses Node to manage its dependencies.
@@ -81,9 +83,15 @@ To keep the tests running and watching for changes, run:
 npm run test:watch
 ```
 
-To test the contracts, you also need a blockchain network available at the address 127.0.0.1:8080. When it's running, execute:
+To test the contracts, you also need a blockchain network available at the address 127.0.0.1:8080.
+The tests might require a lot of gas to execute, therefore it is recommended to use the blockchain from Ganache CLI for tests with accounts preloaded with lots of Ethers:
+```shell script
+truffle-cli -e 10000000000000000000
+```
+Once this or other blockchain is running, in another session of the terminal run
 ```shell script
 cd blockchain
 truffle test
 ```
+
 
