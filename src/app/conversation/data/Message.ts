@@ -58,6 +58,18 @@ export class Message {
             return false;
         }
     }
+
+    equals(other: Message) {
+        return this.id === other.id
+            && this.sendingUser.equals(other.sendingUser)
+            && this.sentOn.getTime() === other.sentOn.getTime()
+            && this.textContent === other.textContent
+            && this.offer
+                ? other.offer
+                    ? this.offer.equals(other.offer)
+                    : false
+                : other.offer === null;
+    }
 }
 
 export interface MessageResponse {

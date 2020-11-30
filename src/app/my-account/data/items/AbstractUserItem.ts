@@ -35,7 +35,19 @@ export abstract class AbstractUserItem {
     }
 
     public fixPhotoUrl() {
-        this.photoUrl = "assets/error-photo.png";
+        this.photoUrl = "assets/could-not-load.png";
+    }
+
+    equals(other: AbstractUserItem): boolean {
+        return this.id === other.id
+            && this.title === other.title
+            && this.description === other.description
+            && this.price === other.price
+            && this.addedBy.equals(other.addedBy)
+            && this.addedOn.getTime() === other.addedOn.getTime()
+            && this.category === other.category
+            && this.usedStatus === other.usedStatus
+            && this.photoUrl === other.photoUrl;
     }
 }
 

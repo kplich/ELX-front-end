@@ -63,7 +63,7 @@
                 [errorStateMatcher]="errorStateMatcher"
                 [formControl]="controls.category"
                 [required]="true">
-                <mat-option *ngFor="let category of categories" [value]="category.id">
+                <mat-option *ngFor="let category of (categories$ | async)" [value]="category.id">
                     {{category.name}}
                 </mat-option>
             </mat-select>

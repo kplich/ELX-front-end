@@ -1,12 +1,18 @@
 import {Component, OnInit} from "@angular/core";
 import {ItemsService} from "@items/service/items.service";
-import {CategoryResponse, NewOrUpdatedItemRequest, Item} from "@items/data/Item";
+import {NewOrUpdatedItemRequest, Item} from "@items/data/Item";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {Router} from "@angular/router";
-import {STRINGS as STRINGS_BASE, ItemEditBaseComponent} from "@items/edit-base/ItemEditBase";
-import { HttpResponse, HttpErrorResponse } from "@angular/common/http";
+import {ItemEditBaseComponent, STRINGS as STRINGS_BASE} from "@items/edit-base/ItemEditBase";
+import {HttpErrorResponse} from "@angular/common/http";
+import {catchError} from "rxjs/operators";
+import {of} from "rxjs";
 
-export const ITEM_ADDED_SUCCESSFULLY_MESSAGE = "Item added successfully!";
+export const STRINGS = {
+    messages: {
+        itemAddedSuccessfully: "Item added successfully!"
+    }
+};
 
 @Component({
     selector: "item-add",
@@ -35,10 +41,9 @@ export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
 
     sendRequestToAddItem() {
         this.itemsService.addNewItem(this.newItemRequest).subscribe({
-            next: (response: HttpResponse<Item>) => {
-                if (response.body === null) { throw new Error("Empty response body"); }
-                this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
-                    this.snackBarService.openSnackBar(ITEM_ADDED_SUCCESSFULLY_MESSAGE);
+            next: (item: Item) => {
+                this.router.navigateByUrl(`/items/${item.id}`).then(() => {
+                    this.snackBarService.openSnackBar(STRINGS.messages.itemAddedSuccessfully);
                 });
             },
             error: (error: HttpErrorResponse) => this.openErrorSnackBar(error)
@@ -46,15 +51,14 @@ export class AddItemComponent extends ItemEditBaseComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.itemsService.getCategories().subscribe({
-            next: (response: HttpResponse<CategoryResponse[]>) => {
-                if (response.body === null) {
-                    this.categories = [];
-                } else {
-                    this.categories = response.body;
-                }
-            },
-            error: () => this.snackBarService.openSnackBar(STRINGS_BASE.messages.couldNotLoadCategories)
-        });
+        this.categories$ = this.itemsService.getCategories().pipe(
+            catchError(_ => {
+                this.router.navigateByUrl("/error").then(() => {
+                    this.snackBarService.openSnackBar(STRINGS_BASE.messages.couldNotLoadCategories);
+                });
+
+                return of([]);
+            })
+        );
     }
 }

@@ -109,7 +109,10 @@ xdescribe("AddItemComponent", () => {
     it("should create the component and child components", async () => {
         expect(itemsServiceSpy.getCategories).toHaveBeenCalled();
 
-        expect(component.categories.length).toEqual(2);
+        component.categories$.subscribe(categories => {
+            expect(categories.length).toEqual(2);
+        }).unsubscribe();
+
         expect((await categorySelect.getOptions()).length).toEqual(2);
 
         expect(component).toBeTruthy();
@@ -127,7 +130,9 @@ xdescribe("AddItemComponent", () => {
 
     it("should not allow to add an item with invalid data", async () => {
         expect(itemsServiceSpy.getCategories).toHaveBeenCalled();
-        expect(component.categories.length).toEqual(2);
+        component.categories$.subscribe(categories => {
+            expect(categories.length).toEqual(2);
+        }).unsubscribe();
         expect((await categorySelect.getOptions()).length).toEqual(2);
 
         await titleInput.setValue("long enough value, but doesn't match the pattern!");
@@ -157,7 +162,9 @@ xdescribe("AddItemComponent", () => {
         fixture.detectChanges();
 
         expect(itemsServiceSpy.getCategories).toHaveBeenCalled();
-        expect(component.categories.length).toEqual(2);
+        component.categories$.subscribe(categories => {
+            expect(categories.length).toEqual(2);
+        }).unsubscribe();
         expect((await categorySelect.getOptions()).length).toEqual(2);
 
         await titleInput.setValue("long enough value and matches the pattern");

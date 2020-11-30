@@ -8,6 +8,11 @@ export class ItemWantedToBuy extends AbstractUserItem {
         super(response);
         this.conversation = new SimpleConversation(response.conversation);
     }
+
+    equals(other: ItemWantedToBuy): boolean {
+        return super.equals(other)
+            && this.conversation.equals(other.conversation);
+    }
 }
 
 export interface ItemWantedToBuyResponse extends AbstractUserItemResponse{

@@ -44,12 +44,10 @@ export class UserItemContractDoubleAdvanceComponent
             return;
         }
 
-        const result = await this.contract.sendMoney({
+        await this.contract.sendMoney({
             from: this.web3Service.accounts[0],
             value: this.offer.price * 2 * UserItemContractComponent.ETH_TO_WEI
         });
-        console.log(result);
-
         await this.loadDataFromBlockchain();
     }
 
@@ -60,9 +58,7 @@ export class UserItemContractDoubleAdvanceComponent
             return;
         }
 
-        const result = await this.contract.withdrawMoney({from: this.web3Service.accounts[0]});
-        console.log(result);
-
+        await this.contract.withdrawMoney({from: this.web3Service.accounts[0]});
         await this.loadDataFromBlockchain();
     }
 

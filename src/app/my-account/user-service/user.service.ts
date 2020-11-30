@@ -23,7 +23,7 @@ export class UserService {
 
     getItemsWantedToSell(): Observable<ItemWantedToSell[]> {
         return this.http.get<ItemWantedToSellResponse[]>(`${USER_API_URL}/wantedToSell`).pipe(
-            map(response => response.map(resp => new ItemWantedToSell(resp)))
+            map(responses => responses.map(response => new ItemWantedToSell(response)))
         );
     }
 

@@ -4,13 +4,16 @@ const BN = require("bn.js");
 const truffleAssert = require("truffle-assertions");
 const {toWei} = web3.utils;
 
+const price = new BN(toWei("100000000", "ether"));
+const twice = price.muln(2);
+const thrice = price.muln(3);
+const fourTimes = price.muln(4);
 
 contract("DoubleAdvance", accounts => {
     let seller = accounts[0];
     let buyer = accounts[1];
 
     it("should be created with correct price", async () => {
-        const price = new BN(toWei("100000000", "ether"));
         const contract = await DoubleAdvance.new(seller, buyer, price);
 
         expect(contract).to.be.ok;
@@ -33,15 +36,9 @@ contract("DoubleAdvance in state CREATED", accounts => {
     let seller = accounts[0];
     let buyer = accounts[1];
     let other = accounts[2];
-    let price;
-    let twice;
-    let thrice;
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("100000000", "ether"));
-        twice = price.muln(2);
-        thrice = price.muln(3);
         instance = await DoubleAdvance.new(seller, buyer, price);
     });
 
@@ -136,15 +133,9 @@ contract("DoubleAdvance in state AWAITING_OTHER (after receiving Ethers from sel
     let seller = accounts[0];
     let buyer = accounts[1];
     let other = accounts[2];
-    let price;
-    let twice;
-    let fourTimes;
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("100000000", "ether"));
-        twice = price.muln(2);
-        fourTimes = price.muln(4);
         instance = await DoubleAdvance.new(seller, buyer, price);
         await instance.sendMoney({value: twice, from: seller});
     });
@@ -203,15 +194,9 @@ contract("DoubleAdvance in state AWAITING_OTHER (after receiving Ethers from buy
     let seller = accounts[0];
     let buyer = accounts[1];
     let other = accounts[2];
-    let price;
-    let twice;
-    let fourTimes;
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("100000000", "ether"));
-        twice = price.muln(2);
-        fourTimes = price.muln(4);
         instance = await DoubleAdvance.new(seller, buyer, price);
         await instance.sendMoney({value: twice, from: buyer});
     });
@@ -270,15 +255,9 @@ contract("DoubleAdvance in state LOCKED", accounts => {
     let seller = accounts[0];
     let buyer = accounts[1];
     let other = accounts[2];
-    let price;
-    let twice;
-    let fourTimes;
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("100000000", "ether"));
-        twice = price.muln(2);
-        fourTimes = price.muln(4);
         instance = await DoubleAdvance.new(seller, buyer, price);
         await instance.sendMoney({value: twice, from: buyer});
         await instance.sendMoney({value: twice, from: seller});
@@ -331,17 +310,9 @@ contract("DoubleAdvance in state RELEASED (before any withdrawals)", accounts =>
     let seller = accounts[0];
     let buyer = accounts[1];
     let other = accounts[2];
-    let price;
-    let twice;
-    let thrice;
-    let fourTimes;
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("100000000", "ether"));
-        twice = price.muln(2);
-        thrice = price.muln(3);
-        fourTimes = price.muln(4);
         instance = await DoubleAdvance.new(seller, buyer, price);
         await instance.sendMoney({value: twice, from: buyer});
         await instance.sendMoney({value: twice, from: seller});
@@ -428,17 +399,9 @@ contract("DoubleAdvance in state RELEASED (after the seller withdraws their Ethe
     let seller = accounts[0];
     let buyer = accounts[1];
     let other = accounts[2];
-    let price;
-    let twice;
-    let thrice;
-    let fourTimes;
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("100000000", "ether"));
-        twice = price.muln(2);
-        thrice = price.muln(3);
-        fourTimes = price.muln(4);
         instance = await DoubleAdvance.new(seller, buyer, price);
         await instance.sendMoney({value: twice, from: buyer});
         await instance.sendMoney({value: twice, from: seller});
@@ -499,17 +462,9 @@ contract("DoubleAdvance in state RELEASED (after the buyer withdraws their Ether
     let seller = accounts[0];
     let buyer = accounts[1];
     let other = accounts[2];
-    let price;
-    let twice;
-    let thrice;
-    let fourTimes;
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("100000000", "ether"));
-        twice = price.muln(2);
-        thrice = price.muln(3);
-        fourTimes = price.muln(4);
         instance = await DoubleAdvance.new(seller, buyer, price);
         await instance.sendMoney({value: twice, from: buyer});
         await instance.sendMoney({value: twice, from: seller});
@@ -570,13 +525,9 @@ contract("DoubleAdvance in state COMPLETE", accounts => {
     let seller = accounts[0];
     let buyer = accounts[1];
     let other = accounts[2];
-    let price;
-    let twice;
     let instance;
 
     beforeEach(async () => {
-        price = new BN(toWei("100000000", "ether"));
-        twice = price.muln(2);
         instance = await DoubleAdvance.new(seller, buyer, price);
         await instance.sendMoney({value: twice, from: buyer});
         await instance.sendMoney({value: twice, from: seller});

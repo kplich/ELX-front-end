@@ -11,17 +11,16 @@ import {MatButtonHarness} from "@angular/material/button/testing";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
-import {Observable} from "rxjs";
+import {of} from "rxjs";
 
 describe("LoggingInComponent", () => {
-    const authenticationServiceSpy = {
-        ...jasmine.createSpyObj("AuthenticationService", ["logIn"])
-    };
-    authenticationServiceSpy.logIn.and.returnValue(new Observable(() => {
-    }));
+    const authenticationServiceSpy = jasmine.createSpyObj("AuthenticationService", {
+        logIn: of({})
+    });
 
-    const routerSpy = jasmine.createSpyObj("Router", ["navigateByUrl"]);
-    routerSpy.navigateByUrl.and.returnValue(Promise.resolve());
+    const routerSpy = jasmine.createSpyObj("Router", {
+        navigateByUrl: Promise.resolve()
+    });
 
     const snackBarServiceSpy = jasmine.createSpyObj("SnackBarService", ["openSnackBar"]);
 

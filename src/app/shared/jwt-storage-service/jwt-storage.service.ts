@@ -53,7 +53,6 @@ export class JwtStorageService {
             return null;
         } else {
             const payload = jwt_decode<JwtDto>(token);
-            console.log(payload);
             return new SimpleUser({
                 id: parseInt(payload.sub, 10),
                 ethereumAddress: payload.eth_address,

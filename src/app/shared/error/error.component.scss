@@ -1,0 +1,19 @@
+@import "src/dimens";
+
+div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    padding: $dimen-xl;
+
+    background: rgb(100,147,213);
+    background: linear-gradient(145deg, rgba(100,147,213,1) 0%, rgba(255,255,255,1) 85%);
+}
+
+img {
+    object-fit: contain;
+    max-height: 100%;
+    max-width: 100%;
+}

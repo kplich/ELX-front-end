@@ -8,6 +8,12 @@ export class SimpleUser {
         this.ethereumAddress = response.ethereumAddress !== null ? response.ethereumAddress : undefined;
         this.username = response.username;
     }
+
+    equals(other: SimpleUser): boolean {
+        return this.id === other.id
+            && this.ethereumAddress === other.ethereumAddress
+            && this.username === other.username;
+    }
 }
 
 export interface SimpleUserResponse {

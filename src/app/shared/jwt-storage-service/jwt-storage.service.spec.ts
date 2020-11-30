@@ -50,11 +50,6 @@ describe("JwtStorageService", () => {
         sessionStorage.clear();
     });
 
-    it("should be created", () => {
-        expect(service).toBeTruthy();
-        service.removeJwt();
-    });
-
     it("should not contain any token at the beginning", () => {
         expect(service.getJwt()).toBeNull();
         expect(service.getAuthenticatedUser()).toBeNull();

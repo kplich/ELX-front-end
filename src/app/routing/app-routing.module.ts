@@ -10,6 +10,8 @@ import {ItemComponent} from "@items/item/item.component";
 import {AddItemComponent} from "@items/add/add-item.component";
 import {UpdateItemComponent} from "@items/update-item/update-item.component";
 import {ConversationComponent} from "@conversation/conversation/conversation.component";
+import {NotFoundComponent} from "@shared/not-found/not-found.component";
+import {ErrorComponent} from "@shared/error/error.component";
 
 /**
  * Routes for the application.
@@ -23,6 +25,9 @@ const routes: Routes = [
     {path: "items/:id", component: ItemComponent},
     {path: "items/:id/conversation", component: ConversationComponent, canActivate: [LoggedInGuard]},
     {path: "my-account", component: MyAccountComponent, canActivate: [LoggedInGuard]},
+    {path: "not-found", component: NotFoundComponent},
+    {path: "error", component: ErrorComponent},
+    {path: "**", component: ItemBrowsingComponent},
     {path: "", component: ItemBrowsingComponent}
 ];
 

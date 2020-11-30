@@ -2,12 +2,16 @@
 
 :host {
     width: 100%;
+
 }
 
 .photo-list {
     display: flex;
     overflow-x: auto;
     flex-flow: row nowrap;
+
+    min-height: $dimen-xl;
+    max-height: $dimen-xxxl;
 
     margin-top: $dimen-xxs;
     border: solid 1px #ccc;

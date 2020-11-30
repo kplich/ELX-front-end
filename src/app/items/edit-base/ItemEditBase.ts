@@ -6,6 +6,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
 import {ItemsService} from "@items/service/items.service";
 import {Router} from "@angular/router";
+import {Observable} from "rxjs/internal/Observable";
 
 /**
  * Minimal length of the title.
@@ -96,23 +97,19 @@ export const STRINGS = {
 
 export abstract class ItemEditBaseComponent {
 
-    protected readonly snackBarService: SnackBarService;
-    protected readonly itemsService: ItemsService;
-    protected readonly router: Router;
-
     readonly strings = STRINGS;
-
     readonly usedStatusValues = {
         used: statusToDtoString(UsedStatus.USED),
         new: statusToDtoString(UsedStatus.NEW),
         notApplicable: statusToDtoString(UsedStatus.NOT_APPLICABLE)
     };
-
     readonly errorStateMatcher = new MyErrorStateMatcher();
-
+    categories$!: Observable<CategoryResponse[]>;
+    protected readonly snackBarService: SnackBarService;
+    protected readonly itemsService: ItemsService;
+    protected readonly router: Router;
     // language=JSRegexp
     protected readonly itemTitleSymbolsPattern = "^[^!@#$^*={}|\\\\<>?]+$";
-
     readonly controls = {
         title: new FormControl("", [
             Validators.required,
@@ -134,10 +131,7 @@ export abstract class ItemEditBaseComponent {
         ]),
         photoUrls: new FormControl([], Validators.maxLength(ITEM_PHOTOS_MAXIMUM_NUMBER))
     };
-
     readonly form: FormGroup = new FormGroup(this.controls);
-
-    categories: CategoryResponse[] = [];
 
     protected constructor(
         snackBarService: SnackBarService,

@@ -1,389 +1,299 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
-
-import {ItemComponent} from "@items/item/item.component";
-import {HarnessLoader} from "@angular/cdk/testing";
-import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
-import {Item} from "@items/data/Item";
-import {statusToDtoString, UsedStatus} from "@items/data/UsedStatus";
-import {Observable} from "rxjs";
+import {ItemComponent, STRINGS} from "@items/item/item.component";
+import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ItemsService} from "@items/service/items.service";
-import {AuthenticationService} from "@authentication/authentication-service/authentication.service";
-import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
-import {DomSanitizer} from "@angular/platform-browser";
-import {RouterTestingModule} from "@angular/router/testing";
-import {MaterialModule} from "@material/material.module";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {MatCarouselModule} from "@ngmodule/material-carousel";
-import {formatDate} from "@angular/common";
-import {findByCss} from "@shared/FindByCss";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
+import {ItemsService} from "@items/service/items.service";
+import {Item} from "@items/data/Item";
+import {UsedStatusDto} from "@items/data/UsedStatus";
+import {of, throwError} from "rxjs";
 
-const fakeActivatedRoute = {
-    snapshot: {
-        paramMap: {
-            get(_: string): string {
-                return "10";
-            }
-        }
-    }
-};
-
-const usualItem = new Item({
-    id: 10,
-    title: "Item title",
-    description: "Item description",
-    price: 5.567,
-    addedBy: {
-        id: 1,
-        username: "kplich",
-        ethereumAddress: null
-    },
-    addedOn: (new Date()).toISOString(),
-    category: {
-        id: 1,
-        name: "Category"
-    },
-    usedStatus: statusToDtoString(UsedStatus.NEW),
-    photoUrls: [],
-    closedOn: null
-});
-
-const closedItem = new Item({
-    id: 10,
-    title: "Item title",
-    description: "Item description",
-    price: 5.567,
-    addedBy: {
-        id: 1,
-        username: "kplich",
-        ethereumAddress: null
-    },
-    addedOn: (new Date()).toISOString(),
-    category: {
-        id: 1,
-        name: "Category"
-    },
-    usedStatus: statusToDtoString(UsedStatus.NEW),
-    photoUrls: [],
-    closedOn: (new Date()).toISOString()
-});
-
-const notApplicableStatusItem = new Item({
-    id: 10,
-    title: "Item title",
-    description: "Item description",
-    price: 5.567,
-    addedBy: {
-        id: 1,
-        username: "kplich",
-        ethereumAddress: null
-    },
-    addedOn: (new Date()).toISOString(),
-    category: {
-        id: 1,
-        name: "Category"
-    },
-    usedStatus: statusToDtoString(UsedStatus.NOT_APPLICABLE),
-    photoUrls: [],
-    closedOn: null
-});
-
-let title: HTMLSpanElement;
-let price: HTMLSpanElement;
-let status: HTMLDivElement;
-let sendMessage: HTMLButtonElement;
-let sendOffer: HTMLButtonElement;
-let acceptOffer: HTMLButtonElement;
-let editItem: HTMLButtonElement;
-let closeOffer: HTMLButtonElement;
-let category: HTMLDivElement;
-let addedBy: HTMLDivElement;
-let addedOn: HTMLDivElement;
-let description: HTMLDivElement;
-
-function findElements(fixture: ComponentFixture<ItemComponent>) {
-    title = findByCss(fixture, "#item-title");
-    price = findByCss(fixture, "#item-price");
-    status = findByCss(fixture, "#item-status");
-    category = findByCss(fixture, "#item-category");
-    sendMessage = findByCss(fixture, "#item-send-message");
-    sendOffer = findByCss(fixture, "#item-send-offer");
-    acceptOffer = findByCss(fixture, "#item-accept-offer");
-    editItem = findByCss(fixture, "#item-edit-item");
-    closeOffer = findByCss(fixture, "#item-close-offer");
-    addedBy = findByCss(fixture, "#item-added-by");
-    addedOn = findByCss(fixture, "#item-added-on");
-    description = findByCss(fixture, "#item-description");
-}
-
-describe("ItemComponent with no logged in user, open item and applicable status", () => {
-
-    const domSanitizerSpy = jasmine.createSpyObj("domSanitizer", ["bypassSecurityTrustUrl"]);
-    const routerSpy = jasmine.createSpyObj("router", ["navigateByUrl"]);
-    const snackBarServiceSpy = jasmine.createSpyObj("snackBarService", ["openSnackBar"]);
-    const itemsServiceSpy = jasmine.createSpyObj("itemsService", ["getItem"]);
-    itemsServiceSpy.getItem.and
-        .returnValue(new Observable(subscriber => subscriber.next({body: usualItem})));
-    const authenticationServiceSpy = jasmine.createSpyObj("authenticationService", ["any"]);
-
+describe("ItemComponent", () => {
     let component: ItemComponent;
     let fixture: ComponentFixture<ItemComponent>;
-    let loader: HarnessLoader;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule,
-                MaterialModule,
-                BrowserAnimationsModule,
-                HttpClientTestingModule,
-                MatCarouselModule
-            ],
-            declarations: [ItemComponent],
-            providers: [
-                {provide: ItemsService, useValue: itemsServiceSpy},
-                {provide: AuthenticationService, useValue: authenticationServiceSpy},
-                {provide: ActivatedRoute, useValue: fakeActivatedRoute},
-                {provide: SnackBarService, useValue: snackBarServiceSpy},
-                {provide: DomSanitizer, useValue: domSanitizerSpy},
-                {provide: Router, useValue: routerSpy}
-            ]
-        })
-            .compileComponents();
-    }));
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(ItemComponent);
-        loader = TestbedHarnessEnvironment.loader(fixture);
-        component = fixture.componentInstance;
-
-        fixture.detectChanges();
-
-        findElements(fixture);
-    });
-
-    it("should display correct data", () => {
-        expect(component).toBeTruthy();
-
-        expect(component.loggedInUserIsOwner).toBeFalsy();
-        expect(itemsServiceSpy.getItem).toHaveBeenCalledWith(usualItem.id);
-        expect(component.item).toEqual(usualItem);
-
-        expect(title.textContent?.trim()).toEqual(usualItem.title);
-        expect(price.textContent?.trim()).toEqual(usualItem.formattedPrice);
-        expect(status.textContent?.trim()).toEqual(usualItem.usedStatus);
-        expect(category.textContent?.trim()).toEqual(
-            `${component.strings.category}: ${usualItem.category.name}`
-        );
-        expect(sendMessage).toBeUndefined();
-        expect(sendOffer).toBeUndefined();
-        expect(acceptOffer).toBeUndefined();
-        expect(editItem).toBeUndefined();
-        expect(closeOffer).toBeUndefined();
-        expect(addedBy.textContent?.trim()).toEqual(
-            `${component.strings.addedBy} ${usualItem.addedBy.username}`
-        );
-        expect(addedOn.textContent?.trim()).toEqual(
-            `${component.strings.addedOn} ${formatDate(new Date(), "mediumDate", "en-US")}`
-        );
-        expect(description.textContent?.trim()).toEqual(usualItem.description);
-    });
-});
-
-describe("ItemComponent with no logged in user, closed item and applicable status", () => {
-
-    const domSanitizerSpy = jasmine.createSpyObj("domSanitizer", ["bypassSecurityTrustUrl"]);
-    const routerSpy = jasmine.createSpyObj("router", ["navigateByUrl"]);
-    const snackBarServiceSpy = jasmine.createSpyObj("snackBarService", ["openSnackBar"]);
-    const itemsServiceSpy = jasmine.createSpyObj("itemsService", ["getItem"]);
-    itemsServiceSpy.getItem.and
-        .returnValue(new Observable(subscriber => subscriber.next({body: closedItem})));
-    const authenticationServiceSpy = jasmine.createSpyObj("authenticationService", ["any"]);
-
-    let component: ItemComponent;
-    let fixture: ComponentFixture<ItemComponent>;
-    let loader: HarnessLoader;
-
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule,
-                MaterialModule,
-                BrowserAnimationsModule,
-                HttpClientTestingModule,
-                MatCarouselModule
-            ],
-            declarations: [ItemComponent],
-            providers: [
-                {provide: ItemsService, useValue: itemsServiceSpy},
-                {provide: AuthenticationService, useValue: authenticationServiceSpy},
-                {provide: ActivatedRoute, useValue: fakeActivatedRoute},
-                {provide: SnackBarService, useValue: snackBarServiceSpy},
-                {provide: DomSanitizer, useValue: domSanitizerSpy},
-                {provide: Router, useValue: routerSpy}
-            ]
-        })
-            .compileComponents();
-    }));
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(ItemComponent);
-        loader = TestbedHarnessEnvironment.loader(fixture);
-        component = fixture.componentInstance;
-
-        fixture.detectChanges();
-
-        findElements(fixture);
-    });
-
-    it("should display closed item correctly", async () => {
-        expect(component).toBeTruthy();
-
-        const itemClosed = findByCss(fixture, "#item-closed") as HTMLDivElement;
-        expect(itemClosed.textContent?.trim()).toEqual(
-            `${component.strings.itemClosed} ${formatDate(new Date(), "mediumDate", "en-US")}`
-        );
-        expect(sendMessage).toBeUndefined();
-        expect(sendOffer).toBeUndefined();
-        expect(acceptOffer).toBeUndefined();
-        expect(editItem).toBeUndefined();
-        expect(closeOffer).toBeUndefined();
-    });
-});
-
-describe("ItemComponent with no logged in user, open item and not-applicable status", () => {
-
-    const domSanitizerSpy = jasmine.createSpyObj("domSanitizer", ["bypassSecurityTrustUrl"]);
-    const routerSpy = jasmine.createSpyObj("router", ["navigateByUrl"]);
-    const snackBarServiceSpy = jasmine.createSpyObj("snackBarService", ["openSnackBar"]);
-    const itemsServiceSpy = jasmine.createSpyObj("itemsService", ["getItem"]);
-    itemsServiceSpy.getItem.and.returnValue(new Observable(subscriber => {
-        subscriber.next({body: notApplicableStatusItem});
-    }));
-    const authenticationServiceSpy = jasmine.createSpyObj("authenticationService", ["any"]);
-
-    let component: ItemComponent;
-    let fixture: ComponentFixture<ItemComponent>;
-    let loader: HarnessLoader;
-
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule,
-                MaterialModule,
-                BrowserAnimationsModule,
-                HttpClientTestingModule,
-                MatCarouselModule
-            ],
-            declarations: [ItemComponent],
-            providers: [
-                {provide: ItemsService, useValue: itemsServiceSpy},
-                {provide: AuthenticationService, useValue: authenticationServiceSpy},
-                {provide: ActivatedRoute, useValue: fakeActivatedRoute},
-                {provide: SnackBarService, useValue: snackBarServiceSpy},
-                {provide: DomSanitizer, useValue: domSanitizerSpy},
-                {provide: Router, useValue: routerSpy}
-            ]
-        })
-            .compileComponents();
-    }));
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(ItemComponent);
-        loader = TestbedHarnessEnvironment.loader(fixture);
-        component = fixture.componentInstance;
-
-        fixture.detectChanges();
-
-        findElements(fixture);
-    });
-
-    it("should display item with status 'not applicable' correctly", () => {
-        expect(component).toBeTruthy();
-
-        // required because status has been initialized previously with incorrect data
-        status = findByCss(fixture, "#item-status");
-        expect(status).toBeUndefined();
-    });
-});
-
-describe("ItemComponent with logged in user, open item and applicable status", () => {
-
-    const domSanitizerSpy = jasmine.createSpyObj("domSanitizer", ["bypassSecurityTrustUrl"]);
-    const routerSpy = jasmine.createSpyObj("router", ["navigateByUrl"]);
-    const snackBarServiceSpy = jasmine.createSpyObj("snackBarService", ["openSnackBar"]);
-    const itemsServiceSpy = jasmine.createSpyObj("itemsService", ["getItem"]);
-    itemsServiceSpy.getItem.and.returnValue(new Observable(subscriber => {
-        subscriber.next({body: usualItem});
-    }));
-    const fakeLoggedInUserService = {
-        authenticatedUser: {
-            id: 1,
-            username: "kplich",
-            ethereumAddress: null
-        }
+    const loggedInUserMock = {
+        authenticatedUser: null
     };
+    const routerMock = jasmine.createSpyObj("router", {
+        navigateByUrl: Promise.resolve()
+    });
+    const snackBarMock = jasmine.createSpyObj("snackbar", {
+        openSnackBar: undefined
+    });
+    const itemsServiceMock = jasmine.createSpyObj("itemsService", ["getItem", "closeItem"]);
 
-    let component: ItemComponent;
-    let fixture: ComponentFixture<ItemComponent>;
-    let loader: HarnessLoader;
+    describe("ngOnInit()", () => {
+        let routeItemId: string | null = null;
+        const routeMock = {
+            snapshot: {
+                paramMap: {
+                    get: (key: string) => {
+                        return routeItemId;
+                    }
+                }
+            }
+        };
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule,
-                MaterialModule,
-                BrowserAnimationsModule,
-                HttpClientTestingModule,
-                MatCarouselModule
-            ],
-            declarations: [ItemComponent],
-            providers: [
-                {provide: ItemsService, useValue: itemsServiceSpy},
-                {provide: LoggedInUserService, useValue: fakeLoggedInUserService},
-                {provide: ActivatedRoute, useValue: fakeActivatedRoute},
-                {provide: SnackBarService, useValue: snackBarServiceSpy},
-                {provide: DomSanitizer, useValue: domSanitizerSpy},
-                {provide: Router, useValue: routerSpy}
-            ]
-        })
-            .compileComponents();
-    }));
+        function configureTestingModule() {
+            TestBed.configureTestingModule({
+                declarations: [ItemComponent],
+                providers: [
+                    {provide: LoggedInUserService, useValue: loggedInUserMock},
+                    {provide: ActivatedRoute, useValue: routeMock},
+                    {provide: Router, useValue: routerMock},
+                    {provide: SnackBarService, useValue: snackBarMock},
+                    {provide: ItemsService, useValue: itemsServiceMock}
+                ],
+                schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
+            })
+                .compileComponents();
+        }
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(ItemComponent);
-        loader = TestbedHarnessEnvironment.loader(fixture);
-        component = fixture.componentInstance;
+        beforeEach(() => {
+            routerMock.navigateByUrl.calls.reset();
+            snackBarMock.openSnackBar.calls.reset();
+        });
 
-        fixture.detectChanges();
+        describe("when item id is not provided", () => {
+            beforeEach(async(() => {
+                routeItemId = null;
 
-        findElements(fixture);
+                configureTestingModule();
+
+                fixture = TestBed.createComponent(ItemComponent);
+                component = fixture.componentInstance;
+
+                fixture.detectChanges();
+            }));
+
+            it("redirects to error", () => {
+                expect(routerMock.navigateByUrl).toHaveBeenCalledWith("/error");
+            });
+
+            it("displays a snack bar", async(() => {
+                expect(snackBarMock.openSnackBar).toHaveBeenCalledWith(STRINGS.messages.couldNotLoadItem);
+            }));
+        });
+
+        describe("when item id is not a number", () => {
+            beforeEach(async(() => {
+                routeItemId = "not a number";
+
+                configureTestingModule();
+
+                fixture = TestBed.createComponent(ItemComponent);
+                component = fixture.componentInstance;
+
+                fixture.detectChanges();
+            }));
+
+            it("redirects to error", () => {
+                expect(routerMock.navigateByUrl).toHaveBeenCalledWith("/error");
+            });
+
+            it("displays a snack bar", async(() => {
+                expect(snackBarMock.openSnackBar).toHaveBeenCalledWith(STRINGS.messages.couldNotLoadItem);
+            }));
+        });
+
+        describe("when item id is given", () => {
+
+            const itemId = 10;
+            beforeEach(async(() => {
+                routeItemId = itemId.toString();
+                itemsServiceMock.getItem.and.returnValue(jasmine.createSpyObj("item", ["pipe"]));
+
+                configureTestingModule();
+
+                fixture = TestBed.createComponent(ItemComponent);
+                component = fixture.componentInstance;
+
+                fixture.detectChanges();
+            }));
+
+            it("should not redirect", () => {
+                expect(routerMock.navigateByUrl).not.toHaveBeenCalled();
+            });
+
+            it("should call getItem in the itemService", () => {
+                expect(itemsServiceMock.getItem).toHaveBeenCalledWith(itemId);
+            });
+        });
     });
 
-    it("should display item and applicable actions correctly", () => {
-        expect(component).toBeDefined("Component is undefined");
+    describe("getItem()", () => {
+        const itemId = 10;
+        const routeMock = {
+            snapshot: {
+                paramMap: {
+                    get: (key: string) => {
+                        return itemId.toString();
+                    }
+                }
+            }
+        };
 
-        expect(component.loggedInUserIsOwner).toBeTruthy("Logged in user should be owner");
-        expect(itemsServiceSpy.getItem).toHaveBeenCalledWith(usualItem.id);
-        expect(component.item).toEqual(usualItem, "The item in the component should be equal to the provided one");
+        function configureTestingModule() {
+            TestBed.configureTestingModule({
+                declarations: [ItemComponent],
+                providers: [
+                    {provide: LoggedInUserService, useValue: loggedInUserMock},
+                    {provide: ActivatedRoute, useValue: routeMock},
+                    {provide: Router, useValue: routerMock},
+                    {provide: SnackBarService, useValue: snackBarMock},
+                    {provide: ItemsService, useValue: itemsServiceMock}
+                ],
+                schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
+            })
+                .compileComponents();
+        }
 
-        expect(title.textContent?.trim()).toEqual(usualItem.title);
-        expect(price.textContent?.trim()).toEqual(usualItem.formattedPrice);
-        expect(status.textContent?.trim()).toEqual(usualItem.usedStatus);
-        expect(category.textContent?.trim()).toEqual(
-            `${component.strings.category}: ${usualItem.category.name}`
-        );
-        expect(sendMessage).toBeUndefined("'Send message' button should be undefined");
-        expect(sendOffer).toBeUndefined("'Send offer' button should be undefined");
-        expect(acceptOffer).toBeUndefined("'Accept offer' button should be undefined");
-        expect(editItem).toBeDefined("'Edit item' button should be defined");
-        expect(closeOffer).toBeDefined("'Close offer' button should be defined");
-        expect(addedBy.textContent?.trim()).toEqual(
-            `${component.strings.addedBy} ${usualItem.addedBy.username}`);
-        expect(addedOn.textContent?.trim()).toEqual(
-            `${component.strings.addedOn} ${formatDate(new Date(), "mediumDate", "en-US")}`);
-        expect(description.textContent?.trim()).toEqual(usualItem.description);
+        beforeEach(async(() => {
+            configureTestingModule();
+
+            fixture = TestBed.createComponent(ItemComponent);
+            component = fixture.componentInstance;
+
+            routerMock.navigateByUrl.calls.reset();
+            snackBarMock.openSnackBar.calls.reset();
+        }));
+
+        it("redirects to not found when service returns 404", () => {
+            itemsServiceMock.getItem.and.returnValue(throwError({status: 404}));
+
+            fixture.detectChanges();
+
+            expect(routerMock.navigateByUrl).toHaveBeenCalledWith("/not-found");
+        });
+
+        it("redirects to error when service returns other error", () => {
+            itemsServiceMock.getItem.and.returnValue(throwError({status: 500}));
+
+            fixture.detectChanges();
+
+            expect(routerMock.navigateByUrl).toHaveBeenCalledWith("/error");
+        });
+
+        it("displays an item", async(() => {
+            const expectedNewItem = new Item({
+                id: 100,
+                title: "Item  found!",
+                description: "",
+                price: 0,
+                addedBy: {
+                    id: 0,
+                    ethereumAddress: null,
+                    username: "notauser"
+                },
+                addedOn: Date.now().toLocaleString(),
+                category: {
+                    id: 0,
+                    name: "Not a category"
+                },
+                usedStatus: UsedStatusDto.NOT_APPLICABLE,
+                photoUrls: ["https://http.cat/200"],
+                closedOn: null
+            });
+            itemsServiceMock.getItem.and.returnValue(of(expectedNewItem));
+
+            fixture.detectChanges();
+
+            component.item$.subscribe(item => {
+                expect(item.equals(expectedNewItem)).toBeTruthy();
+            });
+        }));
+    });
+
+    describe("closeItem()", () => {
+        const itemId = 10;
+        const routeMock = {
+            snapshot: {
+                paramMap: {
+                    get: (key: string) => {
+                        return itemId.toString();
+                    }
+                }
+            }
+        };
+
+        function configureTestingModule() {
+            TestBed.configureTestingModule({
+                declarations: [ItemComponent],
+                providers: [
+                    {provide: LoggedInUserService, useValue: loggedInUserMock},
+                    {provide: ActivatedRoute, useValue: routeMock},
+                    {provide: Router, useValue: routerMock},
+                    {provide: SnackBarService, useValue: snackBarMock},
+                    {provide: ItemsService, useValue: itemsServiceMock}
+                ],
+                schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
+            })
+                .compileComponents();
+        }
+
+        beforeEach(async(() => {
+            configureTestingModule();
+
+            fixture = TestBed.createComponent(ItemComponent);
+            component = fixture.componentInstance;
+
+            snackBarMock.openSnackBar.calls.reset();
+
+            itemsServiceMock.getItem.and.returnValue(jasmine.createSpyObj("item", ["pipe"]));
+            itemsServiceMock.closeItem.calls.reset();
+        }));
+
+        it("executes the method in the item service", () => {
+            itemsServiceMock.closeItem.and.returnValue(jasmine.createSpyObj("item", ["pipe"]));
+            fixture.detectChanges();
+
+            component.closeItem(itemId);
+
+            expect(itemsServiceMock.closeItem).toHaveBeenCalledWith(itemId);
+        });
+
+        it("returns an item when the service returns correctly", async(() => {
+            const expectedNewItem = new Item({
+                id: itemId,
+                title: "Item found!",
+                description: "",
+                price: 0,
+                addedBy: {
+                    id: 0,
+                    ethereumAddress: null,
+                    username: "notauser"
+                },
+                addedOn: Date.now().toLocaleString(),
+                category: {
+                    id: 0,
+                    name: "Not a category"
+                },
+                usedStatus: UsedStatusDto.NOT_APPLICABLE,
+                photoUrls: ["https://http.cat/200"],
+                closedOn: null
+            });
+            itemsServiceMock.closeItem.and.returnValue(of(expectedNewItem));
+            fixture.detectChanges();
+
+            component.closeItem(itemId);
+
+            component.item$.subscribe(item => {
+                expect(item.equals(expectedNewItem)).toBeTruthy();
+            });
+        }));
+
+        it("shows a snack bar when the service throws an error", () => {
+            pending("error is not caught");
+            itemsServiceMock.closeItem.and.returnValue(throwError({status: 500}));
+            fixture.detectChanges();
+
+            component.closeItem(itemId);
+
+            expect(snackBarMock.openSnackBar).toHaveBeenCalled();
+        });
     });
 });
+
+

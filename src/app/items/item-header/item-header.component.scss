@@ -1,0 +1,52 @@
+@import 'src/dimens';
+@import 'src/typography';
+
+:host {
+    display: flex;
+    flex-flow: column nowrap;
+
+    margin-bottom: $dimen-xs;
+}
+
+.item-title {
+    @include header-2
+}
+
+.item-price {
+    @include header-2($mono: true)
+}
+
+.item-header-row {
+    width: 100%;
+
+    margin-bottom: $dimen-xs;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    .item-detail:first-of-type {
+        margin: 0;
+    }
+
+    .item-detail {
+        @include header-3($mono: true)
+    }
+
+    .item-closed {
+        @include body-accent
+    }
+}
+
+.item-header-row:last-of-type {
+    margin-bottom: 0;
+}
+
+.item-actions > * {
+    margin: 0 $dimen-xs;
+}
+
+.item-actions > *:last-of-type {
+    margin-right: 0;
+}

@@ -1,0 +1,18 @@
+@import 'src/dimens';
+@import 'src/typography';
+
+:host {
+    flex-basis: 30%;
+    margin-left: $dimen-xxs;
+
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.item-seller {
+    text-align: start;
+
+    margin-bottom: $dimen-xs;
+
+    @include body-accent
+}

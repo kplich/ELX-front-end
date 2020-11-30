@@ -1,16 +1,3 @@
-import {TestBed} from "@angular/core/testing";
-
-import {OfferContractService} from "./offer-contract.service";
-
+// not possible to run the tests without running some blockchain;
 describe("OfferContractService", () => {
-  let service: OfferContractService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(OfferContractService);
-  });
-
-  it("should be created", () => {
-    expect(service).toBeTruthy();
-  });
 });

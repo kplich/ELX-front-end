@@ -95,9 +95,7 @@ export abstract class UserItemContractComponent<O extends Offer> {
             return;
         }
 
-        const result = await this.contract.release({from: this.buyerAddress});
-        console.log(result);
-
+        await this.contract.release({from: this.buyerAddress});
         await this.loadStateFromBlockchain();
     }
 
@@ -110,11 +108,9 @@ export abstract class UserItemContractComponent<O extends Offer> {
 
     protected async loadStateFromBlockchain() {
         if (this.offer.contractAddress) {
-            this.state = contractStateToString((await this.contract.state()).toNumber());
-            const balance = await this.web3Service.getBalance(this.offer.contractAddress);
-            this.balance = balance / UserItemContractComponent.ETH_TO_WEI;
-
-            console.log(await this.contract.getPastEvents());
+            this.state = contractStateToString((await this.contract.getState()).toNumber());
+            const balanceString = (await this.contract.getBalance()).toString();
+            this.balance = Number(balanceString) / UserItemContractComponent.ETH_TO_WEI;
         } else {
             console.warn("no contract address!");
         }
