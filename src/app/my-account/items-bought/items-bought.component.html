@@ -1,0 +1,6 @@
+<ng-container *ngIf="!itemListIsEmpty">
+    <item-bought *ngFor="let item of items" [item]="item"></item-bought>
+</ng-container>
+<div class="no-items" *ngIf="itemListIsEmpty">
+    {{strings.noItemsWantedToBuy}} <a (click)="navigateToBrowsing()">{{strings.browseSome}}</a>
+</div>

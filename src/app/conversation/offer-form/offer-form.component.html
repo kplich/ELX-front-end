@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>{{strings.formTitle}}</h2>
+<mat-dialog-content>
+    <form [formGroup]="form">
+        <mat-form-field appearance="outline">
+            <mat-label>{{strings.type.label}}</mat-label>
+            <mat-select [formControl]="controls.type" [errorStateMatcher]="errorStateMatcher">
+                <mat-option [value]="null">None</mat-option>
+                <mat-option *ngFor="let offerType of
+                offerTypes" [value]="offerType.requestDto">{{offerType.type}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="errors.type.notProvided">
+                {{strings.type.errors.notProvided}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>{{strings.price.label}}</mat-label>
+            <input type="number" matInput [formControl]="controls.price" [errorStateMatcher]="errorStateMatcher">
+            <span matSuffix>{{strings.ethereumSymbol}}</span>
+            <mat-error *ngIf="errors.price.notProvided">
+                {{strings.price.errors.notProvided}}
+            </mat-error>
+            <mat-error *ngIf="errors.price.isNegative">
+                {{strings.price.errors.isNegative}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" *ngIf="typeIsPlainAdvance">
+            <mat-label>{{strings.advance.label}}</mat-label>
+            <input type="number" matInput [formControl]="controls.advance" [errorStateMatcher]="errorStateMatcher">
+            <span matSuffix>{{strings.ethereumSymbol}}</span>
+            <mat-error *ngIf="errors.advance.notProvided">
+                {{strings.advance.errors.notProvided}}
+            </mat-error>
+            <mat-error *ngIf="errors.advance.isNegative">
+                {{strings.advance.errors.isNegative}}
+            </mat-error>
+        </mat-form-field>
+        <div class="mat-form-error" *ngIf="errors.advanceIsGreaterThanPrice">
+            {{strings.formErrors.advanceIsGreaterThanPrice}} <!-- FIXME: don't know why this doesn't show up-->
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+    <button mat-raised-button color="warn" [mat-dialog-close]="null">{{strings.buttons.delete}}</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="undefined">{{strings.buttons.cancel}}</button>
+    <button mat-raised-button color="accent"
+            [disabled]="form.invalid"
+            [mat-dialog-close]="request">{{strings.buttons.save}}</button>
+</mat-dialog-actions>

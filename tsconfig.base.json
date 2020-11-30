@@ -1,26 +1,64 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "module": "es2020",
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "target": "es2018",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ]
-  },
-  "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
-  }
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./dist/out-tsc",
+        "sourceMap": true,
+        "declaration": false,
+        "downlevelIteration": true,
+        "experimentalDecorators": true,
+        "module": "es2020",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+        "importHelpers": true,
+        "target": "es2018",
+        "strict": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": [
+            "es2018",
+            "dom"
+        ],
+        "paths": {
+            "@environments/*": [
+                "src/environments/*"
+            ],
+            "@shared/*": [
+                "src/app/shared/*"
+            ],
+            "@routing/*": [
+                "src/app/routing/*"
+            ],
+            "@app/*": [
+                "src/app/*"
+            ],
+            "@authentication/*": [
+                "src/app/authentication/*"
+            ],
+            "@material/*": [
+                "src/app/material/*"
+            ],
+            "@conversation/*": [
+                "src/app/conversation/*"
+            ],
+            "@items/*": [
+                "src/app/items/*"
+            ],
+            "@my-account/*": [
+                "src/app/my-account/*"
+            ],
+            "@settings/*": [
+                "src/app/my-account/settings/*"
+            ],
+            "@contracts/*": [
+                "blockchain/build/contracts/*"
+            ]
+        }
+    },
+    "angularCompilerOptions": {
+        "fullTemplateTypeCheck": true,
+        "strictInjectionParameters": true
+    }
 }

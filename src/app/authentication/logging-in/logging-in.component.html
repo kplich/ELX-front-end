@@ -1,0 +1,30 @@
+<form (submit)="login()" [formGroup]="form">
+    <mat-form-field appearance="outline" id="username-form-field">
+        <mat-label>{{strings.username.label}}</mat-label>
+        <input autocomplete="username"
+            [errorStateMatcher]="errorStateMatcher"
+               [formControl]="controls.username"
+               matInput>
+        <mat-error *ngIf="errors.notProvided">
+            {{strings.username.requiredMessage}}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" id="password-form-field">
+        <mat-label>{{strings.password.label}}</mat-label>
+        <input autocomplete="current-password"
+            [errorStateMatcher]="errorStateMatcher" [formControl]="controls.password"
+               matInput
+               type="password">
+        <mat-error *ngIf="errors.passwordNotProvided">
+            {{strings.password.requiredMessage}}
+        </mat-error>
+    </mat-form-field>
+    <div class="logging-in-actions">
+        <button class="minor-button" mat-raised-button>
+            {{strings.buttons.forgotPasswordText}}</button>
+        <button [disabled]="form.invalid" class="major-button" color="accent" mat-raised-button
+                type="submit">{{strings.buttons.logInText}}</button>
+        <button (click)="routeToRegistration()" class="minor-button" color="primary"
+                mat-raised-button>{{strings.buttons.registerText}}</button>
+    </div>
+</form>

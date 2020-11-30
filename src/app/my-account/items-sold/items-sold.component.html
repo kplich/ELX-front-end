@@ -1,0 +1,6 @@
+<ng-container *ngIf="!itemListIsEmpty">
+    <item-sold *ngFor="let item of items" [item]="item"></item-sold>
+</ng-container>
+<div class="no-items" *ngIf="itemListIsEmpty">
+    {{strings.noItemsSold}}
+</div>

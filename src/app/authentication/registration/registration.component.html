@@ -1,0 +1,55 @@
+<form [formGroup]="form" id="registration-form">
+    <mat-form-field appearance="outline" id="username-form-field">
+        <mat-label>{{strings.username.label}}</mat-label>
+        <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.username" matInput>
+        <mat-hint *ngIf="neitherTouchedNorDirty.username">
+            {{strings.username.hint}}
+        </mat-hint>
+        <mat-error *ngIf="errors.username.notProvided()">
+            {{strings.username.required}}
+        </mat-error>
+        <mat-error *ngIf="errors.username.tooShort()">
+            {{strings.username.tooShort}}
+        </mat-error>
+        <mat-error *ngIf="errors.username.tooLong()">
+            {{strings.username.tooLong}}
+        </mat-error>
+        <mat-error *ngIf="errors.username.doesntMatchPattern()">
+            {{strings.username.doesntMatchPattern}}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" id="password-form-field">
+        <mat-label>{{strings.password.label}}</mat-label>
+        <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.password"
+               matInput
+               type="password">
+        <mat-hint *ngIf="neitherTouchedNorDirty.password">
+            {{strings.password.hint}}
+        </mat-hint>
+        <mat-error *ngIf="errors.password.notProvided()">
+            {{strings.password.required}}
+        </mat-error>
+        <mat-error *ngIf="errors.password.tooShort()">
+            {{strings.password.tooShort}}
+        </mat-error>
+        <mat-error *ngIf="errors.password.tooLong()">
+            {{strings.password.tooLong}}
+        </mat-error>
+        <mat-error *ngIf="errors.password.doesntMatchPattern()">
+            {{strings.password.doesntMatchPattern}}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>{{strings.ethereumAddress.label}}</mat-label>
+        <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.ethereumAddress"
+               matInput
+               type="text">
+        <mat-hint>{{strings.ethereumAddress.hint}}</mat-hint>
+        <mat-error *ngIf="errors.ethereumAddress.tooShortOrTooLong">
+            {{strings.ethereumAddress.tooShortOrTooLong}}
+        </mat-error>
+    </mat-form-field>
+    <button (click)="register()" [disabled]="form.invalid" class="register-btn" color="accent"
+            mat-raised-button
+            type="submit">{{strings.button.register}}</button>
+</form>

@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {UpdateItemComponent} from './update-item.component';
+import {UpdateItemComponent} from "@items/update-item/update-item.component";
 
-describe('EditItemComponent', () => {
+describe("EditItemComponent", () => {
     let component: UpdateItemComponent;
     let fixture: ComponentFixture<UpdateItemComponent>;
 

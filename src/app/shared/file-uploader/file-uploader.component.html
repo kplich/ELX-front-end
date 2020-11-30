@@ -1,18 +1,14 @@
 <div>
-  <input type="file"
-         id="fileUploaderInput"
-         #fileUploaderInput
-         (change)="onFileSelected($event)"
-         name="fileUploader"
-         autocomplete="off"
-         multiple
-         hidden
-         accept="{{acceptedTypes}}"/>
-  <button mat-raised-button color="primary"
-          [disabled]="disableUpload"
-          (click)="fileUploaderInput.click()">
-    {{buttonText}}
-    <mat-icon>publish</mat-icon>
-  </button>
-  <mat-progress-bar *ngIf="isUploading" mode="indeterminate"></mat-progress-bar>
+    <input #fileUploaderInput
+           id="fileUploaderInput" name="fileUploader"
+           hidden multiple type="file" autocomplete="off"
+           (change)="onFileSelected($event)"
+           accept="{{acceptedTypes}}" />
+    <button mat-raised-button color="primary"
+            (click)="fileUploaderInput.click()"
+            [disabled]="disableUpload">
+        {{strings.uploadButton}}
+        <mat-icon>publish</mat-icon>
+    </button>
+    <mat-progress-bar *ngIf="isUploading" mode="indeterminate"></mat-progress-bar>
 </div>

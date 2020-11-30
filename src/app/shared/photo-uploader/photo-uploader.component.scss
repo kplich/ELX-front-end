@@ -1,78 +1,82 @@
 @import 'src/dimens';
 
 :host {
-  width: 100%;
+    width: 100%;
+
 }
 
 .photo-list {
-  display: flex;
-  flex-flow: row nowrap;
-  overflow-x: auto;
+    display: flex;
+    overflow-x: auto;
+    flex-flow: row nowrap;
 
-  margin-top: $dimen-xxs;
-  border: solid 1px #ccc;
-  border-radius: $dimen-xxs;
+    min-height: $dimen-xl;
+    max-height: $dimen-xxxl;
+
+    margin-top: $dimen-xxs;
+    border: solid 1px #ccc;
+    border-radius: $dimen-xxs;
 }
 
 .photo {
-  padding: 0 $dimen-xxs;
-  display: inline;
-  cursor: move;
-  position: relative;
+    position: relative;
+    display: inline;
+    padding: 0 $dimen-xxs;
+    cursor: move;
 
-  img {
-    height: $dimen-xxxl;
-    object-fit: contain;
-  }
+    img {
+        height: $dimen-xxxl;
+        object-fit: contain;
+    }
 
-  .delete-button {
-    position: absolute;
-    top: $dimen-xxs;
-    right: $dimen-xxs;
-  }
+    .delete-button {
+        position: absolute;
+        top: $dimen-xxs;
+        right: $dimen-xxs;
+    }
 }
 
 .prompt {
-  font-size: 0.75em;
-  color: grey;
-  text-align: center;
-  margin: $dimen-xxs;
+    font-size: 0.75em;
+    margin: $dimen-xxs;
+    text-align: center;
+    color: grey;
 }
 
 .error {
-  font-size: 0.75em;
-  color: red;
-  text-align: center;
-  margin: $dimen-xxs;
+    font-size: 0.75em;
+    margin: $dimen-xxs;
+    text-align: center;
+    color: red;
 }
 
 .photo:first-of-type {
-  padding-left: 0;
+    padding-left: 0;
 }
 
 .photo:last-of-type {
-  padding-right: 0;
+    padding-right: 0;
 }
 
 //noinspection CssUnusedSymbol,CssUnusedSymbol
 .cdk-drag-preview {
-  box-sizing: border-box;
-  border-radius: $dimen-xxs;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-  0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    border-radius: $dimen-xxs;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 .cdk-drag-placeholder {
-  opacity: 0;
+    opacity: 0;
 }
 
 .cdk-drag-animating {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .photo-list.cdk-drop-list-dragging .photo:not(.cdk-drag-placeholder) {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 

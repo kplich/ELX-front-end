@@ -1,0 +1,17 @@
+<div class="messages-container" #messagesContainer *ngIf="conversation">
+    <app-conversation-message
+        *ngFor="let message of conversation?.messages"
+        [message]="message"
+        [ngClass]="message.senderId === loggedInUserId ? 'sent-by-self' : 'sent-by-other'"
+        (offerAccepted)="emitOfferAccepted($event)"
+        (offerDeclined)="emitOfferDeclined($event)"
+        (offerCancelled)="emitOfferCancelled($event)">
+    </app-conversation-message>
+</div>
+<div class="no-message-container" *ngIf="conversation === undefined">
+    No messages in this conversation! Send the first one!
+</div>
+<app-conversation-message-form
+    [disableEditingOffers]="conversation?.item?.isClosed"
+    (messageSent)="emitMessage($event)">
+</app-conversation-message-form>

@@ -1,0 +1,15 @@
+<form class="message-form" [formGroup]="form" (submit)="emitMessageRequest()">
+    <mat-form-field appearance="outline">
+        <mat-label>{{strings.message.label}}</mat-label>
+        <input type="text" matInput [errorStateMatcher]="errorStateMatcher" [formControl]="controls.message">
+        <mat-error *ngIf="errors.message.notProvided">
+            {{strings.message.required}}
+        </mat-error>
+    </mat-form-field>
+    <button mat-raised-button type="button" [disabled]="disableEditingOffers" (click)="openOfferForm()" [color]="offer === null ? 'accent' : 'warn'">
+        {{offer === null ? "Add offer" : "Edit offer"}}
+    </button>
+    <button mat-icon-button type="submit" [disabled]="formCannotBeSent">
+        <mat-icon>send</mat-icon>
+    </button>
+</form>

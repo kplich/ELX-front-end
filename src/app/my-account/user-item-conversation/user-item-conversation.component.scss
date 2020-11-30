@@ -1,0 +1,24 @@
+@import "src/typography";
+@import "src/dimens";
+
+.last-offer-price {
+    float: right;
+
+    @include body-accent;
+}
+
+.interested-user {
+    @include header-3;
+}
+
+.message {
+    .message-sender {
+        @include body($bold: true);
+    }
+
+    .message-text {
+        @include body-accent;
+    }
+}
+
+

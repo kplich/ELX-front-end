@@ -1,34 +1,40 @@
-import {Component, OnInit, ViewChild, ViewChildren} from '@angular/core';
-import {ItemsService} from '../items-service/items.service';
-import {Item, NewOrUpdatedItemRequest} from '../items-service/data/Item';
-import {SnackBarService} from '../../shared/snack-bar-service/snack-bar.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {PhotoUploaderComponent} from '../../shared/photo-uploader/photo-uploader.component';
-import {
-    COULD_NOT_LOAD_CATEGORIES_MESSAGE,
-    ItemEditBaseComponent
-} from '../edit-item-base/ItemEditBase';
-import {AuthenticationService} from '../../identity-management/authentication-service/authentication.service';
-import {MatFormField} from '@angular/material/form-field';
-import {statusToDtoString} from '../items-service/data/UsedStatus';
+import {Component, OnInit, ViewChild, ViewChildren, OnDestroy} from "@angular/core";
+import {ItemsService} from "@items/service/items.service";
+import {Item, NewOrUpdatedItemRequest} from "@items/data/Item";
+import {SnackBarService} from "@shared/snack-bar-service/snack-bar.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {PhotoUploaderComponent} from "@shared/photo-uploader/photo-uploader.component";
+import {ItemEditBaseComponent, STRINGS as STRINGS_BASE} from "@items/edit-base/ItemEditBase";
+import {MatFormField} from "@angular/material/form-field";
+import {statusToDtoString} from "@items/data/UsedStatus";
+import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import {HttpErrorResponse} from "@angular/common/http";
+import {Subscription, of} from "rxjs";
+import {catchError} from "rxjs/operators";
 
-export const ITEM_UPDATED_SUCCESSFULLY_MESSAGE = 'Item updated successfully!';
-export const COULD_NOT_LOAD_ITEM = 'Could not load item.';
+export const STRINGS = {
+    messages: {
+        itemUpdatedSuccessfully: "Item updated successfully!",
+        couldNotLoadItem: "Could not load item.",
+        noItemIdProvided: "Not item ID provided!"
+    }
+};
 
 @Component({
-    selector: 'item-update',
-    templateUrl: './update-item.component.html',
-    styleUrls: ['../edit-item-base/edit-item-base.component.scss']
+    selector: "item-update",
+    templateUrl: "./update-item.component.html",
+    styleUrls: ["../edit-base/edit-item-base.component.scss"]
 })
-export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit {
+export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit, OnDestroy {
 
-    @ViewChild(PhotoUploaderComponent) private photoUploader;
-    @ViewChildren(MatFormField) private formFields: MatFormField[];
-    private id: number;
+    itemSubscription!: Subscription;
+    @ViewChild(PhotoUploaderComponent) private photoUploader!: PhotoUploaderComponent;
+    @ViewChildren(MatFormField) private formFields!: MatFormField[];
+    private id!: number;
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private authenticationService: AuthenticationService,
+        private loggedInUserService: LoggedInUserService,
         itemsService: ItemsService,
         router: Router,
         snackBarService: SnackBarService
@@ -49,41 +55,49 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
     }
 
     async ngOnInit() {
-        try {
-            this.categories = (await this.itemsService.getCategories().toPromise()).body;
-        } catch (err) {
-            this.snackBarService.openSnackBar(COULD_NOT_LOAD_CATEGORIES_MESSAGE);
+        this.categories$ = this.itemsService.getCategories().pipe(
+            catchError(_ => {
+                this.router.navigateByUrl("/error").then(() => {
+                    this.snackBarService.openSnackBar(STRINGS_BASE.messages.couldNotLoadCategories);
+                });
+                return of([]);
+            })
+        );
+
+        const itemIdString = this.activatedRoute.snapshot.paramMap.get("id");
+        if (itemIdString === null) {
+            this.router.navigateByUrl("/error").then(() => {
+                this.snackBarService.openSnackBar(STRINGS.messages.noItemIdProvided);
+            });
             return;
         }
 
-        this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id'), 10);
-        try {
-            const item = (await this.itemsService.getItem(this.id).toPromise()).body;
-            console.log(item);
-            if (item.isClosed
-                || item.addedBy.username !== this.authenticationService.authenticatedUser) {
-                this.router.navigateByUrl('/items').then(() => {
-                    // HACK: router doesn't seem to be navigating properly;
-                    window.location.reload();
-                });
-            } else {
-                this.initializeFormWithItem(item);
-            }
-        } catch (err) {
-            this.snackBarService.openSnackBar(COULD_NOT_LOAD_ITEM);
+        this.id = parseInt(itemIdString, 10);
+        if (isNaN(this.id)) {
+            this.router.navigateByUrl("/error").then(() => {
+                this.snackBarService.openSnackBar(STRINGS.messages.noItemIdProvided);
+            });
             return;
         }
+
+        this.itemSubscription = this.itemsService.getItem(this.id).subscribe(item => {
+            this.initializeFormWithItem(item);
+        });
     }
 
     sendRequestToUpdateItem() {
         this.itemsService.updateItem(this.newItemRequest).subscribe({
-            next: response => {
-                this.router.navigateByUrl(`/items/${response.body.id}`).then(() => {
-                    this.snackBarService.openSnackBar(ITEM_UPDATED_SUCCESSFULLY_MESSAGE);
+            next: (item: Item) => {
+                this.router.navigateByUrl(`/items/${item.id}`).then(() => {
+                    this.snackBarService.openSnackBar(STRINGS.messages.itemUpdatedSuccessfully);
                 });
             },
-            error: error => this.openErrorSnackBar(error)
+            error: (error: HttpErrorResponse) => this.openErrorSnackBar(error)
         });
+    }
+
+    ngOnDestroy() {
+        this.itemSubscription.unsubscribe();
     }
 
     private initializeFormWithItem(item: Item) {
@@ -95,9 +109,5 @@ export class UpdateItemComponent extends ItemEditBaseComponent implements OnInit
         this.controls.photoUrls.setValue(item.photoUrls);
 
         this.photoUploader.initPhotoUploader(this.controls.photoUrls.value);
-
-        // HACK: ugly form right after updating controls
-        setTimeout(() => document.getElementById('title-native-input').focus(), 100);
-        setTimeout(() => document.getElementById('title-native-input').blur(), 100);
     }
 }

@@ -1,0 +1,12 @@
+@import "src/dimens";
+
+:host {
+    display: block;
+    margin-bottom: $dimen-s;
+}
+
+user-item-conversation {
+    margin: 0 $dimen-m;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}

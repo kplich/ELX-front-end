@@ -1,24 +1,21 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {
-    AppComponent,
-    BUTTON_LOG_IN_TEXT,
-    BUTTON_LOG_OUT_TEXT,
-    BUTTON_MY_ACCOUNT_TEXT
-} from './app.component';
-import {AuthenticationService} from './identity-management/authentication-service/authentication.service';
-import {MaterialModule} from './material/material.module';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {HarnessLoader} from '@angular/cdk/testing';
-import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
-import {MatButtonHarness} from '@angular/material/button/testing';
-import {Router} from '@angular/router';
-import {RouterTestingModule} from '@angular/router/testing';
+import "zone.js/dist/zone-testing";
+import {async, ComponentFixture, TestBed} from "@angular/core/testing";
+import {AppComponent, STRINGS} from "@app/app.component";
+import {MaterialModule} from "@material/material.module";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {HarnessLoader} from "@angular/cdk/testing";
+import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
+import {MatButtonHarness} from "@angular/material/button/testing";
+import {Router} from "@angular/router";
+import {RouterTestingModule} from "@angular/router/testing";
+import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
+import {SimpleUser} from "@my-account/data/SimpleUser";
 
-describe('AppComponent', () => {
-    const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
+describe("AppComponent", () => {
+    const routerSpy = jasmine.createSpyObj("Router", ["navigateByUrl"]);
     routerSpy.navigateByUrl.and.returnValue(Promise.resolve());
 
-    let authenticationService: AuthenticationService;
+    let loggedInUserService: LoggedInUserService;
     let fixture: ComponentFixture<AppComponent>;
     let loader: HarnessLoader;
 
@@ -29,14 +26,14 @@ describe('AppComponent', () => {
                 AppComponent
             ],
             providers: [
-                AuthenticationService,
+                LoggedInUserService,
                 {
                     provide: Router,
                     useValue: routerSpy
                 }
             ]
         }).compileComponents().then(() => {
-            authenticationService = TestBed.inject(AuthenticationService);
+            loggedInUserService = TestBed.inject(LoggedInUserService);
             fixture = TestBed.createComponent(AppComponent);
             loader = TestbedHarnessEnvironment.loader(fixture);
 
@@ -44,17 +41,17 @@ describe('AppComponent', () => {
         });
     }));
 
-    it('should create the app', () => {
+    it("should create the app", () => {
         expect(fixture.componentInstance).toBeTruthy();
     });
 
-    it('should display \'log in\' button when no user is authenticated',
+    it("should display 'log in' button when no user is authenticated",
         async () => {
-            spyOnProperty(authenticationService, 'authenticatedUser').and.returnValue(null);
+            spyOnProperty(loggedInUserService, "authenticatedUser").and.returnValue(null);
 
             expect(fixture.componentInstance.authenticatedUser).toBeNull();
             const logInButton =
-                await loader.getHarness(MatButtonHarness.with({text: BUTTON_LOG_IN_TEXT}));
+                await loader.getHarness(MatButtonHarness.with({text: STRINGS.links.logIn}));
 
             expect(logInButton).toBeTruthy();
             expect(await logInButton.isDisabled()).toBeFalsy();
@@ -63,24 +60,28 @@ describe('AppComponent', () => {
             expect(routerSpy.navigateByUrl).toHaveBeenCalled();
         });
 
-    xit('should display \'log out\' and \'my account\' buttons when user is authenticated',
-        async () => {
-            const EXAMPLE_USERNAME = 'username';
+    it("should display 'log out' and 'my account' buttons when user is authenticated",
+        async(async () => {
+            const EXAMPLE_USER: SimpleUser = new SimpleUser({
+                id: 0,
+                username: "username",
+                ethereumAddress: null
+            });
 
-            spyOnProperty(authenticationService, 'authenticatedUser')
-                .and.returnValue(EXAMPLE_USERNAME);
+            spyOnProperty(loggedInUserService, "authenticatedUser")
+                .and.returnValue(EXAMPLE_USER);
 
-            expect(fixture.componentInstance.authenticatedUser).toEqual(EXAMPLE_USERNAME);
+            expect(fixture.componentInstance.authenticatedUser).toEqual(EXAMPLE_USER);
 
             const logOutButton = await loader
-                .getHarness(MatButtonHarness.with({text: BUTTON_LOG_OUT_TEXT}));
+                .getHarness(MatButtonHarness.with({text: STRINGS.links.logOut}));
             expect(await logOutButton.isDisabled()).toBeFalsy();
 
             // this breaks the test :(
             const myAccountButton = await loader
-                .getHarness(MatButtonHarness.with({text: BUTTON_MY_ACCOUNT_TEXT}));
+                .getHarness(MatButtonHarness.with({text: STRINGS.links.myAccount}));
             expect(await myAccountButton.isDisabled()).toBeFalsy();
             await myAccountButton.click();
             expect(routerSpy.navigateByUrl).toHaveBeenCalled();
-        });
+        }));
 });

@@ -1,0 +1,13 @@
+<div *ngIf="itemsWereFound else noItemsWereFoundTemplate" class="item-cards">
+    <item-card *ngFor="let item of items" [item]="item"></item-card>
+</div>
+<ng-template #noItemsWereFoundTemplate>
+    <div *ngIf="itemsWereLoaded else noItemsWereLoadedTemplate" class="item-cards-error">
+        {{strings.messages.noItemsFound}}
+    </div>
+    <ng-template #noItemsWereLoadedTemplate>
+        <div class="item-cards-error">
+            {{strings.messages.couldNotLoadItems}}
+        </div>
+    </ng-template>
+</ng-template>

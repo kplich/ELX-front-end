@@ -1,0 +1,46 @@
+@import 'src/dimens';
+@import 'src/typography';
+
+:host {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    max-height: 100%;
+
+    .messages-container {
+        flex: 1 1 auto;
+
+        display: flex;
+        flex-flow: column nowrap;
+
+        overflow-y: auto;
+
+        .sent-by-self {
+            align-self: flex-end;
+            background-color: lightblue;
+        }
+
+        .sent-by-other {
+            align-self: flex-start;
+            background-color: lightgray;
+        }
+    }
+
+    .no-message-container {
+        flex: 1 1 auto;
+
+        display: flex;
+        flex-flow: column nowrap;
+
+        align-items: center;
+        justify-content: center;
+
+        @include detail;
+    }
+
+    app-conversation-message-form {
+        flex: 0 0 auto;
+
+        margin-top: $dimen-xs
+    }
+}

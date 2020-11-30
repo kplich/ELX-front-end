@@ -1,0 +1,81 @@
+<form
+    (submit)="emitFilteringCriteria()"
+    [formGroup]="criteriaForm"
+    class="simple-card-3">
+    <div class="search-container-row">
+        <mat-form-field appearance="outline" class="search-input">
+            <mat-label>{{strings.searchBox.label}}</mat-label>
+            <mat-icon matPrefix>search</mat-icon>
+            <input [errorStateMatcher]="errorStateMatcher"
+                   [formControl]="controls.query"
+                   [placeholder]="strings.searchBox.placeholder"
+                   (blur)="emitFilteringCriteria()"
+                   matInput>
+            <mat-error *ngIf="errors.queryTooLong">{{strings.searchBox.queryTooLong}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>{{strings.category.label}}</mat-label>
+            <mat-select
+                [errorStateMatcher]="errorStateMatcher"
+                (selectionChange)="emitFilteringCriteria()"
+                [formControl]="controls.category">
+                <mat-option [value]="null">{{strings.category.emptyCategoryLabel}}</mat-option>
+                <mat-option *ngFor="let category of categories" [value]="category">
+                    {{category.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="search-container-row">
+        <div class="mat-radio-group-container">
+            <label>{{strings.status.label}}</label>
+            <mat-radio-group
+                (change)="emitFilteringCriteria()"
+                [formControl]="controls.status">
+                <mat-radio-button [value]="strings.status.statusUsedLabel">
+                    {{strings.status.statusUsedLabel}}
+                </mat-radio-button>
+                <mat-radio-button [value]="strings.status.statusNewLabel">
+                    {{strings.status.statusNewLabel}}
+                </mat-radio-button>
+                <mat-radio-button [value]="null">
+                    {{strings.status.statusAnyLabel}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <mat-form-field appearance="outline">
+            <mat-label>{{strings.price.minimalPriceLabel}}</mat-label>
+            <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.minimalPrice"
+                   [step]="0.0001"
+                   (blur)="emitFilteringCriteria()"
+                   matInput
+                   type="number">
+            <span matSuffix>{{strings.price.ethereumSymbol}}</span>
+            <mat-error *ngIf="errors.minimalPriceOutOfRange">
+                {{strings.price.boundaryOutOfRange}}
+            </mat-error>
+
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>{{strings.price.maximalPriceLabel}}</mat-label>
+            <input [errorStateMatcher]="errorStateMatcher" [formControl]="controls.maximalPrice"
+                   [step]="0.0001"
+                   (blur)="emitFilteringCriteria()"
+                   matInput
+                   type="number">
+            <span matSuffix>{{strings.price.ethereumSymbol}}</span>
+            <mat-error *ngIf="errors.maximalPriceOutOfRange">
+                {{strings.price.boundaryOutOfRange}}
+            </mat-error>
+        </mat-form-field>
+
+    </div>
+    <div class=mat-form-button>
+        <div *ngIf="errors.minimalPriceGreaterThanMaximalPrice"
+             class="mat-form-button-error">
+            {{strings.price.minimalGreaterThanMaximal}}
+        </div>
+    </div>
+
+    <!-- TODO: sorting by date and price -->
+</form>

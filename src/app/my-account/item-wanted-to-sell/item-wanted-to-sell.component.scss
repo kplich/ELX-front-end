@@ -1,0 +1,16 @@
+@import "src/dimens";
+
+:host {
+    display: block;
+    margin-bottom: $dimen-s;
+}
+.conversation-container {
+    margin: 0 $dimen-m;
+
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+
+    mat-divider {
+        margin: $dimen-xxs 0;
+    }
+}

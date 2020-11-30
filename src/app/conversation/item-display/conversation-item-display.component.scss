@@ -1,0 +1,38 @@
+@import 'src/dimens';
+@import 'src/typography';
+
+:host {
+    position: relative;
+
+    border-radius: $dimen-xxs;
+    border: lightgray 1px solid;
+}
+
+.item-navigate {
+    position: absolute;
+    top: $dimen-xs;
+    left: $dimen-xs;
+}
+
+img {
+    width: 100%;
+    object-fit: contain;
+}
+
+.item-info {
+    padding: 0 $dimen-xs;
+}
+
+.item-title {
+    @include header-2;
+
+    flex: 1 1 auto;
+}
+
+.item-price {
+    @include header-2($mono: true);
+}
+
+.item-status {
+    @include header-3($mono: true);
+}
