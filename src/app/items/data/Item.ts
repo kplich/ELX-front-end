@@ -58,7 +58,7 @@ export class Item {
     }
 
     public fixPhotoUrl(index: number) {
-        this.photoUrls[index] = "assets/error-photo.png";
+        this.photoUrls[index] = "assets/could-not-load.png";
     }
 
     equals(other: Item): boolean {

@@ -35,7 +35,7 @@ export abstract class AbstractUserItem {
     }
 
     public fixPhotoUrl() {
-        this.photoUrl = "assets/error-photo.png";
+        this.photoUrl = "assets/could-not-load.png";
     }
 
     equals(other: AbstractUserItem): boolean {

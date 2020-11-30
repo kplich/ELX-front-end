@@ -12,7 +12,7 @@
     timings="250ms ease-in">
     <mat-carousel-slide *ngIf="item?.doesNotHavePhotos else slidesWithPhotos"
                         [hideOverlay]="true">
-        <div class="item-photo">
+        <div class="item-photo gradient-bg">
             <img [src]="'assets/no-photo.png'" alt="Item photo">
         </div>
     </mat-carousel-slide>
