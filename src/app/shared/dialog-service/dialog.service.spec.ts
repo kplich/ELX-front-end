@@ -26,10 +26,6 @@ describe("DialogService", () => {
         service = TestBed.inject(DialogService);
     });
 
-    it("should be created", () => {
-        expect(service).toBeTruthy();
-    });
-
     describe("openDialog()", () => {
         it("should execute open method of MatDialog spy", () => {
             service.openDialog(ErrorComponent, "any");

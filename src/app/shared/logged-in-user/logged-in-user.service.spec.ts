@@ -16,10 +16,6 @@ describe("LoggedInUserService", () => {
         jwtStorageService = TestBed.inject(JwtStorageService);
     });
 
-    it("should be created", () => {
-        expect(loggedInUserService).toBeTruthy();
-    });
-
     describe("authenticatedUser()", () => {
 
         it("should return the user when the JWT storage returns it", () => {

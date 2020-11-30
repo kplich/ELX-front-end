@@ -21,8 +21,4 @@ describe("EnableEthereumComponent", () => {
         component.accounts = ["this is not an address"];
         fixture.detectChanges();
     });
-
-    it("should create", () => {
-        expect(component).toBeTruthy();
-    });
 });

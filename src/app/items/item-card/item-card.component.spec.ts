@@ -54,10 +54,6 @@ describe("ItemCardComponent", () => {
         fixture.detectChanges();
     });
 
-    it("should be created", () => {
-        expect(component).toBeTruthy();
-    });
-
     it("should display correct data after item is loaded", () => {
         expect(component).toBeTruthy();
         expect(status).toBeUndefined();

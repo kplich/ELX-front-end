@@ -1,7 +1,5 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 import {ItemComponent, STRINGS} from "@items/item/item.component";
-import {HarnessLoader} from "@angular/cdk/testing";
-import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LoggedInUserService} from "@shared/logged-in-user/logged-in-user.service";
@@ -14,7 +12,6 @@ import {of, throwError} from "rxjs";
 describe("ItemComponent", () => {
     let component: ItemComponent;
     let fixture: ComponentFixture<ItemComponent>;
-    let loader: HarnessLoader;
 
     const loggedInUserMock = {
         authenticatedUser: null
@@ -66,7 +63,6 @@ describe("ItemComponent", () => {
                 configureTestingModule();
 
                 fixture = TestBed.createComponent(ItemComponent);
-                loader = TestbedHarnessEnvironment.loader(fixture);
                 component = fixture.componentInstance;
 
                 fixture.detectChanges();
@@ -88,7 +84,6 @@ describe("ItemComponent", () => {
                 configureTestingModule();
 
                 fixture = TestBed.createComponent(ItemComponent);
-                loader = TestbedHarnessEnvironment.loader(fixture);
                 component = fixture.componentInstance;
 
                 fixture.detectChanges();
@@ -113,7 +108,6 @@ describe("ItemComponent", () => {
                 configureTestingModule();
 
                 fixture = TestBed.createComponent(ItemComponent);
-                loader = TestbedHarnessEnvironment.loader(fixture);
                 component = fixture.componentInstance;
 
                 fixture.detectChanges();
@@ -160,7 +154,6 @@ describe("ItemComponent", () => {
             configureTestingModule();
 
             fixture = TestBed.createComponent(ItemComponent);
-            loader = TestbedHarnessEnvironment.loader(fixture);
             component = fixture.componentInstance;
 
             routerMock.navigateByUrl.calls.reset();
@@ -244,7 +237,6 @@ describe("ItemComponent", () => {
             configureTestingModule();
 
             fixture = TestBed.createComponent(ItemComponent);
-            loader = TestbedHarnessEnvironment.loader(fixture);
             component = fixture.componentInstance;
 
             snackBarMock.openSnackBar.calls.reset();

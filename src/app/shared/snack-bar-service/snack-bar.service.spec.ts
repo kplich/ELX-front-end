@@ -19,10 +19,6 @@ describe("SnackBarService", () => {
         service = TestBed.inject(SnackBarService);
     });
 
-    it("should be created", () => {
-        expect(service).toBeTruthy();
-    });
-
     it("should execute open method of MatSnackBar spy", () => {
         service.openSnackBar("any");
         expect(snackBarMock.open).toHaveBeenCalled();

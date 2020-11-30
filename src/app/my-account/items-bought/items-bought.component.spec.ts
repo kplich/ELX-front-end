@@ -76,8 +76,4 @@ describe("ItemsBoughtComponent", () => {
         ];
         fixture.detectChanges();
     });
-
-    it("should create", () => {
-        expect(component).toBeTruthy();
-    });
 });

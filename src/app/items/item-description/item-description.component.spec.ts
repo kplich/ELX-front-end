@@ -39,8 +39,4 @@ describe("ItemDescriptionComponent", () => {
         });
         fixture.detectChanges();
     });
-
-    it("should create", () => {
-        expect(component).toBeTruthy();
-    });
 });

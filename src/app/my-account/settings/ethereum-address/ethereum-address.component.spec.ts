@@ -25,8 +25,4 @@ describe("EthereumAddressComponent", () => {
         component.accounts = ["not an address either"];
         fixture.detectChanges();
     });
-
-    it("should create", () => {
-        expect(component).toBeTruthy();
-    });
 });

@@ -26,10 +26,6 @@ describe("Web3Service", () => {
         service = TestBed.inject(Web3Service);
     });
 
-    it("should be created", () => {
-        expect(service).toBeTruthy();
-    });
-
     // does not work as expected in fakeAsync zone
     xit("should return correct accounts", fakeAsync(() => {
         service.accounts$.pipe(skip(5), take(1)).subscribe(accounts => {
@@ -39,7 +35,7 @@ describe("Web3Service", () => {
     }));
 
     // does not work as expected in fakeAsync zone
-    xit("should return correct balance", fakeAsync( () => {
+    xit("should return correct balance", fakeAsync(() => {
         service.getBalance("any").then(balance => {
             expect(balance).toEqual(1);
         });
