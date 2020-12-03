@@ -142,7 +142,6 @@ export class ConversationComponent implements OnInit {
     }
 
     async acceptOffer(acceptedOfferData: AcceptedOfferData) {
-        console.log(acceptedOfferData);
         let contract;
         try {
             if (acceptedOfferData.offer instanceof PlainAdvanceOffer) {
