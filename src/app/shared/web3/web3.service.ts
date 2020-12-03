@@ -14,16 +14,20 @@ export class Web3Service {
 
     private updatedEveryMs = 1000;
 
-    constructor(@Inject(WEB3) public web3: Web3) {
-        setInterval(async () => {
-            const newAccounts = await this.web3.eth.getAccounts();
+    constructor(@Inject(WEB3) public web3: Web3 | null) {
+        if (this.web3 !== null) {
+            setInterval(async () => {
+                if (this.web3 !== null) {
+                    const newAccounts = await this.web3.eth.getAccounts();
 
-            if (!primitiveArrayEquals(this._accounts, newAccounts)) {
-                this.accountsSubject.next(newAccounts);
-            }
+                    if (!primitiveArrayEquals(this._accounts, newAccounts)) {
+                        this.accountsSubject.next(newAccounts);
+                    }
 
-            this._accounts = newAccounts;
-        }, this.updatedEveryMs);
+                    this._accounts = newAccounts;
+                }
+            }, this.updatedEveryMs);
+        }
     }
 
     // tslint:disable-next-line:variable-name
@@ -51,7 +55,12 @@ export class Web3Service {
      * @return balance of the address as a Number
      */
     async getBalance(address: string): Promise<number> {
-        const balanceString = await this.web3.eth.getBalance(address);
-        return Number(balanceString);
+        if (this.web3 !== null) {
+            const balanceString = await this.web3.eth.getBalance(address);
+            return Number(balanceString);
+        }
+        else {
+            throw new Error("no web3 provided!");
+        }
     }
 }

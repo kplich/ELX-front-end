@@ -25,14 +25,26 @@ export class UserItemContractPlainAdvanceComponent
         super(loggedInUserService, web3Service, snackBarService);
     }
 
+    get moneyCannotBeSent(): boolean {
+        return !this.loggedInUserIsBuyer || this.state !== ContractStateString.CREATED;
+    }
+
+    get moneyCannotBeWithdrawn(): boolean {
+        return !this.loggedInUserIsSeller || this.state !== ContractStateString.RELEASED;
+    }
+
     async ngOnInit() {
         if (this.offer.contractAddress) {
-            this.contract = await this.offerContractService
-                .getContractAtAddress(OfferType.PLAIN_ADVANCE, this.offer.contractAddress);
+            if (this.web3Service.web3) {
+                this.contract = await this.offerContractService
+                    .getContractAtAddress(OfferType.PLAIN_ADVANCE, this.offer.contractAddress);
 
-            await this.loadDataFromBlockchain();
-        }
-        else {
+                await this.loadDataFromBlockchain();
+            }
+            else {
+                this.contract = undefined;
+            }
+        } else {
             console.warn("no contract address!");
         }
     }
@@ -62,14 +74,6 @@ export class UserItemContractPlainAdvanceComponent
         console.log(result);
 
         await this.loadDataFromBlockchain();
-    }
-
-    get moneyCannotBeSent(): boolean {
-        return !this.loggedInUserIsBuyer || this.state !== ContractStateString.CREATED;
-    }
-
-    get moneyCannotBeWithdrawn(): boolean {
-        return !this.loggedInUserIsSeller || this.state !== ContractStateString.RELEASED;
     }
 
     async refreshState() {

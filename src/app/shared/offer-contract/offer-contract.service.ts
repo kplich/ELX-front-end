@@ -26,39 +26,49 @@ export class OfferContractService {
     }
 
     async createPlainAdvanceContract(
-            buyerAddress: string,
-            sellerAddress: string,
-            priceInEth: number,
-            advanceInEth: number) {
-        const loggedInUser =
-            this.getUserWithConditions(this.loggedInUserService.authenticatedUser, buyerAddress, sellerAddress);
+        buyerAddress: string,
+        sellerAddress: string,
+        priceInEth: number,
+        advanceInEth: number) {
+        if (this.web3Service.web3 !== null) {
+            const loggedInUser =
+                this.getUserWithConditions(this.loggedInUserService.authenticatedUser, buyerAddress, sellerAddress);
 
-        const contractAbstraction = contract(PlainAdvance);
-        contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
 
-        return await contractAbstraction.new(
-            sellerAddress,
-            buyerAddress,
-            (priceInEth * ETH_TO_WEI).toString(),
-            (advanceInEth * ETH_TO_WEI).toString(),
-            {from: loggedInUser.ethereumAddress});
+            const contractAbstraction = contract(PlainAdvance);
+            contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
+
+            return await contractAbstraction.new(
+                sellerAddress,
+                buyerAddress,
+                (priceInEth * ETH_TO_WEI).toString(),
+                (advanceInEth * ETH_TO_WEI).toString(),
+                {from: loggedInUser.ethereumAddress});
+        } else {
+            return null;
+        }
     }
 
     async createDoubleAdvanceContract(
-            buyerAddress: string,
-            sellerAddress: string,
-            priceInEth: number) {
-        const loggedInUser
-            = this.getUserWithConditions(this.loggedInUserService.authenticatedUser, buyerAddress, sellerAddress);
+        buyerAddress: string,
+        sellerAddress: string,
+        priceInEth: number) {
+        if (this.web3Service.web3 !== null) {
+            const loggedInUser
+                = this.getUserWithConditions(this.loggedInUserService.authenticatedUser, buyerAddress, sellerAddress);
 
-        const contractAbstraction = contract(DoubleAdvance);
-        contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
 
-        return contractAbstraction.new(
-            sellerAddress,
-            buyerAddress,
-            (priceInEth * ETH_TO_WEI).toString(),
-            {from: loggedInUser.ethereumAddress});
+            const contractAbstraction = contract(DoubleAdvance);
+            contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
+
+            return contractAbstraction.new(
+                sellerAddress,
+                buyerAddress,
+                (priceInEth * ETH_TO_WEI).toString(),
+                {from: loggedInUser.ethereumAddress});
+        } else {
+            return null;
+        }
     }
 
     async getContractAtAddress(offerType: OfferType, address: string) {
@@ -74,14 +84,18 @@ export class OfferContractService {
             }
         }
 
-        contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
-        return await contractAbstraction.at(address);
+        if (this.web3Service.web3 !== null) {
+            contractAbstraction.setProvider(this.web3Service.web3.currentProvider);
+            return await contractAbstraction.at(address);
+        } else {
+            return null;
+        }
     }
 
     private getUserWithConditions(
-            loggedInUser: SimpleUser | null,
-            buyerAddress: string,
-            sellerAddress: string): SimpleUser {
+        loggedInUser: SimpleUser | null,
+        buyerAddress: string,
+        sellerAddress: string): SimpleUser {
         if (loggedInUser === null) {
             throw new Error("User must be logged in to create contract!");
         }
