@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter, Input} from "@angular/core";
+import {Component, Output, EventEmitter, Input} from "@angular/core";
 import {FormGroup, FormControl, Validators} from "@angular/forms";
 import {MyErrorStateMatcher} from "@shared/MyErrorStateMatcher";
 import {DialogService} from "@shared/dialog-service/dialog.service";
@@ -18,7 +18,7 @@ export const STRINGS = {
     templateUrl: "./conversation-message-form.component.html",
     styleUrls: ["./conversation-message-form.component.scss"]
 })
-export class ConversationMessageFormComponent implements OnInit {
+export class ConversationMessageFormComponent {
 
     readonly strings = STRINGS;
 
@@ -56,15 +56,7 @@ export class ConversationMessageFormComponent implements OnInit {
     constructor(private dialogService: DialogService) {
     }
 
-    ngOnInit(): void {
-    }
-
     emitMessageRequest(): void {
-        console.log("emitting!", {
-            content: this.controls.message.value,
-            offer: this.offer ? this.offer : undefined
-        });
-
         this.messageSent.emit({
             content: this.controls.message.value,
             offer: this.offer ? this.offer : undefined

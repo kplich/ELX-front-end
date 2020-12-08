@@ -27,10 +27,16 @@ export class UserItemContractDoubleAdvanceComponent
 
     async ngOnInit() {
         if (this.offer.contractAddress) {
-            this.contract = await this.offerContractService
-                .getContractAtAddress(OfferType.DOUBLE_ADVANCE, this.offer.contractAddress);
 
-            await this.loadDataFromBlockchain();
+            if (this.web3Service.web3 !== null) {
+                this.contract = await this.offerContractService
+                    .getContractAtAddress(OfferType.DOUBLE_ADVANCE, this.offer.contractAddress);
+
+                await this.loadDataFromBlockchain();
+            }
+            else {
+                this.contract = undefined;
+            }
         }
         else {
             console.warn("no contract address!");

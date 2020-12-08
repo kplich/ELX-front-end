@@ -25,7 +25,8 @@ export const STRINGS = {
         couldNotCancelOffer: "Could not cancel offer.",
         couldNotDeclineOffer: "Could not decline offer",
         couldNotCreateContract: "Could not create contract.",
-        couldNotAcceptOffer: "The contract has been created, but the offer has not been accepted. You'll have to try again."
+        couldNotAcceptOffer: "The contract has been created, but the offer has not been accepted. You'll have to try again.",
+        noConnectionToBlockchain: "You're not connected to blockchain. Could not create contract."
     }
 };
 
@@ -163,7 +164,7 @@ export class ConversationComponent implements OnInit {
             this.snackBarService.openSnackBar(STRINGS.errors.couldNotCreateContract);
         }
 
-        if (contract) {
+        if (contract !== null) {
             const tempConversation = this.conversation$;
             this.conversation$ = this.conversationService
                 .acceptOffer(acceptedOfferData.offer.id, contract.address).pipe(
@@ -172,6 +173,9 @@ export class ConversationComponent implements OnInit {
                         return tempConversation;
                     })
                 );
+        }
+        else {
+            this.snackBarService.openSnackBar(STRINGS.errors.noConnectionToBlockchain);
         }
 
     }

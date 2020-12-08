@@ -92,10 +92,7 @@ export class AppComponent {
     }
 
     private navigateToLogIn() {
-        console.log("navigating to log-in");
-        this.router.navigateByUrl("/log-in").then(_ => {
-            console.log("navigated!");
-        });
+        this.router.navigateByUrl("/log-in").then(_ => {});
     }
 
     private navigateToMyAccount() {
@@ -118,6 +115,7 @@ export class AppComponent {
  * Used to hold data about sections to which user can navigate from toolbar.
  */
 interface ToolbarLink {
+
     /**
      * The name of the link that will be displayed in the page.
      */
